@@ -606,7 +606,7 @@ function CompositePurReqSearch({ data, onSubmit, onReset,flag }) {
             <button
               type="submit" 
               disabled={
-                flag!=2? !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val: !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val  && !set_seven_val
+                flag!=2? !set_zero_val && !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val: !set_zero_val && !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val  && !set_seven_val
                 // !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val && (flag==2  && !set_seven_val)
                
                 // !set_one_code &&

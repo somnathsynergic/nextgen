@@ -183,7 +183,9 @@ function PoPreview({ data }) {
            <p>Unit - 102, 1st Floor, PS PACE 1/1A,</p> <p> Mahendra Roy Lane Kolkata
            700046 </p>
           <p> Ph-033 4068 6032/6450 0535</p> 
-          <p> Email: info@ngapl.com</p> 
+          <p>Email:charlie.mondal@ngapl.com</p>
+          <p>/susanta.karanjai@ngapl.com</p>
+          <p>GSTIN: 19AABCN5744L1Z1</p>
           </span>
         </div>
        
@@ -519,14 +521,16 @@ function PoPreview({ data }) {
 
       {/* <p className="mb-5"> */}
       <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
-          Liquidity Damages
+                Liquidity Damages 
 
           </div>
 
 <div className="relative overflow-x-auto">
+
     <table className="w-full text-sm text-left border border-collapse text-xs rtl:text-right text-gray-50 dark:text-gray-400">
       
-        <tbody>
+        <tbody className="text-gray-700 ">
+
             <tr className="bg-white border-b ">
                 <th scope="row" className="px-1 w-1/4 py-1 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white">
                 LD Applicable date:  

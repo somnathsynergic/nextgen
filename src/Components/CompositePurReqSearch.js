@@ -327,17 +327,18 @@ function CompositePurReqSearch({ data, onSubmit, onReset,flag }) {
                           </ul>
                         </OverlayPanel>
               </div> */}
-               <div>
+               <div className="mb-2">
                 <TDInputTemplate
-                  placeholder={data?.set_two_lbl}
+                  placeholder={'Type'}
                   type="text"
-                  label={data?.set_two_lbl}
+                  label={'Type'}
                   name="set_two_val"
                   formControlName={set_zero_val}
                   handleChange={(val) => {
                     setZero(val.target.value);
                     if(val.target.value=='W')
                         setTwoCode(0)
+                    setTwo('')
                   }}
                   mode={2}
                   data={[{code:'W',name:'Warehouse'},{code:'P',name:'Project'}]}

@@ -37,7 +37,7 @@ function Sidebar({shrink,close}) {
       .then((res) => {
         console.log(res);
         setMenuData(res?.data?.msg[0]);
-        localStorage.setItem('perm',JSON.stringify(res?.data?.msg[0]))
+        localStorage.setItem('perm',JSON.stringify(res?.data?.msg[0] || '{M1:false,M2:false,PR1:false,PR2:false,P1:false,P2:false,PU1:false,PU2:false,APU1:false,APU2:false,MRN1:false,MRN2:false,R1:false,R2:false,MIN1:false,MIN2:false,S1:false,S2:false}') )
       });
   }, []);
   return (

@@ -84,9 +84,14 @@ const DialogBox = ({
   const reactToPrintFnMrn = useReactToPrint({
     contentMRN,
   });
+  // const det={}
   const [po_no, setPoNo] = useState("");
-  const det = JSON.parse(localStorage.getItem("perm"));
-
+  const det = JSON.parse(localStorage.getItem("perm") )
+  //  "{M1:0,M2:0,PR1:0,PR2:0,P1:0,P2:0,PU1:0,PU2:0,APU1:0,APU2:0,MRN1:0,MRN2:0,R1:0,R2:0,MIN1:0,MIN2:0,S1:0,S2:0}");
+  // const det = localStorage?.getItem("perm")!='undefined'?JSON.parse(localStorage?.getItem("perm")):{M1:0,M2:0,PR1:0,PR2:0,P1:0,P2:0,PU1:0,PU2:0,APU1:0,APU2:0,MRN1:0,MRN2:0,R1:0,R2:0,MIN1:0,MIN2:0,S1:0,S2:0}
+  // if(localStorage?.getItem("perm")=='undefined'){
+  //   localStorage.setItem("perm", '{M1:0,M2:0,PR1:0,PR2:0,P1:0,P2:0,PU1:0,PU2:0,APU1:0,APU2:0,MRN1:0,MRN2:0,R1:0,R2:0,MIN1:0,MIN2:0,S1:0,S2:0}');
+  // }
   const [item_nm, setItemNm] = useState("");
   const [item_qty, setItemQty] = useState("");
   const [item_sl, setItemSl] = useState("");
@@ -2070,7 +2075,7 @@ const DialogBox = ({
             </div>
           </div>
           </div>
-          {data?.details[0]?.approve_flag == "P" && det.mrn != 1 && (
+          {data?.details[0]?.approve_flag == "P" && det?.mrn != 1 && (
             <div className="flex justify-center gap-5">
               <Popconfirm
                 zIndex={5000}
@@ -2349,7 +2354,7 @@ const DialogBox = ({
                   Reject
                 </button>
               </Popconfirm> */}
-            {det.requisition != 1 && (
+            {det?.requisition != 1 && (
               <button
                 type="submit"
                 className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -3068,7 +3073,7 @@ const DialogBox = ({
             </table>
           </div>
 
-          {det.stock != 1 && (
+          {det?.stock != 1 && (
             <div className="flex justify-center gap-3">
               <button
                 type="reset"
@@ -3490,7 +3495,7 @@ const DialogBox = ({
                   Reject
                 </button>
               </Popconfirm> */}
-            {det.requisition != 1 && (
+            {det?.requisition != 1 && (
               <button
                 type="submit"
                 className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"

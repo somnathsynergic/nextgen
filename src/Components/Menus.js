@@ -62,7 +62,7 @@ function Menus({ theme,data,shrink }) {
         {
           key: "masters:dept",
           icon: <BankFilled />,
-          label: <Link disabled={data?.masters=='0'?true:false} to={data?.masters!='0'?routePaths.DEPARTMENTS:'#'}>Department</Link>,
+          label: <Link disabled={data?.masters=='0'|| data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.DEPARTMENTS:'#'}>Department</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
@@ -74,7 +74,7 @@ function Menus({ theme,data,shrink }) {
         {
           key: "masters:cat",
           icon: <BlockOutlined />,
-          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0'?routePaths.CATEGORIES:'#'}>Product Category</Link>,
+          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.CATEGORIES:'#'}>Product Category</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
         },
         // {
@@ -86,55 +86,55 @@ function Menus({ theme,data,shrink }) {
         {
           key: "masters:unit",
           icon: <PayCircleFilled />,
-          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0'?routePaths.UNITS:'#'}>Unit</Link>,
+          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.UNITS:'#'}>Unit</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:product",
           icon: <ToolFilled />,
-          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0'?routePaths.PRODUCTS:'#'}>Product</Link>,
+          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.PRODUCTS:'#'}>Product</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:vendor",
           icon: <ShopFilled />,
-          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0'?routePaths.VENDORS:'#'}>Vendor</Link>,
+          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.VENDORS:'#'}>Vendor</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
         },
         {
           key: "masters:client",
           icon: <UserSwitchOutlined />,
-          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0'?routePaths.CLIENTS:'#'}>Client </Link>,
+          label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.CLIENTS:'#'}>Client </Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:gst",
           icon: <PercentageOutlined />,
-          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0'?routePaths.GST:'#'}>GST </Link>,
+          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.GST:'#'}>GST </Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:user",
           icon: <UserAddOutlined />,
-          label: <Link  disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0'?routePaths.USERS:'#'}>Company Users </Link>,
+          label: <Link  disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.USERS:'#'}>Company Users </Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:permissions",
           icon: <LockOpenOutlined />,
-          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0'?routePaths.PERMISSIONS:'#'}>Permissions</Link>,
+          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.PERMISSIONS:'#'}>Permissions</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
       ],
     },
     {
-      label: <Link disabled={data?.purchase_req=='0' || data==undefined?true:false} to={data?.purchase_req!='0'?routePaths.PURVIEW:'#'}>Purchase Requisition</Link>,
+      label: <Link disabled={data?.purchase_req=='0' || data==undefined?true:false} to={data?.purchase_req!='0' && data!=undefined?routePaths.PURVIEW:'#'}>Purchase Requisition</Link>,
       key: "purchase-requisition",
       icon: <MergeFilled/>,
       disabled:data?.purchase_req=='0'|| data==undefined?true:false
@@ -157,7 +157,7 @@ function Menus({ theme,data,shrink }) {
               // label: <Link to={routePaths.CLIENTORDER}>Client Orders</Link>,
               key: "master:client-orders",
               icon: <UserSwitchOutlined />,
-              label: <Link disabled={data?.project=='0' || data==undefined?true:false} to={data?.project!='0'?routePaths.PROJECTS:'#'}>Client Orders</Link>,
+              label: <Link disabled={data?.project=='0' || data==undefined?true:false} to={data?.project!='0' && data!=undefined?routePaths.PROJECTS:'#'}>Client Orders</Link>,
               disabled:data?.project=='0'|| data==undefined?true:false
 
             },
@@ -175,7 +175,7 @@ function Menus({ theme,data,shrink }) {
           children: [
             {
               label: (
-                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0'?routePaths.PURCHASEORDER + "/P":'#'}>Vendor Orders</Link>
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.PURCHASEORDER + "/P":'#'}>Vendor Orders</Link>
               ),
               key: "purchase-order",
               icon: <SolutionOutlined />,
@@ -185,7 +185,7 @@ function Menus({ theme,data,shrink }) {
 
             {
               label: (
-                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0'?routePaths.EXISTINGORDER:'#'}>
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.EXISTINGORDER:'#'}>
                   Existing Purchase Orders
                 </Link>
               ),
@@ -196,7 +196,7 @@ function Menus({ theme,data,shrink }) {
             },
             {
               label: (
-                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0'?routePaths.AMENDORDER:'#'}>Amend Purchase Orders</Link>
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.AMENDORDER:'#'}>Amend Purchase Orders</Link>
               ),
               key: "amend-order",
               icon: <SignatureFilled />,
@@ -206,7 +206,7 @@ function Menus({ theme,data,shrink }) {
             },
             {
               label: (
-                <Link disabled={data?.approve_po=='0'|| data==undefined?true:false} to={data?.approve_po!='0'?routePaths.APPROVEORDER:'#'}>Approve Vendor Orders</Link>
+                <Link disabled={data?.approve_po=='0'|| data==undefined?true:false} to={data?.approve_po!='0' && data!=undefined?routePaths.APPROVEORDER:'#'}>Approve Vendor Orders</Link>
               ),
               key: "approve-purchase-order",
               icon: <CheckCircleFilled />,
@@ -216,7 +216,7 @@ function Menus({ theme,data,shrink }) {
             },
             {
               label: (
-                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0'?routePaths.TESTCERTHOME:'#'}>
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.TESTCERTHOME:'#'}>
                   Upload Test Certificate
                 </Link>
               ),
@@ -288,7 +288,7 @@ function Menus({ theme,data,shrink }) {
         {
           key: "mrn:cr-mrn",
           icon: <DiffFilled/>,
-          label:<Link disabled={data?.mrn=='0'|| data==undefined?true:false} to={data?.mrn!='0'?routePaths.DELIVERYCUSTOMERVIEW:'#'}>Create MRN</Link>,
+          label:<Link disabled={data?.mrn=='0'|| data==undefined?true:false} to={data?.mrn!='0' && data!=undefined?routePaths.DELIVERYCUSTOMERVIEW:'#'}>Create MRN</Link>,
           disabled:data?.mrn=='0'|| data==undefined?true:false
 
         },
@@ -296,7 +296,7 @@ function Menus({ theme,data,shrink }) {
           {
             key: "mrn:appr-mrn",
             icon: <CheckCircleFilled />,
-            label:<Link disabled={data?.mrn=='0'?true:false} to={data?.mrn!='0'?routePaths.APPROVEMRN:'#'}>Approve MRN</Link>,
+            label:<Link disabled={data?.mrn=='0'?true:false} to={data?.mrn!='0' && data!=undefined?routePaths.APPROVEMRN:'#'}>Approve MRN</Link>,
             disabled:data?.mrn=='0'|| data==undefined?true:false
 
   
@@ -304,7 +304,7 @@ function Menus({ theme,data,shrink }) {
           {
             key: "dirdel",
             icon: <TruckFilled />,
-            label: <Link disabled={data?.mrn=='0'|| data==undefined?true:false} to={data?.mrn!='0'?routePaths.CLIENTDELIVERYVIEW:'#'}>Vendor To Client Direct Delivery </Link>,
+            label: <Link disabled={data?.mrn=='0'|| data==undefined?true:false} to={data?.mrn!='0' && data!=undefined?routePaths.CLIENTDELIVERYVIEW:'#'}>Vendor To Client Direct Delivery </Link>,
             disabled:data?.mrn=='0'|| data==undefined?true:false
 
             
@@ -320,14 +320,14 @@ function Menus({ theme,data,shrink }) {
         {
           key: "req:cr-req",
           icon: <DiffFilled/>,
-          label: <Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0'?routePaths.REQVIEW:'#'}>Create Requisition </Link>,
+          label: <Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0' && data!=undefined?routePaths.REQVIEW:'#'}>Create Requisition </Link>,
           disabled:data?.requisition=='0'|| data==undefined?true:false
 
         },
           {
             key: "req:appr-req",
             icon: <CheckCircleFilled />,
-            label:<Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0'?routePaths.APPROVEREQ:'#'}>Approve Requisition</Link>,
+            label:<Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0' && data!=undefined?routePaths.APPROVEREQ:'#'}>Approve Requisition</Link>,
             disabled:data?.requisition=='0'|| data==undefined?true:false
 
   
@@ -341,7 +341,7 @@ function Menus({ theme,data,shrink }) {
   
           // },
           {
-            label: <Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0'?routePaths.RETFORM:'#'}> Material Return </Link>,
+            label: <Link disabled={data?.requisition=='0'|| data==undefined?true:false} to={data?.requisition!='0' && data!=undefined?routePaths.RETFORM:'#'}> Material Return </Link>,
             key: "material-return",
             icon: <EnterOutlined />,
             disabled:data?.requisition=='0'|| data==undefined?true:false
@@ -351,7 +351,7 @@ function Menus({ theme,data,shrink }) {
   },
    
     {
-      label: <Link disabled={data?.min=='0'|| data==undefined?true:false} to={data?.min!='0'?routePaths.MINVIEW:'#'}> Material Issue Note </Link>,
+      label: <Link disabled={data?.min=='0'|| data==undefined?true:false} to={data?.min!='0' && data!=undefined?routePaths.MINVIEW:'#'}> Material Issue Note </Link>,
       key: "material-issue",
       icon: <FileMarkdownFilled />,
       disabled:data?.min=='0'|| data==undefined?true:false
@@ -426,7 +426,7 @@ function Menus({ theme,data,shrink }) {
          {
           key: "rep:stock-in",
           icon: <SwapRightOutlined />,
-          label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKIN:'#'}> Stock In</Link>,
+          label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKIN:'#'}> Stock In</Link>,
           disabled:data?.stock=='0'|| data==undefined?true:false
 
 
@@ -434,7 +434,7 @@ function Menus({ theme,data,shrink }) {
         {
           key: "rep:stock-out",
           icon: <SwapLeftOutlined />,
-          label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKOUT:'#'}> Stock Out</Link>,
+          label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKOUT:'#'}> Stock Out</Link>,
           disabled:data?.stock=='0'|| data==undefined?true:false
 
 
@@ -447,7 +447,7 @@ function Menus({ theme,data,shrink }) {
             {
               key: "rep:trans-wtop",
               icon: <PullRequestOutlined />,
-              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKTRANSVIEW:'#'}> Warehouse To Project</Link>,
+              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKTRANSVIEW:'#'}> Warehouse To Project</Link>,
               disabled:data?.stock=='0'|| data==undefined?true:false
 
     
@@ -455,7 +455,7 @@ function Menus({ theme,data,shrink }) {
             {
               key: "rep:trans-ptop",
               icon:<PullRequestOutlined />,
-              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKTRANSVIEWPROJ:'#'}> Project To Project</Link>,
+              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKTRANSVIEWPROJ:'#'}> Project To Project</Link>,
               disabled:data?.stock=='0'|| data==undefined?true:false
 
     
@@ -463,7 +463,7 @@ function Menus({ theme,data,shrink }) {
             {
               key: "rep:trans-ptow",
               icon:<PullRequestOutlined />,
-              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKTRANSVIEWTOW:'#'}> Project To Warehouse</Link>,
+              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKTRANSVIEWTOW:'#'}> Project To Warehouse</Link>,
               disabled:data?.stock=='0'|| data==undefined?true:false
 
     
@@ -471,7 +471,7 @@ function Menus({ theme,data,shrink }) {
             {
               key: "rep:trans-appr",
               icon:<CheckCircleFilled />,
-              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0'?routePaths.STOCKTRANSAPPROVE:'#'}> Approve Transfer</Link>,
+              label:<Link disabled={data?.stock=='0'|| data==undefined?true:false} to={data?.stock!='0' && data!=undefined?routePaths.STOCKTRANSAPPROVE:'#'}> Approve Transfer</Link>,
               disabled:data?.stock=='0'|| data==undefined?true:false
 
     

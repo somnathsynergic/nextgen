@@ -17,7 +17,8 @@ import PrintHeader from "../../Components/PrintHeader";
 import SkeletonLoading from "../../Components/SkeletonLoading";
 import CompositeSearch from "../../Components/CompositeSearch";
 import DialogBox from "../../Components/DialogBox";
-import CompositeSearchReq from "../../Components/CompositeSearchReq";
+// import CompositeSearchReq from "../../Components/CompositeSearchReq";
+import CompositePurReqSearch from "../../Components/CompositePurReqSearch";
 import { Tooltip } from "@mui/material";
 
 function PurchaseReqView() {
@@ -221,7 +222,7 @@ function PurchaseReqView() {
               onChange(value);
             }}
           /> */}
-          <CompositeSearchReq
+          <CompositePurReqSearch
             data={{
               set_one: vendorList,
               set_two: projectList,

@@ -221,7 +221,7 @@ function PoPreview({ data }) {
           Bill To
       </div>
      <p className="text-xs px-3 py-1 mt-1"> Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata
-      700046</p> <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p> <p className="text-xs  px-3 py-1"> Email: info@ngapl.com
+      700046,GSTIN- 19AABCN5744L1Z1</p> <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p> <p className="text-xs  px-3 py-1"> Email: charlie.mondal@ngapl.com / susanta.karanjai@ngapl.com
  </p> 
   </div>
   {/* <div className="col-span-1 border-2 border-blue-300  p-2"> */}
@@ -405,10 +405,8 @@ function PoPreview({ data }) {
                     Freight
                 </th>
                 <td className="px-1 py-1 text-xs border border-gray-300">
-                {JSON.parse(localStorage.getItem('terms')).freight_insurance=='I'?'Inclusive':'Extra'} 
-                
-                {JSON.parse(localStorage.getItem('terms')).freight_extra>0?
-                - JSON.parse(localStorage.getItem('terms')).freight_insurance_val +  `${JSON.parse(localStorage.getItem('terms')).freight_extra}% - ${(subTot * JSON.parse(localStorage.getItem('terms')).freight_extra/100).toFixed(2)} (CGST-${(JSON.parse(localStorage.getItem('terms')).freight_cgst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)} SGST-${(JSON.parse(localStorage.getItem('terms')).freight_sgst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)} IGST-${(JSON.parse(localStorage.getItem('terms')).freight_igst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)})`:''}
+                {JSON.parse(localStorage.getItem('terms')).freight_insurance=='I'?'Inclusive':
+                 `Extra ${JSON.parse(localStorage.getItem('terms')).freight_insurance_val}, ${JSON.parse(localStorage.getItem('terms')).freight_extra}% - ${(subTot * JSON.parse(localStorage.getItem('terms')).freight_extra/100).toFixed(2)} (CGST-${(JSON.parse(localStorage.getItem('terms')).freight_cgst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)} SGST-${(JSON.parse(localStorage.getItem('terms')).freight_sgst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)} IGST-${(JSON.parse(localStorage.getItem('terms')).freight_igst*JSON.parse(localStorage.getItem('terms')).freight_extra_val/100).toFixed(2)})`}
                 </td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -417,7 +415,7 @@ function PoPreview({ data }) {
                 </th>
                {JSON.parse(localStorage.getItem('terms')).ins_extra>0 && <td className="px-1 py-1 text-xs border border-gray-300">
                 
-                {JSON.parse(localStorage.getItem('terms')).insurance=='Y'? JSON.parse(localStorage.getItem('terms')).insurance_val +`${JSON.parse(localStorage.getItem('terms')).ins_extra}% - ${(subTot * JSON.parse(localStorage.getItem('terms')).ins_extra/100).toFixed(2)}  (CGST-${(JSON.parse(localStorage.getItem('terms')).ins_cgst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)} SGST-${(JSON.parse(localStorage.getItem('terms')).ins_sgst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)} IGST-${(JSON.parse(localStorage.getItem('terms')).ins_igst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)})`:'N/A'} 
+                {JSON.parse(localStorage.getItem('terms')).insurance=='Y'? JSON.parse(localStorage.getItem('terms')).insurance_val +` ${JSON.parse(localStorage.getItem('terms')).ins_extra}% - ${(subTot * JSON.parse(localStorage.getItem('terms')).ins_extra/100).toFixed(2)}  (CGST-${(JSON.parse(localStorage.getItem('terms')).ins_cgst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)} SGST-${(JSON.parse(localStorage.getItem('terms')).ins_sgst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)} IGST-${(JSON.parse(localStorage.getItem('terms')).ins_igst * JSON.parse(localStorage.getItem('terms')).ins_extra_val/100).toFixed(2)})`:'N/A'} 
 
                 </td>
 }

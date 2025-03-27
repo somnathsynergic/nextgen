@@ -9,6 +9,8 @@ import { Empty } from "antd";
 
 function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
     const [visible, setVisible] = useState(false);
+    const [set_zero_val,setZero] = useState()
+    
     const [set_one_val, setOne] = useState("");
     const [set_one_code, setOneCode] = useState();
     const [set_two_val, setTwo] = useState("");
@@ -326,6 +328,24 @@ function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
                           </ul>
                         </OverlayPanel>
               </div> */}
+                <div className="mb-2">
+                <TDInputTemplate
+                  placeholder={'Type'}
+                  type="text"
+                  label={'Type'}
+                  name="set_two_val"
+                  formControlName={set_zero_val}
+                  handleChange={(val) => {
+                    setZero(val.target.value);
+                    if(val.target.value=='W')
+                        setTwoCode(0)
+                    setTwo('')
+                  }}
+                  mode={2}
+                  data={[{code:'W',name:'Warehouse'},{code:'P',name:'Project'}]}
+                />
+                    
+              </div>
               <div>
                 <TDInputTemplate
                   placeholder={data?.set_two_lbl}
@@ -334,6 +354,7 @@ function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
                   name="set_two_val"
                   formControlName={set_two_val}
                   handleFocus = {e=>op_project.current.show(e)}
+                  disabled={set_zero_val=='W'}
   
                   handleChange={(val) => {
                     setTwo(val.target.value);
@@ -588,7 +609,8 @@ function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
             <button
               type="submit" 
               disabled={
-                flag!=2? !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val: !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val  && !set_seven_val
+                flag!=2? !set_zero_val &&!set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val: 
+                !set_zero_val && !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val  && !set_seven_val
                 // !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val && (flag==2  && !set_seven_val)
                
                 // !set_one_code &&

@@ -47,7 +47,7 @@ function PoLogs({ data }) {
         .then((res) => {
           console.log(res);
 
-          if (res.data.suc > 0) {
+          if (res.data.suc ==1) {
             setCount((prev) => prev + 1);
             Message("success", res?.data?.msg);
             timeline.push({
@@ -156,6 +156,7 @@ function PoLogs({ data }) {
         timeline.length=0
         setLoading(false);
         console.log(resCom);
+        if(resCom.data.suc==1){
         for (let i = 0; i < resCom?.data?.msg?.length; i++) {
           timeline.push({
             label: resCom?.data?.msg[i]?.created_at
@@ -168,6 +169,7 @@ function PoLogs({ data }) {
               resCom?.data?.msg[i]?.created_by?.toString(),
           });
         }
+      }
         setTimeline(timeline);
       });
     console.log(count);

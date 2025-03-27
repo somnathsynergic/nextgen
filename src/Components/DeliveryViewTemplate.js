@@ -13,6 +13,7 @@ import DialogBox from "./DialogBox";
 import { Tag } from "antd";
 
 function DeliveryViewTemplate({ flag }) {
+  
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [searchVal, setSearchVal] = useState("");
@@ -320,6 +321,9 @@ function DeliveryViewTemplate({ flag }) {
                     PO No.
                   </th>
                   <th scope="col" class="p-4 w-1/3">
+                    Intended For
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
                     Invoices
                   </th>
                   <th scope="col" class="p-4 w-1/3">
@@ -350,6 +354,7 @@ function DeliveryViewTemplate({ flag }) {
                       {item.sl_no}
                       </th>
                       <td class="px-4 py-4 w-1/3 text-green-900 font-bold">{item.po_no}</td>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold">{item.proj_name||'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td>
                       <td class="px-4 py-4 w-1/3 text-gray-600">{item.created_by}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">

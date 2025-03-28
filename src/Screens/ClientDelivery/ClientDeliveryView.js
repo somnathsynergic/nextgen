@@ -8,9 +8,10 @@ import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import { EditOutlined } from "@ant-design/icons";
 import SkeletonLoading from "../../Components/SkeletonLoading";
-import CompositeSearch from "../../Components/CompositeSearch";
+
 import DialogBox from "../../Components/DialogBox";
 import { Tag } from "antd";
+import CompositeSearchVtoC from "../../Components/CompositeSearchVtoC";
 function ClientDeliveryView() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
@@ -98,7 +99,7 @@ function ClientDeliveryView() {
       // }
       setValue(0);
       // setVisible(true)
-      axios.post(url+'/api/advanced_search_delivery',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,invoice:val7,make:val8}).then(res=>{
+      axios.post(url+'/api/advanced_search_vtoc',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,invoice:val7,make:val8}).then(res=>{
         console.log(res)
         setAdvList(res?.data?.msg)
         if(res?.data?.msg?.length)
@@ -191,7 +192,7 @@ function ClientDeliveryView() {
       <>
       <div className="flex justify-end -mt-16"> 
   
-      <CompositeSearch
+      <CompositeSearchVtoC
             data={{
               set_one: vendorList,
               set_two: projectList,

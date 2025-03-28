@@ -556,8 +556,9 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty: i.tot_rc_qty - i.tot_req,
-                stock: i.project_stock,
+                req_qty:(i.tot_rc_qty - i.tot_req),
+                // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
+                stock: intended!='W' ?i.project_stock:i.warehouse_stock,
               });
               itemDtlsFormCopy.push({
                 sl_no: +params.id > 0 ? +params.id : 0,
@@ -572,10 +573,13 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                // req_qty: i.tot_rc_qty,
-                req_qty: i.tot_rc_qty - i.tot_req,
+                req_qty:(i.tot_rc_qty - i.tot_req),
 
-                stock: i.project_stock,
+                // req_qty: i.tot_rc_qty,
+                // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
+                stock: intended!='W' ?i.project_stock:i.warehouse_stock,
+
+                
               });
             }
           }

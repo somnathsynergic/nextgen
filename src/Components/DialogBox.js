@@ -2354,6 +2354,21 @@ const DialogBox = ({
                   Reject
                 </button>
               </Popconfirm> */}
+               <button
+                  type="submit"
+                  onClick={() => onPress("R", "", itemInfo)}
+                  className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                  // onClick={()=>onPress('U')}
+                  // disabled = {
+                    
+                  //   itemInfo?.reduce((accumulator, currentValue) => {
+                  //     return accumulator + currentValue.error;
+                  //   }, 0)==1 || +(itemInfo?.filter(e=>e.req_qty==e.approved_qty)?.length==itemInfo?.length)==1
+                  // }
+                >
+                  <CloseCircleOutlined className="mr-2" />
+                  Reject
+                </button>
             {det?.requisition != 1 && (
               <button
                 type="submit"

@@ -114,7 +114,7 @@ function StockOutComponent({
     console.log(req_list);
     onPress(
       stock.map((e) => {
-        return { id: e.item_id, stock_out: +e.req_qty, req_no: e.req_no };
+        return { id: e.item_id, stock_out: +e.req_qty||0, req_no: e.req_no };
       })
     );
   };

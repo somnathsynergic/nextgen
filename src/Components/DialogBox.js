@@ -3092,10 +3092,10 @@ const DialogBox = ({
             <div className="flex justify-center gap-3">
               <button
                 type="reset"
-                onClick={onPress}
+                onClick={() => onApprove("R", infoCopy)}
                 className="inline-flex mr-3 bg-[#92140C] items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
               >
-                Close
+                Reject
               </button>
 
               <button

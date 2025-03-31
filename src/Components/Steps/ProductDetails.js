@@ -554,7 +554,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       placeholder="Item name"
                       type="text"
                       label="Item name"
-                      data={prodList}
+                      // data={prodList}
+                      data={prodList.filter(item =>item.code ==itemList[index].item_name || !itemList.map(obj => +obj.item_name).includes(item.code))}
                       formControlName={input.item_name}
                       name="item_name"
                       handleChange={(event) => {

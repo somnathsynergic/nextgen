@@ -930,9 +930,9 @@ function PurchaseReqForm() {
               <div className="flex justify-center gap-3 items-center">
                 <div className="mx-auto">
                   <div className="flex justify-center gap-2 items-center mx-auto">
-                    {!itemDtls.reduce((accumulator, item) => {
+                    {/* {!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;
-                          }, 0)  && (
+                          }, 0)  && ( */}
                       <button
                         // disabled={errorSum(error) || !intended}
                         onClick={() => onSubmit()}
@@ -948,7 +948,7 @@ function PurchaseReqForm() {
                         <SaveOutlined className="mr-1" />
                         Submit
                       </button>
-                    )}
+                    {/* )} */}
 
                     { (!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;

@@ -642,11 +642,12 @@ function PoPreview({ data }) {
     <td className="border border-gray-300">To be strictly followed before movement of the goods or raise invoice.</td>
   </tr>
 </table>
-    
       </div>
       </Spin>
 
     </div>
+    <p className="text-[9px] text-black font-bold">This is a computer generated purchase order. No signature is required.</p>
+
     </div>
     </>
   );

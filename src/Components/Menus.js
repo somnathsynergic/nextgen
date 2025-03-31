@@ -216,6 +216,15 @@ function Menus({ theme,data,shrink }) {
             },
             {
               label: (
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.PURCHASEORDER + "/P":'#'}>Cancel Orders</Link>
+              ),
+              key: "cancel-order",
+              icon: <CloseCircleFilled />,
+              disabled:data?.po=='0'|| data==undefined?true:false
+
+            },
+            {
+              label: (
                 <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.TESTCERTHOME:'#'}>
                   Upload Test Certificate
                 </Link>

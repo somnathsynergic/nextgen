@@ -258,6 +258,8 @@ function StockOut() {
                         else {
                           op1.current.hide(txt);
                           setProjCode(0);
+                          setProjId("");
+
                         }
                         // setLoading(true);
                         // getItemDetails(txt.target.value);

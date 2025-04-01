@@ -203,6 +203,8 @@ function StockIn() {
                         else {
                           op1.current.hide(txt);
                           setProjCode(0);
+                          setProjID(0);
+
                         }
                         // setLoading(true);
                         // getItemDetails(txt.target.value);
@@ -255,7 +257,7 @@ function StockIn() {
                       </ul>
                     </OverlayPanel>
                     {!projcode && <VError title={"Required"} />}
-                    {proj_id>0 && <Tag color="#eb8d00">Project ID: {proj_id}</Tag>}
+                    {proj_id && <Tag color="#eb8d00">Project ID: {proj_id}</Tag>}
                     {projcode > 0 && (
                       <span className="flex justify-between mt-1 items-center">
                         <a

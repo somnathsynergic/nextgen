@@ -280,6 +280,8 @@ function ApproveView() {
           e?.from_proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
           "Warehouse".toLowerCase().includes(word?.toLowerCase()) ||
           e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.from_projid?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.to_projid?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.trans_dt?.toLowerCase().includes(word?.toLowerCase())
       )
     );
@@ -466,10 +468,10 @@ function ApproveView() {
                         {item.trans_no}
                       </td>
 
-                      <td class="px-6 py-4 text-gray-600">
-                        {item.from_proj_name || "Warehouse"}
+                      <td class="px-6 py-4 text-gray-600 text-wrap">
+                        {item.from_proj_name? item.from_proj_name+'('+item.from_projid+')':'Warehouse'}
                       </td>
-                      <td class="px-6 py-4 text-gray-600">{item.proj_name||"Warehouse"}</td>
+                      <td class="px-6 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.to_projid+')':'Warehouse'}</td>
                       {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                            <Tag
                            className="text-[12px] p-1 rounded-full w-36"

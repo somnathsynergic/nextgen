@@ -184,6 +184,7 @@ function ClientDeliveryView() {
         copy?.filter(
           (e) =>
             e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
             e?.created_by?.toLowerCase().includes(word?.toLowerCase())
         )
       );
@@ -349,7 +350,7 @@ function ClientDeliveryView() {
                         {item.sl_no}
                         </th>
                         <td class="px-6 py-4 w-1/3 text-green-900 font-bold">{item.po_no}</td>
-                        <td class="px-6 py-4 w-1/3 text-green-900 font-bold">{item.proj_name||'Warehouse'}</td>
+                        <td class="px-6 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                         {/* <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td> */}
                         <td class="px-6 py-4 w-1/3 text-gray-600">{item.created_by}</td>
                         <td class="px-3 py-4 w-1/3 text-gray-600 flex gap-3">

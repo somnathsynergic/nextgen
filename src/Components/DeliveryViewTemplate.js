@@ -185,6 +185,7 @@ function DeliveryViewTemplate({ flag }) {
       copy?.filter(
         (e) =>
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
+        e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.created_by?.toLowerCase().includes(word?.toLowerCase())
       )
     );

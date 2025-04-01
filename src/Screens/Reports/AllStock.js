@@ -35,6 +35,7 @@ function AllStock() {
   const [reportData,setReportData] = useState([])
   const op = useRef(null);
   const [info,setInfo] = useState([])
+  const [projId,setProjId] = useState("")
   const headers= [
     { name:'serial_number',value:'#'},
     { name: "prod_name", value: "Product" },
@@ -57,6 +58,7 @@ function AllStock() {
             code: i.sl_no,
             name: i.proj_name,
             client: i.client_id,
+            proj_id:i.proj_id
           });
         }
       });
@@ -187,6 +189,7 @@ function AllStock() {
                           else {
                             op.current.hide(txt);
                             setProjCode();
+                            setProjId("")
                           }
                           // setLoading(true);
                           // getItemDetails(txt.target.value);
@@ -196,6 +199,7 @@ function AllStock() {
                       />
                     )}
                       {!projCode && type=='P' ? <VError title={"Required"} /> : null}
+                      {projId ? <Tag className="bg-amber-600 text-white">Project ID:{projId}</Tag> : null}
 
                     <OverlayPanel
                       ref={op}
@@ -206,13 +210,13 @@ function AllStock() {
                       </span>
                       <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
                         {projectList?.filter((e) =>
-                          e.name?.toLowerCase().includes(projVal?.toLowerCase())
+                          e.name?.toLowerCase().includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
                         ).length > 0 &&
                           projectList
                             ?.filter((e) =>
                               e.name
                                 ?.toLowerCase()
-                                .includes(projVal?.toLowerCase())
+                                .includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
                             )
                             ?.map((lst) => (
                               <li
@@ -220,6 +224,7 @@ function AllStock() {
                                   op.current.hide(e);
                                   setProjVal(lst.name);
                                   setProjCode(lst.code);
+                                  setProjId(lst.proj_id)
                                 }}
                                 class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
                               >
@@ -234,7 +239,7 @@ function AllStock() {
                               </li>
                             ))}
                         {projectList.filter((e) =>
-                          e.name?.toLowerCase().includes(projVal?.toLowerCase())
+                          e.name?.toLowerCase().includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
                         ).length == 0 && <Empty />}
                       </ul>
                     </OverlayPanel>

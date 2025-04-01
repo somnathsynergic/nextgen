@@ -230,6 +230,7 @@ const [isPrinting, setIsPrinting] = useState(true);
           e?.trans_no?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.created_by?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.trans_dt?.toLowerCase().includes(word?.toLowerCase())
       )
     );
@@ -455,7 +456,7 @@ const [isPrinting, setIsPrinting] = useState(true);
                         {item.trans_no}
                       </td>
 
-                      <td class="px-6 py-4 text-gray-600">{item.proj_name}</td>
+                      <td class="px-6 py-4 text-gray-600 text-wrap">{item.proj_name} ({item.proj_id})</td>
                       {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"

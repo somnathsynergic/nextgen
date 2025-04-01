@@ -171,6 +171,7 @@ function PurchaseReqView() {
             e?.pur_no?.toLowerCase().includes(word?.toLowerCase()) ||
                       e?.created_by?.toLowerCase().includes(word?.toLowerCase())||
                       e?.proj_name?.toLowerCase().includes(word?.toLowerCase())||
+                      e?.ID?.toLowerCase().includes(word?.toLowerCase())||
                       e?.pur_date?.toLowerCase().includes(word?.toLowerCase())
         )
       );
@@ -347,7 +348,7 @@ function PurchaseReqView() {
               <table class={isPrinting?"w-full text-sm text-left rtl:text-right shadow-lg text-green-900dark:text-gray-400":"w-full mt-3 text-sm text-left rtl:text-right shadow-lg text-green-900dark:text-gray-400"}>
                 <thead class={isPrinting?" text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":"text-md text-white capitalize mt-5  bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
                   <tr>
-                    <th scope="col" class="p-4 w-1/5">
+                    <th scope="col" class="p-4 w-1/6">
                       #
                     </th>
                     <th scope="col" class="p-4 w-1/5">
@@ -382,10 +383,10 @@ function PurchaseReqView() {
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-6 py-4 w-1/4 text-green-900 font-bold">{item.pur_no}</td>
-                        <td class="px-6 py-4 w-1/4 text-green-900 font-bold">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
-                        <td class="px-6 py-4 w-1/4 text-gray-600">{item.pur_date}</td>
-                        <td class="px-6 py-4 w-1/4 text-gray-600">{item.created_by}</td>
+                        <td class="px-4 py-4 w-1/4 text-green-900 font-bold">{item.pur_no}</td>
+                        <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
+                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.pur_date}</td>
+                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.created_by}</td>
                        {isPrinting? <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
                         
                           <Link

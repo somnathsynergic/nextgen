@@ -32,6 +32,7 @@ function StockIn() {
     const [prodCode,setProdCode] = useState()
     const [dt,setDt] = useState(moment(new Date()).format("yyyy-MM-DD"))
     const [clicked,setClicked] = useState(true)
+    const [proj_id,setProjID] = useState(0)
     const op = useRef(null);
     const op1 = useRef(null);
     
@@ -56,11 +57,13 @@ function StockIn() {
               code: i.sl_no,
               name: i.proj_name,
               client: i.client_id,
+              proj_id: i.proj_id,
             });
             projectCopy.push({
               code: i.sl_no,
               name: i.proj_name,
               client: i.client_id,
+              proj_id: i.proj_id,
             });
             // projectList.push({ value: i.sl_no, label: i.proj_name });
           }
@@ -217,13 +220,13 @@ function StockIn() {
                       </span>
                       <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
                         {projectList?.filter((e) =>
-                          e.name?.toLowerCase().includes(project?.toLowerCase())
+                          e.name?.toLowerCase().includes(project?.toLowerCase()) || e.proj_id.toLowerCase().includes(project?.toLowerCase())
                         ).length > 0 &&
                           projectList
                             ?.filter((e) =>
                               e.name
                                 ?.toLowerCase()
-                                .includes(project?.toLowerCase())
+                                .includes(project?.toLowerCase()) || e.proj_id.toLowerCase().includes(project?.toLowerCase())
                             )
                             ?.map((lst) => (
                               <li
@@ -231,6 +234,7 @@ function StockIn() {
                                   op1.current.hide(e);
                                   setProject(lst.name);
                                   setProjCode(lst.code);
+                                  setProjID(lst.proj_id);
                                   // getItemDetails(lst.code);
                                 }}
                                 class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
@@ -246,11 +250,12 @@ function StockIn() {
                               </li>
                             ))}
                         {projectList.filter((e) =>
-                          e.name?.toLowerCase().includes(project?.toLowerCase())
+                          e.name?.toLowerCase().includes(project?.toLowerCase()) || e.proj_id.toLowerCase().includes(project?.toLowerCase())
                         ).length == 0 && <Empty />}
                       </ul>
                     </OverlayPanel>
                     {!projcode && <VError title={"Required"} />}
+                    {proj_id>0 && <Tag color="#eb8d00">Project ID: {proj_id}</Tag>}
                     {projcode > 0 && (
                       <span className="flex justify-between mt-1 items-center">
                         <a

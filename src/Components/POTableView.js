@@ -154,7 +154,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                 Vendor
               </th>
               <th scope="col" class="p-4">
-                Project
+                Intended For
               </th>
               <th scope="col" class="p-4">
                 Status
@@ -354,9 +354,9 @@ function POTableView({ po_data, setSearch, title,print }) {
                     </p>}
                   </td>
                   <td class="px-4 py-4 text-gray-600">{item.po_issue_date}</td>
-                  <td class="px-4 py-4 text-gray-600">{item.vendor_name}</td>
-                  <td class="px-4 py-4 text-gray-600">
-                    {item.proj_name}
+                  <td class="px-4 py-4 text-gray-600 text-wrap">{item.vendor_name}</td>
+                  <td class="px-4 py-4 text-gray-600 text-wrap">
+                    {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
                   </td>
                   <td class="px-13 py-4">
                     {item.po_status == "P" ? (

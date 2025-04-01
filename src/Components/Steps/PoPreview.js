@@ -174,7 +174,7 @@ function PoPreview({ data }) {
           <div className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO No.: </span>  {po_no?po_no:''}</div>  
           <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {localStorage.getItem('po_issue_date')}</div>
          {po_no?.indexOf('-')!=-1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[1]} (Parent PO NO. - {po_no?.split('-')[0]})</div> }
-          <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div>
+          {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
          
         </div>
         <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 items-end justify-end">
@@ -346,7 +346,7 @@ function PoPreview({ data }) {
         </tbody>
         <tfoot>
             <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" class="px-10 py-1 text-md text-green-700 font-bold" colSpan={10}>Total</th>
+                <th scope="row" class="px-10 py-1 text-md text-green-700 font-bold" colSpan={10}>Grand Total</th>
                 <th class="px-1 py-1 text-md font-bold text-green-700">{grandTot}</th>
             </tr>
         </tfoot>
@@ -548,13 +548,13 @@ function PoPreview({ data }) {
                 </tr>
                 <tr className="bg-white border-b ">
                 <th scope="row" className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white">
-                Ld value(%):
+                LD value(%):
                 </th>
                 <td className="py-1 px-1 w-3/4 text-wrap border border-gray-300">
                 {JSON.parse(localStorage.getItem('terms')).ld_applicable_date=='NA'?'':JSON.parse(localStorage.getItem('terms')).ld_value && JSON.parse(localStorage.getItem('terms')).po_min_value?'LD @'+JSON.parse(localStorage.getItem('terms')).ld_value+'% per week to a maximum of ' +JSON.parse(localStorage.getItem('terms')).po_min_value+'% of the order value would be applicable for any delay beyond the stipulated delivery period.':''}
                 </td>
                 </tr>
-                <tr className="bg-white border-b ">
+                {/* <tr className="bg-white border-b ">
                 <th scope="row" className="px-1 py-1 border border-gray-300 w-1/4 text-wrap font-bold text-green-700 whitespace-nowrap dark:text-white">
                 Maximum (%) on PO value:
                 </th>
@@ -562,7 +562,7 @@ function PoPreview({ data }) {
                 
                 {JSON.parse(localStorage.getItem('terms')).ld_applicable_date=='NA'?'':JSON.parse(localStorage.getItem('terms')).po_min_value+'%'}
                 </td>
-            </tr>
+            </tr> */}
            
         </tbody>
     </table>

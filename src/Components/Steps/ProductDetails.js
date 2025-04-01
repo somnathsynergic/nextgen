@@ -299,14 +299,22 @@ function ProductDetails({ pressBack, pressNext, data }) {
       setProducts(resProd?.data?.msg);
       setLoading(true);
       for (let i = 0; i < resProd?.data?.msg?.length; i++) {
-        prodList.push({
-          name: resProd?.data?.msg[i]?.prod_name,
-          code: resProd?.data?.msg[i]?.sl_no,
-        });
-        prodListCopy.push({
-          name: resProd?.data?.msg[i]?.prod_name,
-          code: resProd?.data?.msg[i]?.sl_no,
-        });
+        // prodList.push({
+        //   name: resProd?.data?.msg[i]?.prod_name,
+        //   code: resProd?.data?.msg[i]?.sl_no,
+        // });
+        // prodListCopy.push({
+        //   name: resProd?.data?.msg[i]?.prod_name,
+        //   code: resProd?.data?.msg[i]?.sl_no,
+        // });
+        setProdList((prev) => [...prev,{
+            name: resProd?.data?.msg[i]?.prod_name,
+            code: resProd?.data?.msg[i]?.sl_no,
+          }])
+          setProdListCopy((prev) => [...prev,{
+            name: resProd?.data?.msg[i]?.prod_name,
+            code: resProd?.data?.msg[i]?.sl_no,
+          }])
       }
       axios.post(url + "/api/getunit", { id: 0 }).then((resUnit) => {
         setUnits(resUnit?.data?.msg);
@@ -400,6 +408,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
           setProdList([]);
           console.log(prodListCopy)
           for (let e of resItems?.data?.msg) {
+            console.log(prodListCopy)
             console.log(
               prodListCopy?.filter(
                 (item) => item?.code == e.item_id && e.qty > 0
@@ -555,7 +564,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       type="text"
                       label="Item name"
                       // data={prodList}
-                      data={prodList.filter(item =>item.code ==itemList[index].item_name || !itemList.map(obj => +obj.item_name).includes(item.code))}
+                      data={prodList?.filter(item =>item?.code ==itemList[index]?.item_name || !itemList.map(obj => +obj?.item_name).includes(item?.code))}
                       formControlName={input.item_name}
                       name="item_name"
                       handleChange={(event) => {

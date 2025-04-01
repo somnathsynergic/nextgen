@@ -45,6 +45,7 @@ function PurchaseReqForm() {
   const [visible, setVisible] = useState(false);
   const [trans_no, setTransNo] = useState("");
   const [item_info, setItemInfo] = useState([]);
+  const [proj_id,setProjId] = useState("")
   // const [errors,setErrors] = useState([])
   const [blocked, setBlocked] = useState(false);
   const [data, setData] = useState();
@@ -167,16 +168,18 @@ function PurchaseReqForm() {
       console.log(res);
       setProjects(res?.data?.msg);
       for (let i of res?.data?.msg) {
-        projectList.push({
+        setProjectList(prev=>[...prev,{
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
-        });
-        projectCopy.push({
+          proj_id:i.proj_id
+        }]);
+        setProjectCopy(prev=>[...prev,{
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
-        });
+          proj_id:i.proj_id
+        }]);
       }
     });
 
@@ -215,6 +218,7 @@ function PurchaseReqForm() {
           setTransDt(res?.data?.msg?.pur_date);
           setTransNo(res?.data?.msg?.pur_no);
           setProjCode(res?.data?.msg?.p_id || 0);
+          // setProjId(projectList.filter(e=>e?.code==+res?.data?.msg?.p_id)[0]?.proj_id)
           setProject(res?.data?.msg?.proj_name || "Warehouse");
           setIntended(res?.data?.msg?.intended);
           setCreatedBy(res?.data?.msg?.created_by);
@@ -270,6 +274,10 @@ function PurchaseReqForm() {
       setProductList(productList);
     });
   };
+  useEffect(()=>{
+    console.log(projcode,projectList.filter(e=>e?.code==+projcode)[0]?.proj_id,projectList)
+    setProjId(projectList.filter(e=>e?.code==+projcode)[0]?.proj_id)
+  },[projcode,projectCopy])
   const onSubmit = () => {
     setLoading(true);
     console.log(itemDtls);
@@ -552,6 +560,7 @@ function PurchaseReqForm() {
                           else {
                             op.current.hide(txt);
                             setProjCode(0);
+                            setProjId("")
                           }
                           // setLoading(true);
                           // getItemDetails(txt.target.value);
@@ -571,13 +580,13 @@ function PurchaseReqForm() {
                           {projectList?.filter((e) =>
                             e.name
                               ?.toLowerCase()
-                              .includes(project?.toLowerCase())
+                              .includes(project?.toLowerCase()) ||  e.proj_id?.toLowerCase().includes(project?.toLowerCase())
                           ).length > 0 &&
                             projectList
                               ?.filter((e) =>
                                 e.name
                                   ?.toLowerCase()
-                                  .includes(project?.toLowerCase())
+                                  .includes(project?.toLowerCase())||  e.proj_id?.toLowerCase().includes(project?.toLowerCase())
                               )
                               ?.map((lst) => (
                                 <li
@@ -585,6 +594,7 @@ function PurchaseReqForm() {
                                     op.current.hide(e);
                                     setProject(lst.name);
                                     setProjCode(lst.code);
+                                    setProjId(lst.proj_id)
                                   }}
                                   class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
                                 >
@@ -601,11 +611,16 @@ function PurchaseReqForm() {
                           {projectList.filter((e) =>
                             e.name
                               ?.toLowerCase()
-                              .includes(project?.toLowerCase())
+                              .includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
                           ).length == 0 && <Empty />}
                         </ul>
                       </OverlayPanel>
-                      {!projcode && <VError title={"Required"} />}
+                      <span className="flex justify-end items-center">
+
+                     {!projcode && <VError title={"Required"} />}
+                     {proj_id && <Tag className="bg-amber-600 mt-1 text-white">Project ID: {proj_id}</Tag>
+}
+                      </span>
                     </div>
                   )}
                   <div className={intended_for == "P"?"sm:col-span-3 ":"sm:col-span-6 -mt-2"}>

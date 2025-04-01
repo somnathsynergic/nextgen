@@ -126,7 +126,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
   useEffect(() => {
     setShowDel(false);
     axios
-      .post(url + "/api/get_mrn_list", { last_req_id: params.po_no })
+      .post(url + "/api/get_mrn_list", { last_req_id: decodeURIComponent(params.po_no) })
       .then((res) => {
         console.log(res);
         setMrnDetails(res?.data?.msg);
@@ -149,8 +149,8 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
       });
   };
   useEffect(() => {
-    getItemInfo(params.po_no);
-    axios.post(url + "/api/getpoinfo", { id: params.po_no }).then((res) => {
+    getItemInfo(decodeURIComponent(params.po_no));
+    axios.post(url + "/api/getpoinfo", { id: decodeURIComponent(params.po_no) }).then((res) => {
       console.log(res);
       setPoType(res?.data?.msg[0]?.po_type);
     });
@@ -198,7 +198,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
     if (delMode == 1) {
       axios
         .post(url + "/api/deletedeliverydoc", {
-          po_no: params.po_no.toString(),
+          po_no: decodeURIComponent(params.po_no).toString(),
           user: localStorage.getItem("email"),
           id: id,
         })
@@ -243,15 +243,15 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
       .post(url + "/api/getpo", { id: 0 })
       .then((resPO) => {
         setId(
-          resPO?.data?.msg?.filter((e) => e.po_no == params.po_no)[0]?.sl_no
+          resPO?.data?.msg?.filter((e) => e.po_no == decodeURIComponent(params.po_no))[0]?.sl_no
         );
         setProjectId(
-          resPO?.data?.msg?.filter((e) => e.po_no == params.po_no)[0]
+          resPO?.data?.msg?.filter((e) => e.po_no == decodeURIComponent(params.po_no))[0]
             ?.project_id
         );
         axios
           .post(url + "/api/getpoitemfordel", {
-            id: resPO?.data?.msg?.filter((e) => e.po_no == params.po_no)[0]
+            id: resPO?.data?.msg?.filter((e) => e.po_no == decodeURIComponent(params.po_no))[0]
               ?.sl_no,
           })
           .then((resItems) => {
@@ -510,7 +510,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
   }, [mrn_code]);
   const onsubmit = () => {
     onSubmit({
-      po_no: params.po_no,
+      po_no: decodeURIComponent(params.po_no),
       items: itemForm,
       lr_no: lr_no,
       invoice: invoice,
@@ -576,12 +576,12 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                   type="text"
                   label="PO No."
                   name="po_no"
-                  formControlName={params.po_no}
+                  formControlName={decodeURIComponent(params.po_no)}
                   handleChange={(txt) => setPoNo(txt.target.value)}
                   disabled={params.id > 0}
                   mode={1}
                 />
-                {params.po_no && (
+                {decodeURIComponent(params.po_no) && (
                   <div className="flex justify-between gap-2">
                     <Viewdetails
                       click={() => {

@@ -423,7 +423,7 @@ function RequisitionView() {
                           {item.sl_no}
                         </th>
                         <td class="px-6 py-4 text-green-900 font-bold">{item.req_no}</td>
-                        <td class="px-6 py-4 text-green-900 font-bold">{item.proj_name || 'Warehouse'}</td>
+                        <td class="px-6 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')': 'Warehouse'}</td>
                         <td class="px-6 py-4 text-gray-600">{item.req_date}</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag

@@ -343,7 +343,7 @@ function DeliveryViewTemplate({ flag }) {
                             navigate(routePaths.DELIVERYCUSTOMERFORM +
                                 item.sl_no +
                                 "/" +
-                                item.po_no)
+                                encodeURIComponent(item.po_no))
                               else navigate(routePaths.TESTCERTFORM + item.sl_no)
                     }} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                       <th
@@ -353,8 +353,8 @@ function DeliveryViewTemplate({ flag }) {
                       {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
                       {item.sl_no}
                       </th>
-                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold">{item.po_no}</td>
-                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold">{item.proj_name||'Warehouse'}</td>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap">{item.po_no}</td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td>
                       <td class="px-4 py-4 w-1/3 text-gray-600">{item.created_by}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">
@@ -364,7 +364,7 @@ function DeliveryViewTemplate({ flag }) {
                               ? routePaths.DELIVERYCUSTOMERFORM +
                                 item.sl_no +
                                 "/" +
-                                item.po_no
+                               encodeURIComponent(item.po_no)
                               : routePaths.TESTCERTFORM + item.sl_no
                           }
                         >

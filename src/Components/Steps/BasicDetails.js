@@ -61,6 +61,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
   const [projCode, setProjCode] = useState();
   const [vendorCode, setVendorCode] = useState();
   const [purCode, setPurCode] = useState();
+  const [projID,setProjID] = useState("")
   const op_project = useRef(null);
   const op_vendor = useRef(null);
   const op_pur_req = useRef(null);
@@ -111,6 +112,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
           projectList.push({
             name: resProj?.data?.msg[i].proj_name,
             code: resProj?.data?.msg[i].sl_no,
+            proj_id: resProj?.data?.msg[i].proj_id,
           });
         }
         setProjectList(projectList);
@@ -223,6 +225,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
     setPurReq(localStorage.getItem(""));
     setPurCode(localStorage.getItem(""));
     // localStorage.setItem("pur_req",JSON.stringify(selectedList));
+    setProjID(projectList.filter((e) => e.code == +projCode)[0]?.projID)
 
     purList=[]
   }, [data.type]);
@@ -273,6 +276,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
         projectList.push({
           name: i.proj_name,
           code: i.sl_no,
+          projID:i.proj_id
         });
       }
       setProjectList(projectList);
@@ -444,6 +448,9 @@ function BasicDetails({ pressNext, pressBack, data }) {
         });
     });
   };
+  useEffect(()=>{
+    setProjID(projectList.filter((e) => e.code == +projCode)[0]?.projID)
+  },[projCode])
   return (
     <section className="bg-white dark:bg-[#001529]">
       <Spin
@@ -624,7 +631,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                               proj_name != undefined
                                 ? proj_name?.toLowerCase()
                                 : ""
-                            )
+                            ) || e?.projID?.toLowerCase().includes(proj_name)
                         ).length > 0 &&
                           projectList
                             ?.filter((e) =>
@@ -634,14 +641,16 @@ function BasicDetails({ pressNext, pressBack, data }) {
                                   proj_name != undefined
                                     ? proj_name?.toLowerCase()
                                     : ""
-                                )
+                                ) || e?.projID?.toLowerCase().includes(proj_name?.toLowerCase())
                             )
                             ?.map((lst) => (
                               <li
                                 onClick={(e) => {
                                   op_project.current.hide(e);
+                                  console.log(lst)
                                   setProjName(lst.name);
                                   setProjCode(lst.code);
+                                  setProjID(lst.projID);
                                   localStorage.setItem("proj_name", lst.code);
                                   setSelectedList([])
                                   setSelectedListCopy([])
@@ -665,7 +674,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                               proj_name != undefined
                                 ? proj_name?.toLowerCase()
                                 : ""
-                            )
+                            ) || e?.projID?.toLowerCase().includes(proj_name?.toLowerCase())
                         ).length == 0 && <Empty />}
                       </ul>
                     </OverlayPanel>
@@ -678,12 +687,14 @@ function BasicDetails({ pressNext, pressBack, data }) {
                     <div
                       className={
                         // proj_name ? "flex justify-between" : "flex justify-end"
-                        "flex justify-between" 
+                        "flex justify-between items-center" 
                       }
                     >
                         {!projCode && type == "P" && (
                         <VError title={"Project is required!"} />
                       )}
+                        {projID &&  <Tag className="bg-amber-600 text-white">Project ID: {projID}</Tag>
+}
                       {projCode && (
                         <Viewdetails
                           click={() => {
@@ -707,12 +718,14 @@ function BasicDetails({ pressNext, pressBack, data }) {
                           }}
                         />
                       )}
+                                          
+                      
                     
                       {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
                           <a
-                            className="my-1"
+                            
                             onClick={() => {
                               setMode(2);
                               setOpen(true);

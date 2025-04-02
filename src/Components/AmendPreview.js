@@ -509,11 +509,12 @@ function AmendPreview({ id }) {
               <p className="uppercase font-extrabold">
                 PO Date: {po_issue_date}
               </p>
-              {po_no?.indexOf("-") != -1 && (
+              {po_no?.split("-").length>1 && (
                 <p className="uppercase font-extrabold">
-                  Amendement No:{po_no?.split("-")[1]}
+                  Amendement No:{po_no?.split("-")[2]}
                 </p>
               )}
+               {po_no?.split('-').length>1 && <p className="uppercase font-extrabold">Parent PO: {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</p> }
               {/* <p className="uppercase font-extrabold">Latest Amendement No:</p> */}
               {/* <p className="uppercase font-extrabold">Amendment Date:</p> */}
               <p className="uppercase font-extrabold">Value: {grandTot}</p>

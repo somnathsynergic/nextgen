@@ -173,7 +173,8 @@ function PoPreview({ data }) {
       <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 ">
           <div className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO No.: </span>  {po_no?po_no:''}</div>  
           <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {localStorage.getItem('po_issue_date')}</div>
-         {po_no?.indexOf('-')!=-1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[1]} (Parent PO NO. - {po_no?.split('-')[0]})</div> }
+         {po_no?.split('-').length>1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
+         {po_no?.split('-').length>1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</div> }
           {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
          
         </div>

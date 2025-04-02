@@ -216,7 +216,7 @@ function Menus({ theme,data,shrink }) {
             },
             {
               label: (
-                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.PURCHASEORDER + "/P":'#'}>Cancel Orders</Link>
+                <Link disabled={data?.po=='0'|| data==undefined?true:false} to={data?.po!='0' && data!=undefined?routePaths.PURCHASEORDER + "/P":'#'}>Close Orders</Link>
               ),
               key: "cancel-order",
               icon: <CloseCircleFilled />,

@@ -183,8 +183,8 @@ function PoPreview({ data }) {
            <p>Unit - 102, 1st Floor, PS PACE 1/1A,</p> <p> Mahendra Roy Lane Kolkata
            700046 </p>
           <p> Ph-033 4068 6032/6450 0535</p> 
-          <p>Email:charlie.mondal@ngapl.com</p>
-          <p>/susanta.karanjai@ngapl.com</p>
+          <p>Email:info@ngapl.com</p>
+          {/* <p>/susanta.karanjai@ngapl.com</p> */}
           <p>GSTIN: 19AABCN5744L1Z1</p>
           </span>
         </div>
@@ -221,7 +221,7 @@ function PoPreview({ data }) {
           Bill To
       </div>
      <p className="text-xs px-3 py-1 mt-1"> Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata
-      700046,GSTIN- 19AABCN5744L1Z1</p> <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p> <p className="text-xs  px-3 py-1"> Email: charlie.mondal@ngapl.com / susanta.karanjai@ngapl.com
+      700046,GSTIN- 19AABCN5744L1Z1</p> <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p> <p className="text-xs  px-3 py-1"> Email: info@ngapl.com 
  </p> 
   </div>
   {/* <div className="col-span-1 border-2 border-blue-300  p-2"> */}

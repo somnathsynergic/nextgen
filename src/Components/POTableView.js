@@ -198,7 +198,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                     {/* <Tag color="#4FB477" className="rounded-full text-xs"> {item.serial_number} </Tag> */}
                    {item.serial_number}
                   </th>
-                  <td class="px-4 py-4">
+                  <td class="px-4 py-4 text-sm">
                     <span className="flex gap-2 text-green-900 font-bold">
                       {" "}
                       {item.po_no || "----------------------"}{" "}
@@ -354,8 +354,8 @@ function POTableView({ po_data, setSearch, title,print }) {
                     </p>}
                   </td>
                   <td class="px-4 py-4 text-gray-600">{item.po_issue_date}</td>
-                  <td class="px-4 py-4 text-gray-600 text-wrap">{item.vendor_name}</td>
-                  <td class="px-4 py-4 text-gray-600 text-wrap">
+                  <td class="px-4 py-4 text-gray-600 text-wrap text-sm">{item.vendor_name}</td>
+                  <td class="px-4 py-4 text-gray-600 text-wrap text-sm">
                     {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
                   </td>
                   <td class="px-13 py-4">

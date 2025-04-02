@@ -2209,6 +2209,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="warranty_guarantee_flag"
               data={[
                 { code: "W", name: "Warranty" },
+                // { code: "N", name: "None" },
                 { code: "G", name: "Guarantee" },
               ]}
               disabled={

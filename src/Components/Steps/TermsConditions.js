@@ -226,6 +226,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
       : "",
     duration: data.duration ? data.duration : "",
     duration_val: data.duration_val ? data.duration_val : "",
+    duration_val_to: data.duration_val_to ? data.duration_val_to : "",
     om_manual_flag: data.om_manual_flag ? data.om_manual_flag : "",
     om_manual_desc: data.om_manual_desc ? data.om_manual_desc : "",
     oi_flag: data.oi_flag ? data.oi_flag : "",
@@ -372,6 +373,13 @@ function TermsConditions({ pressNext, pressBack, data }) {
       .required("Duration value is required")
       .min(0, "Invalid value")
       .matches(/^[0-9]+$/, "Only whole numbers allowed"),
+    duration_val_to: Yup.string().when("warranty_guarantee_flag", {
+      is: "N",
+      then: () => Yup.string() .required("Duration value is required")
+      .min(0, "Invalid value")
+      .matches(/^[0-9]+$/, "Only whole numbers allowed"),
+      otherwise: () => Yup.string(),
+    }),
     om_manual_flag: Yup.string().required("O&M Manual is required"),
 
     // om_manual_desc: Yup.string().when('om_manual_flag', {
@@ -497,6 +505,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
       }
       if (values.duration_val <= 0) {
         errors.duration_val = "Duration must be >0";
+      }
+      if (values.duration_val_to <= 0) {
+        errors.duration_val_to = "Duration must be >0";
       }
       if (values.ld_value > values.po_min_value) {
         errors.ld_value = "LD value must be <= Maximum %";
@@ -683,6 +694,12 @@ function TermsConditions({ pressNext, pressBack, data }) {
       formik.values.ld_applied_on = "";
       formik.values.ld_value = "";
       formik.values.po_min_value = "";
+    }
+
+    if (formik.values.warranty_guarantee_flag == "N") {
+      formik.values.duration = "M";
+      // formik.values.ld_value = "";
+      // formik.values.po_min_value = "";
     }
     console.log(formik);
     // console.log(formik.values);
@@ -2209,7 +2226,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="warranty_guarantee_flag"
               data={[
                 { code: "W", name: "Warranty" },
-                // { code: "N", name: "None" },
+                { code: "N", name: "None" },
                 { code: "G", name: "Guarantee" },
               ]}
               disabled={
@@ -2232,7 +2249,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </div>
 
           <div className="sm:col-span-5 flex justify-start gap-2 mt-7">
-            {(formik.values.warranty_guarantee_flag == "W" || formik.values.warranty_guarantee_flag == "G") && (
+            {/* {(formik.values.warranty_guarantee_flag == "W" || formik.values.warranty_guarantee_flag == "G") && ( */}
               <>
                 <p>
                   <Checkbox
@@ -2276,7 +2293,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                   )}
                 </p>
               </>
-            )}
+            {/* // )} */}
           </div>
           <div className="sm:col-span-5">
             <TDInputTemplate
@@ -2306,11 +2323,11 @@ function TermsConditions({ pressNext, pressBack, data }) {
               <VError title={formik.errors.duration} />
             )}
           </div>
-          <div className="sm:col-span-5">
+       <div className="sm:col-span-5">
             <TDInputTemplate
-              placeholder="Duration Value"
+              placeholder={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'From'}
               type="text"
-              label="Duration Value"
+              label={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'From'}
               name="duration_val"
               disabled={
                 localStorage.getItem("amend_flag") == "Y" ||
@@ -2330,6 +2347,30 @@ function TermsConditions({ pressNext, pressBack, data }) {
             )}
           </div>
 
+          {formik.values.warranty_guarantee_flag=='N' && <div className="sm:col-span-5">
+            <TDInputTemplate
+              placeholder='To'
+              type="text"
+              label="To"
+              name="duration_val_to"
+              disabled={
+                localStorage.getItem("amend_flag") == "Y" ||
+                localStorage.getItem("po_status") == "A" ||
+                localStorage.getItem("po_status") == "D" ||
+                localStorage.getItem("po_status") == "L"
+                  ? true
+                  : false
+              }
+              formControlName={formik.values.duration_val_to}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              mode={1}
+            />
+            {formik.errors.duration_val_to && formik.touched.duration_val_to && (
+              <VError title={formik.errors.duration_val_to} />
+            )}
+          </div>
+}
           <div className="sm:col-span-5">
             <TDInputTemplate
               placeholder="O&M Manual"

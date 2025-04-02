@@ -119,6 +119,7 @@ function PurchaseOrderForm() {
   const [warranty_guarantee_flag, setWarrantyFlag] = useState("");
   const [duration, setDuration] = useState("");
   const [duration_val, setDurationVal] = useState("");
+  const [duration_val_to, setDurationValTo] = useState("");
   const [om_manual_flag, setOMFlag] = useState("");
   const [om_manual_desc, setOMDesc] = useState("");
   const [oi_flag, setOIFlag] = useState("");
@@ -357,6 +358,9 @@ function PurchaseOrderForm() {
         duration_value: JSON.parse(localStorage.getItem("terms"))
           ? JSON.parse(localStorage.getItem("terms")).duration_val
           : "",
+          duration_value_to: JSON.parse(localStorage.getItem("terms"))
+          ? JSON.parse(localStorage.getItem("terms")).duration_val_to
+          : "",
         o_m_manual: JSON.parse(localStorage.getItem("terms"))
           ? JSON.parse(localStorage.getItem("terms")).om_manual_flag
           : "",
@@ -593,6 +597,7 @@ function PurchaseOrderForm() {
                   setPOMinValue(resTerm?.data?.msg[0]?.min_per);
                   setWarrantyFlag(resTerm?.data?.msg[0]?.warranty_guarantee);
                   setDuration(resTerm?.data?.msg[0]?.duration);
+                  setDurationValTo(resTerm?.data?.msg[0]?.duration_value_to);
                   setDurationVal(resTerm?.data?.msg[0]?.duration_value);
                   setOMFlag(resTerm?.data?.msg[0]?.o_m_manual);
                   setOMDesc(resTerm?.data?.msg[0]?.o_m_desc);
@@ -647,6 +652,7 @@ function PurchaseOrderForm() {
                       resTerm?.data?.msg[0]?.warranty_guarantee,
                     duration: resTerm?.data?.msg[0]?.duration,
                     duration_val: resTerm?.data?.msg[0]?.duration_value,
+                    duration_val_to: resTerm?.data?.msg[0]?.duration_value_to,
                     om_manual_flag: resTerm?.data?.msg[0]?.o_m_manual,
                     om_manual_desc: resTerm?.data?.msg[0]?.o_m_desc,
                     oi_flag: resTerm?.data?.msg[0]?.operation_installation,
@@ -1073,6 +1079,7 @@ function PurchaseOrderForm() {
                     warranty_guarantee_flag: warranty_guarantee_flag,
                     duration: duration,
                     duration_val: duration_val,
+                    duration_val_to: duration_val_to,
                     om_manual_flag: om_manual_flag,
                     om_manual_desc: om_manual_desc,
                     oi_flag: oi_flag,
@@ -1128,6 +1135,7 @@ function PurchaseOrderForm() {
                     setWarrantyFlag(values.warranty_guarantee_flag);
                     setDuration(values.duration);
                     setDurationVal(values.duration_val);
+                    setDurationValTo(values.duration_val_to);
                     setOMFlag(values.om_manual_flag);
                     setOMDesc(values.om_manual_desc);
                     setOIFlag(values.oi_flag);

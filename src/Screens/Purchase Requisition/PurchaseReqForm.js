@@ -753,7 +753,7 @@ function PurchaseReqForm() {
                                   handleDtChange(index, txt)
                                 }
                                 mode={2}
-                                data={productList}
+                                data={productList?.filter(item =>item?.code ==itemDtls[index]?.item_id || !itemDtls.map(obj => +obj?.item_id).includes(item?.code))}
                                 disabled = {
                                   itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;

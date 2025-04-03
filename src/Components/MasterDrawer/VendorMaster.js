@@ -260,14 +260,14 @@ function VendorMaster({onClose,onLoading}) {
           )
           // .required("GST is required!"),
     }),
-    v_composite: Yup.string().when("supply_flag", {
-      is: "R",
-      then: () => Yup.string().required("Required!"),
-    }),
-    v_state: Yup.string().when("supply_flag", {
-      is: (val) => val === "R" || val === "U",
-      then: () => Yup.string().required("State is required"),
-    }),
+    // v_composite: Yup.string().when("supply_flag", {
+    //   is: "R",
+    //   then: () => Yup.string().required("Required!"),
+    // }),
+    // v_state: Yup.string().when("supply_flag", {
+    //   is: (val) => val === "R" || val === "U",
+    //   then: () => Yup.string().required("State is required"),
+    // }),
     v_e_r_supply: Yup.string().when("v_composite", {
       is: "O",
       then: () => Yup.string().required("Required!"),
@@ -279,10 +279,10 @@ function VendorMaster({onClose,onLoading}) {
         poc_ph_1: Yup.string()
           .required("Phone is required")
           .length(10, "Must be 10 digits!")
-          .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
         poc_ph_2: Yup.string()
           .length(10, "Must be 10 digits!")
-          .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
         poc_email: Yup.string()
           // .required("Email is required")
           .email("Incorrect format!"),

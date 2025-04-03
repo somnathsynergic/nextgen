@@ -173,8 +173,8 @@ function PoPreview({ data }) {
       <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 ">
           <div className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO No.: </span>  {po_no?po_no:''}</div>  
           <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {localStorage.getItem('po_issue_date')}</div>
-         {po_no?.split('-').length>1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
-         {po_no?.split('-').length>1 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</div> }
+         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
+         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</div> }
           {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
          
         </div>
@@ -367,8 +367,8 @@ function PoPreview({ data }) {
           Payment Terms
        
           </div>
-          <ul className=" space-y-1 text-gray-700 p-2 list-disc list-inside dark:text-gray-400">
-       { JSON.parse(localStorage.getItem('termList'))?.length>0 && JSON.parse(localStorage.getItem('termList'))?.map(item=> <li>
+          <ul className=" space-y-1 text-gray-700 p-2 list-disc  list-inside dark:text-gray-400">
+       { JSON.parse(localStorage.getItem('termList'))?.length>0 && JSON.parse(localStorage.getItem('termList'))?.map(item=> <li className="text-[10px]">
         {item.term}
     </li>)}
    

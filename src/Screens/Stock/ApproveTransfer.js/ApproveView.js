@@ -143,14 +143,12 @@ function ApproveView() {
       setLoading(false);
       if (localStorage.getItem("user_type") != "2") {
         setCopy(
-          res?.data?.msg.filter(
-            (e) => e.created_by == localStorage.getItem("email")
-          )
+          res?.data?.msg
         );
         setPoData(
           res?.data?.msg.filter(
             (e) =>
-              e.created_by == localStorage.getItem("email") &&
+             
               e.approve_flag == "P"
           )
         );

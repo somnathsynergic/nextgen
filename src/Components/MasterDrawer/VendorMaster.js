@@ -201,14 +201,14 @@ function VendorMaster({onClose,onLoading}) {
       .length(10, "Must be 10 digits!")
       .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
     v_email: Yup.string()
-      .required("Email is required")
+      // .required("Email is required")
       .email("Incorrect format!"),
     v_pan: Yup.string().matches(
       /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
       "Incorrect format"
     ),
     v_tan:Yup.string().matches(/^[A-Za-z]{4}[0-9]{5}[A-Za-z]{1}$/,'Incorrect format'),
-    v_msme: Yup.string().required("MSME is required"),
+    // v_msme: Yup.string().required("MSME is required"),
     v_msmeno: Yup.string().when("v_msme", {
       is: "Y",
       then: () => Yup.string().required("MSME No. is required"),
@@ -216,18 +216,18 @@ function VendorMaster({onClose,onLoading}) {
     }),
     dynamicFields_bank: Yup.array().of(
       Yup.object().shape({
-        v_brnnm: Yup.string().required("Branch name required"),
+        // v_brnnm: Yup.string().required("Branch name required"),
         v_micr: Yup.string().matches(/^[0-9]{1,9}$/, "Invalid MICR!"),
-        v_banknm: Yup.string().required("Bank name required"),
+        // v_banknm: Yup.string().required("Bank name required"),
         v_ac: Yup.string()
-          .required("Account no. required")
+          // .required("Account no. required")
           .matches(/^[0-9]{9,18}$/, "Invalid account no.!"),
         v_ifsc: Yup.string()
-          .required("IFSC required")
+          // .required("IFSC required")
           .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Incorrect format!"),
       })
     ),
-    v_tds: Yup.string().required("TDS is required"),
+    // v_tds: Yup.string().required("TDS is required"),
     tds_perc: Yup.number().when("v_tds", {
       is: "Y",
       then: () =>
@@ -238,7 +238,7 @@ function VendorMaster({onClose,onLoading}) {
           // .matches(/^[0-9.]+$/, "Invalid value"),
       otherwise: () => Yup.string(),
     }),
-    v_tcs: Yup.string().required("TCS is required"),
+    // v_tcs: Yup.string().required("TCS is required"),
     tcs_perc: Yup.number().when("v_tcs", {
       is: "Y",
       then: () =>
@@ -258,7 +258,7 @@ function VendorMaster({onClose,onLoading}) {
             /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
             "Incorrect format!"
           )
-          .required("GST is required!"),
+          // .required("GST is required!"),
     }),
     v_composite: Yup.string().when("supply_flag", {
       is: "R",
@@ -284,7 +284,7 @@ function VendorMaster({onClose,onLoading}) {
           .length(10, "Must be 10 digits!")
           .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
         poc_email: Yup.string()
-          .required("Email is required")
+          // .required("Email is required")
           .email("Incorrect format!"),
       })
     ),

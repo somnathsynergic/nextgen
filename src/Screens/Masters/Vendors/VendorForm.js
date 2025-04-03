@@ -217,7 +217,7 @@ function VendorForm() {
       .length(10, "Must be 10 digits!")
       .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
     v_email: Yup.string()
-      .required("Email is required")
+      // .required("Email is required")
       .email("Incorrect format!"),
     v_pan: Yup.string().matches(
       /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
@@ -232,14 +232,14 @@ function VendorForm() {
     }),
     dynamicFields_bank: Yup.array().of(
       Yup.object().shape({
-        v_brnnm: Yup.string().required("Branch name required"),
+        // v_brnnm: Yup.string().required("Branch name required"),
         v_micr: Yup.string().matches(/^[0-9]{1,9}$/, "Invalid MICR!"),
-        v_banknm: Yup.string().required("Bank name required"),
+        // v_banknm: Yup.string().required("Bank name required"),
         v_ac: Yup.string()
-          .required("Account no. required")
+          // .required("Account no. required")
           .matches(/^[0-9]{9,18}$/, "Invalid account no.!"),
         v_ifsc: Yup.string()
-          .required("IFSC required")
+          // .required("IFSC required")
           .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Incorrect format!"),
       })
     ),
@@ -274,7 +274,7 @@ function VendorForm() {
             /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
             "Incorrect format!"
           )
-          .required("GST is required!"),
+          // .required("GST is required!"),
     }),
     v_composite: Yup.string().when("supply_flag", {
       is: "R",
@@ -300,7 +300,7 @@ function VendorForm() {
           .length(10, "Must be 10 digits!")
           .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
         poc_email: Yup.string()
-          .required("Email is required")
+          // .required("Email is required")
           .email("Incorrect format!"),
       })
     ),

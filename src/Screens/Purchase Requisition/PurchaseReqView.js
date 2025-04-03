@@ -172,6 +172,7 @@ function PurchaseReqView() {
                       e?.created_by?.toLowerCase().includes(word?.toLowerCase())||
                       e?.proj_name?.toLowerCase().includes(word?.toLowerCase())||
                       e?.ID?.toLowerCase().includes(word?.toLowerCase())||
+                      "Warehouse".toLowerCase().includes(word?.toLowerCase())||
                       e?.pur_date?.toLowerCase().includes(word?.toLowerCase())
         )
       );
@@ -369,7 +370,7 @@ function PurchaseReqView() {
                     </th>}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-sm">
                   {po_data &&
                     po_data?.slice(first, rows + first).map((item) => (
                     

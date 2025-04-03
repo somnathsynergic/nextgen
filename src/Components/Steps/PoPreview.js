@@ -266,6 +266,9 @@ function PoPreview({ data }) {
                     Discount
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
+                   Net Unit Price
+                </th>
+                <th scope="col" className="px-1 py-2 text-center border border-gray-300">
                    CGST
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
@@ -277,9 +280,7 @@ function PoPreview({ data }) {
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
                    Total GST
                 </th>
-                <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                    Unit Price
-                </th>
+               
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
                     Total
                 </th>
@@ -305,6 +306,9 @@ function PoPreview({ data }) {
                     {item.discount} ({item.discount_percent}%)
                 </td>
                 <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
+                    {+item.item_rt-(+item.discount)}
+                </td>
+                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
                     {item.cgst_id>0? ((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100)).toFixed(2):''} {item.cgst_id>0?'('+item.cgst_id+'%)':''}
                 </td>
                 <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
@@ -319,9 +323,7 @@ function PoPreview({ data }) {
                 {item.sgst_id>0?(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)).toFixed(2):((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2)}
                 </td>
                
-                 <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {+item.item_rt-(+item.discount)}
-                </td>
+               
                 <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
                     {item.sgst_id>0?(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2):((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2)}
                 </td>
@@ -441,12 +443,14 @@ function PoPreview({ data }) {
                     Warranty/Guarantee
                 </th>
                 <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
-                {JSON.parse(localStorage.getItem('terms')).warranty_guarantee_flag=='W'?'Warranty':'Guarantee'} Duration: {JSON.parse(localStorage.getItem('terms')).duration_val} {JSON.parse(localStorage.getItem('terms')).duration=='M'?'month(s)':JSON.parse(localStorage.getItem('terms')).duration=='D'?'day(s)':'year(s)'} 
+                {JSON.parse(localStorage.getItem('terms')).warranty_guarantee_flag=='W'?'Warranty':JSON.parse(localStorage.getItem('terms')).warranty_guarantee_flag=='G'?'Guarantee':''} {JSON.parse(localStorage.getItem('terms')).warranty_guarantee_flag!='N' && <span>Duration: {JSON.parse(localStorage.getItem('terms')).duration_val} {JSON.parse(localStorage.getItem('terms')).duration=='M'?'month(s)':JSON.parse(localStorage.getItem('terms')).duration=='D'?'day(s)':'year(s)'} </span>}
 
                 {/* ===================================================== */}
-                {JSON.parse(localStorage.getItem('terms')).comm_dt && ' from the date of commission'}
-                {JSON.parse(localStorage.getItem('terms')).comm_dt && JSON.parse(localStorage.getItem('terms')).dispatch_dt ? ' or from the date of dispatch':!JSON.parse(localStorage.getItem('terms')).comm_dt && !JSON.parse(localStorage.getItem('terms')).dispatch_dt?'':JSON.parse(localStorage.getItem('terms')).dispatch_dt?' from the date of dispatch.':''}
-                {JSON.parse(localStorage.getItem('terms')).comm_dt && JSON.parse(localStorage.getItem('terms')).dispatch_dt && ' ,whichever is earlier.'}
+                {JSON.parse(localStorage.getItem('terms')).warranty_guarantee_flag=='N' && <span>
+                {JSON.parse(localStorage.getItem('terms')).duration_val} {JSON.parse(localStorage.getItem('terms')).duration=='M'?'month(s)':JSON.parse(localStorage.getItem('terms')).duration=='D'?'day(s)':'year(s)'} from the date of commission or 
+                {JSON.parse(localStorage.getItem('terms')).duration_val_to} {JSON.parse(localStorage.getItem('terms')).duration=='M'?'month(s)':JSON.parse(localStorage.getItem('terms')).duration=='D'?'day(s)':'year(s)'}   from the date of dispatch ,whichever is earlier.
+                </span>
+}
 
                 
                 {/* <p className="block">

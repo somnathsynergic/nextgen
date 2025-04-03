@@ -449,7 +449,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         spinning={loading}
       >
         <div className="py-2 px-4 mx-auto w-full lg:py-2">
-          <h2 className="text-2xl text-green-900 font-bold my-3">
+          <h2 className="text-2xl text-green-900 font-bold my-1">
             Item Details
           </h2>
           <BlockUI blocked={blocked} className={"bg-red-500"}>
@@ -479,7 +479,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
 
             {itemList.map((input, index) => (
               <React.Fragment key={index}>
-                <div className="sm:col-span-2 flex gap-2 justify-end items-center my-3 mt-4">
+                <div className="sm:col-span-2 px-3 rounded-t-md bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center">
+                {/* <div className="sm:col-span-2 px-3 bg-green-900 py-2 flex gap-2 justify-end items-center"> */}
                   {localStorage.getItem("po_status") != "A" &&
                     localStorage.getItem("po_status") != "D" &&
                     localStorage.getItem("po_status") != "L" && (
@@ -540,8 +541,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     )}
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-12 sm:gap-6">
-                  <div className="sm:col-span-2 flex flex-col">
+                <div className="grid shadow-md bg-[#DDEAE0] p-2.5 px-3 rounded-b-md sm:grid-cols-12 sm:gap-6">
+                  <div className="sm:col-span-2 flex flex-col ">
                     {localStorage.getItem("po_status") != "A" && (
                       <a
                         className="ml-24 -mt-1 -mb-7"
@@ -552,7 +553,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         }}
                       >
                         <Tooltip title="Search item">
-                          <Tag className="ml-1 hover:scale-110 border-gray-100 hover:text-white  rounded-full w-8 h-8 flex justify-center items-center">
+                          <Tag className="ml-1 hover:scale-110 bg-[#DDEAE0] border-[#DDEAE0] hover:text-white  rounded-full w-8 h-8 flex justify-center items-center">
                             {" "}
                             <SearchOutlined className="text-green-900  font-bold text-lg hover:scale-95" />
                           </Tag>
@@ -589,7 +590,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       localStorage.getItem("po_status") != "L" && (
                         <div className="flex justify-between items-center">
                           <a
-                            className="my-2"
+                            className="my-1"
                             onClick={() => {
                               setMode(3);
                               setOpen(true);
@@ -617,7 +618,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       )}
                   </div>
 
-                  <div className="sm:col-span-2 flex flex-col">
+                  <div className="sm:col-span-2 flex flex-col items-start ">
                     <TDInputTemplate
                       placeholder="Quantity"
                       type="number"
@@ -656,7 +657,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         />
                       )}
                   </div>
-                  <div className="sm:col-span-2 flex flex-col">
+                  <div className="sm:col-span-2 flex flex-col ">
                     <TDInputTemplate
                       placeholder="Rate"
                       type="number"
@@ -793,7 +794,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       localStorage.getItem("po_status") != "D" &&
                       localStorage.getItem("po_status") != "L" && (
                         <a
-                          className="my-2"
+                          className="my-1"
                           onClick={() => {
                             setMode(5);
                             setOpen(true);
@@ -808,9 +809,9 @@ function ProductDetails({ pressBack, pressNext, data }) {
                   </div>
                   <div className="sm:col-span-2">
                     <TDInputTemplate
-                      placeholder="Unit price"
+                      placeholder="Net Unit price"
                       type="number"
-                      label="Unit price"
+                      label="Net Unit price"
                       formControlName={input.unit_price}
                       name="unit_price"
                       handleChange={(event) => handleDtChange(index, event)}
@@ -848,7 +849,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       {input.unit_price * input.qty * (input.CGST / 100) >
                         0 && (
                         <Tag
-                          className=" flex justify-center  w-1/2 px-2 my-2.5"
+                          className=" flex justify-center  w-1/2 px-2 my-2"
                           color="#eb8d00"
                         >
                           &#8377;{" "}
@@ -859,11 +860,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                           ).toFixed(2)}
                         </Tag>
                       )}
-                      {localStorage.getItem("po_status") != "A" &&
+                      {/* {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
                           <a
-                            className="my-2"
+                            className="my-1"
                             onClick={() => {
                               setMode(6);
                               setOpen(true);
@@ -874,7 +875,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               <PlusCircleOutlined /> Not in list?
                             </Tag>
                           </a>
-                        )}
+                        )} */}
                     </div>
                     {(input.CGST == "CGST" ||
                       input.CGST == "" ||
@@ -916,7 +917,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       {input.unit_price * input.qty * (input.SGST / 100) >
                         0 && (
                         <Tag
-                          className=" flex justify-center  w-1/2 px-2 my-2.5"
+                          className=" flex justify-center  w-1/2 px-2 my-2"
                           color="#eb8d00"
                         >
                           &#8377;{" "}
@@ -930,11 +931,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       {/* {formik.errors.price_basis_desc && formik.touched.price_basis_desc && (
                       <VError title={formik.errors.price_basis_desc} />
                     )} */}
-                      {localStorage.getItem("po_status") != "A" &&
+                      {/* {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
                           <a
-                            className="my-2"
+                            className="my-1"
                             onClick={() => {
                               setMode(6);
                               setOpen(true);
@@ -945,7 +946,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               <PlusCircleOutlined /> Not in list?
                             </Tag>
                           </a>
-                        )}
+                        )} */}
                     </div>
                   </div>
                   <div className="sm:col-span-2 flex flex-col">
@@ -990,7 +991,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
                           <a
-                            className="my-2"
+                            className="my-1"
                             onClick={() => {
                               setMode(6);
                               setOpen(true);

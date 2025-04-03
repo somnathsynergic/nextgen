@@ -715,7 +715,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               <BlockUI blocked={blocked} className={'bg-red-500'}>
         
         <div className="grid gap-4 sm:grid-cols-10 sm:gap-6">
-          <div className="sm:col-span-5">
+          <div className="sm:col-span-10">
             <TDInputTemplate
               placeholder="Price Basis"
               type="text"
@@ -742,7 +742,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 <VError title={formik.errors.price_basis_flag} />
               )}
           </div>
-          <div className="sm:col-span-5">
+          <div className="sm:col-span-10">
             {/* {pricePlace} */}
             <Popover
               content={
@@ -801,8 +801,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
               )}
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 my-10">
-          <div className="sm:col-span-2">
+        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 mt-4">
+          <div className={formik.values.packing_forwarding_val=='E'?"sm:col-span-2":"sm:col-span-6"}>
             <TDInputTemplate
               placeholder="Packing & Forwarding"
               type="number"
@@ -947,7 +947,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.pf_cgst > 0 &&
                   formik.values.pf_cgst != "CGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -993,7 +993,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.pf_sgst > 0 &&
                   formik.values.pf_sgst != "SGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1041,7 +1041,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.pf_igst > 0 &&
                   formik.values.pf_igst != "IGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1146,7 +1146,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 <VError title={formik.errors.packing_forwarding_extra_val} />
               )} */}
           </div>
-          <div className="sm:col-span-3">
+          <div className={formik.values.packing_forwarding_val=='E'?"sm:col-span-6":"sm:col-span-6 -mt-12"}>
             <TDInputTemplate
               placeholder="Freight"
               type="text"
@@ -1202,7 +1202,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             open={popfrOpen}
             onOpenChange={handlefrOpenChange}
           >
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-6">
               <TDInputTemplate
                 placeholder="Freight Description"
                 type="text"
@@ -1228,7 +1228,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </Popover>
           {/*  */}
         </div>
-        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 my-10">
+        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 mt-4">
           <div className="sm:col-span-3">
             {formik.values.freight_insurance == "E" && (
               <TDInputTemplate
@@ -1347,7 +1347,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.freight_cgst > 0 &&
                   formik.values.freight_cgst != "CGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1391,7 +1391,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.freight_sgst > 0 &&
                   formik.values.freight_sgst != "SGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1437,7 +1437,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.freight_igst > 0 &&
                   formik.values.freight_igst != "IGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1529,8 +1529,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
               )} */}
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 my-10">
-          <div className="sm:col-span-3">
+        <div className={formik.values.freight_insurance=='E'?"grid gap-4 sm:grid-cols-6 sm:gap-6 mt-4":"grid gap-4 sm:grid-cols-6 sm:gap-6 -mt-4"}>
+          <div className="sm:col-span-6">
             <TDInputTemplate
               placeholder="Insurance"
               type="text"
@@ -1586,7 +1586,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               open={popinsOpen}
               onOpenChange={handleinsOpenChange}
             >
-              <div className="sm:col-span-3">
+              <div className="sm:col-span-6">
                 <TDInputTemplate
                   placeholder="Insurance Description"
                   type="text"
@@ -1614,7 +1614,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
           )}
           {/*  */}
         </div>
-        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 my-10">
+        <div className="grid gap-4 sm:grid-cols-6 sm:gap-6 mt-6">
           <div className="sm:col-span-3">
             {formik.values.insurance == "Y" && (
               <TDInputTemplate
@@ -1731,7 +1731,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.ins_cgst > 0 &&
                   formik.values.ins_cgst != "CGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1775,7 +1775,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.ins_sgst > 0 &&
                   formik.values.ins_sgst != "SGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1821,7 +1821,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 {formik.values.ins_igst > 0 &&
                   formik.values.ins_igst != "IGST" && (
                     <Tag
-                      className=" flex justify-center  w-1/2 px-2 my-2.5"
+                      className=" flex justify-center  w-1/2 px-2 my-2"
                       color="#eb8d00"
                     >
                       &#8377;{" "}
@@ -1911,8 +1911,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
               )} */}
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-10 sm:gap-6 my-10">
-          <div className="sm:col-span-5">
+        <div className={formik.values.insurance=='Y'?"grid gap-4 sm:grid-cols-10 sm:gap-6 mt-4" : "grid gap-4 sm:grid-cols-10 sm:gap-6 -mt-6"} >
+          <div className="sm:col-span-10">
             <TDInputTemplate
               placeholder="Test Certificate"
               type="text"
@@ -1968,7 +1968,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             open={poptcOpen}
             onOpenChange={handletcOpenChange}
           >
-            <div className="sm:col-span-5">
+            <div className="sm:col-span-10">
               {formik.values.test_certificate == "Y" && (
                 <TDInputTemplate
                   placeholder="Test Certificate Description"
@@ -1995,8 +1995,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 )}
             </div>
           </Popover>
-
-          <div className="sm:col-span-2">
+          <div className={ formik.values.test_certificate == "Y"?"sm:col-span-2":"sm:col-span-2 -mt-5"}>
             <TDInputTemplate
               placeholder="LD applicable date"
               type="date"
@@ -2028,7 +2027,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </div>
           <div className="sm:col-span-2"></div>
 
-          <div className="sm:col-span-2">
+          <div className={ formik.values.test_certificate == "Y"?"sm:col-span-2":"sm:col-span-2 -mt-5"}>
             <TDInputTemplate
               placeholder="LD value applied on"
               type="text"
@@ -2058,7 +2057,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             )}
           </div>
           <div className="sm:col-span-2"></div>
-          <div className="sm:col-span-2">
+          <div className={ formik.values.test_certificate == "Y"?"sm:col-span-2":"sm:col-span-2 -mt-5"}>
             <TDInputTemplate
               placeholder="LD value (%)"
               type="number"
@@ -2193,7 +2192,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 )}
             </div>
           </Popover>
-          <div className="sm:col-span-10">
+          <div className={ formik.values.ld_applicable_date == "O" || formik.values.ld_applied_on == "O" ?"sm:col-span-10":"sm:col-span-10 -mt-10"}>
             <TDInputTemplate
               placeholder="Maximum % on PO value"
               type="number"
@@ -2225,8 +2224,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label="Warranty/Guarantee"
               name="warranty_guarantee_flag"
               data={[
-                { code: "W", name: "Warranty" },
                 { code: "N", name: "None" },
+                { code: "W", name: "Warranty" },
                 { code: "G", name: "Guarantee" },
               ]}
               disabled={

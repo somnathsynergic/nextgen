@@ -392,7 +392,7 @@ function PurchaseOrderForm() {
         warehouse_flag: localStorage.getItem("ware_house_flag")
           ? localStorage.getItem("ware_house_flag")
           : "N",
-          del_flag: localStorage.getItem('delFlag'),
+        del_flag: localStorage.getItem('delFlag')||'',
         po_notes: localStorage.getItem("notes"),
         mdcc: localStorage.getItem("mdcc_flag"),
         mdcc_scope: localStorage.getItem("mdcc"),

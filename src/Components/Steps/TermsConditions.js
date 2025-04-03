@@ -375,7 +375,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
       .matches(/^[0-9]+$/, "Only whole numbers allowed"),
     duration_val_to: Yup.string().when("warranty_guarantee_flag", {
       is: "N",
-      then: () => Yup.string() .required("Duration value is required")
+      then: () => Yup.string().required("Duration value is required")
       .min(0, "Invalid value")
       .matches(/^[0-9]+$/, "Only whole numbers allowed"),
       otherwise: () => Yup.string(),
@@ -506,7 +506,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
       if (values.duration_val <= 0) {
         errors.duration_val = "Duration must be >0";
       }
-      if (values.duration_val_to <= 0) {
+      if (values.warranty_guarantee_flag=='N' && values.duration_val_to <= 0) {
         errors.duration_val_to = "Duration must be >0";
       }
       if (values.ld_value > values.po_min_value) {
@@ -698,6 +698,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
 
     if (formik.values.warranty_guarantee_flag == "N") {
       formik.values.duration = "M";
+      formik.values.dispatch_dt=true
+      formik.values.comm_dt=true
       // formik.values.ld_value = "";
       // formik.values.po_min_value = "";
     }
@@ -2322,11 +2324,11 @@ function TermsConditions({ pressNext, pressBack, data }) {
               <VError title={formik.errors.duration} />
             )}
           </div>
-       <div className="sm:col-span-5">
+       <div className={formik.values.warranty_guarantee_flag=='N'?"sm:col-span-2":"sm:col-span-5"}>
             <TDInputTemplate
-              placeholder={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'From'}
+              placeholder={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'Commission Date'}
               type="text"
-              label={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'From'}
+              label={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'Commission Date'}
               name="duration_val"
               disabled={
                 localStorage.getItem("amend_flag") == "Y" ||
@@ -2346,11 +2348,11 @@ function TermsConditions({ pressNext, pressBack, data }) {
             )}
           </div>
 
-          {formik.values.warranty_guarantee_flag=='N' && <div className="sm:col-span-5">
+          {formik.values.warranty_guarantee_flag=='N' && <div className="sm:col-span-2">
             <TDInputTemplate
-              placeholder='To'
+              placeholder='Dispatch Date'
               type="text"
-              label="To"
+              label="Dispatch Date"
               name="duration_val_to"
               disabled={
                 localStorage.getItem("amend_flag") == "Y" ||
@@ -2396,7 +2398,33 @@ function TermsConditions({ pressNext, pressBack, data }) {
               <VError title={formik.errors.om_manual_flag} />
             )}
           </div>
-
+         
+          <div className="sm:col-span-5">
+            <TDInputTemplate
+              placeholder="Operation/Installation"
+              type="text"
+              label="Operation/Installation"
+              name="oi_flag"
+              data={[
+                { name: "Applicable", code: "A" },
+                { name: "Not Applicable", code: "NA" },
+              ]}
+              formControlName={formik.values.oi_flag}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              mode={2}
+              disabled={
+                localStorage.getItem("po_status") == "A" ||
+                localStorage.getItem("po_status") == "D" ||
+                localStorage.getItem("po_status") == "L"
+                  ? true
+                  : false
+              }
+            />
+            {formik.errors.oi_flag && formik.touched.oi_flag && (
+              <VError title={formik.errors.oi_flag} />
+            )}
+          </div>
           <div className="sm:col-span-5">
             <Popover
               content={
@@ -2454,32 +2482,6 @@ function TermsConditions({ pressNext, pressBack, data }) {
             </Popover>
           </div>
           <div className="sm:col-span-5">
-            <TDInputTemplate
-              placeholder="Operation/Installation"
-              type="text"
-              label="Operation/Installation"
-              name="oi_flag"
-              data={[
-                { name: "Applicable", code: "A" },
-                { name: "Not Applicable", code: "NA" },
-              ]}
-              formControlName={formik.values.oi_flag}
-              handleChange={formik.handleChange}
-              handleBlur={formik.handleBlur}
-              mode={2}
-              disabled={
-                localStorage.getItem("po_status") == "A" ||
-                localStorage.getItem("po_status") == "D" ||
-                localStorage.getItem("po_status") == "L"
-                  ? true
-                  : false
-              }
-            />
-            {formik.errors.oi_flag && formik.touched.oi_flag && (
-              <VError title={formik.errors.oi_flag} />
-            )}
-          </div>
-          <div className="sm:col-span-5">
             <Popover
               content={
                 <>
@@ -2534,7 +2536,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
               )}
             </Popover>
           </div>
-          <div className="sm:col-span-5">
+         
+          <div className="sm:col-span-5 -mt-3">
             <TDInputTemplate
               placeholder="Packing type"
               type="text"
@@ -2563,33 +2566,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               <VError title={formik.errors.packing_type} />
             )}
           </div>
-
-          <div className="sm:col-span-5">
-            {formik.values.packing_type == "O" && (
-              <TDInputTemplate
-                placeholder="Packing type description"
-                type="text"
-                label="Packing Type Description"
-                name="packing_val"
-                formControlName={formik.values.packing_val}
-                handleChange={formik.handleChange}
-                handleBlur={formik.handleBlur}
-                disabled={
-                  localStorage.getItem("po_status") == "A" ||
-                  localStorage.getItem("po_status") == "D" ||
-                  localStorage.getItem("po_status") == "L"
-                    ? true
-                    : false
-                }
-                mode={3}
-              />
-            )}
-
-            {formik.errors.packing_val && formik.touched.packing_val && (
-              <VError title={formik.errors.packing_val} />
-            )}
-          </div>
-          <div className="sm:col-span-5">
+          <div className="sm:col-span-5 -mt-3">
             <TDInputTemplate
               placeholder="Manufacture Clearance"
               type="text"
@@ -2616,7 +2593,36 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 <VError title={formik.errors.manufacture_clearance} />
               )}
           </div>
-          <div className="sm:col-span-5">
+          
+          <div className="sm:col-span-5 ">
+            {formik.values.packing_type == "O" && (
+              <TDInputTemplate
+                placeholder="Packing type description"
+                type="text"
+                label="Packing Type Description"
+                name="packing_val"
+                formControlName={formik.values.packing_val}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                disabled={
+                  localStorage.getItem("po_status") == "A" ||
+                  localStorage.getItem("po_status") == "D" ||
+                  localStorage.getItem("po_status") == "L"
+                    ? true
+                    : false
+                }
+                mode={3}
+              />
+            )}
+
+            {formik.errors.packing_val && formik.touched.packing_val && (
+              <VError title={formik.errors.packing_val} />
+            )}
+          </div>
+
+          
+         
+          <div className="sm:col-span-5 ">
             <Popover
               content={
                 <>

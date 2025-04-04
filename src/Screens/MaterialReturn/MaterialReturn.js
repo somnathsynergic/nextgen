@@ -42,6 +42,7 @@ function MaterialReturn() {
   const op = useRef(null);
   const op1 = useRef(null);
   const det = JSON.parse(localStorage.getItem("perm"));
+  const [type,setType] = useState('W');
 
   const [reportData, setReportData] = useState([]);
   const [reportDataCopy, setReportDataCopy] = useState([]);
@@ -131,7 +132,7 @@ function MaterialReturn() {
     axios
       .post(url + "/api/get_stock_return", {
         prod_id: prodCode,
-        proj_id: projcode,
+        proj_id: projcode||0,
       })
       .then((res) => {
         console.log(res);
@@ -171,7 +172,7 @@ function MaterialReturn() {
     axios
       .post(url + "/api/save_stock_return", {
         items: reportDataCopy,
-        proj_id: projcode,
+        proj_id: projcode || 0,
         item_id: prodCode,
         dt: dt,
         user: localStorage.getItem("email"),
@@ -266,6 +267,24 @@ function MaterialReturn() {
 
                     {!dt ? <VError title={"Required"} /> : null}
                   </div>
+                  <div className="sm:col-span-1">
+                    <TDInputTemplate
+                      placeholder="Type"
+                      type="date"
+                      label="Type"
+                      name="type"
+                      formControlName={type}
+                      // disabled={true}
+                      handleChange={(txt) =>{setType(txt.target.value);  setProject("");
+                        setProjCode(0);
+                        setProjId();}}
+                      mode={2}
+                     data={[{code:'W',name:'Warehouse'},{code:'P',name:'Project'}]}
+                    />
+
+                    {!dt ? <VError title={"Required"} /> : null}
+                  </div>
+                 {type!='W' &&
                   <div
                     className={"sm:col-span-1 flex-col justify-end items-end "}
                   >
@@ -350,7 +369,8 @@ function MaterialReturn() {
                       </span>
                     )}
                   </div>
-                  <div className="sm:col-span-2">
+}
+                  <div className={type=='W'?"sm:col-span-2":"sm:col-span-1"}>
                     <TDInputTemplate
                       placeholder="Search by item, part no., model no., article no., make..."
                       type="text"
@@ -476,7 +496,7 @@ function MaterialReturn() {
               </form>
               <div className="flex justify-center items-center">
                 <button
-                  disabled={!dt || !prodCode || !projcode}
+                  disabled={!dt || !prodCode || (type=='P' && !projcode) || !type}
                   type="submit"
                   className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                   onClick={() => onSubmit()}
@@ -594,7 +614,7 @@ function MaterialReturn() {
                   <div className="flex justify-center items-center">
                     <button
                       disabled={
-                        !dt || !prodCode || !projcode || det.requisition == 1 
+                        !dt || !prodCode || det.requisition == 1 
                         // || 
                         // reportDataCopy.filter(item=>item.qty<item.ret_qty).length>0
                       }

@@ -199,7 +199,7 @@ function VendorMaster({onClose,onLoading}) {
     v_phone: Yup.string()
       .required("Phone is required")
       .length(10, "Must be 10 digits!")
-      .matches(/^[2-9]{2}[0-9]{8}$/, "Invalid phone no."),
+      .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
     v_email: Yup.string()
       // .required("Email is required")
       .email("Incorrect format!"),

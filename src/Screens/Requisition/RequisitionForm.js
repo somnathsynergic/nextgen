@@ -247,7 +247,7 @@ function RequisitionForm() {
     ][event.target.name] = event.target.value;
     if (
       // data[index]["rc_qty"] < data[index]["req_qty"] ||
-      data[index]["stock"] < data[index]["req_qty"] ||
+      data[index]["req_qty_copy"] < data[index]["req_qty"] ||
       data[index]["req_qty"] < 0 ||
       data[index]["copy_qty"]
     ) {
@@ -559,7 +559,8 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty:(i.tot_rc_qty - i.tot_req),
+                req_qty_copy:(i.tot_rc_qty - i.tot_req),
+                req_qty:"",
                 // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
                 stock: intended!='W' ?i.project_stock:i.warehouse_stock,
               });
@@ -576,7 +577,9 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty:(i.tot_rc_qty - i.tot_req),
+
+                  req_qty_copy:(i.tot_rc_qty - i.tot_req),
+                  req_qty:"",
 
                 // req_qty: i.tot_rc_qty,
                 // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
@@ -737,7 +740,7 @@ function RequisitionForm() {
           // req_type: type,
           client_id: clientcode || 0,
           purpose: purpose,
-          items: itemDtlsForm,
+          items: itemDtlsForm.map(item => ({sl_no: item.sl_no, item_id: item.item_id, req_qty: item.req_qty||0,rc_qty:item.rc_qty,stock:item.stock})), //itemDtlsForm,
           in_out_flag: -1,
         })
         .then((res) => {
@@ -1065,7 +1068,12 @@ function RequisitionForm() {
                                   >
                                     Received Quantity
                                   </th>
-
+                                 {params.id==0 && <th
+                                    scope="col"
+                                    className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
+                                  >
+                                    Max. Requisitory Quantity
+                                  </th>}
                                   <th
                                     scope="col"
                                     className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
@@ -1180,6 +1188,13 @@ function RequisitionForm() {
                                   >
                                     {item.rc_qty}
                                   </td>
+                                 {params.id==0 && <td
+                                    scope="row"
+                                    className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                                  >
+                                    {item.req_qty_copy}
+                                  </td>
+}
                                   <td className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white">
                                     <TDInputTemplate
                                       placeholder="Quantity"

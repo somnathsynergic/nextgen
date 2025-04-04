@@ -497,16 +497,16 @@ function ApproveMrn() {
                       }} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
-                          class="px-3 py-4 w-1/3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          class="px-6 py-4 w-1/3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                         {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
                         {item.sl_no}
                         </th>
                         {/* <td class="px-6 py-4 w-1/3 text-green-900 font-bold">{item.po_no}</td> */}
-                        <td class="px-6 py-4 w-1/3 text-green-900 font-bold">{item.mrn_no}</td>
-                        <td class="px-6 py-4 w-1/3 text-gray-600 font-bold">{item.invoice}</td>
+                        <td class="px-4 py-4 w-1/3 text-green-900 font-bold">{item.mrn_no}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600 font-bold">{item.invoice}</td>
 
-                        <td class="px-6 py-4 w-1/3">{item.approve_flag=='A'?
+                        <td class="px-4 py-4 w-1/3">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"
                          icon={<CheckCircleOutlined />}

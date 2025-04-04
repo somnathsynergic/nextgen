@@ -85,15 +85,17 @@ function Delivery({ pressBack, pressNext, data }) {
     setBlocked(det.po==1?true:false)
 
     setDeliveryAdd(
-      localStorage.getItem("order_type") == "G" 
-        ? localStorage.getItem('delFlag')=="1" ? "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1": "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
-        : data.delivery
+      // localStorage.getItem("order_type") == "G" 
+      //   ? localStorage.getItem('delFlag')=="1" ? "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1": "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+      //   : data.delivery
+        data.delivery
     );
     localStorage.setItem(
       "ship_to",
-      localStorage.getItem("order_type") == "G"
-        ?localStorage.getItem('delFlag')=="1" ? "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1": "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
-        : data.delivery
+      // localStorage.getItem("order_type") == "G"
+      //   ?localStorage.getItem('delFlag')=="1" ? "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1": "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+      //   : data.delivery
+       data.delivery
     );
     if (localStorage.getItem("order_type") == "G"){
       localStorage.setItem("ware_house_flag", "Y");
@@ -217,9 +219,9 @@ function Delivery({ pressBack, pressNext, data }) {
                 localStorage.setItem("ship_to", text.target.value);
               }}
               disabled={
-                localStorage.getItem("order_type") == "G" || (delValue==1||delValue==2)
-                  ? true
-                  : false ||
+                // localStorage.getItem("order_type") == "G" || (delValue==1||delValue==2)
+                //   ? true
+                //   : false ||
                     localStorage.getItem("amend_flag") == "Y" ||
                     localStorage.getItem("po_status") == "A" ||
                     localStorage.getItem("po_status") == "D" ||

@@ -29,6 +29,8 @@ function PoPreview({ data }) {
  const [po_no,setPoNo]=useState('')
  const [subTot,setSubTot]=useState('')
  const [totVal,setTotVal]=useState(0)
+ const [parent_po_dt,setParentPoDt] = useState('') 
+ const [first,...rest] = localStorage.getItem('ship_to')?.split(',')
   useEffect(()=>{
     
     axios.post(url+'/api/getvendor',{id:+localStorage.getItem('vendor_name')}).then(res=>{
@@ -88,7 +90,12 @@ function PoPreview({ data }) {
             axios.post(url+'/api/getpo',{id:localStorage.getItem('id')}).then(res=>{
                 console.log(res)
                 setPoNo(res?.data?.msg?.po_no)
+                axios.post(url+'/api/get_parent_po_date',{po_no:res?.data?.msg?.po_no}).then(resParent=>{
+                    console.log(resParent)
+                    setParentPoDt(resParent?.data?.msg[0]?.po_dt)
             setLoading(false)
+
+                })
 
             })
         
@@ -174,13 +181,14 @@ function PoPreview({ data }) {
           <div className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO No.: </span>  {po_no?po_no:''}</div>  
           <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {localStorage.getItem('po_issue_date')}</div>
          {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
-         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</div> }
+         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]} (Date: {parent_po_dt})</div> }
           {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
          
         </div>
         <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 items-end justify-end">
           <img src={IMG} className="sm:h-16 h-12" alt="Flowbite Logo" />
           <span className="my-5 mx-3 mb-5 text-xs">
+          <p>NextGen Automation Pvt Ltd,</p>
            <p>Unit - 102, 1st Floor, PS PACE 1/1A,</p> <p> Mahendra Roy Lane Kolkata
            700046 </p>
           <p> Ph-033 4068 6032/6450 0535</p> 
@@ -221,6 +229,7 @@ function PoPreview({ data }) {
   <div className="w-full px-3 py-1 mb-1  text-gray-50 font-semibold bg-green-500  border border-green-500 ">
           Bill To
       </div>
+      <p className="text-xs px-3 py-1 mt-1"> NextGen Automation Pvt Ltd</p> 
      <p className="text-xs px-3 py-1 mt-1"> Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata
       700046,GSTIN- 19AABCN5744L1Z1</p> <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p> <p className="text-xs  px-3 py-1"> Email: info@ngapl.com 
  </p> 
@@ -231,7 +240,8 @@ function PoPreview({ data }) {
   <div className="w-full px-3 py-1 mb-1  text-gray-50 font-semibold bg-green-500  border border-green-500 ">
           Ship To
       </div>
-      <p className="text-xs p-3">   {localStorage.getItem('ship_to')} </p>
+      <p className="text-xs py-1 px-3">  {first.trim()} </p>
+      <p className="text-xs -mt-1 p-3">   {rest.join(',').trim()} </p>
 
   </div>
 

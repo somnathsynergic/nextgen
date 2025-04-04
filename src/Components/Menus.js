@@ -30,6 +30,7 @@ import {
   SwapLeftOutlined,
   CloseCircleFilled,
   EnterOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -117,20 +118,20 @@ function Menus({ theme,data,shrink }) {
           disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
-        {
-          key: "masters:user",
-          icon: <UserAddOutlined />,
-          label: <Link  disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.USERS:'#'}>Company Users </Link>,
-          disabled:data?.masters=='0'|| data==undefined?true:false
+        // {
+        //   key: "masters:user",
+        //   icon: <UserAddOutlined />,
+        //   label: <Link  disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.USERS:'#'}>Company Users </Link>,
+        //   disabled:data?.masters=='0'|| data==undefined?true:false
 
-        },
-        {
-          key: "masters:permissions",
-          icon: <LockOpenOutlined />,
-          label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.PERMISSIONS:'#'}>Permissions</Link>,
-          disabled:data?.masters=='0'|| data==undefined?true:false
+        // },
+        // {
+        //   key: "masters:permissions",
+        //   icon: <LockOpenOutlined />,
+        //   label: <Link disabled={data?.masters=='0' || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.PERMISSIONS:'#'}>Permissions</Link>,
+        //   disabled:data?.masters=='0'|| data==undefined?true:false
 
-        },
+        // },
       ],
     },
     {
@@ -539,6 +540,70 @@ function Menus({ theme,data,shrink }) {
     ]
 
     },
+    {
+      label: "Users & Permissions",
+      key: "user-perm",
+      icon: <UsergroupAddOutlined /> ,
+      children: [
+        {
+          key: "masters:user",
+          icon: <UserAddOutlined />,
+          label: <Link to={routePaths.USERS}>Company Users </Link>,
+          // disabled:data?.masters=='0'|| data==undefined?true:false
+
+        },
+        {
+          key: "masters:permissions",
+          icon: <LockOpenOutlined />,
+          label: <Link to={routePaths.PERMISSIONS}>Permissions</Link>,
+          // disabled:data?.masters=='0'|| data==undefined?true:false
+
+        },
+        
+       
+       
+      ],
+      // children: [
+      //   {
+      //     // key: "client-order",
+      //     // icon: <UserOutlined />,
+      //     // label: <Link to={routePaths.CLIENTORDER}>Client Orders</Link>,
+      //     key: "master:projects",
+      //     icon: <UserSwitchOutlined />,
+      //     label: <Link to={routePaths.PROJECTS}>Client Orders</Link>,
+      //   },
+      //   {
+      //     label: <Link to={routePaths.PURCHASEORDER+'/P'}>Vendor Orders</Link>,
+      //     key: "purchase-order",
+      //     icon: <SolutionOutlined />,
+      //   },
+
+      //   {
+      //     label: <Link to={routePaths.EXISTINGORDER}>Existing Purchase Orders</Link>,
+      //     key: "existing-order",
+      //     icon: <CheckCircleOutlined />,
+      //   },
+      //   {
+      //     label: <Link to={routePaths.AMENDORDER}>Amend Purchase Orders</Link>,
+      //     key: "amend-order",
+      //     icon: <SignatureOutlined />,
+      //   },
+      //   {
+      //     // label: <Link to={routePaths.PURCHASEORDER+'/A'}>Approve Vendor Orders</Link>,
+      //     label: <Link to={routePaths.APPROVEORDER}>Approve Vendor Orders</Link>,
+      //     key: "approve-purchase-order",
+      //     icon: <CheckOutlined />,
+      //   },
+
+      //   // {
+      //   //   label: <Link to={routePaths.CANCELHOME}>Cancel Purchase Orders</Link>,
+      //   //   key: "cancel-purchase-order",
+      //   //   icon: <CloseCircleOutlined />,
+      //   // }
+
+      // ],
+    },
+
   ];
 
   return (

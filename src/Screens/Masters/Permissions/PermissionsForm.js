@@ -56,13 +56,15 @@ function PermissionsForm() {
     MIN1:false,
     MIN2:false,
     S1:false,
-    S2:false
+    S2:false,
+    UPERM1:false,
+    UPERM2:false,
   })
   const navigate = useNavigate();
   var countMaster = 0
   var countPurchase = 0
   useEffect(() => {
-    setBlocked(det.masters==1?true:false)
+    setBlocked(det.user_perm==1?true:false)
 
     setLoading(true);
     axios.post(url + "/api/getuser", { id: +params.id }).then((res) => {
@@ -96,6 +98,8 @@ function PermissionsForm() {
             MIN2:res?.data?.msg[0]?.min=="2"?true:false,
             S1:res?.data?.msg[0]?.stock=="1"?true:false,
             S2:res?.data?.msg[0]?.stock=="2"?true:false,
+            UPERM1:res?.data?.msg[0]?.user_perm=="1"?true:false,
+            UPERM2:res?.data?.msg[0]?.user_perm=="2"?true:false,
           }
 
           setPermissions(perm)
@@ -141,6 +145,7 @@ function PermissionsForm() {
         floor_req: permissions['R2'] ? "2" :permissions['R1'] ?"1":"0",
         min: permissions['MIN2'] ? "2" : permissions['MIN1']?"1":"0",
         stock: permissions['S2'] ? "2" : permissions['S1']?"1":"0",
+        user_perm: permissions['UPERM2'] ? "2" : permissions['UPERM1']?"1":"0",
         user: localStorage.getItem("email"),
       })
       .then((res) => {
@@ -280,6 +285,11 @@ function PermissionsForm() {
         <td class="px-4 py-2 border font-semibold bg-[#C4F1BE] text-green-900">Stock</td>
         <td class="px-4 py-2 border  text-center"><Checkbox id="S1" onChange={(e)=>onChangeIc(e)} checked={permissions['S1']}></Checkbox></td>
         <td class="px-4 py-2 border  text-center"><Checkbox id="S2" onChange={(e)=>onChangeIc(e)} checked={permissions['S2']}></Checkbox></td>
+      </tr>
+      <tr class="bg-gray-100">
+        <td class="px-4 py-2 border font-semibold bg-[#C4F1BE] text-green-900">Users & Permissions</td>
+        <td class="px-4 py-2 border  text-center"><Checkbox id="UPERM1" onChange={(e)=>onChangeIc(e)} checked={permissions['UPERM1']}></Checkbox></td>
+        <td class="px-4 py-2 border  text-center"><Checkbox id="UPERM2" onChange={(e)=>onChangeIc(e)} checked={permissions['UPERM2']}></Checkbox></td>
       </tr>
     </tbody>
   </table>

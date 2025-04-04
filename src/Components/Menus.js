@@ -548,15 +548,16 @@ function Menus({ theme,data,shrink }) {
         {
           key: "masters:user",
           icon: <UserAddOutlined />,
-          label: <Link to={routePaths.USERS}>Company Users </Link>,
+          label: <Link  disabled={data?.user_perm=='0' || data==undefined?true:false} to={data?.user_perm!='0' && data!=undefined?routePaths.USERS:'#'}>Company Users </Link>,
+        //   disabled:data?.masters=='0'|| data==undefined?true:false
           // disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         {
           key: "masters:permissions",
           icon: <LockOpenOutlined />,
-          label: <Link to={routePaths.PERMISSIONS}>Permissions</Link>,
-          // disabled:data?.masters=='0'|| data==undefined?true:false
+          label: <Link disabled={data?.user_perm=='0' || data==undefined?true:false} to={data?.user_perm!='0' && data!=undefined?routePaths.PERMISSIONS:'#'}>Permissions</Link>,
+        //   disabled:data?.masters=='0'|| data==undefined?true:false
 
         },
         

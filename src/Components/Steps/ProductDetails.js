@@ -1184,7 +1184,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         data={
           flag == 9
             ? { info: productInfo[0] }
-            : { info: products, infoCopy: products }
+            : { info: products?.filter(item =>!itemList.map(obj => +obj?.item_name).includes(item?.sl_no)), infoCopy: products?.filter(item =>!itemList.map(obj => +obj?.item_name).includes(item?.sl_no)) }
         }
         onPress={() => setVisible(false)}
         onSearch={(val) => {

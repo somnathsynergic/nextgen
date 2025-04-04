@@ -72,7 +72,7 @@ const UserAddForm = () => {
       }
       setTypes(types)
     })
-    setBlocked(det.masters==1?true:false)
+    setBlocked(det.user_perm==1?true:false)
 
   },[])
   const onSubmit = (values) => {

@@ -1102,7 +1102,9 @@ function PurchaseReqForm() {
         data={
           flag != 39
             ? flag != 40
-              ? { info: products, infoCopy: products }
+              ? { info:products?.filter(item =>!itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no))
+                , infoCopy: products?.filter(item =>!itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no)) }
+              // ? { info: products, infoCopy: products }
               : flag != 4
               ? item_info
               : prev_req

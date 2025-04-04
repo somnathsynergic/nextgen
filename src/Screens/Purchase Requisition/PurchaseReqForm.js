@@ -221,7 +221,9 @@ function PurchaseReqForm() {
           // setProjId(projectList.filter(e=>e?.code==+res?.data?.msg?.p_id)[0]?.proj_id)
           setProject(res?.data?.msg?.proj_name || "Warehouse");
           setIntended(res?.data?.msg?.intended);
-          setCreatedBy(res?.data?.msg?.created_by);
+          setCreatedBy(res?.data?.msg?.created_by);          
+          setPurpose(res?.data?.msg?.created_by);
+
           setModifiedBy(res?.data?.msg?.modified_by||'');
           setCreatedAt(res?.data?.msg?.created_at);
           setModifiedAt(res?.data?.msg?.modified_at||'');

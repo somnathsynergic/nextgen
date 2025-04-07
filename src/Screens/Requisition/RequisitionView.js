@@ -453,7 +453,7 @@ function RequisitionView() {
                         </Tag>
                         
                         }</td> */}
-                        <td class="px-6 py-4 text-gray-600">{item.created_by}</td>
+                        <td class="px-6 py-4 text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
                        {isPrinting && <td class="px-3 py-4 flex gap-3">
                         
                           <Link

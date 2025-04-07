@@ -336,7 +336,7 @@ function MinView() {
                       <td class="px-6 py-4 w-1/4 text-green-900 font-bold">{item.req_no}</td>
                       <td class="px-6 py-4 w-1/4 text-gray-600 text-wrap">{item?.proj_name?item?.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/4 text-gray-600">{item.req_date}</td>
-                      <td class="px-6 py-4 w-1/4 text-gray-600">{item.created_by}</td>
+                      <td class="px-6 py-4 w-1/4 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                       <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
                       
                         <Link

@@ -560,7 +560,7 @@ function ApproveRequisition() {
                         </th>
                         <td class="px-6 py-4 text-green-900 font-bold">{item.req_no}</td>
                         <td class="px-6 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                        <td class="px-6 py-4 text-gray-600">{item.req_date}</td>
+                        <td class="px-6 py-4 text-gray-600">{item.req_date}({item.created_at?.split('T')[1]})</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"

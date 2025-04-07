@@ -11,6 +11,8 @@ import Fab from '@mui/material/Fab';
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import { useReactToPrint } from "react-to-print";
+import { use } from "react";
+import moment from "moment";
 function PoPreview({ data }) {
  var tot=0
  const contentRef = useRef(null);
@@ -29,6 +31,8 @@ function PoPreview({ data }) {
  const [po_no,setPoNo]=useState('')
  const [subTot,setSubTot]=useState('')
  const [totVal,setTotVal]=useState(0)
+ const [vpoc,setvpoc]=useState([])
+ const [grandTotUnit,setGrandTotUnit] = useState('')
  const [parent_po_dt,setParentPoDt] = useState('') 
  const [first,...rest] = localStorage.getItem('ship_to')?.split(',')
   useEffect(()=>{
@@ -42,10 +46,13 @@ function PoPreview({ data }) {
         setVPhone(res?.data?.msg?.vendor_phone)
         setVGST(res?.data?.msg?.vendor_gst)
         setVPAN(res?.data?.msg?.vendor_pan)
+        axios.post(url+'/api/getvendorpoc',{id:+localStorage.getItem('vendor_name')}).then(resPoc=>{
+            setvpoc(resPoc?.data?.msg)
         axios.post(url+'/api/getpreviewitems',{id:+localStorage.getItem('id')}).then(resItems=>{
             console.log(resItems)
             tot=0
             setProdInfo(resItems?.data?.msg)
+            setGrandTotUnit(resItems?.data?.msg[0]?.currency)
             console.log(prodInfo)
             for(let item of resItems?.data?.msg){
                 if(item.sgst_id){
@@ -90,9 +97,9 @@ function PoPreview({ data }) {
             axios.post(url+'/api/getpo',{id:localStorage.getItem('id')}).then(res=>{
                 console.log(res)
                 setPoNo(res?.data?.msg?.po_no)
-                axios.post(url+'/api/get_parent_po_date',{po_no:res?.data?.msg?.po_no}).then(resParent=>{
+                axios.post(url+'/api/get_parent_po_date',{po_no:res?.data?.msg?.po_no||''}).then(resParent=>{
                     console.log(resParent)
-                    setParentPoDt(resParent?.data?.msg[0]?.po_dt)
+                    setParentPoDt(resParent?.data?.msg[0]?.po_issue_date)
             setLoading(false)
 
                 })
@@ -101,9 +108,51 @@ function PoPreview({ data }) {
         
         })
     })
+    })
     
   
   },[])
+  
+  const numberToWords = (num) => {
+    const a = [
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen',
+      'Seventeen', 'Eighteen', 'Nineteen'
+    ];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+  
+    const inWords = (n) => {
+      if (n < 20) return a[n];
+      if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');
+      if (n < 1000) return a[Math.floor(n / 100)] + ' Hundred' + (n % 100 ? ' ' + inWords(n % 100) : '');
+      if (n < 100000) return inWords(Math.floor(n / 1000)) + ' Thousand' + (n % 1000 ? ' ' + inWords(n % 1000) : '');
+      if (n < 10000000) return inWords(Math.floor(n / 100000)) + ' Lakh' + (n % 100000 ? ' ' + inWords(n % 100000) : '');
+      return inWords(Math.floor(n / 10000000)) + ' Crore' + (n % 10000000 ? ' ' + inWords(n % 10000000) : '');
+    };
+  
+    return num == 0 ? 'Zero' : inWords(Number(num));
+  };
+
+//   if (typeof num === 'string') num = parseFloat(num);
+//   if (isNaN(num)) return '';
+
+//   const [rupees, paise] = num.toFixed(2).split('.');
+
+//   let result = '';
+//   if (parseInt(rupees) > 0) result += getWords(parseInt(rupees)) + ' Rupees';
+//   if (parseInt(paise) > 0) result += (result ? ' and ' : '') + getWords(parseInt(paise)) + ' Paise';
+//   if (!result) result = 'Zero Rupees';
+
+//   return result + ' Only';
+// }
+  const formatNumber = (amount,currency) => {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount);
+  };
   function print() {
 
     var divToPrint = document.getElementById('divtoprint');
@@ -147,7 +196,7 @@ function PoPreview({ data }) {
     // <div className="h-full border-2 p-3 border-blue-300">
     <>
     <div className="flex gap-5 justify-end sticky top-0 z-10">
-    {localStorage.getItem('po_status')=='A' &&
+    {localStorage.getItem('po_status')!='P' &&
    //  <Fab color="success" size="small" aria-label="add" onClick={()=>print()}>
     <Fab color="success" size="small" aria-label="add" onClick={()=>reactToPrintFn()}>
        <PrinterOutlined />
@@ -170,18 +219,22 @@ function PoPreview({ data }) {
   >
       <div  id='divtoprint'> 
 
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
         {/* <span className="text-xl text-blue-500 font-extrabold  my-3 "> */}
-        <span className="text-xl text-green-500 font-extrabold mb-2 ">
+        <div className="text-xl text-green-500 font-extrabold mb-2 ">
           Purchase Order
-        </span>
+        </div>
+       {localStorage.getItem('po_status')=='U' &&  <div className="text-xs block text-red-500 font-extrabold mb-2 ">
+          Draft Copy
+        </div>
+}
       </div>
       <div className="grid grid-cols-12 items-center px-3 w-full">
       <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 ">
           <div className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO No.: </span>  {po_no?po_no:''}</div>  
-          <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {localStorage.getItem('po_issue_date')}</div>
-         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
-         {po_no?.split('-').length>2 &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]} (Date: {parent_po_dt})</div> }
+          <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">PO Date:</span>  {moment(localStorage.getItem('po_issue_date')).format('DD/MM/yyyy')}</div>
+         {po_no?.split('-').length>2 &&  parent_po_dt &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Amendement No.: </span>{po_no?.split('-')[2]} </div> }
+         {po_no?.split('-').length>2 && parent_po_dt &&  <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Parent PO: </span> {po_no?.split('-')[0]}-{po_no?.split('-')[1]} (Date: {moment(parent_po_dt).format('DD/MM/yyyy')})</div> }
           {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
          
         </div>
@@ -216,7 +269,9 @@ function PoPreview({ data }) {
          <div className="text-bold"> <span className=" font-bold text-green-700">GST:</span>  {v_gst}</div>
          <div className="text-bold"> <span className=" font-bold text-green-700"> PAN: </span> {v_pan}</div>
          <div className="text-bold"> <span className=" font-bold text-green-700"> Reference:</span>  {localStorage.getItem('vend_ref')}</div>
+         <div className="text-bold"> <span className=" font-bold text-xs text-green-700"> Vendor Contact Person(s):</span> <ul> {vpoc?.map(item=><li>{item?.poc_name},{item?.poc_email} {item?.poc_ph_1}{item?.poc_ph_2?'/'+item?.poc_ph_2:""} </li>)} </ul></div>
         </div>
+      
 
   </div>
 
@@ -273,19 +328,19 @@ function PoPreview({ data }) {
                     Rate
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                    Discount
+                    Discount 
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                   Net Unit Price
+                   Net Unit Price 
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                   CGST
+                   CGST 
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                   SGST
+                   SGST 
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
-                   IGST
+                   IGST 
                 </th>
                 <th scope="col" className="px-1 py-2 text-center border border-gray-300">
                    Total GST
@@ -300,55 +355,64 @@ function PoPreview({ data }) {
          {prodInfo?.length>0 && prodInfo?.map((item,index)=>
          <>
          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-         <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
+         <td className="px-1 py-1 text-[9px] text-center border border-gray-300" rowSpan={2}>
                     {index+1}
                 </td>
-                <td className="px-1 py-1 text-xs text-green-700 font-bold flex flex-col gap-1 text-nowrap text-sm text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-1 py-1 text-xs text-green-700 font-bold flex flex-col gap-1 text-wrap text-sm text-gray-900 whitespace-nowrap dark:text-white">
                     {item.prod_name}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {item.quantity}
+                <td className="px-1 py-1 text-[8px]  text-center border  text-nowrap border-gray-300" rowSpan={2}>
+                    {item.quantity} ({item.unit_name})
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                {item.item_rt}
+                <td className="px-1 py-1 text-[8px] text-center border border-gray-300" rowSpan={2}>
+                {parseFloat(item.item_rt).toFixed(2)}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {item.discount} ({item.discount_percent}%)
+                <td className="px-1 py-1 text-[8px] text-center border border-gray-300" rowSpan={2}>
+                    {item.discount} {item.discount?'('+parseFloat(item.discount_percent)?.toFixed(2)+'%)':''}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {+item.item_rt-(+item.discount)}
+                <td className="px-1 py-1 text-[8px] text-center border border-gray-300" rowSpan={2}>
+                    {/* {parseFloat(+item.item_rt-(+item.discount))?.toFixed(2)} */}
+                    {parseFloat(+item.item_rt-(+item.discount))?.toFixed(2)}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {item.cgst_id>0? ((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100)).toFixed(2):''} {item.cgst_id>0?'('+item.cgst_id+'%)':''}
+                <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300" rowSpan={2}>
+                    {item.cgst_id>0? formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
+                    {/* {+item.cgst_id>0?item?.currency=='I'?'(₹)':item?.currency=='U'?'($)':'(€)':''} */}
+                    {item.cgst_id>0?'('+item.cgst_id+'%)':''}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                      {item.sgst_id>0?(((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)).toFixed(2):''} {item.sgst_id>0?'('+item.sgst_id+'%)':''}
+                <td className="px-1 py-1 text-[8px] text-center border text-nowrap border-gray-300" rowSpan={2}>
+                      {item.sgst_id>0?formatNumber((((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
+                      {/* {+item.sgst_id>0?item?.currency=='I'?'(₹)':item?.currency=='U'?'($)':'(€)':''} */}
+                       {item.sgst_id>0?'('+item.sgst_id+'%)':''}
                 </td>
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                      {+item.igst_id>0?((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)).toFixed(2):''} {item.igst_id>0?'('+item.igst_id+'%)':''}
+                <td className="px-1 py-1 text-[8px] text-center border text-nowrap border-gray-300" rowSpan={2}>
+                      {+item.igst_id>0?formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
+                      {/* {+item.igst_id>0?item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)':''}  */}
+                      {item.igst_id>0?'('+item.igst_id+'%)':''}
                 </td>
 
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300 " rowSpan={2}>
+                <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300 " rowSpan={2}>
                 
-                {item.sgst_id>0?(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)).toFixed(2):((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2)}
+                {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'))}
+                 {/* {item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)'} */}
                 </td>
                
                
-                <td className="px-1 py-1 text-[11px] text-center border border-gray-300" rowSpan={2}>
-                    {item.sgst_id>0?(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2):((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)).toFixed(2)}
+                <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300" rowSpan={2}>
+                    {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)+((item.item_rt-item.discount)*item.quantity)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR')} 
+                    {/* {item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)'} */}
                 </td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <td className="px-1 text-[10px]">
+            <td className="px-1 text-[7px]">
             {item.prod_make && <><span className="font-bold text-green-700">Make:</span> {item.prod_make}, </> }
             {item.catg_name &&  <><span className="font-bold text-green-700">Category:</span> {item.catg_name}, </> }
-            {item.unit_name &&   <> <span className="font-bold text-green-700">UOM:</span> {item.unit_name},</> }
+            {/* {item.unit_name &&   <> <span className="font-bold text-green-700">UOM:</span> {item.unit_name},</> } */}
             {item.part_no &&   <> <span className="font-bold text-green-700">Part No./Type No.:</span> {item.part_no}, </>}
             {item.model_no &&    <><span className="font-bold text-green-700">Model No.:</span> {item.model_no}, </> }
             {item.article_no &&   <> <span className="font-bold text-green-700">Article No.:</span> {item.article_no},</> }
             {item.hsn_code &&  <><span className="font-bold text-green-700">HSN:</span> {item.hsn_code}, </>}
             {item.prod_desc &&   <><span className="font-bold text-green-700">Desc:</span> {item.prod_desc}, </>}
-            <><span className="font-bold text-green-700">Delivery from:</span> {item.delivery_dt} <span className="font-bold text-green-700">to </span> {item.delivery_to} </>
+            <><span className="font-bold text-green-700">Delivery from:</span> {moment(item.delivery_dt).format('DD/MM/yyyy')} <span className="font-bold text-green-700">to </span> {moment(item.delivery_to).format('DD/MM/yyyy')} </>
 
             </td>
         </tr> 
@@ -357,12 +421,16 @@ function PoPreview({ data }) {
         )}
           
         </tbody>
-        <tfoot>
-            <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" class="px-10 py-1 text-md text-green-700 font-bold" colSpan={10}>Grand Total</th>
-                <th class="px-1 py-1 text-md font-bold text-green-700">{grandTot}</th>
+        {/* <tfoot> */}
+            <tr class="font-semibold text-gray-900 dark:text-white py-3">
+                <th scope="row" class="px-10 py-1  pb-3 text-[12px] text-green-700 font-bold" colSpan={7}>Grand Total</th>
+                <th class=" pb-3 py-1 text-[12px]  font-bold text-wrap text-green-700 text-nowrap" colspan={3}>{formatNumber(grandTot,grandTotUnit=='I'?'INR':grandTotUnit=='U'?'USD':'EUR')} ({numberToWords(grandTot)} only)
+                {/* item?.currency=='I'?'₹':item?.currency=='U'?'$':'€':'' */}
+                    {/* ({grandTotUnit=='I'?'₹':grandTotUnit=='U'?'$':'€'}) */}
+                    
+                    </th>
             </tr>
-        </tfoot>
+        {/* </tfoot> */}
     </table>
 </div>
      
@@ -378,7 +446,7 @@ function PoPreview({ data }) {
        
           </div>
           <ul className=" space-y-1 text-gray-700 p-2 list-disc  list-inside dark:text-gray-400">
-       { JSON.parse(localStorage.getItem('termList'))?.length>0 && JSON.parse(localStorage.getItem('termList'))?.map(item=> <li className="text-[10px]">
+       { JSON.parse(localStorage.getItem('termList'))?.length>0 && JSON.parse(localStorage.getItem('termList'))?.map(item=> <li className="text-xs">
         {item.term}
     </li>)}
    
@@ -661,7 +729,7 @@ function PoPreview({ data }) {
       </Spin>
 
     </div>
-    <p className="text-[9px] text-black font-bold">This is a computer generated purchase order. No signature is required.</p>
+    <p className="text-[11px] text-black font-bold">This is a computer generated purchase order. No signature is required.</p>
 
     </div>
     </>

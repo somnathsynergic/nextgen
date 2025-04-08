@@ -163,7 +163,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         ]
   );
   useEffect(() => {
-    setBlocked(det.po == 1 ? true : false);
+    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
     console.log(data.itemList);
     if (data?.itemList?.length) {

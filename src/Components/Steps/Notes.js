@@ -12,7 +12,7 @@ const [notes,setNotes]=useState(data.notes?data.notes:'')
   const [blocked, setBlocked] = useState(false);
   const det = JSON.parse(localStorage.getItem('perm'))
 useEffect(()=>{
-  setBlocked(det.po==1?true:false)
+  setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
 },[])
   return (

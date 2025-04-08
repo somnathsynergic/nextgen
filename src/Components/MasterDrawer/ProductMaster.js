@@ -69,7 +69,7 @@ function ProductMaster({onClose,onLoading}) {
     // cat_id: Yup.string().required("Category is required"),
     cat_id: Yup.string().required("Category is required"),
     prodnm: Yup.string().required("Product description is required"),
-    hsn_code: Yup.string().required("HSN Code is required").matches(/^[0-9.-]*$/,'Invalid HSN'),
+    // hsn_code: Yup.string().required("HSN Code is required").matches(/^[0-9.-]*$/,'Invalid HSN'),
     prod_make: Yup.string().required("Product make is required"),
     // stk_cnt: Yup.number().min(1),
   });

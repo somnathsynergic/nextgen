@@ -98,7 +98,7 @@ function StockIn() {
            
         //   });
         axios
-        .post(url + "/api/get_logical_stock_req", { prod_id: prodCode, proj_id: type=='P'?projcode:0 })
+        .post(url + "/api/get_logical_stock_req", { prod_id: prodCode||0, proj_id: type=='P'?projcode:0 })
         .then((res) => {
           console.log(res);
           setReportData(res?.data)
@@ -176,7 +176,11 @@ function StockIn() {
                   name="type"
                   formControlName={type}
                   // disabled={true}
-                  handleChange={txt=>setType(txt.target.value)}
+                  handleChange={txt=>{setType(txt.target.value);
+                    if(txt.target.value!=='P')
+                      setProjCode(0)
+                    setProject('')
+                  }}
                   mode={2}
                  data={[{code:'W',name:'Warehouse'},{code:'P',name:'Project'}]}
                 />
@@ -354,7 +358,7 @@ function StockIn() {
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           {/* <Tag color="#014737">Warehouse quantity of this product: {reportData[0].warehouse_stock || 0}</Tag> */}
           
-      <StockInViewComp data={reportData} headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2}/>
+      <StockInViewComp data={reportData}  headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2}/>
           </div>
         </div>
 

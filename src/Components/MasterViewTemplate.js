@@ -33,8 +33,10 @@ function MasterViewTemplate({templateData,template,_url,to}) {
       // setDataSet1(res.data.msg.filter(e=>e.manager_email==localStorage.getItem('email')))
       // }
       // else if(localStorage.getItem('user_type')=='5'){
-        setDataSet(res.data.msg.filter(e=>e.manager_email==localStorage.getItem('email')))
-      setDataSet1(res.data.msg.filter(e=>e.manager_email==localStorage.getItem('email')))
+        // setDataSet(res.data.msg.filter(e=>e.manager_email==localStorage.getItem('email')))
+        setDataSet(res.data.msg)
+      // setDataSet1(res.data.msg.filter(e=>e.manager_email==localStorage.getItem('email')))
+      setDataSet1(res.data.msg)
 
       // }
       }

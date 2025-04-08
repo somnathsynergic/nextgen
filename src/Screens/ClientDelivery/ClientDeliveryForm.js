@@ -133,7 +133,7 @@ function ClientDeliveryForm() {
     setBlocked(det.mrn == 1 ? true : false);
 
     setLoading(true);
-    axios.post(url + "/api/getpoinfo", { id: params.po_no }).then((res) => {
+    axios.post(url + "/api/getpoinfo", { id: decodeURIComponent(params.po_no) }).then((res) => {
       console.log(res);
       setId(res?.data?.msg[0]?.sl_no);
       setProjectId(res?.data?.msg[0]?.project_id);
@@ -158,7 +158,7 @@ function ClientDeliveryForm() {
           }
           setItemDelivery(itemDelivery);
           axios
-            .post(url + "/api/get_vtoc_invoice_list", { po_no: params.po_no })
+            .post(url + "/api/get_vtoc_invoice_list", { po_no:  decodeURIComponent(params.po_no) })
             .then((res) => {console.log(res)
               setInvList(res?.data?.msg)
             });
@@ -190,7 +190,7 @@ function ClientDeliveryForm() {
     setItemId(item_id);
     axios
       .post(url + "/api/getprevdelno", {
-        po_no: params.po_no,
+        po_no:  decodeURIComponent(params.po_no),
         item_id: item_id,
       })
       .then((res) => {
@@ -252,7 +252,7 @@ function ClientDeliveryForm() {
     setLoading(true);
     axios
       .post(url + "/api/add_v_to_c", {
-        po_no: params.po_no,
+        po_no:  decodeURIComponent(params.po_no),
         project_id: project_id,
         items: itemDelivery.filter((e) => e.mrn_qty != 0),
         user: localStorage.getItem("email"),
@@ -328,11 +328,11 @@ function ClientDeliveryForm() {
                     type="text"
                     label="PO"
                     name="po"
-                    formControlName={params.po_no}
+                    formControlName={ decodeURIComponent(params.po_no)}
                     disabled={true}
                     mode={1}
                   />
-                  {params.po_no && (
+                  { decodeURIComponent(params.po_no) && (
                     <div className="flex justify-between gap-2">
                       <Viewdetails
                         click={() => {
@@ -798,7 +798,7 @@ function ClientDeliveryForm() {
                             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
                               <td
                                 scope="row"
-                                className="px-4 max-w-1.5 w-1/6 py-1.5 flex justify-between gap-5 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                                className="px-4 w-1/6  py-1.5 flex justify-between gap-5 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
                               >
                                 {item.prod_name}
                               </td>
@@ -900,7 +900,7 @@ function ClientDeliveryForm() {
         id={id}
         onPress={() => setVisible(false)}
         data={{
-          po_no: params.po_no,
+          po_no:  decodeURIComponent(params.po_no),
           del_date: del_date,
           remarks: remarks,
           del_no: delNo,
@@ -929,7 +929,7 @@ function ClientDeliveryForm() {
         onDelete={() => {
           axios
             .post(url + "/api/delete_vtoc", {
-              po_no: params.po_no,
+              po_no:  decodeURIComponent(params.po_no),
               id: index,
               del_no: delNo,
               item_id: item_id,

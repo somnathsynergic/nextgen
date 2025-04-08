@@ -39,7 +39,7 @@ function StockInViewComp({
     const reactToPrintFn = useReactToPrint({
       contentRef,
     });
-  console.log(data);
+  console.log(data,proj_id);
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
@@ -148,12 +148,19 @@ function StockInViewComp({
         <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
           <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th
+             {proj_id!=0 && <th
                 scope="col"
                 className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold"
               >
                 Project Quantity
+              </th>}
+             {proj_id==0 && <th
+                scope="col"
+                className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold"
+              >
+                Warehouse Quantity
               </th>
+}
 
               <th
                 scope="col"
@@ -166,35 +173,46 @@ function StockInViewComp({
                 scope="col"
                 className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold"
               >
-                Warehouse Quantity
+                Free For Requisition 
               </th>
+
+              
             </tr>
           </thead>
           <tbody>
             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
-              <td
+             {proj_id!=0 && <td
                 scope="row"
                 className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {data?.project_stock || 0}
-              </td>
+              </td>}
+              {proj_id==0 && <td
+                  scope="row"
+                  className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {data?.warehouse_stock || 0}
+                </td>
+}
               <td
                 scope="row"
                 className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {data?.req_stock - data?.del_stock || 0}
               </td>
+
               <td
                 scope="row"
                 className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
-                <td
-                  scope="row"
-                  className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {data?.warehouse_stock || 0}
-                </td>
+                {proj_id!=0?data?.req_stock - (data?.del_stock || 0)-(data?.project_stock || 0(0)):(data?.req_stock - (data?.del_stock || 0)-(data?.warehouse_stock || 0))}
               </td>
+              {/* <td
+                scope="row"
+                className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+              >
+               
+              </td> */}
             </tr>
           </tbody>
         </table>
@@ -252,38 +270,48 @@ function StockInViewComp({
             <thead>
             <tr className="text-green-500 font-bold text-center">
               
-              <th  className="border border-gray-300 p-2 capitalize">
+              {proj_id!=0 && <th  className="border border-gray-300 p-2 capitalize">
                 Project Quantity 
+              </th>}
+             {proj_id==0 && <th  className="border border-gray-300 p-2 capitalize">
+                Warehouse Quantity
               </th>
+}
+              
              
               <th  className="border border-gray-300 p-2 capitalize">
                 Requisition Quantity
               </th>
-             
               <th  className="border border-gray-300 p-2 capitalize">
-                Warehouse Quantity
+                Free For Requisition 
               </th>
-              
+             
+             
             </tr>
             </thead>
             <tbody className="text-gray-600 text-xs">
            <tr>
              
-              <td className="border flex flex-col justify-center items-center border-gray-300 p-2">
+              {proj_id!=0 && <td className="border flex flex-col justify-center items-center border-gray-300 p-2">
               {data?.project_stock || 0}
-              {/* {pocList.filter(                                   (e) => e.sl_no == +pocSet[index]?.poc_name
-                                        )[0]
-      } */}
-               
+            
               </td>
+}
+
+{proj_id==0 && <td className="border border-gray-300 p-2">
+              {data?.warehouse_stock || 0}
+              </td>
+}
              
               <td className="border border-gray-300 p-2">
               {data?.req_stock - data?.del_stock || 0}
               </td>
-             
+
               <td className="border border-gray-300 p-2">
-              {data?.warehouse_stock || 0}
+              {proj_id!=0?data?.req_stock - (data?.del_stock || 0)-(data?.project_stock || 0(0)):(data?.req_stock - (data?.del_stock || 0)-(data?.warehouse_stock || 0))}
               </td>
+             
+             
              
             
             </tr>

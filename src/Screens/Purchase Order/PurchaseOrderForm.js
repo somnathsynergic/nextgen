@@ -65,6 +65,7 @@ function PurchaseOrderForm() {
   const [po_issue_date, setPoIssueDate] = useState("");
   const [order_id, setOrderId] = useState("");
   const [itemList, setItemList] = useState([]);
+  const [manager_email,setManagerEmail] = useState('')
   const [termList, setTermList] = useState([]);
   const [notes, setNotes] = useState("");
   const [activeStep, setActiveStep] = useState(null);
@@ -467,6 +468,7 @@ function PurchaseOrderForm() {
 
   useEffect(() => {
     if (+params.id > 0) {
+
       axios
         .post(url + "/api/getpo", { id: +params.id })
         .then((res) => {
@@ -484,6 +486,17 @@ function PurchaseOrderForm() {
           localStorage.setItem("amend_note", res?.data?.msg?.amend_note);
           localStorage.setItem("amend_flag", res?.data?.msg?.amend_flag);
           localStorage.setItem("pur_req", JSON.stringify(res?.data?.msg?.pur_req.split(',')));
+          if(res?.data?.msg?.type!='G'){
+          axios.post(url + "/api/getproject", { id:res?.data?.msg?.project_id }).then((resEmail) => {
+            console.log(resEmail);
+            setManagerEmail(resEmail?.data?.msg?.manager_email);
+            localStorage.setItem("manager_email", resEmail?.data?.msg?.manager_email);
+          })
+          }
+          else{
+            localStorage.setItem("manager_email", 'FFABC123');
+
+          }
           setBlocked(
             localStorage.getItem("amend_flag") == "Y" &&
               localStorage.getItem("amend_note") == "null"
@@ -640,6 +653,8 @@ function PurchaseOrderForm() {
                     freight_sgst: resTerm?.data?.msg[0]?.freight_sgst,
                     freight_igst: resTerm?.data?.msg[0]?.freight_igst,
                     test_certificate: resTerm?.data?.msg[0]?.test_certificate,
+                    packing_val:
+                      resTerm?.data?.msg[0]?.packing_val,
                     test_certificate_desc:
                       resTerm?.data?.msg[0]?.test_certificate_desc,
                     ld_applicable_date: resTerm?.data?.msg[0]?.ld_date,
@@ -849,7 +864,7 @@ function PurchaseOrderForm() {
         )}
       <HeadingTemplate
         text={params.id > 0 ? "Update purchase order" : "Create purchase order"}
-        mode={params.id > 0 ? 1 : 0}
+        mode={ 0}
         title={"Purchase Order"}
         data={""}
       />

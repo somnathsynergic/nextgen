@@ -148,7 +148,7 @@ function PoPreview({ data }) {
   const formatNumber = (amount,currency) => {
     return new Intl.NumberFormat('en-IN', {
         style: 'currency',
-        currency: currency,
+        currency: currency ,
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(amount);
@@ -372,33 +372,39 @@ function PoPreview({ data }) {
                 </td>
                 <td className="px-1 py-1 text-[8px] text-center border border-gray-300" rowSpan={2}>
                     {/* {parseFloat(+item.item_rt-(+item.discount))?.toFixed(2)} */}
-                    {parseFloat(+item.item_rt-(+item.discount))?.toFixed(2)}
+                    {formatNumber((+item.item_rt-(+item.discount)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')}
                 </td>
                 <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300" rowSpan={2}>
-                    {item.cgst_id>0? formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
+                    {item.cgst_id>0? formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR'):''}
                     {/* {+item.cgst_id>0?item?.currency=='I'?'(₹)':item?.currency=='U'?'($)':'(€)':''} */}
                     {item.cgst_id>0?'('+item.cgst_id+'%)':''}
                 </td>
                 <td className="px-1 py-1 text-[8px] text-center border text-nowrap border-gray-300" rowSpan={2}>
-                      {item.sgst_id>0?formatNumber((((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
-                      {/* {+item.sgst_id>0?item?.currency=='I'?'(₹)':item?.currency=='U'?'($)':'(€)':''} */}
+                      {item.sgst_id>0?formatNumber((((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR'):''}
+                     
                        {item.sgst_id>0?'('+item.sgst_id+'%)':''}
                 </td>
                 <td className="px-1 py-1 text-[8px] text-center border text-nowrap border-gray-300" rowSpan={2}>
-                      {+item.igst_id>0?formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):''}
+                      {+item.igst_id>0?formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR'):''}
                       {/* {+item.igst_id>0?item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)':''}  */}
                       {item.igst_id>0?'('+item.igst_id+'%)':''}
                 </td>
 
                 <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300 " rowSpan={2}>
                 
-                {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'))}
-                 {/* {item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)'} */}
+                {/* {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR'):formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity))),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')} */}
+                {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR'):formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')}
+          
                 </td>
                
                
                 <td className="px-1 py-1 text-[8px] text-center text-nowrap border border-gray-300" rowSpan={2}>
-                    {item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)+((item.item_rt-item.discount)*item.quantity)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR'):formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity)),item.currency=='I'?'INR':item.currency=='U'?'USD':'EUR')} 
+                    {
+                    item.sgst_id>0?formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.cgst_id/100))+((+item.item_rt)-(+item.discount))*(+item.quantity)*(+item.sgst_id/100)+((item.item_rt-item.discount)*item.quantity)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')
+                    :
+                    // formatNumber(((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')}
+                     formatNumber((((+item.item_rt-(+item.discount))*(+item.quantity)*(+item.igst_id/100)+((item.item_rt-item.discount)*item.quantity))),item?.currency=='I'?'INR':item?.currency=='U'?'USD':'EUR')} 
+
                     {/* {item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)'} */}
                 </td>
             </tr>
@@ -578,11 +584,13 @@ function PoPreview({ data }) {
                 {JSON.parse(localStorage.getItem('terms')).oi_flag=='A'?'Applicable. ' +JSON.parse(localStorage.getItem('terms')).oi_desc:'N/A'}
                 </td>
             </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            {/* {JSON.parse(localStorage.getItem('terms')).packing_val} */}
+
+            <tr className="bg-white border-b dark:bg-gray-800 text-gray-700 dark:border-gray-700">
                 <th scope="row" className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white">
                 Packing Type
                 </th>
-                <td className="px-1 py-1 text-xs border border-gray-300">
+                <td className="px-1 py-1 text-xs text-gray-700 border border-gray-300">
                 {JSON.parse(localStorage.getItem('terms')).packing_type=='W'?'Wooden':JSON.parse(localStorage.getItem('terms')).packing_type=='C'?'Crate Packing':JSON.parse(localStorage.getItem('terms')).packing_type=='P'?'Plastic Wrap':JSON.parse(localStorage.getItem('terms')).packing_type=='S'?'Steel-worthy':JSON.parse(localStorage.getItem('terms')).packing_type=='O'?JSON.parse(localStorage.getItem('terms')).packing_val:''}
                 </td>
             </tr>

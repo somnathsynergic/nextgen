@@ -954,22 +954,22 @@ function PurchaseReqForm() {
                         // disabled={errorSum(error) || !intended}
                         onClick={() => onSubmit()}
                         className=" disabled:bg-gray-400 mx-auto disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
-                        disabled={
-                          !intended_for ||
-                          (intended_for == "P" && !projcode) ||
-                          itemDtls.reduce((accumulator, item) => {
-                            return accumulator + item.error;
-                          }, 0) > 0
-                        }
+                        // disabled={
+                        //   !intended_for ||
+                        //   (intended_for == "P" && !projcode) ||
+                        //   itemDtls.reduce((accumulator, item) => {
+                        //     return accumulator + item.error;
+                        //   }, 0) > 0
+                        // }
                       >
                         <SaveOutlined className="mr-1" />
                         Submit
                       </button>
                     {/* )} */}
 
-                    { (!itemDtls.reduce((accumulator, item) => {
+                    {/* { (!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;
-                          }, 0)  && params.id > 0) && (
+                          }, 0)  && params.id > 0) && ( */}
                       <button
                         // disabled={errorSum(error) || !intended}
                         onClick={() => {
@@ -981,7 +981,7 @@ function PurchaseReqForm() {
                         <SaveOutlined className="mr-1" />
                         Delete
                       </button>
-                    )}
+                    {/* // )} */}
 
                     {/* {approve_flag != "A" && params.id > 0 && (
                     <button

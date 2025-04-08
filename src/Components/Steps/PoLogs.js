@@ -83,7 +83,7 @@ function PoLogs({ data }) {
     setTimeline(timeline);
   }, [count]);
   useEffect(() => {
-    setBlocked(det.po==1?true:false)
+    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
     setTimeline(data)
   }, []);
@@ -175,9 +175,9 @@ function PoLogs({ data }) {
     console.log(count);
   }, [count]);
   return (
-                  <BlockUI blocked={blocked} className={'bg-red-500'}>
+                  <BlockUI blocked={blocked}  className={'bg-red-500 w-screen'}>
     
-    <div className="grid grid-cols-2 gap-10 -ml-20 my-10">
+    <div className="grid grid-cols-2 gap-10  my-10">
       <div className="sm:col-span-1 rounded-lg shadow-lg -ml-4 bg-[#DDEAE0] p-5">
       {/* {localStorage.getItem("po_status") == "U" || localStorage.getItem('po_status') == 'P' || 
         localStorage.getItem("po_status") == "A" ? ( */}

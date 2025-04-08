@@ -82,7 +82,7 @@ function Delivery({ pressBack, pressNext, data }) {
   //   : (data.delivery?data.delivery:localStorage.getItem('ship_to'))
 
   useEffect(() => {
-    setBlocked(det.po==1?true:false)
+    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
     setDeliveryAdd(
       // localStorage.getItem("order_type") == "G" 

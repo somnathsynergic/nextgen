@@ -326,7 +326,6 @@ function ProjectForm() {
   };
 
   useEffect(() => {
-    setBlocked(det.project==1?true:false)
 
     setLoading(true);
     axios.post(url + "/api/getclient", { id: 0 }).then((res) => {
@@ -359,7 +358,9 @@ function ProjectForm() {
       axios.post(url + "/api/getproject", { id: params.id }).then((resProj) => {
         console.log(resProj.data.msg, "getproject");
         setData(resProj.data?.msg);
-
+        // alert(resProj.data?.msg.manager_email)
+        setBlocked(det.project==1 || resProj.data?.msg.manager_email!=localStorage.getItem('email')?true:false )
+        
         axios
           .post(url + "/api/getclientpoc", { id: resProj?.data?.msg.client_id })
           .then((resPoc) => {

@@ -340,7 +340,7 @@ function ClientDeliveryView() {
                     po_data?.slice(first, rows + first).map((item) => (
                       <tr onClick = {()=>{
   
-                        navigate(routePaths.CLIENTDELIVERYFORM + item.po_no)
+                        navigate(routePaths.CLIENTDELIVERYFORM + encodeURIComponent(item.po_no))
                       }} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
@@ -357,7 +357,7 @@ function ClientDeliveryView() {
                           <Link
                             to={
                               routePaths.CLIENTDELIVERYFORM +
-                                  item.po_no 
+                                  encodeURIComponent(item.po_no) 
                                  
                             }
                           > 

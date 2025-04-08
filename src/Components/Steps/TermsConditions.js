@@ -130,7 +130,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
   }, []);
 
   useEffect(() => {
-    setBlocked(det.po==1?true:false)
+    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
     axios.post(url + "/api/getgst", { id: 0 }).then((resGst) => {
       setGstList(resGst?.data?.msg);

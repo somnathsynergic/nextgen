@@ -406,7 +406,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                       </Tag>
                     )}
                   </td>
-                  <td class="px-3 py-4 text-gray-600">{item.created_by}</td>
+                  <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
                   {isPrinting && <td class="px-1 py-4 text-nowrap">
                     <Link
                       to={

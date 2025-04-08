@@ -19,7 +19,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
     setPopOpen(false);
   };
   useEffect(()=>{
-    setBlocked(det.po==1?true:false)
+    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
 
   },[])
   const handleOpenChange = (newOpen) => {

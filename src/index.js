@@ -13,12 +13,18 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+// import CancelPO from "./Screens/Purchase Order/CancelPO";
+// import CancelPoView from "./Screens/Purchase Order/CancelView";
+// import CancelForm from "./Screens/Purchase Order/CancelForm";
 import PurchaseReqComp from "./Screens/Purchase Requisition/PurchaseReqComp";
 import PurchaseReqView from "./Screens/Purchase Requisition/PurchaseReqView";
 import PurchaseReqForm from "./Screens/Purchase Requisition/PurchaseReqForm";
 import PtoWComp from "./Screens/Stock/PtoW/PtoWComp";
 import PtoWView from "./Screens/Stock/PtoW/PtoWView";
 import PtoWForm from "./Screens/Stock/PtoW/PtoWForm";
+import ClosePoComp from "./Screens/Purchase Order/ClosePo/ClosePoComp";
+import ClosePoView from "./Screens/Purchase Order/ClosePo/ClosePoView";
+import ClosePoForm from "./Screens/Purchase Order/ClosePo/ClosePoForm";
 const MaterialReturnComp =lazy(()=>import("./Screens/MaterialReturn/MaterialReturnComp"))
 const MaterialReturn =lazy(()=>import("./Screens/MaterialReturn/MaterialReturn"))
 const StatementandTransfer = lazy(() =>
@@ -486,20 +492,20 @@ const router = createBrowserRouter([
                   },
                 ],
               },
-              // {
-              //   path: "cancelorder",
-              //   element: <CancelPO />,
-              //   children: [
-              //     {
-              //       path: "",
-              //       element: <CancelView />,
-              //     },{
-              //           path:'cancelorderform/:id',
-              //           element:<CancelForm/>
-              //         },
+              {
+                path: "cancelorder",
+                element: <ClosePoComp />,
+                children: [
+                  {
+                    path: "",
+                    element: <ClosePoView />,
+                  },{
+                        path:'cancelorderform/:id',
+                        element:<ClosePoForm/>
+                      },
 
-              //   ]
-              // },
+                ]
+              },
             ],
           },
           {

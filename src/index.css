@@ -6,4 +6,20 @@
 @tailwind utilities;
 
 
+@media print {
+    body {
+      counter-reset: page;
+    }
+  
+    .page-number::after {
+      content: "Page " counter(page);
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.875rem;
+      color: #4b5563; /* Tailwind's gray-600 */
+    }
+  }
+
+
 

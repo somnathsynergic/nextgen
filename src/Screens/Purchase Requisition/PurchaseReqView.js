@@ -387,7 +387,7 @@ function PurchaseReqView() {
                         <td class="px-4 py-4 w-1/4 text-green-900 font-bold">{item.pur_no}</td>
                         <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
                         <td class="px-4 py-4 w-1/4 text-gray-600">{item.pur_date}</td>
-                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.created_by}</td>
+                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                        {isPrinting? <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
                         
                           <Link

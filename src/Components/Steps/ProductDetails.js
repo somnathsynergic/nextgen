@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import {
   PlusOutlined,
@@ -55,7 +55,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
   const showDrawer = () => {
     setOpen(true);
   };
-
+  const [visibleCount, setVisibleCount] = useState(3);
   const onClose = () => {
     setOpen(false);
     if (mode == 3) {
@@ -138,7 +138,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
     }
   };
   var tot = 0;
-
+ 
   const [itemList, setItemList] = useState(
     data?.itemList?.length
       ? data?.itemList
@@ -162,8 +162,22 @@ function ProductDetails({ pressBack, pressNext, data }) {
           },
         ]
   );
+  // const filteredProdList = useMemo(() => {
+  //   const selectedCodes = itemList.map((item) => +item?.item_name);
+  //   return prodList.filter(
+  //     (item) => !selectedCodes.includes(item?.code)
+  //   );
+  // }, [prodList, itemList]);
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    if (scrollTop + clientHeight >= scrollHeight - 10) {
+      setVisibleCount((prev) => prev + 10);
+    }
+  };
   useEffect(() => {
-    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    setBlocked(det.po == 1 ?true:false)
+
 
     console.log(data.itemList);
     if (data?.itemList?.length) {
@@ -478,7 +492,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
       </div> */}
 
             {itemList.map((input, index) => (
-              <React.Fragment key={index}>
+           
+              <div key={input.item_name||index}>
                 <div className="sm:col-span-2 px-3 rounded-t-md bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center">
                 {/* <div className="sm:col-span-2 px-3 bg-green-900 py-2 flex gap-2 justify-end items-center"> */}
                   {localStorage.getItem("po_status") != "A" &&
@@ -565,7 +580,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       type="text"
                       label="Item name"
                       // data={prodList}
-                      data={prodList?.filter(item =>item?.code ==itemList[index]?.item_name || !itemList.map(obj => +obj?.item_name).includes(item?.code))}
+                      data={
+                        prodList?.filter(item =>item?.code ==itemList[index]?.item_name 
+                          || !itemList.map(obj => +obj?.item_name).includes(item?.code))
+                     
+                        }
                       formControlName={input.item_name}
                       name="item_name"
                       handleChange={(event) => {
@@ -1120,7 +1139,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     </div>
                   )}
                 </div>
-              </React.Fragment>
+              </div>
             ))}
           </BlockUI>
           <div className="flex pt-4 justify-between w-full">

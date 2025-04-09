@@ -199,12 +199,12 @@ function BasicDetails({ pressNext, pressBack, data }) {
     }
   };
   useEffect(() => {
-    if(params.id>0)
-    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
-    else{
-      setBlocked(false)
-    }
-    
+    // if(params.id>0)
+    // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    // else{
+    //   setBlocked(false)
+    // }
+    setBlocked(det.po == 1 ?true:false)
 
 
     // alert("hii")

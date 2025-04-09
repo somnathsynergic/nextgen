@@ -186,6 +186,7 @@ function DeliveryViewTemplate({ flag }) {
         (e) =>
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
         e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
+        e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.created_by?.toLowerCase().includes(word?.toLowerCase())
       )
     );
@@ -346,10 +347,10 @@ function DeliveryViewTemplate({ flag }) {
                                 "/" +
                                 encodeURIComponent(item.po_no))
                               else navigate(routePaths.TESTCERTFORM + item.sl_no)
-                    }} class="bg-white hover:duration-500 text-[13px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                    }} class="bg-white hover:duration-500 text-[12.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
-                        class="px-4 py-4 w-1/3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        class="px-4 py-4 w-1/4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                       {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
                       {item.sl_no}

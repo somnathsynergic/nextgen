@@ -45,6 +45,17 @@ module.exports = {
   plugins: [require("./node_modules/flowbite/plugin"),{
     tailwindcss: {},
     autoprefixer: {},
-  },],
+  },
+  function ({ addUtilities }) {
+    addUtilities({
+      '.break-inside-avoid': {
+        breakInside: 'avoid',
+        pageBreakInside: 'avoid',
+      },
+    }, ['responsive', 'print']);
+  },
+
+
+],
 }
 

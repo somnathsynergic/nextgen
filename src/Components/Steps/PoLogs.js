@@ -83,7 +83,9 @@ function PoLogs({ data }) {
     setTimeline(timeline);
   }, [count]);
   useEffect(() => {
-    setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    setBlocked(det.po == 1 ?true:false)
+
 
     setTimeline(data)
   }, []);

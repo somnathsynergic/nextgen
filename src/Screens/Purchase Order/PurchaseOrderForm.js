@@ -944,7 +944,7 @@ function PurchaseOrderForm() {
                   {clickFlag == "P" ? (
                     <Tag
                       bordered={false}
-                      className="text-base rounded-full shadow-sm p-1.5 ml-10"
+                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
                       color="processing"
                       icon={<SyncOutlined spin />}
                     >
@@ -954,7 +954,7 @@ function PurchaseOrderForm() {
                     <Tag
                       bordered={false}
                       icon={<ClockCircleOutlined className="animate-pulse" />}
-                      className="text-base rounded-full shadow-sm p-1.5 ml-10"
+                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
                       color="error"
                     >
                       Approval Pending
@@ -963,7 +963,7 @@ function PurchaseOrderForm() {
                     <Tag
                       bordered={false}
                       icon={<CheckCircleOutlined />}
-                      className="text-base rounded-full shadow-sm p-1.5 ml-10"
+                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
                       color="green"
                     >
                       Approved
@@ -972,7 +972,7 @@ function PurchaseOrderForm() {
                     <Tag
                       icon={<TruckOutlined />}
                       bordered={false}
-                      className="text-base rounded-full shadow-sm p-1.5 ml-10"
+                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
                       color="lime"
                     >
                       Delivered
@@ -981,7 +981,7 @@ function PurchaseOrderForm() {
                     <Tag
                       bordered={false}
                       icon={<TruckOutlined />}
-                      className="text-base rounded-full shadow-sm p-1.5 ml-10"
+                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
                       color="purple"
                     >
                       Partially Delivered

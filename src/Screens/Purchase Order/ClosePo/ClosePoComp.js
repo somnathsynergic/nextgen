@@ -1,10 +1,10 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-function CancelPO() {
+function ClosePoComp() {
   return (
     <Outlet/>
   )
 }
 
-export default CancelPO
+export default ClosePoComp

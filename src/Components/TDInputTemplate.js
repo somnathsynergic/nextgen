@@ -2,6 +2,7 @@ import React from "react";
 import Select from 'react-dropdown-select';
 
 function TDInputTemplate(props) {
+  // const TDInputTemplate = React.memo((props) => {
   return (
     <>
       <label
@@ -13,7 +14,7 @@ function TDInputTemplate(props) {
           : (props.label || "") +
             " (" +
             props.formControlName?.length +
-            "/500)"}
+            "/5000)"}
       </label>
       {props.mode == 1 && (
         <input
@@ -91,7 +92,7 @@ function TDInputTemplate(props) {
           onChange={props.handleChange}
           onBlur={props.handleBlur}
           disabled={props.disabled}
-          maxLength={500}
+          maxLength={5000}
         />
       )}
 
@@ -113,5 +114,6 @@ function TDInputTemplate(props) {
     </>
   );
 }
+
 
 export default TDInputTemplate;

@@ -31,6 +31,7 @@ function ClosePoView() {
    const [projectList, setProjectList] = useState([]);
    const [productList, setProductList] = useState([]);
    const [copy, setCopy] = useState([]);
+   const [id,setId] = useState(0)
    const [printFlag,setPrintFlag] = useState(0)
    const navigate = useNavigate();
    const [adv_search_lst,setAdvList] = useState([])
@@ -222,7 +223,7 @@ function ClosePoView() {
      // }
      setValue(0);
      // setVisible(true)
-     axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
+     axios.post(url+'/api/advanced_search_po_cancel',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
        console.log(res)
        setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y" ))
        if(res?.data?.msg?.length)
@@ -240,7 +241,7 @@ function ClosePoView() {
    };
    return (
      <>
-       <div className="flex items-center  justify-end h-14 -mt-[72px] w-auto dark:bg-[#22543d] md:flex-row space-y-3 md:space-y-0 rounded-lg">
+       {/* <div className="flex items-center  justify-end h-14 -mt-[72px] w-auto dark:bg-[#22543d] md:flex-row space-y-3 md:space-y-0 rounded-lg">
        {det.po!=1 && <>
          <motion.div
            initial={{ opacity: 0, y: 50 }}
@@ -278,7 +279,7 @@ function ClosePoView() {
          </motion.button>
          </>
  }
-       </div>
+       </div> */}
        <div className="flex justify-end items-center">
          {/* <Radiobtn
            data={rdBtn}
@@ -327,6 +328,7 @@ function ClosePoView() {
              po_data={po_data}
              print={printFlag}
              title={"Close Orders"}
+            //  onClick={}
              setSearch={(values) => setSearch(values)}
            />
        )}
@@ -350,12 +352,13 @@ function ClosePoView() {
            </motion.h2>
          </div>
        )}
-         <DialogBox
+         {/* <DialogBox
          visible={visible}
-         flag={21}
+         flag={41}
+         
          data={{list:adv_search_lst,labels:labels}}
          onPress={() => setVisible(false)}
-       />
+       /> */}
      </>
    );
  }

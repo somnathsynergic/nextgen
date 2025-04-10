@@ -967,9 +967,9 @@ function PurchaseReqForm() {
                       </button>
                     {/* )} */}
 
-                    {/* { (!itemDtls.reduce((accumulator, item) => {
+                    { (!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;
-                          }, 0)  && params.id > 0) && ( */}
+                          }, 0)  && params.id > 0) && (
                       <button
                         // disabled={errorSum(error) || !intended}
                         onClick={() => {
@@ -981,7 +981,7 @@ function PurchaseReqForm() {
                         <SaveOutlined className="mr-1" />
                         Delete
                       </button>
-                    {/* // )} */}
+                      )} 
 
                     {/* {approve_flag != "A" && params.id > 0 && (
                     <button

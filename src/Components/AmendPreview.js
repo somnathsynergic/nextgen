@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Divider } from "antd";
 
 function AmendPreview({ id }) {
+  console.log(id)
   const navigate = useNavigate();
   const [vendors, setVendors] = useState([]);
   const [floatShow, setFloatShow] = useState(false);
@@ -189,32 +190,32 @@ function AmendPreview({ id }) {
             setVName(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_name
+              )[0]?.vendor_name
             );
             setVAddress(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_address
+              )[0]?.vendor_address
             );
             setVEmail(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_email
+              )[0]?.vendor_email
             );
             setVPhone(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_phone
+              )[0]?.vendor_phone
             );
             setVGST(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_gst
+              )[0]?.vendor_gst
             );
             setVPAN(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0].vendor_pan
+              )[0]?.vendor_pan
             );
             axios
               .post(url + "/api/getpoitem", { id: id })

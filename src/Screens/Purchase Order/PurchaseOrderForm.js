@@ -1009,6 +1009,7 @@ function PurchaseOrderForm() {
               orientation="vertical"
               linear={
                 localStorage.getItem("po_status") == "A" ||
+                localStorage.getItem("po_status") == "U" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
                   ? false

@@ -56,6 +56,7 @@ import VError from "./VError";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "./PrintHeader";
+import { Message } from "./Message";
 const DialogBox = ({
   visible,
   flag,
@@ -4241,6 +4242,25 @@ const DialogBox = ({
           </div>
         </>
       )}
+      {flag == 41 && <div className="flex flex-col items-center justify-center">
+                <AmendPreview id={id} />
+                <button className="bg-red-900 text-white px-4 py-2 rounded mt-4" onClick={()=>{        axios.post(url + "/api/cancelpo", {id:id,status:'C',user:localStorage.getItem('email')}).then((res) => {
+                    if(res?.data?.suc>0){
+                      Message("success","Order Closed Successfully")
+                      // onPress()
+                    }
+                    else{
+                      Message("error","Error in Closing Order")
+                    }
+                  }).catch((err) => {
+                    Message("error",err)
+
+                  })
+                }
+                }>Close Order</button>
+                </div>
+
+      }
     </Dialog>
   );
 };

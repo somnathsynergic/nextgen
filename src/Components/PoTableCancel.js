@@ -18,6 +18,8 @@ import { Tag } from "antd";
 import DrawerComp from "./DrawerComp";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
+import DialogBox from "./DialogBox";
+import { CancelOutlined } from "@mui/icons-material";
 
 function PoTableCancel({ po_data, setSearch, title,print }) {
   const [first, setFirst] = useState(0);
@@ -25,7 +27,9 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
    const [open, setOpen] = useState(false);
    const [mode, setMode] = useState(0);
    const [id, setId] = useState(0);
+   const [visible, setVisible] = useState(false);
    const [po, setPO] = useState(0);
+   const [flag,setFlag] = useState(false);
    const [isPrinting, setIsPrinting] = useState(true);
        const contentRef = useRef(null);
      
@@ -164,16 +168,17 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
                <th scope="col" class="p-4">
                  Created By
                </th>
-               {isPrinting && <th scope="col" class="p-4">
+               {/* {isPrinting && <th scope="col" class="p-4">
                  Action
-               </th>}
+               </th>} */}
              </tr>
            </thead>
            <tbody>
              {po_data &&
                po_data?.slice(first, rows + first).map((item) => (
                  <tr
-                
+                     onClick={() => {setId(item.sl_no);setVisible(true)}}
+                   key={item.sl_no}
                    className={
                      item.modified_at == null
                        ? +Math.floor(
@@ -208,13 +213,13 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
                            content={content}
                            title={"Documents for " + item.po_no}
                          >
-                           {isPrinting?  <UploadOutlined
+                           {/* {isPrinting?  <UploadOutlined
                                onMouseEnter={() => {
                                  setId(item.sl_no);
                                  setPO(item.po_no);
                                }}
                                className="cursor-pointer"
-                             />:null}
+                             />:null} */}
                          </Popover>
                        )}
                      </span>
@@ -388,13 +393,13 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
                        >
                          Pending Approval
                        </Tag>
-                     ) : item.po_status == "D" ? (
+                     ) : item.po_status == "C" ? (
                        <Tag
                          className="text-[12px] p-1 rounded-full w-36"
-                         icon={<TruckOutlined />}
-                         color="lime"
+                         icon={<CancelOutlined className="text-[10px]" />}
+                         color="red"
                        >
-                         Delivered
+                         Closed
                        </Tag>
                      ) : (
                        <Tag
@@ -408,7 +413,7 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
                      )}
                    </td>
                    <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
-                   {isPrinting && <td class="px-1 py-4 text-nowrap">
+                   {/* {isPrinting && <td class="px-1 py-4 text-nowrap">
                      <Link
                        to={
                          item.fresh_flag == "Y"
@@ -418,7 +423,7 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
                      >
                        <EditOutlined class="text-md ml-7 text-green-900" />
                      </Link>
-                   </td>}
+                   </td>} */}
                  </tr>
                ))}
            </tbody>
@@ -438,6 +443,13 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
          data={{ id: id, po: po }}
          onClose={() => onClose()}
        />
+         <DialogBox
+                visible={visible}
+                flag={41}
+                
+                id={id}
+                onPress={() => setVisible(false)}
+              />
      </>
    );
  }

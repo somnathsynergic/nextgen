@@ -20,6 +20,7 @@ import DialogBox from "../../Components/DialogBox";
 // import CompositeSearchReq from "../../Components/CompositeSearchReq";
 import CompositePurReqSearch from "../../Components/CompositePurReqSearch";
 import { Tooltip } from "@mui/material";
+import moment from "moment";
 
 function PurchaseReqView() {
     const [first, setFirst] = useState(0);
@@ -165,6 +166,8 @@ function PurchaseReqView() {
   
     }, []);
     const setSearch = (word) => {
+      console.log(copy?.filter(
+          (e) =>"Warehouse".toLowerCase().includes(word?.toLowerCase())))
       setPoData(
         copy?.filter(
           (e) =>
@@ -172,8 +175,9 @@ function PurchaseReqView() {
                       e?.created_by?.toLowerCase().includes(word?.toLowerCase())||
                       e?.proj_name?.toLowerCase().includes(word?.toLowerCase())||
                       e?.ID?.toLowerCase().includes(word?.toLowerCase())||
-                      "Warehouse".toLowerCase().includes(word?.toLowerCase())||
+                      "Warehouse".toLowerCase().includes(word?.toLowerCase()) ||
                       e?.pur_date?.toLowerCase().includes(word?.toLowerCase())
+                
         )
       );
     };
@@ -370,7 +374,7 @@ function PurchaseReqView() {
                     </th>}
                   </tr>
                 </thead>
-                <tbody className="text-sm">
+                <tbody className="text-[12.5px]">
                   {po_data &&
                     po_data?.slice(first, rows + first).map((item) => (
                     
@@ -380,15 +384,15 @@ function PurchaseReqView() {
                       )}} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
-                          class="px-3 py-4 w-1/4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          class="px-3 py-4 w-1/6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-4 py-4 w-1/4 text-green-900 font-bold">{item.pur_no}</td>
-                        <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
-                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.pur_date}</td>
-                        <td class="px-4 py-4 w-1/4 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
-                       {isPrinting? <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
+                        <td class="px-4 py-4 w-1/6 text-green-900 font-bold">{item.pur_no}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
+                        <td class="px-4 py-4 w-1/6 text-gray-600">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
+                       {isPrinting? <td class="px-3 py-4 w-1/6 flex gap-3 text-gray-600">
                         
                           <Link
                             to={

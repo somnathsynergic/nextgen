@@ -842,11 +842,11 @@ function PurchaseReqForm() {
                                 }
                                 //   handleBlur={(txt) => handleDtBlur(index, txt)}
                                 mode={1}
-                                disabled = {
-                                  itemDtls.reduce((accumulator, item) => {
-                                    return accumulator + item.ordered_qty;
-                                  }, 0) > 0
-                                }
+                                // disabled = {
+                                //   itemDtls.reduce((accumulator, item) => {
+                                //     return accumulator + item.ordered_qty;
+                                //   }, 0) > 0
+                                // }
                               />
                               {/* {itemDtls[index]['error']==1 && <VError title={"Quantity should >0 and <=warehouse stock"} />} */}
                             </div>

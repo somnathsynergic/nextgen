@@ -187,7 +187,7 @@ function PurchaseOrderForm() {
   const approvepo = () => {
     setLoading(true);
     axios
-      .post(url + "/api/approvepo", {
+      .post(url + "/api/approvepo_ord", {
         id: +params.id,
         status: localStorage.getItem("po_status"),
         user: localStorage.getItem("email"),

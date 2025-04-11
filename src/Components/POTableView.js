@@ -18,6 +18,7 @@ import { Tag } from "antd";
 import DrawerComp from "./DrawerComp";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
+import moment from "moment";
 function POTableView({ po_data, setSearch, title,print }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -353,7 +354,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                       )}
                     </p>}
                   </td>
-                  <td class="px-4 py-4 text-gray-600  text-xs">{item.po_issue_date}</td>
+                  <td class="px-4 py-4 text-gray-600  text-xs">{moment(item.po_issue_date).format('MM/DD/YYYY')}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
                     {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}

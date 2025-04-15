@@ -840,8 +840,7 @@ function PurchaseOrderForm() {
   return (
     <>
       {floatShow &&
-        (localStorage.getItem("user_type") == "2" ||
-          localStorage.getItem("user_type") == 5) && (
+        (
           <FloatButton
             icon={loading ? <LoadingOutlined spin /> : <FileTextOutlined />}
             tooltip="Save draft"

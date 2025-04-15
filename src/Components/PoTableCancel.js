@@ -21,7 +21,7 @@ import PrintHeader from "../Components/PrintHeader";
 import DialogBox from "./DialogBox";
 import { CancelOutlined } from "@mui/icons-material";
 
-function PoTableCancel({ po_data, setSearch, title,print }) {
+function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
   const [first, setFirst] = useState(0);
    const [rows, setRows] = useState(10);
    const [open, setOpen] = useState(false);
@@ -31,6 +31,7 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
    const [po, setPO] = useState(0);
    const [flag,setFlag] = useState(false);
    const [isPrinting, setIsPrinting] = useState(true);
+   const [status,setStatus] = useState('')
        const contentRef = useRef(null);
      
        const reactToPrintFn = useReactToPrint({
@@ -177,7 +178,7 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
              {po_data &&
                po_data?.slice(first, rows + first).map((item) => (
                  <tr
-                     onClick={() => {setId(item.sl_no);setVisible(true)}}
+                     onClick={() => {setId(item.sl_no);setStatus(item.po_status);setVisible(true)}}
                    key={item.sl_no}
                    className={
                      item.modified_at == null
@@ -446,9 +447,9 @@ function PoTableCancel({ po_data, setSearch, title,print }) {
          <DialogBox
                 visible={visible}
                 flag={41}
-                
+                po_status={status}
                 id={id}
-                onPress={() => setVisible(false)}
+                onPress={() => {setVisible(false);isModalVisible(visible)}}
               />
      </>
    );

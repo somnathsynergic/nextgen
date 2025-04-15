@@ -167,7 +167,7 @@ function PurchaseReqView() {
     }, []);
     const setSearch = (word) => {
       console.log(copy?.filter(
-          (e) =>"Warehouse".toLowerCase().includes(word?.toLowerCase())))
+          (e) =>e.intended=='W' && "Warehouse".toLowerCase().includes(word?.toLowerCase())))
       setPoData(
         copy?.filter(
           (e) =>
@@ -175,7 +175,7 @@ function PurchaseReqView() {
                       e?.created_by?.toLowerCase().includes(word?.toLowerCase())||
                       e?.proj_name?.toLowerCase().includes(word?.toLowerCase())||
                       e?.ID?.toLowerCase().includes(word?.toLowerCase())||
-                      "Warehouse".toLowerCase().includes(word?.toLowerCase()) ||
+                      (e.intended=='W' && "Warehouse".toLowerCase().includes(word?.toLowerCase())) ||
                       e?.pur_date?.toLowerCase().includes(word?.toLowerCase())
                 
         )

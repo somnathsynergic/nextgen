@@ -187,6 +187,8 @@ function DeliveryViewTemplate({ flag }) {
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
         e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
         e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+        (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
+
           e?.created_by?.toLowerCase().includes(word?.toLowerCase())
       )
     );

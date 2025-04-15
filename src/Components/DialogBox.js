@@ -57,6 +57,7 @@ import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "./PrintHeader";
 import { Message } from "./Message";
+import { CancelOutlined } from "@mui/icons-material";
 const DialogBox = ({
   visible,
   flag,
@@ -73,6 +74,7 @@ const DialogBox = ({
   waiting,
   mode,
   onCloseApprove,
+  po_status,
 }) => {
   const navigate = useNavigate();
   const contentRef = useRef(null);
@@ -87,7 +89,7 @@ const DialogBox = ({
   });
   // const det={}
   const [po_no, setPoNo] = useState("");
-  const det = JSON.parse(localStorage.getItem("perm") )
+  const det = JSON.parse(localStorage.getItem("perm"));
   //  "{M1:0,M2:0,PR1:0,PR2:0,P1:0,P2:0,PU1:0,PU2:0,APU1:0,APU2:0,MRN1:0,MRN2:0,R1:0,R2:0,MIN1:0,MIN2:0,S1:0,S2:0}");
   // const det = localStorage?.getItem("perm")!='undefined'?JSON.parse(localStorage?.getItem("perm")):{M1:0,M2:0,PR1:0,PR2:0,P1:0,P2:0,PU1:0,PU2:0,APU1:0,APU2:0,MRN1:0,MRN2:0,R1:0,R2:0,MIN1:0,MIN2:0,S1:0,S2:0}
   // if(localStorage?.getItem("perm")=='undefined'){
@@ -476,10 +478,12 @@ const DialogBox = ({
             flag == 29 ||
             flag == 33 ||
             flag == 38 ||
+            flag == 42 ||
             flag == 30) &&
             "Search Result(s)"}
           {(flag == 26 || flag == 27 || flag == 32) && "Approve"}
           {flag == 35 && "Cancel Requisition"}
+          {flag == 41 && "Close PO"}
         </div>
       }
       visible={visible}
@@ -728,10 +732,7 @@ const DialogBox = ({
       )}
       {flag == 16 && (
         <>
-          <div
-           
-            class="relative overflow-x-auto shadow-md sm:rounded-lg"
-          >
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table
               id="tablePrint"
               class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -818,7 +819,7 @@ const DialogBox = ({
               display: !isPrinting ? "block" : "none",
             }}
           >
-            <PrintHeader/>
+            <PrintHeader />
             <table
               id="tablePrint"
               class="w-full text-sm text-left mt-3 rtl:text-right text-gray-500 dark:text-gray-400"
@@ -862,7 +863,9 @@ const DialogBox = ({
                         {item.prod_name}
                       </th>
 
-                      <td class="px-3 py-2 border border-gray-300">{item.rc_qty}</td>
+                      <td class="px-3 py-2 border border-gray-300">
+                        {item.rc_qty}
+                      </td>
                       <th
                         scope="row"
                         class="px-3 py-2 border border-gray-300 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -875,7 +878,9 @@ const DialogBox = ({
                       >
                         {item.invoice_dt}
                       </th>
-                      <td class="px-3 py-2 border border-gray-300">{item.sl}</td>
+                      <td class="px-3 py-2 border border-gray-300">
+                        {item.sl}
+                      </td>
                       <td class="px-3 py-2 border border-gray-300">
                         {item.approve_flag == "P"
                           ? "Pending"
@@ -884,7 +889,9 @@ const DialogBox = ({
                           : "Rejected"}
                       </td>
 
-                      <td class="px-3 py-2 border border-gray-300">{item.remarks}</td>
+                      <td class="px-3 py-2 border border-gray-300">
+                        {item.remarks}
+                      </td>
                       <td class="px-3 py-2 border border-gray-300">
                         {"Received by- " +
                           item.created_by +
@@ -898,18 +905,20 @@ const DialogBox = ({
               </tbody>
             </table>
           </div>
-          
+
           <div className="flex justify-center mt-2">
             <Tooltip title="Print this table">
               <Fab
                 color="success"
                 size="small"
                 aria-label="add"
-                onClick={() =>{setIsPrinting(false);
+                onClick={() => {
+                  setIsPrinting(false);
                   setTimeout(() => {
                     reactToPrintFn();
                     setIsPrinting(true);
-                    }, 5);}}
+                  }, 5);
+                }}
               >
                 <PrinterOutlined />
               </Fab>
@@ -1720,254 +1729,254 @@ const DialogBox = ({
       )}
       {flag == 26 && (
         <>
-       
-               <div className="flex justify-end mt-2">
+          <div className="flex justify-end mt-2">
             <Tooltip title="Print this table">
               <Fab
                 color="success"
                 size="small"
                 aria-label="add"
-                onClick={() =>reactToPrintFn()}
+                onClick={() => reactToPrintFn()}
               >
                 <PrinterOutlined />
               </Fab>
             </Tooltip>
           </div>
           <div ref={contentRef} className="px-2 pt-3">
-          <div  className="flex justify-start gap-6">
-            {data?.details[0]?.approve_flag == "A" ? (
-              <Tag
-                className="text-[12px] p-1 rounded-full w-36"
-                icon={<CheckCircleOutlined />}
-                color="success"
-              >
-                Approved
-              </Tag>
-            ) : data?.details[0]?.approve_flag == "P" ? (
-              <Tag
-                className="text-[12px] p-1 rounded-full w-36"
-                icon={<SyncOutlined spin />}
-                color="processing"
-              >
-                Pending
-              </Tag>
-            ) : (
-              <Tag
-                className="text-[12px] p-1 rounded-full w-36"
-                icon={<CloseCircleOutlined className="animate-spin" />}
-                color="error"
-              >
-                Rejected
-              </Tag>
-            )}
-          </div>
+            <div className="flex justify-start gap-6">
+              {data?.details[0]?.approve_flag == "A" ? (
+                <Tag
+                  className="text-[12px] p-1 rounded-full w-36"
+                  icon={<CheckCircleOutlined />}
+                  color="success"
+                >
+                  Approved
+                </Tag>
+              ) : data?.details[0]?.approve_flag == "P" ? (
+                <Tag
+                  className="text-[12px] p-1 rounded-full w-36"
+                  icon={<SyncOutlined spin />}
+                  color="processing"
+                >
+                  Pending
+                </Tag>
+              ) : (
+                <Tag
+                  className="text-[12px] p-1 rounded-full w-36"
+                  icon={<CloseCircleOutlined className="animate-spin" />}
+                  color="error"
+                >
+                  Rejected
+                </Tag>
+              )}
+            </div>
 
-          <div className="sm:col-span-12 flex justify-end mb-2 ">
-            <Tag className="text-sm" color="#014737">
-              PO : {data?.details[0]?.po_no} | MRN : {data?.details[0]?.mrn_no}
-            </Tag>
-          </div>
-          <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
-            <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Invoice No. <span className="text-xs text-red-600">*</span>
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Invoice Date <span className="text-xs text-red-600">*</span>
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  LR No.
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Waybill
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-[#DDEAE0]  border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-4 w-1/4 py-4  text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <TDInputTemplate
-                    placeholder="Invoice No."
-                    type="text"
-                    name="invoice"
-                    formControlName={data?.details[0]?.invoice}
-                    disabled={true}
-                    mode={1}
-                  />
-                </th>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="Invoice Date"
-                    type="date"
-                    name="inv_dt"
-                    formControlName={data?.details[0]?.invoice_dt}
-                    disabled={true} //may need to change
-                    mode={1}
-                  />
-                </td>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="LR No."
-                    type="text"
-                    name="lr_no"
-                    formControlName={data?.details[0]?.lr_no}
-                    disabled={true}
-                    mode={1}
-                  />
-                </td>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="Waybill"
-                    type="text"
-                    name="waybill"
-                    formControlName={data?.details[0]?.waybill}
-                    disabled={true}
-                    mode={1}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="bg-[#C4F1BE] px-6 py-6 mt-3 sm:col-span-12 text-green-900 font-bold text-xs uppercase">
-            Documents
-          </div>
-          <div
-            style={{ width: "100%" }}
-            className="border-2 bg-[#DDEAE0] rounded-b-lg p-3 -mt-6  sm:col-span-12 border-gray-300"
-          >
-            <Row>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.ic == "Y" ? true : false}
-                  name="ic"
-                  disabled={true}
-                >
-                  Insurance Certificate
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.og == "Y" ? true : false}
-                  name="og"
-                  disabled={true}
-                >
-                  Original Copy
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.dc == "Y" ? true : false}
-                  name="dc"
-                  disabled={true}
-                >
-                  Duplicate Copy
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.lr == "Y" ? true : false}
-                  name="lr"
-                  disabled={true}
-                >
-                  LR
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.wb == "Y" ? true : false}
-                  name="wb"
-                  disabled={true}
-                >
-                  Waybill
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.pl == "Y" ? true : false}
-                  name="pl"
-                  disabled={true}
-                >
-                  Packing List
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.om == "Y" ? true : false}
-                  name="om"
-                  disabled={true}
-                >
-                  Operation and Maintenance
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.om_manual == "Y" ? true : false}
-                  name="om_manual"
-                  disabled={true}
-                >
-                  O&M Manual
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.ws == "Y" ? true : false}
-                  name="ws"
-                  disabled={true}
-                >
-                  Weighing Slip
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.tc == "Y" ? true : false}
-                  name="tc"
-                  disabled={true}
-                >
-                  TC
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.wc == "Y" ? true : false}
-                  name="wc"
-                  disabled={true}
-                >
-                  Warranty Certificate
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.details[0]?.ot == "Y" ? true : false}
-                  name="ot"
-                  disabled={true}
-                >
-                  Others
-                </Checkbox>
-              </Col>
-            </Row>
-            {data.details[0]?.ot_desc && (
+            <div className="sm:col-span-12 flex justify-end mb-2 ">
+              <Tag className="text-sm" color="#014737">
+                PO : {data?.details[0]?.po_no} | MRN :{" "}
+                {data?.details[0]?.mrn_no}
+              </Tag>
+            </div>
+            <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
+              <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Invoice No. <span className="text-xs text-red-600">*</span>
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Invoice Date <span className="text-xs text-red-600">*</span>
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    LR No.
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Waybill
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-[#DDEAE0]  border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-4 w-1/4 py-4  text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <TDInputTemplate
+                      placeholder="Invoice No."
+                      type="text"
+                      name="invoice"
+                      formControlName={data?.details[0]?.invoice}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </th>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="Invoice Date"
+                      type="date"
+                      name="inv_dt"
+                      formControlName={data?.details[0]?.invoice_dt}
+                      disabled={true} //may need to change
+                      mode={1}
+                    />
+                  </td>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="LR No."
+                      type="text"
+                      name="lr_no"
+                      formControlName={data?.details[0]?.lr_no}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </td>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="Waybill"
+                      type="text"
+                      name="waybill"
+                      formControlName={data?.details[0]?.waybill}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="bg-[#C4F1BE] px-6 py-6 mt-3 sm:col-span-12 text-green-900 font-bold text-xs uppercase">
+              Documents
+            </div>
+            <div
+              style={{ width: "100%" }}
+              className="border-2 bg-[#DDEAE0] rounded-b-lg p-3 -mt-6  sm:col-span-12 border-gray-300"
+            >
               <Row>
-                <Col span={24} className="my-2">
-                  <TDInputTemplate
-                    placeholder="Specify Document"
-                    type="text"
-                    name="ot_desc"
-                    label="Specify Document"
-                    formControlName={data?.details[0]?.ot_desc}
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.ic == "Y" ? true : false}
+                    name="ic"
                     disabled={true}
-                    mode={3}
-                  />
+                  >
+                    Insurance Certificate
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.og == "Y" ? true : false}
+                    name="og"
+                    disabled={true}
+                  >
+                    Original Copy
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.dc == "Y" ? true : false}
+                    name="dc"
+                    disabled={true}
+                  >
+                    Duplicate Copy
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.lr == "Y" ? true : false}
+                    name="lr"
+                    disabled={true}
+                  >
+                    LR
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.wb == "Y" ? true : false}
+                    name="wb"
+                    disabled={true}
+                  >
+                    Waybill
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.pl == "Y" ? true : false}
+                    name="pl"
+                    disabled={true}
+                  >
+                    Packing List
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.om == "Y" ? true : false}
+                    name="om"
+                    disabled={true}
+                  >
+                    Operation and Maintenance
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.om_manual == "Y" ? true : false}
+                    name="om_manual"
+                    disabled={true}
+                  >
+                    O&M Manual
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.ws == "Y" ? true : false}
+                    name="ws"
+                    disabled={true}
+                  >
+                    Weighing Slip
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.tc == "Y" ? true : false}
+                    name="tc"
+                    disabled={true}
+                  >
+                    TC
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.wc == "Y" ? true : false}
+                    name="wc"
+                    disabled={true}
+                  >
+                    Warranty Certificate
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.details[0]?.ot == "Y" ? true : false}
+                    name="ot"
+                    disabled={true}
+                  >
+                    Others
+                  </Checkbox>
                 </Col>
               </Row>
-            )}
-            {data?.details[0]?.ot == "Y" && (
-              <Row>
-                <Col span={24} className="my-2">
-                  {/* <TDInputTemplate
+              {data.details[0]?.ot_desc && (
+                <Row>
+                  <Col span={24} className="my-2">
+                    <TDInputTemplate
+                      placeholder="Specify Document"
+                      type="text"
+                      name="ot_desc"
+                      label="Specify Document"
+                      formControlName={data?.details[0]?.ot_desc}
+                      disabled={true}
+                      mode={3}
+                    />
+                  </Col>
+                </Row>
+              )}
+              {data?.details[0]?.ot == "Y" && (
+                <Row>
+                  <Col span={24} className="my-2">
+                    {/* <TDInputTemplate
                         placeholder="Other Document"
                         type="file"
                         name="ot_desc"
@@ -1976,105 +1985,105 @@ const DialogBox = ({
                        
                         mode={1}
                       /> */}
-                  {data?.files?.map((item) => (
-                    <div className="relative">
-                      <a target="_blank" href={url + "/uploads/" + item.doc}>
-                        {item?.doc?.toString().split(".")[1] == "pdf" ? (
-                          <FilePdfOutlined className="text-6xl my-7 text-red-600" />
-                        ) : item?.doc
-                            ?.toString()
-                            .split(".")[1]
-                            ?.includes("doc") ? (
-                          <FileWordOutlined className="text-6xl my-7 text-blue-900" />
-                        ) : item?.doc
-                            ?.toString()
-                            .split(".")[1]
-                            ?.includes("xls") ||
-                          item?.doc
-                            ?.toString()
-                            .split(".")[1]
-                            ?.includes("csv") ? (
-                          <FileExcelOutlined className="text-6xl my-7 text-green-800" />
-                        ) : (
-                          <FileImageOutlined className="text-6xl my-7 text-yellow-500" />
-                        )}
-                      </a>
-                    </div>
-                  ))}
-                </Col>
-              </Row>
-            )}
-          </div>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-            <table className="w-full text-xs border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
-              <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Item
-                  </th>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Received quantity
-                  </th>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Invoice Date
-                  </th>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Sl No.
-                  </th>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Remarks
-                  </th>
-                  <th scope="col" class="px-3 py-3 font-bold text-nowrap">
-                    Log
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.items?.length > 0 &&
-                  data?.items?.map((item) => (
-                    <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                      <th
-                        scope="row"
-                        class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {item.prod_name}
-                        <p className="text-green-900 text-wrap">
-                          {" "}
-                          Part No.: {item.part_no} , Article No.:{" "}
-                          {item.article_no} , Model No.: {item.model_no}{" "}
-                        </p>
-                      </th>
-                      <td class="px-3 py-4">{item.rc_qty}</td>
-                      <th
-                        scope="row"
-                        class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {item.invoice_dt}
-                      </th>
-                      <td class="px-3 py-4">{item.sl}</td>
-
-                      <td class="px-3 py-4">{item.remarks}</td>
-                      <td class="px-3 py-4 ">
-                        {"Received by- " +
-                          item.created_by +
-                          " on " +
-                          item.created_at?.split("T")[0] +
-                          " at " +
-                          item.created_at?.split("T")[1]}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-            <div className="flex justify-center my-4">
-              {data?.details[0]?.approve_flag == "U" && (
-                <Alert
-                  message={data?.details[0]?.rejection_note}
-                  type="error"
-                />
+                    {data?.files?.map((item) => (
+                      <div className="relative">
+                        <a target="_blank" href={url + "/uploads/" + item.doc}>
+                          {item?.doc?.toString().split(".")[1] == "pdf" ? (
+                            <FilePdfOutlined className="text-6xl my-7 text-red-600" />
+                          ) : item?.doc
+                              ?.toString()
+                              .split(".")[1]
+                              ?.includes("doc") ? (
+                            <FileWordOutlined className="text-6xl my-7 text-blue-900" />
+                          ) : item?.doc
+                              ?.toString()
+                              .split(".")[1]
+                              ?.includes("xls") ||
+                            item?.doc
+                              ?.toString()
+                              .split(".")[1]
+                              ?.includes("csv") ? (
+                            <FileExcelOutlined className="text-6xl my-7 text-green-800" />
+                          ) : (
+                            <FileImageOutlined className="text-6xl my-7 text-yellow-500" />
+                          )}
+                        </a>
+                      </div>
+                    ))}
+                  </Col>
+                </Row>
               )}
             </div>
-          </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+              <table className="w-full text-xs border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
+                <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Item
+                    </th>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Received quantity
+                    </th>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Invoice Date
+                    </th>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Sl No.
+                    </th>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Remarks
+                    </th>
+                    <th scope="col" class="px-3 py-3 font-bold text-nowrap">
+                      Log
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.items?.length > 0 &&
+                    data?.items?.map((item) => (
+                      <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <th
+                          scope="row"
+                          class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.prod_name}
+                          <p className="text-green-900 text-wrap">
+                            {" "}
+                            Part No.: {item.part_no} , Article No.:{" "}
+                            {item.article_no} , Model No.: {item.model_no}{" "}
+                          </p>
+                        </th>
+                        <td class="px-3 py-4">{item.rc_qty}</td>
+                        <th
+                          scope="row"
+                          class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.invoice_dt}
+                        </th>
+                        <td class="px-3 py-4">{item.sl}</td>
+
+                        <td class="px-3 py-4">{item.remarks}</td>
+                        <td class="px-3 py-4 ">
+                          {"Received by- " +
+                            item.created_by +
+                            " on " +
+                            item.created_at?.split("T")[0] +
+                            " at " +
+                            item.created_at?.split("T")[1]}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+              <div className="flex justify-center my-4">
+                {data?.details[0]?.approve_flag == "U" && (
+                  <Alert
+                    message={data?.details[0]?.rejection_note}
+                    type="error"
+                  />
+                )}
+              </div>
+            </div>
           </div>
           {data?.details[0]?.approve_flag == "P" && det?.mrn != 1 && (
             <div className="flex justify-center gap-5">
@@ -2355,21 +2364,21 @@ const DialogBox = ({
                   Reject
                 </button>
               </Popconfirm> */}
-               <button
-                  type="submit"
-                  onClick={() => onPress("R", "", itemInfo)}
-                  className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
-                  // onClick={()=>onPress('U')}
-                  // disabled = {
-                    
-                  //   itemInfo?.reduce((accumulator, currentValue) => {
-                  //     return accumulator + currentValue.error;
-                  //   }, 0)==1 || +(itemInfo?.filter(e=>e.req_qty==e.approved_qty)?.length==itemInfo?.length)==1
-                  // }
-                >
-                  <CloseCircleOutlined className="mr-2" />
-                  Reject
-                </button>
+            <button
+              type="submit"
+              onClick={() => onPress("R", "", itemInfo)}
+              className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+              // onClick={()=>onPress('U')}
+              // disabled = {
+
+              //   itemInfo?.reduce((accumulator, currentValue) => {
+              //     return accumulator + currentValue.error;
+              //   }, 0)==1 || +(itemInfo?.filter(e=>e.req_qty==e.approved_qty)?.length==itemInfo?.length)==1
+              // }
+            >
+              <CloseCircleOutlined className="mr-2" />
+              Reject
+            </button>
             {det?.requisition != 1 && (
               <button
                 type="submit"
@@ -3532,208 +3541,217 @@ const DialogBox = ({
       )}
 
       {flag == 36 && (
-        <div >
+        <div>
           <div className="flex justify-end my-2">
             <Tooltip title="Print this table">
               <Fab
                 color="success"
                 size="small"
                 aria-label="add"
-                onClick={() =>{setIsPrinting(false);
+                onClick={() => {
+                  setIsPrinting(false);
                   setTimeout(() => {
                     reactToPrintFn();
                     setIsPrinting(true);
-                    }, 5);}}
+                  }, 5);
+                }}
               >
                 <PrinterOutlined />
               </Fab>
             </Tooltip>
           </div>
-          <div ref={contentRef} className={!isPrinting?"relative m-0 p-2 overflow-x-auto shadow-md sm:rounded-lg":"relative overflow-x-auto shadow-md sm:rounded-lg"}>
           <div
-          style={{
-              display: !isPrinting ? "block" : "none",
-            }}
+            ref={contentRef}
+            className={
+              !isPrinting
+                ? "relative m-0 p-2 overflow-x-auto shadow-md sm:rounded-lg"
+                : "relative overflow-x-auto shadow-md sm:rounded-lg"
+            }
           >
-            <PrintHeader/>
+            <div
+              style={{
+                display: !isPrinting ? "block" : "none",
+              }}
+            >
+              <PrintHeader />
             </div>
             {/* </div> */}
-          <div className="sm:col-span-12 flex justify-end mb-2 ">
-            <Tag className="text-sm bg-green-900 text-white">
-              Delivery No. : {data?.del_no}
-            </Tag>
-          </div>
-          <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
-            <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Invoice No. <span className="text-xs text-red-600">*</span>
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Invoice Date <span className="text-xs text-red-600">*</span>
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  LR No.
-                </th>
-                <th scope="col" className="px-6 py-3 w-1/4 font-bold">
-                  Waybill
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-[#DDEAE0]  border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-4 w-1/4 py-4  text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <TDInputTemplate
-                    placeholder="Invoice No."
-                    type="text"
-                    name="invoice"
-                    formControlName={data?.invoice}
-                    disabled={true}
-                    mode={1}
-                  />
-                </th>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="Invoice Date"
-                    type="date"
-                    name="inv_dt"
-                    formControlName={data?.invoice_dt}
-                    disabled={true} //may need to change
-                    mode={1}
-                  />
-                </td>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="LR No."
-                    type="text"
-                    name="lr_no"
-                    formControlName={data?.lr_no}
-                    disabled={true}
-                    mode={1}
-                  />
-                </td>
-                <td className="px-6 py-4 w-1/4">
-                  <TDInputTemplate
-                    placeholder="Waybill"
-                    type="text"
-                    name="waybill"
-                    formControlName={data?.waybill}
-                    disabled={true}
-                    mode={1}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            <div className="sm:col-span-12 flex justify-end mb-2 ">
+              <Tag className="text-sm bg-green-900 text-white">
+                Delivery No. : {data?.del_no}
+              </Tag>
+            </div>
+            <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
+              <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Invoice No. <span className="text-xs text-red-600">*</span>
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Invoice Date <span className="text-xs text-red-600">*</span>
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    LR No.
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-1/4 font-bold">
+                    Waybill
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-[#DDEAE0]  border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-4 w-1/4 py-4  text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <TDInputTemplate
+                      placeholder="Invoice No."
+                      type="text"
+                      name="invoice"
+                      formControlName={data?.invoice}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </th>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="Invoice Date"
+                      type="date"
+                      name="inv_dt"
+                      formControlName={data?.invoice_dt}
+                      disabled={true} //may need to change
+                      mode={1}
+                    />
+                  </td>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="LR No."
+                      type="text"
+                      name="lr_no"
+                      formControlName={data?.lr_no}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </td>
+                  <td className="px-6 py-4 w-1/4">
+                    <TDInputTemplate
+                      placeholder="Waybill"
+                      type="text"
+                      name="waybill"
+                      formControlName={data?.waybill}
+                      disabled={true}
+                      mode={1}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-          <div
-            style={{ width: "100%" }}
-            className="border-2 bg-[#DDEAE0] rounded-b-lg p-3   sm:col-span-12 border-gray-300"
-          >
-            <Row>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.ic == "Y" ? true : false}
-                  name="ic"
-                  disabled={true}
-                >
-                  Insurance Certificate
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.og == "Y" ? true : false}
-                  name="og"
-                  disabled={true}
-                >
-                  Original Copy
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.dc == "Y" ? true : false}
-                  name="dc"
-                  disabled={true}
-                >
-                  Duplicate Copy
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.lr == "Y" ? true : false}
-                  name="lr"
-                  disabled={true}
-                >
-                  LR
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.wb == "Y" ? true : false}
-                  name="wb"
-                  disabled={true}
-                >
-                  Waybill
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.pl == "Y" ? true : false}
-                  name="pl"
-                  disabled={true}
-                >
-                  Packing List
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.om == "Y" ? true : false}
-                  name="om"
-                  disabled={true}
-                >
-                  Operation and Maintenance
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.om_manual == "Y" ? true : false}
-                  name="om_manual"
-                  disabled={true}
-                >
-                  O&M Manual
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.ws == "Y" ? true : false}
-                  name="ws"
-                  disabled={true}
-                >
-                  Weighing Slip
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.tc == "Y" ? true : false}
-                  name="tc"
-                  disabled={true}
-                >
-                  TC
-                </Checkbox>
-              </Col>
-              <Col span={8}>
-                <Checkbox
-                  checked={data?.wc == "Y" ? true : false}
-                  name="wc"
-                  disabled={true}
-                >
-                  Warranty Certificate
-                </Checkbox>
-              </Col>
-              {/* <Col span={8}>
+            <div
+              style={{ width: "100%" }}
+              className="border-2 bg-[#DDEAE0] rounded-b-lg p-3   sm:col-span-12 border-gray-300"
+            >
+              <Row>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.ic == "Y" ? true : false}
+                    name="ic"
+                    disabled={true}
+                  >
+                    Insurance Certificate
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.og == "Y" ? true : false}
+                    name="og"
+                    disabled={true}
+                  >
+                    Original Copy
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.dc == "Y" ? true : false}
+                    name="dc"
+                    disabled={true}
+                  >
+                    Duplicate Copy
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.lr == "Y" ? true : false}
+                    name="lr"
+                    disabled={true}
+                  >
+                    LR
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.wb == "Y" ? true : false}
+                    name="wb"
+                    disabled={true}
+                  >
+                    Waybill
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.pl == "Y" ? true : false}
+                    name="pl"
+                    disabled={true}
+                  >
+                    Packing List
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.om == "Y" ? true : false}
+                    name="om"
+                    disabled={true}
+                  >
+                    Operation and Maintenance
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.om_manual == "Y" ? true : false}
+                    name="om_manual"
+                    disabled={true}
+                  >
+                    O&M Manual
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.ws == "Y" ? true : false}
+                    name="ws"
+                    disabled={true}
+                  >
+                    Weighing Slip
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.tc == "Y" ? true : false}
+                    name="tc"
+                    disabled={true}
+                  >
+                    TC
+                  </Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox
+                    checked={data?.wc == "Y" ? true : false}
+                    name="wc"
+                    disabled={true}
+                  >
+                    Warranty Certificate
+                  </Checkbox>
+                </Col>
+                {/* <Col span={8}>
                 <Checkbox
                   checked={data?.ot == "Y" ? true : false}
                   name="ot"
@@ -3742,97 +3760,97 @@ const DialogBox = ({
                   Others
                 </Checkbox>
               </Col> */}
-            </Row>
-            {data?.fileList?.length > 0 && (
-              <div className="relative">
-                <a
-                  target="_blank"
-                  href={url + "/uploads/" + data?.fileList[0]?.vtoc_img}
-                >
-                  {data?.fileList[0]?.vtoc_img.split(".")[1] == "pdf" ? (
-                    <FilePdfOutlined className="text-6xl my-7 text-red-600" />
-                  ) : data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("doc") ? (
-                    <FileWordOutlined className="text-6xl my-7 text-blue-900" />
-                  ) : data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("xls") ||
-                    data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("csv") ? (
-                    <FileExcelOutlined className="text-6xl my-7 text-green-800" />
-                  ) : data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("png") ||
-                    data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("jpg") ||
-                    data?.fileList[0]?.vtoc_img
-                      .split(".")[1]
-                      ?.includes("jpeg") ? (
-                    <FileImageOutlined className="text-6xl my-7 text-yellow-500" />
-                  ) : (
-                    <FileTextOutlined className="text-6xl my-7 text-gray-600" />
-                  )}
-                </a>
-              </div>
-            )}
-          </div>
+              </Row>
+              {data?.fileList?.length > 0 && (
+                <div className="relative">
+                  <a
+                    target="_blank"
+                    href={url + "/uploads/" + data?.fileList[0]?.vtoc_img}
+                  >
+                    {data?.fileList[0]?.vtoc_img.split(".")[1] == "pdf" ? (
+                      <FilePdfOutlined className="text-6xl my-7 text-red-600" />
+                    ) : data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("doc") ? (
+                      <FileWordOutlined className="text-6xl my-7 text-blue-900" />
+                    ) : data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("xls") ||
+                      data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("csv") ? (
+                      <FileExcelOutlined className="text-6xl my-7 text-green-800" />
+                    ) : data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("png") ||
+                      data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("jpg") ||
+                      data?.fileList[0]?.vtoc_img
+                        .split(".")[1]
+                        ?.includes("jpeg") ? (
+                      <FileImageOutlined className="text-6xl my-7 text-yellow-500" />
+                    ) : (
+                      <FileTextOutlined className="text-6xl my-7 text-gray-600" />
+                    )}
+                  </a>
+                </div>
+              )}
+            </div>
 
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-2">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-white uppercase bg-green-900 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-6 py-3  text-nowrap">
-                    Item
-                  </th>
-                  <th scope="col" class="px-6 py-3  text-nowrap">
-                    Received Quantity
-                  </th>
-                  <th scope="col" class="px-6 py-3  text-nowrap">
-                    Received On
-                  </th>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-2">
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-white uppercase bg-green-900 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3  text-nowrap">
+                      Item
+                    </th>
+                    <th scope="col" class="px-6 py-3  text-nowrap">
+                      Received Quantity
+                    </th>
+                    <th scope="col" class="px-6 py-3  text-nowrap">
+                      Received On
+                    </th>
 
-                  <th scope="col" class="px-6 py-3 text-nowrap">
-                    Received By
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* {itemInfo?.length > 0 &&
+                    <th scope="col" class="px-6 py-3 text-nowrap">
+                      Received By
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* {itemInfo?.length > 0 &&
                   itemInfo?.map((item, index) => ( */}
-                <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {data.prod_name}
-                  </th>
-                  <th
-                    scope="row"
-                    class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {data.mrn_qty}
-                  </th>
+                  <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <th
+                      scope="row"
+                      class="px-6 py-4 text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {data.prod_name}
+                    </th>
+                    <th
+                      scope="row"
+                      class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {data.mrn_qty}
+                    </th>
 
-                  <th
-                    scope="row"
-                    class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {data.del_date}
-                  </th>
+                    <th
+                      scope="row"
+                      class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {data.del_date}
+                    </th>
 
-                  <th
-                    scope="row"
-                    class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {data.rec_by}
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    <th
+                      scope="row"
+                      class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {data.rec_by}
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* {det.stock != 1 && (
@@ -4242,25 +4260,212 @@ const DialogBox = ({
           </div>
         </>
       )}
-      {flag == 41 && <div className="flex flex-col items-center justify-center">
-                <AmendPreview id={id} />
-                <button className="bg-red-900 text-white px-4 py-2 rounded mt-4" onClick={()=>{        axios.post(url + "/api/cancelpo", {id:id,status:'C',user:localStorage.getItem('email')}).then((res) => {
-                    if(res?.data?.suc>0){
-                      Message("success","Order Closed Successfully")
-                      // onPress()
-                    }
-                    else{
-                      Message("error","Error in Closing Order")
-                    }
-                  }).catch((err) => {
-                    Message("error",err)
+      {flag == 41 && (
+        <div className="flex flex-col items-center justify-center">
+          <AmendPreview id={id} />
+          {po_status != "C" ? (
+            <Spin
+              spinning={loading}
+              indicator={<LoadingOutlined spin />}
+              size="large"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            >
+              <button
+                className="bg-red-900 text-white px-4 py-2 rounded-full mt-4"
+                onClick={() => {
+                  setLoading(true);
+                  axios
+                    .post(url + "/api/cancelpo", {
+                      id: id,
+                      status: "C",
+                      user: localStorage.getItem("email"),
+                    })
+                    .then((res) => {
+                      setLoading(false);
+                      if (res?.data?.suc > 0) {
+                        Message("success", "Order Closed Successfully");
+                        onPress();
+                      } else {
+                        Message("error", "Error in Closing Order");
+                      }
+                    })
+                    .catch((err) => {
+                      setLoading(false);
 
-                  })
-                }
-                }>Close Order</button>
-                </div>
-
-      }
+                      Message("error", err);
+                    });
+                }}
+              >
+                Close Order
+              </button>
+            </Spin>
+          ) : (
+            <Tag
+              className="text-[12px] p-1 rounded-full w-36"
+              icon={<CancelOutlined className="text-[10px]" />}
+              color="red"
+            >
+              Closed
+            </Tag>
+          )}
+        </div>
+      )}
+        {flag == 42 && (
+        <>
+          <div className="flex gap-3 my-5">
+            {data?.labels?.val_one && (
+              <Chip
+                className="text-xs  bg-[#C4F1BE]"
+                label={data?.labels?.val_one}
+              />
+            )}
+            {data?.labels?.val_two && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_two}
+              />
+            )}
+            {data?.labels?.val_three && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_three}
+              />
+            )}
+            {data?.labels?.val_four && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_four}
+              />
+            )}
+            {data?.labels?.val_five && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_five}
+              />
+            )}
+            {data?.labels?.val_six && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_six}
+              />
+            )}
+            {data?.labels?.val_eight && (
+              <Chip
+                className="text-xs bg-[#C4F1BE]"
+                label={data?.labels?.val_eight}
+              />
+            )}
+          </div>
+          {data?.list?.length > 0 ? (
+            <ul class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+              {data?.list?.map((lst) => (
+                <li
+                  onClick={() => {
+                   onPress(lst.po_no);
+                  }}
+                  class="pb-3 p-2 sm:pb-4 cursor-pointer hover:bg-gray-200"
+                >
+                  <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    {/* <div class="flex-shrink-0">
+            <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image"/>
+         </div> */}
+                    <div class="flex-1 min-w-0">
+                      <p class="text-lg font-bold text-green-900  truncate dark:text-white">
+                        {lst.po_no}
+                      </p>
+                      <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                        Vendor:{" "}
+                        <span
+                          className={
+                            lst.vendor_name == data?.labels?.val_one
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {lst.vendor_name}{" "}
+                        </span>
+                        , Project:{" "}
+                        <span
+                          className={
+                            lst.proj_name == data?.labels?.val_two
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {" "}
+                          {lst.proj_name}
+                        </span>
+                        , Part No.:{" "}
+                        <span
+                          className={
+                            lst.part_no == data?.labels?.val_three
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {lst.part_no}{" "}
+                        </span>
+                        , Item:{" "}
+                        <span
+                          className={
+                            lst.prod_name == data?.labels?.val_four
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {lst.prod_name}
+                        </span>
+                        , Make:{" "}
+                        <span
+                          className={
+                            lst.prod_make == data?.labels?.val_eight
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {lst.prod_make}
+                        </span>
+                        , Issued:{" "}
+                        <span
+                          className={
+                            lst.po_issue_date <= data?.labels?.val_six &&
+                            lst.po_issue_date >= data?.labels?.val_five
+                              ? "bg-yellow-300 font-bold"
+                              : ""
+                          }
+                        >
+                          {lst.po_issue_date}
+                        </span>
+                      </p>
+                    </div>
+                    <Tooltip
+                      title={
+                        lst.po_status == "A"
+                          ? "Approved"
+                          : lst.po_status == "U"
+                          ? "Pending approval"
+                          : "In progress"
+                      }
+                    >
+                      <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        {lst.po_status == "A" ? (
+                          <CheckCircleFilled className="text-green-900" />
+                        ) : lst.po_status == "U" ? (
+                          <ClockCircleFilled className="text-amber-500" />
+                        ) : (
+                          <FileTextOutlined className="text-blue-500" />
+                        )}
+                      </div>
+                    </Tooltip>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Empty />
+          )}
+        </>
+      )}
     </Dialog>
   );
 };

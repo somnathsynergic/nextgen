@@ -179,6 +179,8 @@ function ApproveOrders() {
           e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
           e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
+        (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
+
           e?.created_by?.toLowerCase().includes(word?.toLowerCase())
       )
     );

@@ -397,6 +397,8 @@ function AmendPreview({ id }) {
                       .then((resDel) => {
                         console.log(resDel);
                         setDeliveryAdd(resDel?.data?.msg[0]?.ship_to);
+
+                        // const [first, ...rest] = resDel?.data?.msg[0]?.ship_to?.split(",");
                         //   localStorage.setItem('ship_to',resDel?.data?.msg[0]?.ship_to)
                         setWareHouse(resDel?.data?.msg[0]?.ware_house_flag);
                         //   localStorage.setItem('ware_house_flag',resDel?.data?.msg[0]?.ware_house_flag)
@@ -472,23 +474,23 @@ function AmendPreview({ id }) {
       {loading && (
         <div className="w-full">
           <Skeleton
-            width="40rem"
+            width="60rem"
             className="mb-2 w-full bg-gray-300"
           ></Skeleton>
           <Skeleton
-            width="40rem"
+            width="60rem"
             className="mb-2 w-full bg-gray-300"
           ></Skeleton>
           <Skeleton
-            width="40rem"
+            width="60rem"
             className="mb-2 w-full bg-gray-300"
           ></Skeleton>
           <Skeleton
-            width="40rem"
+            width="60rem"
             className="mb-2 w-full bg-gray-300"
           ></Skeleton>
           <Skeleton
-            width="40rem"
+            width="60rem"
             className="mb-2 w-full bg-gray-300"
             height="4rem"
           ></Skeleton>
@@ -496,101 +498,171 @@ function AmendPreview({ id }) {
       )}
 
       {!loading && (
-        <div className="h-full  border-2  mx-auto w-6/12 px-5 border-blue-300">
+        // <div className="h-full  border-2  mx-auto w-6/12 px-5 rounded-md border-green-500">
+        <div className="h-full border p-3 border-green-500 rounded-md">
           <div className="flex justify-center items-center">
-            <span className="text-xl text-blue-500 font-extrabold  my-3 uppercase">
+            <span className="text-xl text-green-500 font-extrabold  mb-2 ">
               Purchase Order
             </span>
           </div>
-          <p className="grid grid-cols-6 gap-24 items-center mb-2 px-4">
-            <div className="col-span-3 flex-col text-xs gap-2 space-y-2 text-black ">
-              <p className="uppercase font-extrabold">
-                PO No.: {po_no ? po_no : ""}
-              </p>
-              <p className="uppercase font-extrabold">
-                PO Date: {po_issue_date}
-              </p>
-              {po_no?.split("-").length>2 && (
-                <p className="uppercase font-extrabold">
-                  Amendement No:{po_no?.split("-")[2]}
-                </p>
-              )}
-               {po_no?.split('-').length>2 && <p className="uppercase font-extrabold">Parent PO: {po_no?.split('-')[0]}-{po_no?.split('-')[1]}</p> }
+          <div className="grid grid-cols-12 items-center px-3 w-full">
+            <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 ">
+            <div className="text-gray-800 font-bold">
+                    <span className=" font-bold text-green-700">PO No.: </span>{" "}
+                    {po_no ? po_no : ""}
+                  </div>
+              <div className="text-gray-800 font-bold">
+                                 <span className=" font-bold text-green-700">PO Date:</span>{" "}
+                                {po_issue_date}
+                               </div>
+              {po_no?.split("-").length > 2 && (
+                                <div className="text-gray-800 font-bold">
+                                  <span className=" font-bold text-green-700">
+                                    Amendement No.:{" "}
+                                  </span>
+                                  {po_no?.split("-")[2]}{" "}
+                                </div>
+                              )}
+                              {po_no?.split("-").length > 2 && (
+                                <div className="text-gray-800 font-bold">
+                                  <span className=" font-bold text-green-700">
+                                    Parent PO:{" "}
+                                  </span>{" "}
+                                  {po_no?.split("-")[0]}-{po_no?.split("-")[1]} 
+                                
+                                </div>
+                              )}
               {/* <p className="uppercase font-extrabold">Latest Amendement No:</p> */}
               {/* <p className="uppercase font-extrabold">Amendment Date:</p> */}
               {/* <p className="uppercase font-extrabold">Value: {grandTot}</p> */}
               {/* <span className="uppercase font-extrabold">Status No:  {localStorage.getItem('po_status')=='P'?'In Progress':localStorage.getItem('po_status')=='U'?'Unapproved':localStorage.getItem('po_status')=='A'?'Approved':localStorage.getItem('po_status')=='D'?'Delivered':'Partial Delivery'}</span> */}
             </div>
-            <div className="col-span-3 ">
-              <img src={IMG} className="sm:h-16 h-12" alt="Flowbite Logo" />
-              <span className="my-5 mx-3 mb-5 text-xs">
-                <p>Unit - 102, 1st Floor, PS PACE 1/1A,</p>{" "}
-                <p> Mahendra Roy Lane Kolkata 700046 </p>
-                <p> Ph-033 4068 6032/6450 0535</p>
-                <p> Email: info@ngapl.com</p>
-              </span>
-            </div>
-          </p>
-          <Divider />
-
-          <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">
-              <div className="my-5 w-full p-2 text-black font-semibold border-2 border-blue-400 bg-blue-400 rounded-lg">
-                Vendor Details
-              </div>
-              <div className="flex flex-col text-xs gap-1 text-black px-2 py-1">
-                <span className="uppercase font-extrabold gap-4">
-                  Name: {v_name}
-                </span>
-                <span className="uppercase font-extrabold">
-                  Address: {v_address}
-                </span>
-                <span className="uppercase font-extrabold">
-                  Email: {v_email}
-                </span>
-                <span className="uppercase font-extrabold">
-                  Phone: {v_phone}
-                </span>
-                <span className="uppercase font-extrabold">GST: {v_gst}</span>
-                <span className="uppercase font-extrabold">PAN: {v_pan}</span>
-                <span className="uppercase font-extrabold">
-                  Reference: {vend_ref}
-                </span>
-              </div>
-            </div>
+            <div className="col-span-6 flex flex-col text-xs gap-2  text-gray-800 items-end justify-end">
+                  <img src={IMG} className="sm:h-16 h-12" alt="Flowbite Logo" />
+                  <span className="my-5 mx-3 mb-5 text-xs">
+                    <p>NextGen Automation Pvt Ltd,</p>
+                    <p>Unit - 102, 1st Floor, PS PACE 1/1A,</p>{" "}
+                    <p> Mahendra Roy Lane Kolkata 700046 </p>
+                    <p> Ph-033 4068 6032/6450 0535</p>
+                    <p>Email:info@ngapl.com</p>
+                    {/* <p>/susanta.karanjai@ngapl.com</p> */}
+                    <p>GSTIN: 19AABCN5744L1Z1</p>
+                  </span>
+                </div>
           </div>
           <Divider />
 
-          <div className="grid grid-cols-2 gap-2 my-6">
-            <div className="col-span-1 border-2 border-blue-300 rounded-lg p-2">
-              <div className="w-full p-2  text-black font-semibold bg-blue-400  border-2 border-blue-400 rounded-lg">
+          <div className="grid grid-cols-2 gap-2">
+          <div className="col-span-2">
+                 
+                 <div className="my-2 w-full py-1 px-3 text-gray-50 font-semibold border border-green-500 bg-green-500 ">
+                   Vendor Details
+                 </div>
+                 <div className="flex flex-col text-xs gap-1 text-gray-800 px-3 ">
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">Name: </span>
+                     {v_name}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">
+                       {" "}
+                       Address:
+                     </span>{" "}
+                     {v_address}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">
+                       {" "}
+                       Email:{" "}
+                     </span>{" "}
+                     {v_email}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">Phone: </span>
+                     {v_phone}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">
+                       GST:
+                     </span>{" "}
+                     {v_gst}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">
+                       {" "}
+                       PAN:{" "}
+                     </span>{" "}
+                     {v_pan}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-green-700">
+                       {" "}
+                       Reference:
+                     </span>{" "}
+                     {localStorage.getItem("vend_ref")}
+                   </div>
+                   <div className="text-bold">
+                     {" "}
+                     <span className=" font-bold text-xs text-green-700">
+                       {" "}
+                       Vendor Contact Person(s):
+                     </span>{" "}
+                     {/* <ul>
+                       {" "}
+                       {vpoc?.map((item) => (
+                         <li>
+                           {item?.poc_name},{item?.poc_email} {item?.poc_ph_1}
+                           {item?.poc_ph_2 ? "/" + item?.poc_ph_2 : ""}{" "}
+                         </li>
+                       ))}{" "}
+                     </ul> */}
+                   </div>
+                 </div>
+               </div>
+          </div>
+          <Divider />
+
+          <div className="grid grid-cols-2 gap-2 my-2">
+            <div className="col-span-1 border border-gray-300">
+              <div className="w-full px-3 py-1 mb-1  text-gray-50 font-semibold bg-green-500  border border-green-500 ">
                 Bill To
               </div>
-              <p className="text-sm p-2">
+              <p className="text-xs px-3 py-1 mt-1">
+                    {" "}
+                    NextGen Automation Pvt Ltd
+                  </p>
+              <p className="text-xs px-3 py-1 mt-1">
                 {" "}
                 Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata
                 700046
               </p>{" "}
-              <p className="text-sm p-2"> Ph-033 4068 6032/6450 0535</p>{" "}
-              <p className="text-sm p-2"> Email: info@ngapl.com</p>
+              <p className="text-xs  px-3 py-1"> Ph-033 4068 6032/6450 0535</p>{" "}
+              <p className="text-xs  px-3 py-1"> Email: info@ngapl.com</p>
             </div>
-            <div className="col-span-1 border-2 border-blue-300 rounded-lg p-2">
-              <div className="w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="col-span-1 border border-gray-300  ">
+              <div className="w-full px-3 py-1 mb-1  text-gray-50 font-semibold bg-green-500  border border-green-500 ">
                 Ship To
               </div>
-              <p className="text-sm p-2"> {delivery} </p>
+              <p className="text-xs py-1 px-3"> {delivery} </p>
             </div>
           </div>
           <Divider />
 
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
               Item Description
             </div>
 
             <div className="relative overflow-x-auto">
               <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
-                <thead className="text-xs text-nowrap font-bold text-blue-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-nowrap font-bold text-green-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       Sl. No.
@@ -752,7 +824,7 @@ function AmendPreview({ id }) {
           <Divider />
 
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
               Payment Terms
             </div>
             <ul className="space-y-1 text-gray-700 p-2 list-disc list-inside dark:text-gray-400">
@@ -767,7 +839,7 @@ function AmendPreview({ id }) {
           <Divider />
 
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
               Terms & Conditions
             </div>
 
@@ -988,13 +1060,13 @@ function AmendPreview({ id }) {
           </p>
 
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
               Liquidity Damages
             </div>
 
             <div className="relative overflow-x-auto">
               <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
-                {/* <thead className="text-xs text-nowrap font-bold text-blue-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+                {/* <thead className="text-xs text-nowrap font-bold text-green-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     LD Applicable date
@@ -1127,7 +1199,7 @@ function AmendPreview({ id }) {
           </p>
           <Divider />
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-blue-400 bg-blue-400 rounded-lg">
+            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
               Notes
             </div>
             <span className="p-2">{localStorage.getItem("notes")}</span>

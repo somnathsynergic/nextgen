@@ -416,7 +416,7 @@ function PoPreview({ data }) {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="col-span-2">
-                  {/* <div className="my-5 w-full py-1 px-2 text-gray-800 font-semibold border-2 border-blue-400 bg-blue-400 "> */}
+                 
                   <div className="my-2 w-full py-1 px-3 text-gray-50 font-semibold border border-green-500 bg-green-500 ">
                     Vendor Details
                   </div>

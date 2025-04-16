@@ -39,6 +39,7 @@ function ClosePoView() {
   const [visible, setVisible] = useState(false);
   const det = JSON.parse(localStorage.getItem("perm"));
   const [isVisible, setIsVisible] = useState(false);
+  const [flag, setFlag] = useState(42);
 
   var template =
     locationpath.pathname.split("/")[
@@ -217,7 +218,7 @@ function ClosePoView() {
       .then((res) => {
         console.log(res);
         setAdvList(res?.data?.msg);
-        if (res?.data?.msg?.length) setVisible(true);
+        if (res?.data?.msg?.length) {setFlag(42);setVisible(true);}
       });
     // setPoData(
     //   copy?.filter(
@@ -355,11 +356,16 @@ function ClosePoView() {
       )}
       <DialogBox
         visible={visible}
-        flag={42}
+        flag={flag}
         data={{ list: adv_search_lst, labels: labels }}
         onPress={(id) => {
           setVisible(false);
           setId(id);
+          setFlag(41)
+          if(id){
+            alert(id)
+          }
+          console.log('insideclosepoview',id)
         }}
       />
     </>

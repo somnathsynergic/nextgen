@@ -20,6 +20,7 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import DialogBox from "./DialogBox";
 import { CancelOutlined } from "@mui/icons-material";
+import moment from "moment";
 
 function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
   const [first, setFirst] = useState(0);
@@ -167,7 +168,7 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                </th>
  
                <th scope="col" class="p-4">
-                 Created By
+                 Cancelled By
                </th>
                {/* {isPrinting && <th scope="col" class="p-4">
                  Action
@@ -360,7 +361,7 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                        )}
                      </p>}
                    </td>
-                   <td class="px-4 py-4 text-gray-600  text-xs">{item.po_issue_date}</td>
+                   <td class="px-4 py-4 text-gray-600  text-xs">{moment(item.po_issue_date).format('MM/DD/YYYY')}</td>
                    <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                    <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
                      {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
@@ -413,7 +414,7 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                        </Tag>
                      )}
                    </td>
-                   <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
+                   <td class="px-3 py-4 text-xs text-gray-600">{item.po_status=='C'?item.modified_by:''} {item.po_status=='C'?'('+item.modified_at.split('T')[1]+')':''}</td>
                    {/* {isPrinting && <td class="px-1 py-4 text-nowrap">
                      <Link
                        to={
@@ -449,7 +450,7 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                 flag={41}
                 po_status={status}
                 id={id}
-                onPress={() => {setVisible(false);isModalVisible(visible)}}
+                onPress={(val) => {setVisible(false);isModalVisible(visible); console.log('potablecancel',val)}}
               />
      </>
    );

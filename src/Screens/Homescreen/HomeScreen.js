@@ -172,7 +172,7 @@ function HomeScreen() {
           {/* <div class="text-amber-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
           </Spin>
         </Link>
-        <Link to={routePaths.PURCHASEORDER} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.HomeScreen} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-emerald-600">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
@@ -181,7 +181,7 @@ function HomeScreen() {
           </div>
           <div class="text-emerald-600 text-4xl ml-14 mt-9 font-bold">0</div>
         </Link>
-        <Link to={routePaths.PURCHASEORDER} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.HomeScreen} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-rose-500">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
@@ -242,7 +242,7 @@ function HomeScreen() {
           {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
           </Spin>
         </Link>
-        <Link to={routePaths.PURCHASEORDER} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.HomeScreen} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-green-700">
             <FileSearchOutlined class="text-white text-5xl" />
           </div>
@@ -251,7 +251,7 @@ function HomeScreen() {
           </div>
           <div class="text-green-700 text-4xl ml-14 mt-9 font-bold">0</div>
         </Link>
-        <Link to={routePaths.STOCKASSIGNVIEW} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.STOCKIN} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#6564DB]">
             <BarChartOutlined class="text-white text-5xl" />
           </div>

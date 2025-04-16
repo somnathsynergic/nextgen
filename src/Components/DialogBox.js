@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Paginator } from "primereact/paginator";
 import { Dialog } from "primereact/dialog";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -76,6 +77,8 @@ const DialogBox = ({
   onCloseApprove,
   po_status,
 }) => {
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(10);
   const navigate = useNavigate();
   const contentRef = useRef(null);
   const contentMRN = useRef(null);
@@ -87,6 +90,10 @@ const DialogBox = ({
   const reactToPrintFnMrn = useReactToPrint({
     contentMRN,
   });
+  const onPageChange = (event) => {
+    setFirst(event.first);
+    setRows(event.rows);
+  };
   // const det={}
   const [po_no, setPoNo] = useState("");
   const det = JSON.parse(localStorage.getItem("perm"));
@@ -328,6 +335,11 @@ const DialogBox = ({
     if (flag == 26) {
     }
   }, []);
+
+  useEffect(() => {
+    if(flag==25)
+    setCopy(data.info)
+  },[data])
 
   useEffect(() => {
     if (flag == 27) {
@@ -1675,7 +1687,8 @@ const DialogBox = ({
               type="search"
               id="default-search"
               className="bg-gray-200 border-gray-300 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Search by items, part_no,make"
+              placeholder="Search by items, part_no, make, article_no, model_no,description..."
+              onFocus={()=>setCopy(data.info)}
               onChange={(e) => {
                 console.log(e.target.value);
                 setCopy(
@@ -1687,6 +1700,15 @@ const DialogBox = ({
                       lst.prod_make
                         ?.toLowerCase()
                         .includes(e.target.value.toLowerCase()) ||
+                        lst.model_no
+                        ?.toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
+                        lst.article_no
+                        ?.toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
+                        lst.prod_desc
+                        ?.toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
                       lst.part_no
                         ?.toLowerCase()
                         .includes(e.target.value.toLowerCase())
@@ -1696,8 +1718,9 @@ const DialogBox = ({
             />
           </div>
           {copy?.length > 0 ? (
+            <>
             <ul class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-              {copy?.map((lst) => (
+              {copy?.slice(first, rows + first)?.map((lst) => (
                 <li
                   onClick={() => {
                     onSearch(lst.sl_no);
@@ -1722,6 +1745,14 @@ const DialogBox = ({
                 </li>
               ))}
             </ul>
+             <Paginator
+                          first={first}
+                          rows={rows}
+                          totalRecords={copy?.length}
+                          rowsPerPageOptions={[3, 5, 10, 15, 20, 30, copy?.length]}
+                          onPageChange={onPageChange}
+                        />
+                        </>
           ) : (
             <Empty />
           )}
@@ -4361,7 +4392,7 @@ const DialogBox = ({
               {data?.list?.map((lst) => (
                 <li
                   onClick={() => {
-                   onPress(lst.po_no);
+                   onPress(lst.sl_no);
                   }}
                   class="pb-3 p-2 sm:pb-4 cursor-pointer hover:bg-gray-200"
                 >

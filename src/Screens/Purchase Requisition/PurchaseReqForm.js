@@ -444,6 +444,11 @@ function PurchaseReqForm() {
                       ]}
                       handleChange={(txt) => {
                         setIntended(txt.target.value);
+                        if(txt.target.value=='W'){
+                          setProject("");
+                          setProjCode(0);
+                          setProjId("")
+                        }
                       }}
                     />
 
@@ -550,7 +555,7 @@ function PurchaseReqForm() {
                       }
                     >
                       <TDInputTemplate
-                        placeholder="Project"
+                        placeholder="Search by Project/Project ID"
                         type="text"
                         label="Project"
                         name="proj"
@@ -959,6 +964,7 @@ function PurchaseReqForm() {
                         disabled={
                           !intended_for ||
                           (intended_for == "P" && !projcode) ||
+                          itemDtls.filter(e=>e.item_id==''|| e.item_id=='item_id' || e.item_id=='Item').length>0 ||
                           itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.error;
                           }, 0) > 0

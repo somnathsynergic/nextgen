@@ -328,7 +328,7 @@ function DeliveryViewTemplate({ flag }) {
                     Intended For
                   </th>
                   <th scope="col" class="p-4 w-1/3">
-                    Invoices
+                    Invoice(s)
                   </th>
                   <th scope="col" class="p-4 w-1/3">
                     Created By

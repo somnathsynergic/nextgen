@@ -173,6 +173,7 @@ function PurchaseReqView() {
           (e) =>
             e?.pur_no?.toLowerCase().includes(word?.toLowerCase()) ||
                       e?.created_by?.toLowerCase().includes(word?.toLowerCase())||
+                      e?.created_at?.toLowerCase().includes(word?.toLowerCase())||
                       e?.proj_name?.toLowerCase().includes(word?.toLowerCase())||
                       e?.ID?.toLowerCase().includes(word?.toLowerCase())||
                       (e.intended=='W' && "Warehouse".toLowerCase().includes(word?.toLowerCase())) ||
@@ -393,14 +394,14 @@ function PurchaseReqView() {
                         <td class="px-4 py-4 w-1/6 text-gray-600">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
                         <td class="px-4 py-4 w-1/3 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                        {isPrinting? <td class="px-3 py-4 w-1/6 flex gap-3 text-gray-600">
-                        
+{/*                         
                           <Link
                             to={
                               routePaths.PURFORM + item.sl_no
                             }
-                          >
+                          > */}
                             <EditOutlined class="text-md text-white bg-green-900 rounded-full" />
-                          </Link>
+                          {/* </Link> */}
                         </td>:null}
                       </tr>
                     ))}

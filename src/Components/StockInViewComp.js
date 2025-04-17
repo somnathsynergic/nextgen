@@ -205,7 +205,7 @@ function StockInViewComp({
                 scope="row"
                 className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {proj_id!=0?data?.req_stock - (data?.del_stock || 0)-(data?.project_stock || 0):(data?.req_stock - (data?.del_stock || 0)-(data?.warehouse_stock || 0))}
+                {proj_id!=0? Math.abs(data?.req_stock - (data?.del_stock || 0)-(data?.project_stock || 0)):Math.abs((data?.req_stock - (data?.del_stock || 0)-(data?.warehouse_stock || 0)))}
               </td>
               {/* <td
                 scope="row"

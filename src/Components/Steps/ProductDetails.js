@@ -663,17 +663,17 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     )}
 
                     {params.flag == "F" &&
-                      pur_req_items.filter(
+                     pur_req_items.filter(
+                      (e) => (e.item_id == +input.item_name)
+                    )[0]?.copy_qty >0 && pur_req_items.filter(
                         (e) => (e.item_id == +input.item_name)
                       )[0]?.copy_qty < +input.qty && (
                         <VError
-                          title={pur_req_items.filter(
-                            (e) => (e.item_id == +input.item_name)
-                          )[0]?.copy_qty >0?
+                          title={
                             "Should be < " +
                               pur_req_items.filter(
                                 (e) => (e.item_id == +input.item_name)
-                              )[0]?.copy_qty:''
+                              )[0]?.copy_qty
                           }
                         />
                       )}

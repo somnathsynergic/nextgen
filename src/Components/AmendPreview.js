@@ -656,45 +656,66 @@ function AmendPreview({ id }) {
           <Divider />
 
           <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
+            <div className="mt-2 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500">
               Item Description
             </div>
 
             <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
-                <thead className="text-xs text-nowrap font-bold text-green-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+              <table className="w-full table-fixed border-collapse border border-gray-300 text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400 ">
+              <colgroup>
+                    {/* "Sl. No." column: fixed narrow width */}
+                    <col style={{ width: "40px" }} />
+                    {/* "Item-Description": no fixed width so it uses the remaining space; force wrapping */}
+                    <col style={{ width: "auto" }} />
+                    {/* The other eight columns: assign each fixed width */}
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                    <col style={{ width: "60px" }} />
+                  </colgroup>
+                <thead  className="text-xs text-nowrap font-bold text-green-500 captalize bg-white dark:bg-gray-700 dark:text-gray-400 ">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-1 py-2  text-center border border-gray-300">
                       Sl. No.
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       Item-Description
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       Quantity
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col"                         className="px-1 py-2 text-center border border-gray-300">
                       Rate
                     </th>
-                    <th scope="col" className="px-6 py-3">
-                      Discount(%)
+                    <th scope="col" className="px-1 py-2 text-center border border-gray-300">
+                      Discount
                     </th>
-                    <th scope="col" className="px-1 py-3">
+                    <th
+                        scope="col"
+                        className="px-1 py-2 text-xs text-wrap text-center border border-gray-300"
+                      >
+                        Net Unit Price
+                      </th>
+                    <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       CGST
                     </th>
-                    <th scope="col" className="px-1 py-3">
+                    <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       SGST
                     </th>
                     <th scope="col" className="px-1 py-3">
                       IGST
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    {/* <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       Total GST
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Unit Price
-                    </th>
-                    <th scope="col" className="px-6 py-3">
+                    </th> */}
+                    <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       Total
                     </th>
                   </tr>
@@ -704,22 +725,35 @@ function AmendPreview({ id }) {
                     prodInfo?.map((item, index) => (
                       <>
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                          <td className="px-1 py-1 text-xs" rowSpan={2}>
+                          <td className="px-1 py-1  text-[9px]  text-center border border-gray-300" rowSpan={2}>
                             {index + 1}
                           </td>
-                          <td className="px-6 py-4 flex flex-col gap-1 text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td className="py-1 px-1 text-xsm whitespace-normal break-words text-green-700 font-bold flex flex-col gap-1 text-wrap  dark:text-white">
                             {item.prod_name}
                           </td>
-                          <td className="px-6 py-4" rowSpan={2}>
-                            {item.quantity}
+                          <td className="py-1 px-1 text-[8px]  text-center border  text-nowrap border-gray-300" rowSpan={2}>
+                            {item.quantity}({item.unit_name})
                           </td>
-                          <td className="px-6 py-4" rowSpan={2}>
-                            {item.item_rt}
-                          </td>
-                          <td className="px-6 py-4" rowSpan={2}>
-                            {item.discount} ({item.discount_percent}%)
-                          </td>
-                          <td className="px-1 py-1 text-xs" rowSpan={2}>
+                          <td
+                              className="  py-1 px-1 text-[8px] text-right border border-gray-300"
+                              rowSpan={2}
+                            >
+                              {parseFloat(item.item_rt).toFixed(2)}
+                            </td>
+                            <td
+                              className=" py-1 px-1 text-[8px] text-right border border-gray-300"
+                              rowSpan={2}
+                            >
+                              {item.discount} <br />{" "}
+                              {item.discount
+                                ? "(" +
+                                  parseFloat(item.discount_percent)?.toFixed(
+                                    2
+                                  ) +
+                                  "%)"
+                                : ""}
+                            </td>
+                          <td className=" py-1 px-1 text-[8px] text-right border text-wrap border-gray-300" rowSpan={2}>
                             {item.cgst_id > 0
                               ? (
                                   (+item.item_rt - +item.discount) *
@@ -729,7 +763,7 @@ function AmendPreview({ id }) {
                               : ""}{" "}
                             {item.cgst_id > 0 ? "(" + item.cgst_id + "%)" : ""}
                           </td>
-                          <td className="px-1 py-1 text-xs" rowSpan={2}>
+                          <td  className=" py-1 px-1 text-[8px] text-right border text-wrap border-gray-300" rowSpan={2}>
                             {item.sgst_id > 0
                               ? (
                                   (+item.item_rt - +item.discount) *
@@ -739,7 +773,7 @@ function AmendPreview({ id }) {
                               : ""}{" "}
                             {item.sgst_id > 0 ? "(" + item.sgst_id + "%)" : ""}
                           </td>
-                          <td className="px-1 py-1 text-xs" rowSpan={2}>
+                          <td className=" py-1 px-1 text-[8px] text-right border text-wrap border-gray-300" rowSpan={2}>
                             {+item.igst_id > 0
                               ? (
                                   (+item.item_rt - +item.discount) *
@@ -750,7 +784,7 @@ function AmendPreview({ id }) {
                             {item.igst_id > 0 ? "(" + item.igst_id + "%)" : ""}
                           </td>
 
-                          <td className="px-1 py-1 text-xs " rowSpan={2}>
+                          <td className=" py-1 px-1  text-[8px] text-right text-wrap break-words whitespace-normal border border-gray-300" rowSpan={2}>
                             {item.sgst_id > 0
                               ? (
                                   (+item.item_rt - +item.discount) *
@@ -767,10 +801,10 @@ function AmendPreview({ id }) {
                                   (item.item_rt - item.discount) * item.quantity
                                 ).toFixed(2)}
                           </td>
-                          <td className="px-6 py-4" rowSpan={2}>
+                          <td className=" py-1 px-1  text-[8px] text-right text-wrap break-words whitespace-normal border border-gray-300" rowSpan={2}>
                             {+item.item_rt - +item.discount}
                           </td>
-                          <td className="px-6 py-4" rowSpan={2}>
+                          <td className=" py-1 px-1  text-[8px] text-right text-wrap break-words whitespace-normal border border-gray-300" rowSpan={2}>
                             {item.sgst_id > 0
                               ? (
                                   (+item.item_rt - +item.discount) *
@@ -789,7 +823,7 @@ function AmendPreview({ id }) {
                                 ).toFixed(2)}
                           </td>
                         </tr>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 break-inside-avoid print:break-inside-avoid print:mt-2">
                           <td className="px-6 py-4 text-xs gap-3">
                             <p>Make: {item.prod_make} </p>
                             <p>Category: {item.catg_name} </p>
@@ -808,14 +842,14 @@ function AmendPreview({ id }) {
                 </tbody>
                 <tfoot>
                   <tr class="font-semibold text-gray-900 dark:text-white">
-                    <th
+                  <th
                       scope="row"
-                      class="px-6 py-3 text-base font-bold"
-                      colSpan={10}
+                      class="px-10 py-1  pb-3 text-[10px] text-green-700 font-bold"
+                      colspan={7}
                     >
-                      Total
+                      Grand Total
                     </th>
-                    <th class="px-6 py-3 text-base font-bold">{grandTot}</th>
+                    <th class=" pb-3 py-1 px-1 text-[10px]  font-bold text-wrap text-green-700 break-words whitespace-normal">{grandTot}</th>
                   </tr>
                 </tfoot>
               </table>
@@ -823,8 +857,8 @@ function AmendPreview({ id }) {
           </p>
           <Divider />
 
-          <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
+         {termList.length>0 && <div className="print:[break-before:page] print:mt-5">
+            <div className="mt-2 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
               Payment Terms
             </div>
             <ul className="space-y-1 text-gray-700 p-2 list-disc list-inside dark:text-gray-400">
@@ -835,37 +869,38 @@ function AmendPreview({ id }) {
                   </li>
                 ))}
             </ul>
-          </p>
-          <Divider />
+          </div>
+}
+          <Divider className="mt-2" />
 
-          <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
+          <div>
+            <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border-green-500 bg-green-500 ">
               Terms & Conditions
             </div>
 
             <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
+              <table className="w-full text-sm border-collapse border border-gray-300 text-left rtl:text-right text-gray-700 dark:text-gray-400">
                 <tbody>
                   <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                     className="px-1 w-1/4 py-1 text-xs border border-gray-300 text-green-700 font-bold whitespace-nowrap dark:text-white"
                     >
                       Price Basis
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 w-3/4 py-1 text-xs border border-gray-300">
                       {price_basis_flag == "F" ? "FOR" : "EX-WORKS"},{" "}
                       {price_basis_desc}
                     </td>
                   </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Packing & Forwarding
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300">
                       {packing_forwarding == "I"
                         ? "Inclusive"
                         : `Extra  ${packing_forwardingExtra}% - ${(
@@ -889,11 +924,11 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Freight
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300">
                       {freight_insurance == "I" ? "Inclusive" : "Extra"} -
                       {freight_extra}% {freight_insurance_extra_val}
                       {/* {(grandTot * freight_insurance_extra_val/100).toFixed(2)} */}
@@ -923,7 +958,7 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                       className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Insurance
                     </th>
@@ -944,21 +979,21 @@ function AmendPreview({ id }) {
                         {/* (CGST-{(freight_cgst*freight_insurance_val/100).toFixed(2)} SGST-{(freight_sgst*freight_insurance_val/100).toFixed(2)} IGST-{(freight_igst*freight_insurance_val/100).toFixed(2)}) */}
                       </td>
                     ) : (
-                      <td className="px-6 py-4">
+                      <td className="px-1 py-1 text-xs border border-gray-300">
                         {insurance == "Y" ? `${insurance_val}` : "N/A"}
 
                         {/* (CGST-{(freight_cgst*freight_insurance_val/100).toFixed(2)} SGST-{(freight_sgst*freight_insurance_val/100).toFixed(2)} IGST-{(freight_igst*freight_insurance_val/100).toFixed(2)}) */}
                       </td>
                     )}
                   </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Test Certificate
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300">
                       {test_certificate == "Y"
                         ? "Yes, " + test_certificate_desc
                         : "N/A"}
@@ -968,11 +1003,11 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                     className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Warranty/Guarantee
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
                       {/* {warranty_guarantee_flag=='W'?'Warranty':'Guarantee'} duration: {duration_val} {duration=='M'?'month(s)':duration=='D'?'day(s)':'year(s)'} */}
                       {/* {comm_dt && ' from the date of commission'}
                 {comm_dt && dispatch_dt ? ' or from the date of dispatch':!comm_dt && !dispatch_dt?'':dispatch_dt?'from the date of dispatch.':''}
@@ -999,11 +1034,11 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                     className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       O & M Manual
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300">
                       {om_manual_flag == "A"
                         ? "Applicable. " + om_manual_desc
                         : "N/A"}
@@ -1012,22 +1047,22 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Operation/Installation
                     </th>
-                    <td className="px-6 py-4">
+                    <td  className="px-1 py-1 text-xs border border-gray-300">
                       {oi_flag == "A" ? "Applicable. " + oi_desc : "N/A"}
                     </td>
                   </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b dark:bg-gray-800 text-gray-700 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Packing Type
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs text-gray-700 border border-gray-300">
                       {packing_type == "W"
                         ? "Wooden"
                         : packing_type == "C"
@@ -1044,11 +1079,11 @@ function AmendPreview({ id }) {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       Manufacture Clearance
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 text-xs border border-gray-300">
                       {manufacture_clearance == "A"
                         ? "Applicable. " + manufacture_clearance_desc
                         : "N/A"}
@@ -1057,15 +1092,15 @@ function AmendPreview({ id }) {
                 </tbody>
               </table>
             </div>
-          </p>
+          </div>
 
-          <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
+          {/* <p className="mb-5"> */}
+            <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
               Liquidity Damages
             </div>
 
             <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
+              <table className="w-full  text-left border border-collapse text-xs rtl:text-right text-gray-50 dark:text-gray-400">
                 {/* <thead className="text-xs text-nowrap font-bold text-green-500 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
@@ -1083,15 +1118,15 @@ function AmendPreview({ id }) {
                 
             </tr>
         </thead> */}
-                <tbody>
+                <tbody  className="text-gray-700 ">
                   <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                       className="px-1 w-1/4 py-1 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       LD Applicable date:
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 w-3/4 border border-gray-300">
                       {ld_applicable_date == "O"
                         ? `Others - ${others_ld}`
                         : ld_applicable_date == "M"
@@ -1101,14 +1136,14 @@ function AmendPreview({ id }) {
                         : "Dispatch Date"}
                     </td>
                   </tr>
-                  <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b ">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                       className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
                       LD applied on:
                     </th>
-                    <td className="px-6 py-4">
+                    <td className="px-1 py-1 w-3/4 border border-gray-300">
                       {ld_applied_on == "O"
                         ? `Others - ${others_applied}`
                         : ld_applicable_date == "P"
@@ -1118,14 +1153,14 @@ function AmendPreview({ id }) {
                         : "PO Total Value(%)"}
                     </td>
                   </tr>
-                  <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b ">
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
-                      Ld value(%):
+                      LD value(%):
                     </th>
-                    <td className="px-6 py-4 text-wrap">
+                    <td className="py-1 px-1 w-3/4 text-wrap border border-gray-300">
                       {ld_applicable_date == "NA"
                         ? ""
                         : "LD @" +
@@ -1135,7 +1170,7 @@ function AmendPreview({ id }) {
                           "% of the order value would be applicable for any delay beyond the stipulated delivery period."}
                     </td>
                   </tr>
-                  <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
+                  {/* <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -1145,47 +1180,47 @@ function AmendPreview({ id }) {
                     <td className="px-6 py-4">
                       {ld_applicable_date == "NA" ? "" : po_min_value+'%'}
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>
             <Divider />
-            <table className="w-full my-10 text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
+            <table className="w-full my-3 text-xs border border-collapse text-left rtl:text-right text-gray-700 dark:text-gray-400">
               <tbody>
                 <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className="px-1 w-1/4 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                   >
                     MDCC
                   </th>
-                  <td className="px-6 py-4">
+                  <td  className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
                     {localStorage.getItem("mdcc_flag") == "Y"
                       ? "Yes. " + localStorage.getItem("mdcc")
                       : "N/A"}
                   </td>
                 </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr  className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    cclassName="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                   >
                     Inspection
                   </th>
-                  <td className="px-6 py-4">
+                  <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
                     {localStorage.getItem("insp_flag") == "Y"
                       ? "Yes. " + localStorage.getItem("insp")
                       : "N/A"}
                   </td>
                 </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                     className="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                   >
                     Drawing/Datasheet
                   </th>
-                  <td className="px-6 py-4">
+                  <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
                     {localStorage.getItem("drawing_flag") == "Y"
                       ? "Yes . " +
                         localStorage.getItem("drawing") +
@@ -1196,21 +1231,21 @@ function AmendPreview({ id }) {
                 </tr>
               </tbody>
             </table>
-          </p>
+          {/* </p> */}
           <Divider />
-          <p className="mb-5">
-            <div className="my-2 w-full p-2 text-black font-semibold  border-2 border-green-500 bg-green-500 ">
+          {/* <p className="mb-5"> */}
+            <div className="mt-2 mb-1 w-full px-3 py-1  text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
               Notes
             </div>
             <span className="p-2">{localStorage.getItem("notes")}</span>
-          </p>
+          {/* </p> */}
 
           <Divider />
-          <p className="mb-5">
-            <h3>Default Note:</h3>
-            <table className="border-2 border-gray-300 border-collapse my-1 p-3">
+          {/* <p className="mb-5"> */}
+            <h3  className="text-green-700 mt-2 font-bold text-sm">Default Note:</h3>
+            <table className="border text-gray-800  text-xs border-gray-300 border-collapse  my-1 px-3 py-1">
               <tr className="border-2 border-gray-300">
-                <td rowspan="2" className="border-2 border-gray-300">
+                <td rowspan="2" className="border border-gray-300">
                   Tax Invoice shall be of minimum three (3) copies with—
                   <br />
                   1. GSTIN of supplier
@@ -1259,7 +1294,7 @@ function AmendPreview({ id }) {
                 </td>
               </tr>
             </table>
-          </p>
+          {/* </p> */}
         </div>
       )}
     </div>

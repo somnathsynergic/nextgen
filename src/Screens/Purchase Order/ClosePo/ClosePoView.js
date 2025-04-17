@@ -279,7 +279,7 @@ function ClosePoView() {
              onChange(value);
            }}
          /> */}
-        <CompositeSearch
+        {/* <CompositeSearch
           data={{
             set_one: vendorList,
             set_two: projectList,
@@ -316,7 +316,7 @@ function ClosePoView() {
               values.val_eight
             );
           }}
-        />
+        /> */}
       </div>
 
       {loading && <SkeletonLoading />}

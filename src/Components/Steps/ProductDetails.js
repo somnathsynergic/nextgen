@@ -667,11 +667,13 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         (e) => (e.item_id == +input.item_name)
                       )[0]?.copy_qty < +input.qty && (
                         <VError
-                          title={
+                          title={pur_req_items.filter(
+                            (e) => (e.item_id == +input.item_name)
+                          )[0]?.copy_qty >0?
                             "Should be < " +
                               pur_req_items.filter(
                                 (e) => (e.item_id == +input.item_name)
-                              )[0]?.copy_qty
+                              )[0]?.copy_qty:''
                           }
                         />
                       )}

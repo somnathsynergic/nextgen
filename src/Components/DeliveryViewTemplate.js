@@ -187,6 +187,7 @@ function DeliveryViewTemplate({ flag }) {
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
         e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
         e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+        e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
         (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
 
           e?.created_by?.toLowerCase().includes(word?.toLowerCase())
@@ -325,6 +326,9 @@ function DeliveryViewTemplate({ flag }) {
                     PO No.
                   </th>
                   <th scope="col" class="p-4 w-1/3">
+                    Vendor
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
                     Intended For
                   </th>
                   <th scope="col" class="p-4 w-1/3">
@@ -358,6 +362,7 @@ function DeliveryViewTemplate({ flag }) {
                       {item.sl_no}
                       </th>
                       <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap">{item.po_no}</td>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap">{item.vendor_name}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>

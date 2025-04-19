@@ -84,6 +84,7 @@ function StockIn() {
         });
     },[])
     const onSubmit = (values) => {
+      console.log(prodCode)
       setInfo([{key:'1',label:'Date',children:<p>{dt}</p>},{key:'2',label:'Item',children:<p>{prodVal}</p>}])
         setLoading(true);
         // axios
@@ -97,6 +98,7 @@ function StockIn() {
         //     }
            
         //   });
+      if(prodCode!=undefined){
         axios
         .post(url + "/api/get_logical_stock_req", { prod_id: prodCode||0, proj_id: type=='P'?projcode:0 })
         .then((res) => {
@@ -108,6 +110,20 @@ function StockIn() {
           }
          
         });
+      }
+      else{
+        axios
+        .post(url + "/api/get_logical_stock_req_all", { prod_id: prodCode||0, proj_id: type=='P'?projcode:0 })
+        .then((res) => {
+          console.log(res);
+          setReportData(res?.data)
+          setLoading(false);
+          if(res?.data?.result?.msg?.length==0){
+              Message('error','No Data')
+          }
+         
+        });
+      }
     };
  
     return (
@@ -332,7 +348,7 @@ function StockIn() {
           </form>
           <div className="flex justify-center items-center">
           <button
-          disabled={!dt || !prodCode}
+          disabled={!dt || (!projcode && type!='W')}
         type="submit"
         className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
          onClick={()=>onSubmit()}

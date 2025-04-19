@@ -480,7 +480,7 @@ function PoPreview({ data }) {
                         {" "}
                         {vpoc?.map((item) => (
                           <li>
-                            {item?.poc_name},{item?.poc_email} {item?.poc_ph_1}
+                            {item?.poc_name},{item?.poc_email}, {item?.poc_ph_1}
                             {item?.poc_ph_2 ? "/" + item?.poc_ph_2 : ""}{" "}
                           </li>
                         ))}{" "}

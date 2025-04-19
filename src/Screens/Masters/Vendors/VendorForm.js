@@ -213,9 +213,9 @@ function VendorForm() {
     v_type: Yup.string().required("Type is required"),
     v_name: Yup.string().required("Name is required"),
     v_phone: Yup.string()
-      .required("Phone is required")
-      .length(10, "Must be 10 digits!")
-      .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
+      .required("Phone is required"),
+      // .length(10, "Must be 10 digits!")
+      // .matches(/^[1-9][0-9]{9}$/, "Invalid phone no."),
     v_email: Yup.string()
       // .required("Email is required")
       .email("Incorrect format!"),
@@ -295,10 +295,10 @@ function VendorForm() {
         poc_ph_1: Yup.string()
           .required("Phone is required")
           .length(10, "Must be 10 digits!")
-          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9][0-9]{9}$/, "Invalid phone no."),
         poc_ph_2: Yup.string()
           .length(10, "Must be 10 digits!")
-          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9][0-9]{9}$/, "Invalid phone no."),
         poc_email: Yup.string()
           // .required("Email is required")
           .email("Incorrect format!"),

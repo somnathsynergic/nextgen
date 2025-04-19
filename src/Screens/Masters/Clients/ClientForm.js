@@ -181,10 +181,10 @@ function ClientForm() {
         poc_ph_1: Yup.string()
           // .required("Please enter primary number")
           .length(10, "Must be 10 digits!")
-          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9][0-9]{9}$/, "Invalid phone no."),
         poc_ph_2: Yup.string()
           .length(10, "Must be 10 digits!")
-          .matches(/^[1-9]{2}[0-9]{8}$/, "Invalid phone no."),
+          .matches(/^[1-9][0-9]{9}$/, "Invalid phone no."),
         // poc_location: Yup.string().required("Location is required!"),
         poc_location: Yup.string(),
       })

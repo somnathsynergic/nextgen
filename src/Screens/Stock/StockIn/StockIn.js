@@ -12,6 +12,7 @@ import PrintComp from "../../../Components/PrintComp";
 import { OverlayPanel } from "primereact/overlaypanel";
 import moment from "moment";
 import StockInViewComp from "../../../Components/StockInViewComp";
+import StockInViewCompAll from "../../../Components/StockInViewCompAll";
 
 
 function StockIn() {
@@ -116,7 +117,7 @@ function StockIn() {
         .post(url + "/api/get_logical_stock_req_all", { prod_id: prodCode||0, proj_id: type=='P'?projcode:0 })
         .then((res) => {
           console.log(res);
-          setReportData(res?.data)
+          setReportData(res?.data.msg)
           setLoading(false);
           if(res?.data?.result?.msg?.length==0){
               Message('error','No Data')
@@ -374,7 +375,9 @@ function StockIn() {
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           {/* <Tag color="#014737">Warehouse quantity of this product: {reportData[0].warehouse_stock || 0}</Tag> */}
           
-      <StockInViewComp data={reportData}  headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2}/>
+     {prodCode!=undefined && <StockInViewComp data={reportData}  headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2}/>}
+
+     {prodCode==undefined && <StockInViewCompAll data={reportData}  headers={headers} info={info} proj_id={projcode} project={project} product={prodVal} flag={2}/>}
           </div>
         </div>
 

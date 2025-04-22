@@ -177,7 +177,7 @@ function PoLogs({ data }) {
     console.log(count);
   }, [count]);
   return (
-                  <BlockUI blocked={blocked}  className={'bg-red-500 w-screen'}>
+                  // <BlockUI blocked={blocked}  className={'bg-red-500 w-screen'}>
     
     <div className="grid grid-cols-2 gap-10  my-10">
       <div className="sm:col-span-1 rounded-lg shadow-lg -ml-4 bg-[#DDEAE0] p-5">
@@ -319,7 +319,7 @@ function PoLogs({ data }) {
         onDelete={()=>deleteDoc()}
       />
     </div>
-    </BlockUI>
+    // </BlockUI>
   );
 }
 

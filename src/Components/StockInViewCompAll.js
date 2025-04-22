@@ -149,7 +149,7 @@ function StockInViewCompAll({
         <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
           <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-            <td className="border border-gray-300 p-2">
+            <td className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold">
               Item
               </td>
              {proj_id!=0 && <th
@@ -260,12 +260,12 @@ function StockInViewCompAll({
                           </td>
                           <td className="border text-gray-600 border-gray-300 p-2">{project||'Warehouse'}</td>
                         </tr>
-                        <tr  className="border border-gray-300">
+                        {/* <tr  className="border border-gray-300">
                           <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
                             Item 
                           </td>
                           <td className="border text-gray-600 border-gray-300 p-2">{product}</td>
-                        </tr>
+                        </tr> */}
                        
                        
 
@@ -278,11 +278,11 @@ function StockInViewCompAll({
             
             <table className="border-collapse border border-gray-500 w-full text-center">
             <thead>
+           
+            <tr className="text-green-500 font-bold text-center">
             <th  className="border border-gray-300 p-2 capitalize">
                Item
               </th>
-            <tr className="text-green-500 font-bold text-center">
-              
               {proj_id!=0 && <th  className="border border-gray-300 p-2 capitalize">
                 Project Quantity 
               </th>}
@@ -303,16 +303,17 @@ function StockInViewCompAll({
             </tr>
             </thead>
             <tbody className="text-gray-600 text-xs">
-           <tr>
-             
+            {data?.map(item=> <tr>
+                <td className="border border-gray-300 p-2">
+              {item?.prod_name}
+              </td>
               {proj_id!=0 && <td className="border flex flex-col justify-center items-center border-gray-300 p-2">
-              {data?.project_stock || 0}
-            
+                {item?.stock || 0}
               </td>
 }
 
 {proj_id==0 && <td className="border border-gray-300 p-2">
-              {data?.warehouse_stock || 0}
+    {item?.stock || 0}
               </td>
 }
              
@@ -320,14 +321,15 @@ function StockInViewCompAll({
               {data?.req_stock - data?.del_stock || 0}
               </td>
 
+             
+             
+             
               <td className="border border-gray-300 p-2">
-              {proj_id!=0?data?.req_stock - (data?.del_stock || 0)-(data?.project_stock || 0):(data?.req_stock - (data?.del_stock || 0)-(data?.warehouse_stock || 0))}
+              {Math.abs(item?.req_qty - (item?.del_stock || 0)-(item?.stock || 0))}
               </td>
              
-             
-             
             
-            </tr>
+            </tr>)}
             </tbody>
             </table>
             

@@ -316,7 +316,7 @@ function StockIn() {
                     data={prodList}
                     mode={1}
                   />
-                    {!prodCode ? <VError title={"Required"} /> : null}
+                    {/* {!prodCode ? <VError title={"Required"} /> : null} */}
                 
 
 <OverlayPanel ref={op} className='w-[480px] border-2 bg-gray-200 border-green-900'>

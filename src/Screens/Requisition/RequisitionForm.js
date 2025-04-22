@@ -1086,10 +1086,10 @@ function RequisitionForm() {
                                 <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
                                   <td
                                     scope="row"
-                                    className="px-4 w-1/6 py-1.5 flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                                    className="px-4 w-1/6 py-1.5 flex-wrap justify-between gap-10 items-center text-sm text-gray-900 dark:text-white"
                                   >
-                                    <div className="flex gap-7 justify-start items-center">
-                                      <p className="font-bold text-green-900">
+                                    <div className="flex gap-7 text-wrap justify-start items-center">
+                                      <p className="font-bold text-wrap text-green-900">
                                         {" "}
                                         {item.prod_name.split("@")[0]}
                                       </p>

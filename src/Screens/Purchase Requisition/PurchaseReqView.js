@@ -159,8 +159,8 @@ function PurchaseReqView() {
         console.log(res);
         setLoading(false);
       
-            setCopy(res?.data?.msg);
-            setPoData(res?.data?.msg);
+            setCopy(res?.data?.msg.sort((a, b) => b.sl_no - a.sl_no));
+            setPoData(res?.data?.msg.sort((a, b) => b.sl_no - a.sl_no));
             
       });
   

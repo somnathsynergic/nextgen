@@ -2012,7 +2012,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 { name: "Not Applicable", code: "NA" },
               ]}
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2038,7 +2038,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label="LD value applied on"
               name="ld_applied_on"
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L" ||
@@ -2068,7 +2068,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label="LD value (%)"
               name="ld_value"
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L" ||
@@ -2119,7 +2119,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                   label="Others (LD Applicable Date)"
                   name="others_ld"
                   disabled={
-                    localStorage.getItem("amend_flag") == "Y" ||
+                    // localStorage.getItem("amend_flag") == "Y" ||
                     localStorage.getItem("po_status") == "A" ||
                     localStorage.getItem("po_status") == "D" ||
                     localStorage.getItem("po_status") == "L" ||
@@ -2176,7 +2176,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                     label="Others (LD Value applied on)"
                     name="others_applied"
                     disabled={
-                      localStorage.getItem("amend_flag") == "Y" ||
+                      // localStorage.getItem("amend_flag") == "Y" ||
                       localStorage.getItem("po_status") == "A" ||
                       localStorage.getItem("po_status") == "D" ||
                       localStorage.getItem("po_status") == "L" ||
@@ -2203,7 +2203,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label="Maximum % on PO value"
               name="po_min_value"
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L" ||
@@ -2233,7 +2233,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 { code: "G", name: "Guarantee" },
               ]}
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2259,7 +2259,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                     checked={formik.values.dispatch_dt}
                     name="dispatch_dt"
                     disabled={
-                      localStorage.getItem("amend_flag") == "Y" ||
+                      // localStorage.getItem("amend_flag") == "Y" ||
                       localStorage.getItem("po_status") == "A" ||
                       localStorage.getItem("po_status") == "D" ||
                       localStorage.getItem("po_status") == "L"
@@ -2274,7 +2274,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                     checked={formik.values.comm_dt}
                     name="comm_dt"
                     disabled={
-                      localStorage.getItem("amend_flag") == "Y" ||
+                      // localStorage.getItem("amend_flag") == "Y" ||
                       localStorage.getItem("po_status") == "A" ||
                       localStorage.getItem("po_status") == "D" ||
                       localStorage.getItem("po_status") == "L"
@@ -2314,7 +2314,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               handleBlur={formik.handleBlur}
               mode={2}
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2333,7 +2333,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label={formik.values.warranty_guarantee_flag!='N'?"Duration Value":'Commission Date'}
               name="duration_val"
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2357,7 +2357,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               label="Dispatch Date"
               name="duration_val_to"
               disabled={
-                localStorage.getItem("amend_flag") == "Y" ||
+                // localStorage.getItem("amend_flag") == "Y" ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"

@@ -1150,7 +1150,7 @@ function AmendPreview({ id }) {
                         ? "Pending Material Value"
                         : ld_applicable_date == "NA"
                         ? ""
-                        : "PO Total Value(%)"}
+                        : "PO Total Value"}
                     </td>
                   </tr>
                   <tr className="bg-white border-b ">

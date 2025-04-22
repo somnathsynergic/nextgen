@@ -91,7 +91,7 @@ function StockOutComponent({
     console.log(dt);
     setLst(dt);
     setDataCopy(dt);
-    if( dt[index].req_list[index_req]["req_qty"]>(dt[index].req_list[index_req]["copy_qty"]-dt[index].req_list[index_req]["del_qty"]))
+    if(dt[index].req_list[index_req]["req_qty"]>(dt[index].req_list[index_req]["copy_qty"]-dt[index].req_list[index_req]["del_qty"]))
       dt[index]['error']=1
     else
       dt[index]['error']=0
@@ -172,7 +172,7 @@ function StockOutComponent({
                           name="req_qty"
                           formControlName={item_req.req_qty}
                           handleChange={(event) =>
-                            handleDtChange(event, index_req, index)
+                            handleDtChange(event, index_req, first+index)
                           }
                           mode={1}
                         />

@@ -416,7 +416,6 @@ function PoPreview({ data }) {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="col-span-2">
-                 
                   <div className="my-2 w-full py-1 px-3 text-gray-50 font-semibold border border-green-500 bg-green-500 ">
                     Vendor Details
                   </div>
@@ -625,7 +624,7 @@ function PoPreview({ data }) {
     <td colspan="100" class="h-6"></td>
     
   </tr> */}
-  
+
                           <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 break-inside-avoid print:break-inside-avoid print:mt-2">
                             <td
                               className="px-1 py-1  text-[9px]  text-center border border-gray-300"
@@ -857,17 +856,57 @@ function PoPreview({ data }) {
                       ))}
                   </tbody>
                   {/* <tfoot> */}
-                  <tr class="font-semibold text-gray-900 dark:text-white py-3">
+                  <tr class="font-semibold border-2 border-b-gray-200 text-gray-900 dark:text-white py-3">
+                  
                     <th
                       scope="row"
-                      class="px-10 py-1  pb-3 text-[10px] text-green-700 font-bold"
-                      colspan={7}
+                      class="px-2 py-1  text-end pb-3 text-[10px] text-green-700 font-bold"
+                      colspan={10}
                     >
-                      Grand Total
-                    </th>
-                    <th
-                      class=" pb-3 py-1 px-1 text-[10px]  font-bold text-wrap text-green-700 break-words whitespace-normal"
-                      colspan={3}
+                      Total Basic Value: {formatNumber(
+                        prodInfo?.map((item) => {
+                            const rate = parseFloat(item.item_rt) || 0;
+                            const discount = parseFloat(item.discount) || 0;
+                            const quantity = parseFloat(item.quantity) || 0;
+                            return quantity * (rate - discount);
+                          })
+                          .reduce((acc, curr) => acc + curr, 0),
+                        grandTotUnit == "I"
+                          ? "INR"
+                          : grandTotUnit == "U"
+                          ? "USD"
+                          : "EUR"
+                      )}
+                     &nbsp; &nbsp; Total Discount: {formatNumber(
+                        prodInfo
+                          ?.map((item) => item.discount)
+                          .reduce((acc, curr) => acc + curr, 0),
+                        grandTotUnit == "I"
+                          ? "INR"
+                          : grandTotUnit == "U"
+                          ? "USD"
+                          : "EUR"
+                      )}
+                   
+                   
+                     {/* Total Basic Value: {formatNumber(
+                        prodInfo?.map((item) => {
+                            const rate = parseFloat(item.item_rt) || 0;
+                            const discount = parseFloat(item.discount) || 0;
+                            const quantity = parseFloat(item.quantity) || 0;
+                            return quantity * (rate - discount);
+                          })
+                          .reduce((acc, curr) => acc + curr, 0),
+                        grandTotUnit == "I"
+                          ? "INR"
+                          : grandTotUnit == "U"
+                          ? "USD"
+                          : "EUR"
+                      )} */}
+                   </th>
+                    {/* <th
+                      class=" pb-3 py-1 px-1 text-[10px] flaot-end font-bold text-wrap text-green-700 break-words whitespace-normal"
+                      colspan={1}
                     >
                       {formatNumber(
                         grandTot,
@@ -877,9 +916,33 @@ function PoPreview({ data }) {
                           ? "USD"
                           : "EUR"
                       )}{" "}
-                      ({numberToWords(grandTot)}
-                      {/* {grandTotUnit=='I'?'Rupees':grandTotUnit=='U'?'Dollars':'Euros'}  */}
+                     
+                    </th> */}
+                  </tr>
+                  <tr class="font-semibold text-gray-900 dark:text-white py-3">
+                    <th
+                      scope="row"
+                      class="px-10 py-1  pb-3 text-[10px] text-green-700 font-bold"
+                      colspan={9}
+                    >
+                      Grand Total : ({numberToWords(grandTot)}
                       Only)
+                    </th>
+                    <th
+                      class=" pb-3 py-1 px-1 text-[10px] flaot-end font-bold text-wrap text-green-700 break-words whitespace-normal"
+                      colspan={1}
+                    >
+                      {formatNumber(
+                        grandTot,
+                        grandTotUnit == "I"
+                          ? "INR"
+                          : grandTotUnit == "U"
+                          ? "USD"
+                          : "EUR"
+                      )}{" "}
+                      {/* ({numberToWords(grandTot)}
+                      Only) */}
+                      {/* {grandTotUnit=='I'?'Rupees':grandTotUnit=='U'?'Dollars':'Euros'}  */}
                       {/* item?.currency=='I'?'₹':item?.currency=='U'?'$':'€':'' */}
                       {/* ({grandTotUnit=='I'?'₹':grandTotUnit=='U'?'$':'€'}) */}
                     </th>
@@ -888,610 +951,621 @@ function PoPreview({ data }) {
                 </table>
               </div>
 
-            <div className="print:[break-before:page] print:mt-5">
-              {JSON.parse(localStorage.getItem("termList"))?.length > 0 && (
-                <>
-                  {/* <p className="mb-5"> */}
-                  <Divider className="mt-2" />
-                  <div >
-                    <div className="mt-2 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
-                      Payment Terms
+              <div className="print:[break-before:page] print:mt-5">
+                {JSON.parse(localStorage.getItem("termList"))?.length > 0 && (
+                  <>
+                    {/* <p className="mb-5"> */}
+                    <Divider className="mt-2" />
+                    <div>
+                      <div className="mt-2 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
+                        Payment Terms
+                      </div>
+                      <ul className=" space-y-1 text-gray-700 p-2 list-disc  list-inside dark:text-gray-400">
+                        {JSON.parse(localStorage.getItem("termList"))?.length >
+                          0 &&
+                          JSON.parse(localStorage.getItem("termList"))?.map(
+                            (item) => <li className="text-xs">{item.term}</li>
+                          )}
+                      </ul>
                     </div>
-                    <ul className=" space-y-1 text-gray-700 p-2 list-disc  list-inside dark:text-gray-400">
-                      {JSON.parse(localStorage.getItem("termList"))?.length >
-                        0 &&
-                        JSON.parse(localStorage.getItem("termList"))?.map(
-                          (item) => <li className="text-xs">{item.term}</li>
+                  </>
+                )}
+                {/* </p> */}
+                <Divider />
+
+                <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border-green-500 bg-green-500 ">
+                  Terms & Conditions
+                </div>
+
+                <div className="relative overflow-x-auto">
+                  <table className="w-full text-sm border-collapse border border-gray-300 text-left rtl:text-right text-gray-700 dark:text-gray-400">
+                    <tbody>
+                      <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 w-1/4 py-1 text-xs border border-gray-300 text-green-700 font-bold whitespace-nowrap dark:text-white"
+                        >
+                          Price Basis
+                        </th>
+                        <td className="px-1 w-3/4 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .price_basis_flag == "F"
+                            ? "FOR"
+                            : "EX-WORKS"}{" "}
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .price_basis_desc
+                            ? JSON.parse(localStorage.getItem("terms"))
+                                .price_basis_desc + ","
+                            : ""}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Packing & Forwarding
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .packing_forwarding_val == "I"
+                            ? "Inclusive"
+                            : `Extra  ${
+                                JSON.parse(localStorage.getItem("terms"))
+                                  .packing_forwarding_extra
+                              }% - ${(
+                                // (subTot *
+                                //   // (grandTot *
+                                //   JSON.parse(localStorage.getItem("terms"))
+                                //     .packing_forwarding_extra) /
+                                // 100
+                                parseFloat(JSON.parse(localStorage.getItem("terms"))
+                                .packing_forwarding_extra_val)
+                              )?.toFixed(2)}  (CGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .pf_cgst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .packing_forwarding_extra_val) /
+                                100
+                              ).toFixed(2)} SGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .pf_sgst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .packing_forwarding_extra_val) /
+                                100
+                              ).toFixed(2)} IGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .pf_igst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .packing_forwarding_extra_val) /
+                                100
+                              ).toFixed(2)}) `}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Freight
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .freight_insurance == "I"
+                            ? "Inclusive"
+                            : `Extra ${
+                                JSON.parse(localStorage.getItem("terms"))
+                                  .freight_insurance_val
+                              }, ${
+                                JSON.parse(localStorage.getItem("terms"))
+                                  .freight_extra
+                              }% - ${(
+                                // (subTot *
+                                //   // (grandTot *
+                                //   JSON.parse(localStorage.getItem("terms"))
+                                //     .freight_extra) /
+                               
+                                // 100
+                                parseFloat(JSON.parse(localStorage.getItem("terms"))
+                                .freight_extra_val)
+                              )?.toFixed(2)} (CGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .freight_cgst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .freight_extra_val) /
+                                100
+                              ).toFixed(2)} SGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .freight_sgst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .freight_extra_val) /
+                                100
+                              ).toFixed(2)} IGST-${(
+                                (JSON.parse(localStorage.getItem("terms"))
+                                  .freight_igst *
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .freight_extra_val) /
+                                100
+                              ).toFixed(2)})`}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Insurance
+                        </th>
+                        {JSON.parse(localStorage.getItem("terms")).ins_extra >
+                          0 && (
+                          <td className="px-1 py-1 text-xs border border-gray-300">
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .insurance == "Y"
+                              ? JSON.parse(localStorage.getItem("terms"))
+                                  .insurance_val +
+                                ` ${
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .ins_extra
+                                }% - ${(
+                                  // (subTot *
+                                  //   // (grandTot *
+                                  //   JSON.parse(localStorage.getItem("terms"))
+                                  //     .ins_extra) /
+                                  parseFloat(JSON.parse(localStorage.getItem("terms"))
+                                      .ins_extra_val)
+                                  // 100
+                                )?.toFixed(2)}  (CGST-${(
+                                  (JSON.parse(localStorage.getItem("terms"))
+                                    .ins_cgst *
+                                    JSON.parse(localStorage.getItem("terms"))
+                                      .ins_extra_val) /
+                                  100
+                                ).toFixed(2)} SGST-${(
+                                  (JSON.parse(localStorage.getItem("terms"))
+                                    .ins_sgst *
+                                    JSON.parse(localStorage.getItem("terms"))
+                                      .ins_extra_val) /
+                                  100
+                                ).toFixed(2)} IGST-${(
+                                  (JSON.parse(localStorage.getItem("terms"))
+                                    .ins_igst *
+                                    JSON.parse(localStorage.getItem("terms"))
+                                      .ins_extra_val) /
+                                  100
+                                ).toFixed(2)})`
+                              : "N/A"}
+                          </td>
                         )}
-                    </ul>
-                  </div>
-                </>
-              )}
-              {/* </p> */}
-              <Divider />
+                        {JSON.parse(localStorage.getItem("terms")).ins_extra ==
+                          0 && (
+                          <td className="px-1 py-1 text-xs border border-gray-300">
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .insurance == "Y"
+                              ? JSON.parse(localStorage.getItem("terms"))
+                                  .insurance_val
+                              : "N/A"}
+                          </td>
+                        )}
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Test Certificate
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .test_certificate == "Y"
+                            ? "Yes, " +
+                              JSON.parse(localStorage.getItem("terms"))
+                                .test_certificate_desc
+                            : "N/A"}
+                        </td>
+                      </tr>
 
-              <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border-green-500 bg-green-500 ">
-                Terms & Conditions
-              </div>
+                      {(JSON.parse(localStorage.getItem("terms")).duration_val >
+                        0 ||
+                        JSON.parse(localStorage.getItem("terms"))
+                          .duration_val) && (
+                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                          >
+                            Warranty/Guarantee
+                          </th>
+                          <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .warranty_guarantee_flag == "W"
+                              ? "Warranty"
+                              : JSON.parse(localStorage.getItem("terms"))
+                                  .warranty_guarantee_flag == "G"
+                              ? "Guarantee"
+                              : ""}{" "}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .warranty_guarantee_flag != "N" && (
+                              <span>
+                                Duration:{" "}
+                                {
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .duration_val
+                                }{" "}
+                                {JSON.parse(localStorage.getItem("terms"))
+                                  .duration == "M"
+                                  ? "month(s)"
+                                  : JSON.parse(localStorage.getItem("terms"))
+                                      .duration == "D"
+                                  ? "day(s)"
+                                  : "year(s)"}{" "}
+                              </span>
+                            )}
+                            {/* ===================================================== */}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .warranty_guarantee_flag == "N" && (
+                              <span>
+                                {
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .duration_val
+                                }{" "}
+                                {JSON.parse(localStorage.getItem("terms"))
+                                  .duration == "M"
+                                  ? "month(s)"
+                                  : JSON.parse(localStorage.getItem("terms"))
+                                      .duration == "D"
+                                  ? "day(s)"
+                                  : "year(s)"}{" "}
+                                from the date of commission or
+                                {
+                                  JSON.parse(localStorage.getItem("terms"))
+                                    .duration_val_to
+                                }{" "}
+                                {JSON.parse(localStorage.getItem("terms"))
+                                  .duration == "M"
+                                  ? "month(s)"
+                                  : JSON.parse(localStorage.getItem("terms"))
+                                      .duration == "D"
+                                  ? "day(s)"
+                                  : "year(s)"}{" "}
+                                from the date of dispatch ,whichever is earlier.
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                      {(JSON.parse(localStorage.getItem("terms"))
+                        .duration_val == 0 ||
+                        !JSON.parse(localStorage.getItem("terms"))
+                          .duration_val) && (
+                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                          >
+                            Warranty/Guarantee
+                          </th>
+                          <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .warranty_guarantee_flag == "W"
+                              ? "Warranty"
+                              : "Guarantee"}{" "}
+                            Duration:{" "}
+                            {
+                              JSON.parse(localStorage.getItem("terms"))
+                                .duration_val
+                            }{" "}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .duration == "M"
+                              ? "month(s)"
+                              : JSON.parse(localStorage.getItem("terms"))
+                                  .duration == "D"
+                              ? "day(s)"
+                              : "year(s)"}
+                            {/* ===================================================== */}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .comm_dt && " from the date of commission"}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .comm_dt &&
+                            JSON.parse(localStorage.getItem("terms"))
+                              .dispatch_dt
+                              ? " or from the date of dispatch"
+                              : !JSON.parse(localStorage.getItem("terms"))
+                                  .comm_dt &&
+                                !JSON.parse(localStorage.getItem("terms"))
+                                  .dispatch_dt
+                              ? ""
+                              : JSON.parse(localStorage.getItem("terms"))
+                                  .dispatch_dt
+                              ? " from the date of dispatch."
+                              : ""}
+                            {JSON.parse(localStorage.getItem("terms"))
+                              .comm_dt &&
+                              JSON.parse(localStorage.getItem("terms"))
+                                .dispatch_dt &&
+                              " ,whichever is earlier."}
+                          </td>
+                        </tr>
+                      )}
 
-              <div className="relative overflow-x-auto">
-                <table className="w-full text-sm border-collapse border border-gray-300 text-left rtl:text-right text-gray-700 dark:text-gray-400">
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          O & M Manual
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .om_manual_flag == "A"
+                            ? "Applicable. " +
+                              JSON.parse(localStorage.getItem("terms"))
+                                .om_manual_desc
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Operation/Installation
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms")).oi_flag ==
+                          "A"
+                            ? "Applicable. " +
+                              JSON.parse(localStorage.getItem("terms")).oi_desc
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      {/* {JSON.parse(localStorage.getItem('terms')).packing_val} */}
+
+                      <tr className="bg-white border-b dark:bg-gray-800 text-gray-700 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Packing Type
+                        </th>
+                        <td className="px-1 py-1 text-xs text-gray-700 border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .packing_type == "W"
+                            ? "Wooden"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .packing_type == "C"
+                            ? "Crate Packing"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .packing_type == "P"
+                            ? "Plastic Wrap"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .packing_type == "S"
+                            ? "Steel-worthy"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .packing_type == "O"
+                            ? JSON.parse(localStorage.getItem("terms"))
+                                .packing_val
+                            : ""}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          Manufacture Clearance
+                        </th>
+                        <td className="px-1 py-1 text-xs border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .manufacture_clearance == "A"
+                            ? "Applicable. " +
+                              JSON.parse(localStorage.getItem("terms"))
+                                .manufacture_clearance_desc
+                            : "N/A"}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
+                  Liquidity Damages
+                </div>
+
+                <div className="relative overflow-x-auto">
+                  <table className="w-full text-sm text-left border border-collapse text-xs rtl:text-right text-gray-50 dark:text-gray-400">
+                    <tbody className="text-gray-700 ">
+                      <tr className="bg-white border-b ">
+                        <th
+                          scope="row"
+                          className="px-1 w-1/4 py-1 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          LD Applicable date:
+                        </th>
+                        <td className="px-1 py-1 w-3/4 border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .ld_applicable_date == "O"
+                            ? `Others - ${
+                                JSON.parse(localStorage.getItem("terms"))
+                                  .others_ld
+                              }`
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .ld_applicable_date == "M"
+                            ? "Required Delivery Date"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .ld_applicable_date == "NA"
+                            ? "Not applicable"
+                            : "Dispatch Date"}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b ">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          LD applied on:
+                        </th>
+                        <td className="px-1 py-1 w-3/4 border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .ld_applied_on == "O"
+                            ? `Others - ${
+                                JSON.parse(localStorage.getItem("terms"))
+                                  .others_applied
+                              }`
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .ld_applied_on == "P"
+                            ? "Pending Material Value"
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .ld_applicable_date == "NA"
+                            ? ""
+                            : "PO Total Value"}
+                        </td>
+                      </tr>
+                      <tr className="bg-white border-b ">
+                        <th
+                          scope="row"
+                          className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        >
+                          LD value(%):
+                        </th>
+                        <td className="py-1 px-1 w-3/4 text-wrap border border-gray-300">
+                          {JSON.parse(localStorage.getItem("terms"))
+                            .ld_applicable_date == "NA"
+                            ? ""
+                            : JSON.parse(localStorage.getItem("terms"))
+                                .ld_value &&
+                              JSON.parse(localStorage.getItem("terms"))
+                                .po_min_value
+                            ? "LD @" +
+                              JSON.parse(localStorage.getItem("terms"))
+                                .ld_value +
+                              "% per week to a maximum of " +
+                              JSON.parse(localStorage.getItem("terms"))
+                                .po_min_value +
+                              "% of the order value would be applicable for any delay beyond the stipulated delivery period."
+                            : ""}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {/* <Divider className='mt-2'/> */}
+                <table className="w-full my-3 text-xs border border-collapse text-left rtl:text-right text-gray-700 dark:text-gray-400">
                   <tbody>
                     <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
-                        className="px-1 w-1/4 py-1 text-xs border border-gray-300 text-green-700 font-bold whitespace-nowrap dark:text-white"
+                        className="px-1 w-1/4 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                       >
-                        Price Basis
+                        MDCC
                       </th>
-                      <td className="px-1 w-3/4 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .price_basis_flag == "F"
-                          ? "FOR"
-                          : "EX-WORKS"}{" "}
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .price_basis_desc
-                          ? JSON.parse(localStorage.getItem("terms"))
-                              .price_basis_desc + ","
-                          : ""}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Packing & Forwarding
-                      </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .packing_forwarding_val == "I"
-                          ? "Inclusive"
-                          : `Extra  ${
-                              JSON.parse(localStorage.getItem("terms"))
-                                .packing_forwarding_extra
-                            }% - ${(
-                              (subTot *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .packing_forwarding_extra) /
-                              100
-                            ).toFixed(2)}  (CGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .pf_cgst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .packing_forwarding_extra_val) /
-                              100
-                            ).toFixed(2)} SGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .pf_sgst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .packing_forwarding_extra_val) /
-                              100
-                            ).toFixed(2)} IGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .pf_igst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .packing_forwarding_extra_val) /
-                              100
-                            ).toFixed(2)}) `}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Freight
-                      </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .freight_insurance == "I"
-                          ? "Inclusive"
-                          : `Extra ${
-                              JSON.parse(localStorage.getItem("terms"))
-                                .freight_insurance_val
-                            }, ${
-                              JSON.parse(localStorage.getItem("terms"))
-                                .freight_extra
-                            }% - ${(
-                              (subTot *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .freight_extra) /
-                              100
-                            ).toFixed(2)} (CGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .freight_cgst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .freight_extra_val) /
-                              100
-                            ).toFixed(2)} SGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .freight_sgst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .freight_extra_val) /
-                              100
-                            ).toFixed(2)} IGST-${(
-                              (JSON.parse(localStorage.getItem("terms"))
-                                .freight_igst *
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .freight_extra_val) /
-                              100
-                            ).toFixed(2)})`}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Insurance
-                      </th>
-                      {JSON.parse(localStorage.getItem("terms")).ins_extra >
-                        0 && (
-                        <td className="px-1 py-1 text-xs border border-gray-300">
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .insurance == "Y"
-                            ? JSON.parse(localStorage.getItem("terms"))
-                                .insurance_val +
-                              ` ${
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .ins_extra
-                              }% - ${(
-                                (subTot *
-                                  JSON.parse(localStorage.getItem("terms"))
-                                    .ins_extra) /
-                                100
-                              ).toFixed(2)}  (CGST-${(
-                                (JSON.parse(localStorage.getItem("terms"))
-                                  .ins_cgst *
-                                  JSON.parse(localStorage.getItem("terms"))
-                                    .ins_extra_val) /
-                                100
-                              ).toFixed(2)} SGST-${(
-                                (JSON.parse(localStorage.getItem("terms"))
-                                  .ins_sgst *
-                                  JSON.parse(localStorage.getItem("terms"))
-                                    .ins_extra_val) /
-                                100
-                              ).toFixed(2)} IGST-${(
-                                (JSON.parse(localStorage.getItem("terms"))
-                                  .ins_igst *
-                                  JSON.parse(localStorage.getItem("terms"))
-                                    .ins_extra_val) /
-                                100
-                              ).toFixed(2)})`
-                            : "N/A"}
-                        </td>
-                      )}
-                      {JSON.parse(localStorage.getItem("terms")).ins_extra ==
-                        0 && (
-                        <td className="px-1 py-1 text-xs border border-gray-300">
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .insurance == "Y"
-                            ? JSON.parse(localStorage.getItem("terms"))
-                                .insurance_val
-                            : "N/A"}
-                        </td>
-                      )}
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Test Certificate
-                      </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .test_certificate == "Y"
-                          ? "Yes, " +
-                            JSON.parse(localStorage.getItem("terms"))
-                              .test_certificate_desc
+                      <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
+                        {localStorage.getItem("mdcc_flag") == "Y"
+                          ? "Yes. " + localStorage.getItem("mdcc")
                           : "N/A"}
                       </td>
                     </tr>
-
-                    {(JSON.parse(localStorage.getItem("terms")).duration_val >
-                      0 ||
-                      JSON.parse(localStorage.getItem("terms"))
-                        .duration_val) && (
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th
-                          scope="row"
-                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                        >
-                          Warranty/Guarantee
-                        </th>
-                        <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .warranty_guarantee_flag == "W"
-                            ? "Warranty"
-                            : JSON.parse(localStorage.getItem("terms"))
-                                .warranty_guarantee_flag == "G"
-                            ? "Guarantee"
-                            : ""}{" "}
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .warranty_guarantee_flag != "N" && (
-                            <span>
-                              Duration:{" "}
-                              {
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .duration_val
-                              }{" "}
-                              {JSON.parse(localStorage.getItem("terms"))
-                                .duration == "M"
-                                ? "month(s)"
-                                : JSON.parse(localStorage.getItem("terms"))
-                                    .duration == "D"
-                                ? "day(s)"
-                                : "year(s)"}{" "}
-                            </span>
-                          )}
-                          {/* ===================================================== */}
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .warranty_guarantee_flag == "N" && (
-                            <span>
-                              {
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .duration_val
-                              }{" "}
-                              {JSON.parse(localStorage.getItem("terms"))
-                                .duration == "M"
-                                ? "month(s)"
-                                : JSON.parse(localStorage.getItem("terms"))
-                                    .duration == "D"
-                                ? "day(s)"
-                                : "year(s)"}{" "}
-                              from the date of commission or
-                              {
-                                JSON.parse(localStorage.getItem("terms"))
-                                  .duration_val_to
-                              }{" "}
-                              {JSON.parse(localStorage.getItem("terms"))
-                                .duration == "M"
-                                ? "month(s)"
-                                : JSON.parse(localStorage.getItem("terms"))
-                                    .duration == "D"
-                                ? "day(s)"
-                                : "year(s)"}{" "}
-                              from the date of dispatch ,whichever is earlier.
-                            </span>
-                          )}
-                     
-                        </td>
-                      </tr>
-                    )}
-                    {(JSON.parse(localStorage.getItem("terms")).duration_val ==
-                      0 ||
-                      !JSON.parse(localStorage.getItem("terms"))
-                        .duration_val) && (
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th
-                          scope="row"
-                          className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                        >
-                          Warranty/Guarantee
-                        </th>
-                        <td className="px-1 py-1 text-xs border border-gray-300 text-wrap">
-                          {JSON.parse(localStorage.getItem("terms"))
-                            .warranty_guarantee_flag == "W"
-                            ? "Warranty"
-                            : "Guarantee"}{" "}
-                          Duration:{" "}
-                          {
-                            JSON.parse(localStorage.getItem("terms"))
-                              .duration_val
-                          }{" "}
-                          {JSON.parse(localStorage.getItem("terms")).duration ==
-                          "M"
-                            ? "month(s)"
-                            : JSON.parse(localStorage.getItem("terms"))
-                                .duration == "D"
-                            ? "day(s)"
-                            : "year(s)"}
-                          {/* ===================================================== */}
-                          {JSON.parse(localStorage.getItem("terms")).comm_dt &&
-                            " from the date of commission"}
-                          {JSON.parse(localStorage.getItem("terms")).comm_dt &&
-                          JSON.parse(localStorage.getItem("terms")).dispatch_dt
-                            ? " or from the date of dispatch"
-                            : !JSON.parse(localStorage.getItem("terms"))
-                                .comm_dt &&
-                              !JSON.parse(localStorage.getItem("terms"))
-                                .dispatch_dt
-                            ? ""
-                            : JSON.parse(localStorage.getItem("terms"))
-                                .dispatch_dt
-                            ? " from the date of dispatch."
-                            : ""}
-                          {JSON.parse(localStorage.getItem("terms")).comm_dt &&
-                            JSON.parse(localStorage.getItem("terms"))
-                              .dispatch_dt &&
-                            " ,whichever is earlier."}
-                        
-                        </td>
-                      </tr>
-                    )}
-
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        className="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                       >
-                        O & M Manual
+                        Inspection
                       </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .om_manual_flag == "A"
-                          ? "Applicable. " +
-                            JSON.parse(localStorage.getItem("terms"))
-                              .om_manual_desc
+                      <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
+                        {localStorage.getItem("insp_flag") == "Y"
+                          ? "Yes. " + localStorage.getItem("insp")
                           : "N/A"}
                       </td>
                     </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
+                        className="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
                       >
-                        Operation/Installation
+                        Drawing/Datasheet
                       </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms")).oi_flag ==
-                        "A"
-                          ? "Applicable. " +
-                            JSON.parse(localStorage.getItem("terms")).oi_desc
-                          : "N/A"}
-                      </td>
-                    </tr>
-                    {/* {JSON.parse(localStorage.getItem('terms')).packing_val} */}
-
-                    <tr className="bg-white border-b dark:bg-gray-800 text-gray-700 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Packing Type
-                      </th>
-                      <td className="px-1 py-1 text-xs text-gray-700 border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .packing_type == "W"
-                          ? "Wooden"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .packing_type == "C"
-                          ? "Crate Packing"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .packing_type == "P"
-                          ? "Plastic Wrap"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .packing_type == "S"
-                          ? "Steel-worthy"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .packing_type == "O"
-                          ? JSON.parse(localStorage.getItem("terms"))
-                              .packing_val
-                          : ""}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        Manufacture Clearance
-                      </th>
-                      <td className="px-1 py-1 text-xs border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .manufacture_clearance == "A"
-                          ? "Applicable. " +
-                            JSON.parse(localStorage.getItem("terms"))
-                              .manufacture_clearance_desc
+                      <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
+                        {localStorage.getItem("drawing_flag") == "Y"
+                          ? "Yes . " +
+                            localStorage.getItem("drawing") +
+                            ", " +
+                            localStorage.getItem("dt")
                           : "N/A"}
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
 
-              <div className="mt-3 w-full px-3 py-1 text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
-                Liquidity Damages
-              </div>
+                {/* </p> */}
 
-              <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left border border-collapse text-xs rtl:text-right text-gray-50 dark:text-gray-400">
-                  <tbody className="text-gray-700 ">
-                    <tr className="bg-white border-b ">
-                      <th
-                        scope="row"
-                        className="px-1 w-1/4 py-1 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        LD Applicable date:
-                      </th>
-                      <td className="px-1 py-1 w-3/4 border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .ld_applicable_date == "O"
-                          ? `Others - ${
-                              JSON.parse(localStorage.getItem("terms"))
-                                .others_ld
-                            }`
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .ld_applicable_date == "M"
-                          ? "Required Delivery Date"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .ld_applicable_date == "NA"
-                          ? "Not applicable"
-                          : "Dispatch Date"}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b ">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        LD applied on:
-                      </th>
-                      <td className="px-1 py-1 w-3/4 border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .ld_applied_on == "O"
-                          ? `Others - ${
-                              JSON.parse(localStorage.getItem("terms"))
-                                .others_applied
-                            }`
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .ld_applied_on == "P"
-                          ? "Pending Material Value"
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .ld_applicable_date == "NA"
-                          ? ""
-                          : "PO Total Value(%)"}
-                      </td>
-                    </tr>
-                    <tr className="bg-white border-b ">
-                      <th
-                        scope="row"
-                        className="px-1 py-1 w-1/4 border border-gray-300  font-bold text-green-700 whitespace-nowrap dark:text-white"
-                      >
-                        LD value(%):
-                      </th>
-                      <td className="py-1 px-1 w-3/4 text-wrap border border-gray-300">
-                        {JSON.parse(localStorage.getItem("terms"))
-                          .ld_applicable_date == "NA"
-                          ? ""
-                          : JSON.parse(localStorage.getItem("terms"))
-                              .ld_value &&
-                            JSON.parse(localStorage.getItem("terms"))
-                              .po_min_value
-                          ? "LD @" +
-                            JSON.parse(localStorage.getItem("terms")).ld_value +
-                            "% per week to a maximum of " +
-                            JSON.parse(localStorage.getItem("terms"))
-                              .po_min_value +
-                            "% of the order value would be applicable for any delay beyond the stipulated delivery period."
-                          : ""}
-                      </td>
-                    </tr>
-                 
-                  </tbody>
+                {localStorage.getItem("notes") != "None" && (
+                  <>
+                    {" "}
+                    <div className="mt-2 mb-1 w-full px-3 py-1  text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
+                      Notes
+                    </div>
+                    <span className="p-2 text-xs">
+                      {localStorage.getItem("notes")}
+                    </span>
+                    <Divider />
+                  </>
+                )}
+
+                <h3 className="text-green-700 mt-2 font-bold text-sm">
+                  Default Note:
+                </h3>
+                <table className="border w-full text-gray-800 px-1 text-xs border-gray-300 border-collapse text-sm my-1 px-3 py-1">
+                  <tr className="border border-gray-300">
+                    <td rowspan="2" className="border border-gray-300">
+                      Tax Invoice shall be of minimum three (3) copies with—
+                      <br />
+                      1. GSTIN of supplier
+                      <br />
+                      2. HSN/ SAC code of each & every materials/goods
+                      <br />
+                      3. Description of goods as per HSN/ SAC code
+                      <br />
+                      4. Description of goods as per ordered/ offered/ standard
+                      practice (or convenient name)
+                    </td>
+                    <td className="border border-gray-300">
+                      Original for recipient (to be submitted directly to the
+                      purchaser)
+                    </td>
+                  </tr>
+                  <tr className="border border-gray-300">
+                    <td className="border border-gray-300">
+                      Duplicate for transporter (to be moved with
+                      materials/goods & deliver to consignee)
+                    </td>
+                  </tr>
+                  <tr className="border border-gray-300">
+                    <td rowspan="2" className="borde border-gray-300">
+                      Payment of GST & ITC credit, if not available as per GST
+                      Act within the specific time period —
+                    </td>
+                    <td>
+                      1. Amount will be deducted from supplier’s any Tax invoice
+                      without any intimation & will be non-refundable.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      2. For any violation against norms of GST, supplier shall
+                      be solely responsible for matter related to tax invoice.
+                    </td>
+                  </tr>
+                  <tr className="border border-gray-300">
+                    <td className="border border-gray-300">
+                      MDCC (Material Dispatch Clearance Certificate)
+                    </td>
+                    <td className="border border-gray-300">
+                      To be strictly followed before movement of the goods or
+                      raise invoice.
+                    </td>
+                  </tr>
                 </table>
               </div>
-              {/* <Divider className='mt-2'/> */}
-              <table className="w-full my-3 text-xs border border-collapse text-left rtl:text-right text-gray-700 dark:text-gray-400">
-                <tbody>
-                  <tr className="bg-white border-b text-nowrap dark:bg-gray-800 dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-1 w-1/4 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
-                    >
-                      MDCC
-                    </th>
-                    <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
-                      {localStorage.getItem("mdcc_flag") == "Y"
-                        ? "Yes. " + localStorage.getItem("mdcc")
-                        : "N/A"}
-                    </td>
-                  </tr>
-                  <tr className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
-                    >
-                      Inspection
-                    </th>
-                    <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
-                      {localStorage.getItem("insp_flag") == "Y"
-                        ? "Yes. " + localStorage.getItem("insp")
-                        : "N/A"}
-                    </td>
-                  </tr>
-                  <tr className="bg-white border-b w-1/4 dark:bg-gray-800 dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-1 py-1 border border-gray-300 text-xs font-bold text-green-700 whitespace-nowrap dark:text-white"
-                    >
-                      Drawing/Datasheet
-                    </th>
-                    <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
-                      {localStorage.getItem("drawing_flag") == "Y"
-                        ? "Yes . " +
-                          localStorage.getItem("drawing") +
-                          ", " +
-                          localStorage.getItem("dt")
-                        : "N/A"}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              {/* </p> */}
-
-              {localStorage.getItem("notes") != "None" && (
-                <>
-                  {" "}
-                  <div className="mt-2 mb-1 w-full px-3 py-1  text-gray-50 font-semibold  border border-green-500 bg-green-500 ">
-                    Notes
-                  </div>
-                  <span className="p-2 text-xs">
-                    {localStorage.getItem("notes")}
-                  </span>
-                  <Divider />
-                </>
-              )}
-
-              <h3 className="text-green-700 mt-2 font-bold text-sm">
-                Default Note:
-              </h3>
-              <table className="border text-gray-800 px-1 text-xs border-gray-300 border-collapse text-sm my-1 px-3 py-1">
-                <tr className="border border-gray-300">
-                  <td rowspan="2" className="border border-gray-300">
-                    Tax Invoice shall be of minimum three (3) copies with—
-                    <br />
-                    1. GSTIN of supplier
-                    <br />
-                    2. HSN/ SAC code of each & every materials/goods
-                    <br />
-                    3. Description of goods as per HSN/ SAC code
-                    <br />
-                    4. Description of goods as per ordered/ offered/ standard
-                    practice (or convenient name)
-                  </td>
-                  <td className="border border-gray-300">
-                    Original for recipient (to be submitted directly to the
-                    purchaser)
-                  </td>
-                </tr>
-                <tr className="border border-gray-300">
-                  <td className="border border-gray-300">
-                    Duplicate for transporter (to be moved with materials/goods
-                    & deliver to consignee)
-                  </td>
-                </tr>
-                <tr className="border border-gray-300">
-                  <td rowspan="2" className="borde border-gray-300">
-                    Payment of GST & ITC credit, if not available as per GST Act
-                    within the specific time period —
-                  </td>
-                  <td>
-                    1. Amount will be deducted from supplier’s any Tax invoice
-                    without any intimation & will be non-refundable.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    2. For any violation against norms of GST, supplier shall be
-                    solely responsible for matter related to tax invoice.
-                  </td>
-                </tr>
-                <tr className="border border-gray-300">
-                  <td className="border border-gray-300">
-                    MDCC (Material Dispatch Clearance Certificate)
-                  </td>
-                  <td className="border border-gray-300">
-                    To be strictly followed before movement of the goods or
-                    raise invoice.
-                  </td>
-                </tr>
-              </table>
-            </div>
             </div>
           </Spin>
         </div>

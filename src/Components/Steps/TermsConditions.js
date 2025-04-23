@@ -2047,7 +2047,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                   : false
               }
               data={[
-                { code: "T", name: "PO Total Value(%)" },
+                { code: "T", name: "PO Total Value" },
                 { code: "P", name: "Pending Material Value" },
                 { name: "Others", code: "O" },
               ]}

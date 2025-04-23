@@ -716,9 +716,13 @@ function PurchaseReqForm() {
                       >
                         Status
                       </th>}
-                      {!itemDtls.reduce((accumulator, item) => {
+                      {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
-                                  }, 0)  &&    <th
+                                  }, 0)  &&     */}
+                                  
+                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length  &&
+                                  
+                                  <th
                         scope="col"
                         className="px-6 py-1.5 w-1/6 text-center font-bold"
                       >
@@ -910,9 +914,13 @@ function PurchaseReqForm() {
                               } 
                             </div>
                           </th>}
-                          {!itemDtls.reduce((accumulator, item) => {
+                          {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
-                                  }, 0)  &&   <th  scope="row"
+                                  }, 0)  &&    */}
+                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length  &&
+                                  
+                                  
+                                  <th  scope="row"
                             className="px-4 w-1/6  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
                           {!po_no ? <div  className={
                                 "sm:col-span-5 border-2"
@@ -954,9 +962,11 @@ function PurchaseReqForm() {
               <div className="flex justify-center gap-3 items-center">
                 <div className="mx-auto">
                   <div className="flex justify-center gap-2 items-center mx-auto">
-                    {!itemDtls.reduce((accumulator, item) => {
+                    {/* {!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;
-                          }, 0)  && (
+                          }, 0)  && ( */}
+                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length 
+                            && (
                       <button
                         // disabled={errorSum(error) || !intended}
                         onClick={() => onSubmit()}

@@ -879,7 +879,7 @@ function PoPreview({ data }) {
                       )}
                      &nbsp; &nbsp; Total Discount: {formatNumber(
                         prodInfo
-                          ?.map((item) => item.discount)
+                          ?.map((item) => item.discount * item.quantity)
                           .reduce((acc, curr) => acc + curr, 0),
                         grandTotUnit == "I"
                           ? "INR"

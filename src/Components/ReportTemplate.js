@@ -99,7 +99,7 @@ function ReportTemplate( {headers,
                                       {flag==2 &&<Tag color="#014737">Warehouse quantity of this product: {wStock}</Tag>}
 
 <DataTable
-                value={dataCopy}
+                value={dataCopy.filter(item=>item?.stock>0)}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"

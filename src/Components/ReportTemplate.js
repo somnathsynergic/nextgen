@@ -63,6 +63,9 @@ function ReportTemplate( {headers,
           }
           if(flag==2){
             setDataCopy(data?.filter(item=>item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase())||item.project_stock?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||item.prod_name?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+            if(flag==3){
+              setDataCopy(data?.filter(item=>item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase())||item.pur_req?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||item.pur_req?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.invoice?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+            }
           }
       }
   return (
@@ -99,7 +102,7 @@ function ReportTemplate( {headers,
                                       {flag==2 &&<Tag color="#014737">Warehouse quantity of this product: {wStock}</Tag>}
 
 <DataTable
-                value={dataCopy.filter(item=>item?.stock>0)}
+                value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0)}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"
@@ -108,11 +111,11 @@ function ReportTemplate( {headers,
                 rows={isPrinting?10:data?.length}
                 // body={statusBodyTemplate}
                 rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
-                rowClassName="bg-white text-nowrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
+                rowClassName="bg-white text-md text-nowrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
               text-ellipsis overflow-hidden truncate w-2"
-                tableStyle={{ minWidth: "100%", fontSize: "14px" }}
+                tableStyle={{ minWidth: "100%", fontSize: !isPrinting?"10px":"12px" }}
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                paginatorClassName="bg-white text-emerald-500"
+                paginatorClassName={isPrinting?"bg-white text-emerald-500":"hidden"}
                 currentPageReportTemplate="{first} to {last} of {totalRecords}"
                 
                 // paginatorLeft={paginatorLeft}

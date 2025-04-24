@@ -13,18 +13,20 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const PurMrnReporProj=lazy(()=>import("./Screens/Reports/PurMrnReporProj"));
 // import CancelPO from "./Screens/Purchase Order/CancelPO";
 // import CancelPoView from "./Screens/Purchase Order/CancelView";
 // import CancelForm from "./Screens/Purchase Order/CancelForm";
-import PurchaseReqComp from "./Screens/Purchase Requisition/PurchaseReqComp";
-import PurchaseReqView from "./Screens/Purchase Requisition/PurchaseReqView";
-import PurchaseReqForm from "./Screens/Purchase Requisition/PurchaseReqForm";
-import PtoWComp from "./Screens/Stock/PtoW/PtoWComp";
-import PtoWView from "./Screens/Stock/PtoW/PtoWView";
-import PtoWForm from "./Screens/Stock/PtoW/PtoWForm";
-import ClosePoComp from "./Screens/Purchase Order/ClosePo/ClosePoComp";
-import ClosePoView from "./Screens/Purchase Order/ClosePo/ClosePoView";
-import ClosePoForm from "./Screens/Purchase Order/ClosePo/ClosePoForm";
+const PurchaseReqComp =lazy(()=>import( "./Screens/Purchase Requisition/PurchaseReqComp"))
+const PurchaseReqView =lazy(()=>import( "./Screens/Purchase Requisition/PurchaseReqView"))
+const PurchaseReqForm =lazy(()=>import( "./Screens/Purchase Requisition/PurchaseReqForm"))
+const PtoWComp =lazy(()=>import( "./Screens/Stock/PtoW/PtoWComp"))
+const PtoWView =lazy(()=>import( "./Screens/Stock/PtoW/PtoWView"))
+const PtoWForm =lazy(()=>import( "./Screens/Stock/PtoW/PtoWForm"))
+const ClosePoComp =lazy(()=>import( "./Screens/Purchase Order/ClosePo/ClosePoComp"))
+const ClosePoView =lazy(()=>import( "./Screens/Purchase Order/ClosePo/ClosePoView"))
+const ClosePoForm =lazy(()=>import( "./Screens/Purchase Order/ClosePo/ClosePoForm"))
+const PurMrnReport =lazy(()=>import( "./Screens/Reports/PurMrnReport"))
 const MaterialReturnComp =lazy(()=>import("./Screens/MaterialReturn/MaterialReturnComp"))
 const MaterialReturn =lazy(()=>import("./Screens/MaterialReturn/MaterialReturn"))
 const StatementandTransfer = lazy(() =>
@@ -697,6 +699,14 @@ const router = createBrowserRouter([
               {
                 path: "projectwise",
                 element: <Projectwise />,
+              },
+              {
+                path: "mrnwise_one",
+                element: <PurMrnReport />,
+              },
+              {
+                path: "mrnwise_two",
+                element: <PurMrnReporProj />,
               },
             ],
           },

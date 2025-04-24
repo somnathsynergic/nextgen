@@ -162,7 +162,7 @@ function AllStock() {
                       label="Type"
                       name="type"
                       formControlName={type}
-                      handleChange={(txt) => {setType(txt.target.value);setProjCode();setProjVal("")}}
+                      handleChange={(txt) => {setType(txt.target.value);setProjCode();setProjVal("");setProjId("")}}
                       mode={2}
                       data={[
                         { code: "P", name: "Project Stock" },

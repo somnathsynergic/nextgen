@@ -536,6 +536,18 @@ function Menus({ theme,data,shrink }) {
             label:<Link to={routePaths.ITEMWISE}>Itemwise Stock Report</Link>,
   
           },
+          {
+            key: "rep:mrn_one",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.MRNWISEONE}>Purchase Requisitionwise MRN Report</Link>,
+  
+          },
+          {
+            key: "rep:mrn_two",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.MRNWISETWO}>Projectwise MRN Report</Link>,
+  
+          },
 
     ]
 

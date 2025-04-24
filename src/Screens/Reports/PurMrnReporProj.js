@@ -34,6 +34,7 @@ function PurMrnReporProj() {
     const params = useParams();
     const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState([]);
+    
     const [projectList, setProjectList] = useState([]);
     const [showProj, setShowProj] = useState(false);
     const [projVal, setProjVal] = useState("");
@@ -364,7 +365,7 @@ function PurMrnReporProj() {
                          console.log(res)
                          if(res?.data?.suc>0){
                             setReportData(res?.data?.msg)
-                            // setInfo([{key:'1',label:'Date',children:<p>{dt}</p>},{key:'2',label:'Item',children:<p>{prodVal}</p>}])
+                            
                             setLoading(false)
                          }
                     

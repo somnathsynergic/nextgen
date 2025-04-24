@@ -27,24 +27,49 @@ function PurMrnReport() {
     const [projects, setProjects] = useState([]);
     const [projectList, setProjectList] = useState([]);
     const [showProj, setShowProj] = useState(false);
+    const [purCode, setPurCode] = useState();
+
     const [projVal, setProjVal] = useState("");
     const [projCode, setProjCode] = useState();
     const [type, setType] = useState("");
     const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
     const [clicked, setClicked] = useState(true);
     const [reportData,setReportData] = useState([])
+    const [pur_req__list, setPurReqList] = useState([]);
+    const [pur_req__listCopy, setPurReqListCopy] = useState([]);
+    const [pur_req_items, setPurReqItems] = useState([]);
+    const [pur_req, setPurReq] = useState("");
     const op = useRef(null);
+    const op_pur_req = useRef(null);
+    
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
-      { name:'serial_number',value:'#'},
       { name: "prod_name", value: "Product" },
-      { name: "stock", value: "Quantity" },
+      { name: "invoice", value: "Invoice" },
+
+      { name: "mrn_no", value: "MRN No." },
+      { name: "quantity", value: "Ordered Quantity" },
+
+      { name: "approved_ord_qty", value: "Approved Quantity" },
+      { name: "rc_qty", value: "Received Quantity" },
+     
   
       // { name: "created_by", value: "Created by" },
     ]
     useEffect(() => {
-      
+        axios
+        .post(url + "/api/get_purchase_req_items_search", { pur_no: "" })
+        .then((resPur) => {
+          console.log(resPur);
+          setPurReqList(
+            resPur?.data?.msg
+          );
+          setPurReqListCopy(
+            resPur?.data?.msg
+          );
+          setLoading(false);
+        });
       if (type == "P") {
         setLoading(true);
         projectList.length=0
@@ -68,7 +93,7 @@ function PurMrnReport() {
       setInfo([{key:'1',label:'Date',children:<p>{dt}</p>},{key:'2',label:type=='P'?'Project Stock for ':'Warehouse Stock',children:<p>{type=='P'?projVal:'N/A'}</p>}])
       setLoading(true);
       axios
-        .post(url + "/api/allstock", { project_id: projCode || 0, dt: dt })
+        .post(url + "/api/mrnpurreq", { pur_no: purCode})
         .then((res) => {
           console.log(res);
           setReportData(res?.data?.msg)
@@ -88,18 +113,8 @@ function PurMrnReport() {
           text={"MRN Report"}
           mode={2}
           title={"Report"}
-          // data={params.id && data?data:''}
         />
-        {/* <div className="float-end">
-                  
-                  {clicked &&<Tooltip title='Minimize'> <button className="h-4  w-4 flex justify-center items-center  rounded-full bg-green-900 text-white" onClick={()=>{setClicked(!clicked)}}>
-                 <MinusCircleOutlined  className="z-50 text-xs" />
-                  </button>
-                  </Tooltip>
-  }
-  
-  
-                  </div> */}
+     
         <div className="grid grid-cols-6 gap-2">
           <div className="ml-1 -mb-11 z-50">
             {clicked && (
@@ -155,102 +170,151 @@ function PurMrnReport() {
                       {!dt ? <VError title={"Required"} /> : null}
                     </div>
                     <div className="sm:col-span-1">
-                      <TDInputTemplate
-                        placeholder="Type"
-                        type="date"
-                        label="Type"
-                        name="type"
-                        formControlName={type}
-                        handleChange={(txt) => {setType(txt.target.value);setProjCode();setProjVal("")}}
-                        mode={2}
-                        data={[
-                          { code: "P", name: "Project Stock" },
-                          { code: "W", name: "Warehouse Stock" },
-                        ]}
-                      />
+                    {params.flag!='E' && <div className="sm:col-span-6">
+                <TDInputTemplate
+                  placeholder="Search by Purchase Requisition,item name, item make, part no.,article no.,model no.,project name"
+                  type="text"
+                  label="Purchase Requisition"
+                  data={pur_req__list}
+                  formControlName={pur_req}
+                  name="pur_req"
+                  handleChange={(event) => {
+                    setPurReq(event.target.value);
+
+                    console.log(event.target.value);
+                    if (event.target.value.length > 0) {
+                      op_pur_req.current.show(event);
+                    } else {
+                      op_pur_req.current.hide(event);
+                      setPurCode();
+                    }
+                  }}
+                  handleFocus={(e) => {
+                    op_pur_req.current.show(e);
+                    if(localStorage.getItem('order_type')=='P'){
+                      setPurReqList(pur_req__listCopy)
+                    console.log(pur_req__listCopy)
+                      }
+                    else{
+                    setPurReqList(pur_req__listCopy)
+                    console.log(pur_req__listCopy)
+                    }
+                  }}
+                  disabled={
+                    localStorage.getItem("po_status") == "A" ||
+                    localStorage.getItem("po_status") == "D" ||
+                    localStorage.getItem("po_status") == "L"
+                      ? true
+                      : false
+                  }
+                  mode={1}
+                />
+               
+
+                <OverlayPanel
+                  ref={op_pur_req}
+                  className="w-[67.5%] border-2 bg-gray-200 border-green-900"
+                >
+                  <span className="text-xs text-green-900 italic">
+                    Search results for: "{pur_req}"
+                  </span>
+                  <ul class=" divide-y max-h-32 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                  
+                    {pur_req__list?.filter(
+                      (e) =>
+                        e?.pur_no?.toLowerCase().includes(pur_req||"") ||
+                      e?.proj_name?.toLowerCase().includes(pur_req||"") ||
+                        e?.prod_name
+                          ?.toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e?.prod_make
+                          ?.toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e.part_no
+                          ?.toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e?.article_no
+                          ?.toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e?.model_no
+                          ?.toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"")
+                    ).length > 0 &&
+                      pur_req__list
+                        ?.filter(
+                          (e) =>
+                            e?.pur_no?.toLowerCase().includes(pur_req?.toLowerCase()||"") ||
+                          e?.proj_name?.toLowerCase().includes(pur_req?.toLowerCase()||"") ||
+                            e?.prod_name
+                              ?.toLowerCase()
+                              .includes(pur_req?.toLowerCase()||"") ||
+                            e?.prod_make
+                              ?.toLowerCase()
+                              .includes(pur_req?.toLowerCase()||"") ||
+                            e?.part_no
+                              ?.toLowerCase()
+                              .includes(pur_req?.toLowerCase()||"") ||
+                            e?.article_no
+                              ?.toLowerCase()
+                              .includes(pur_req?.toLowerCase()||"") ||
+                            e?.model_no
+                              ?.toLowerCase()
+                              .includes(pur_req?.toLowerCase()||"")
+                        )
+                        ?.map((lst) => (
+                          <li
+                            onClick={(e) => {
+                              console.log(lst);
+                             
+                              op_pur_req.current.hide(e);
+                              setPurReq(lst.pur_no);
+                              setPurCode(lst.pur_no);
+                            }}
+                            class=" cursor-pointer py-2 hover:bg-[#C4F1BE] rounded-md hover:duration-300 "
+                          >
+                            <div class="flex items-center rtl:space-x-reverse">
+                              <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold w-full text-green-900 truncate dark:text-white">
+                                  {lst.pur_no}
+                                </p>
+                              </div>
+                            </div>
+                            <hr className="text-green-900 border-gray-300  bg-green-900" />
+                          </li>
+                        ))}
+                    {pur_req__list?.filter(
+                      (e) =>
+                        e.pur_no?.toLowerCase().includes(pur_req||"") ||
+                        e.prod_name
+                          .toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e.prod_make
+                          .toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e.part_no
+                          .toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e.article_no
+                          .toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"") ||
+                        e.model_no
+                          .toLowerCase()
+                          .includes(pur_req?.toLowerCase()||"")
+                    ).length == 0 && <Empty />}
+                  </ul>
+                </OverlayPanel>
+              
+              </div>}
   
-                      {!type ? <VError title={"Required"} /> : null}
+                      {!purCode ? <VError title={"Required"} /> : null}
                     </div>
-                    <div className="sm:col-span-2">
-                      {type == "P" && (
-                        <TDInputTemplate
-                          placeholder="Project"
-                          type="text"
-                          label="Project"
-                          name="proj"
-                          // disabled={params.id > 0 || (intended=='W' && !clientcode)}
-                          formControlName={projVal}
-                          handleFocus={(e) => op.current.show(e)}
-                          handleChange={(txt) => {
-                            console.log(txt);
-                            setProjVal(txt.target.value);
-                            if (txt.target.value.length) op.current.show(txt);
-                            else {
-                              op.current.hide(txt);
-                              setProjCode();
-                              setProjId("")
-                            }
-                            // setLoading(true);
-                            // getItemDetails(txt.target.value);
-                          }}
-                          data={projectList}
-                          mode={1}
-                        />
-                      )}
-                        {!projCode && type=='P' ? <VError title={"Required"} /> : null}
-                        {projId ? <Tag className="bg-amber-600 text-white">Project ID:{projId}</Tag> : null}
-  
-                      <OverlayPanel
-                        ref={op}
-                        className="w-[980px] border-2 bg-gray-200 border-green-900"
-                      >
-                        <span className="text-xs text-green-900 italic">
-                          Search results for: "{projVal}"
-                        </span>
-                        <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
-                          {projectList?.filter((e) =>
-                            e.name?.toLowerCase().includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
-                          ).length > 0 &&
-                            projectList
-                              ?.filter((e) =>
-                                e.name
-                                  ?.toLowerCase()
-                                  .includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
-                              )
-                              ?.map((lst) => (
-                                <li
-                                  onClick={(e) => {
-                                    op.current.hide(e);
-                                    setProjVal(lst.name);
-                                    setProjCode(lst.code);
-                                    setProjId(lst.proj_id)
-                                  }}
-                                  class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
-                                >
-                                  <div class="flex items-center rtl:space-x-reverse">
-                                    <div class="flex-1 min-w-0">
-                                      <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
-                                        {lst.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  {/* <hr className=" border-gray-100"/> */}
-                                </li>
-                              ))}
-                          {projectList.filter((e) =>
-                            e.name?.toLowerCase().includes(projVal?.toLowerCase()) || e.proj_id?.toLowerCase().includes(projVal?.toLowerCase())
-                          ).length == 0 && <Empty />}
-                        </ul>
-                      </OverlayPanel>
-                    </div>
+                   
                   </div>
-  
-                  {/* <BtnComp mode={params.id>0?'E':'A'} onReset={formik.handleReset}/> */}
                 </form>
   
                 <div className="flex justify-center">
                   <button
-                  disabled={!dt ||  !type || (type=='P' && !projCode)}
+               
                     type="submit"
                     className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-1 -mb-2 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                     onClick={() => {

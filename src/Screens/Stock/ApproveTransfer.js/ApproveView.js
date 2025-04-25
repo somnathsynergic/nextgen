@@ -141,25 +141,25 @@ function ApproveView() {
     axios.post(url + "/api/get_transfer_stock", { id: 0 }).then((res) => {
       console.log(res);
       setLoading(false);
-      if (localStorage.getItem("user_type") != "2") {
-        setCopy(
-          res?.data?.msg
-        );
-        setPoData(
-          res?.data?.msg.filter(
-            (e) =>
+      // if (localStorage.getItem("user_type") != "2") {
+      //   setCopy(
+      //     res?.data?.msg
+      //   );
+      //   setPoData(
+      //     res?.data?.msg.filter(
+      //       (e) =>
              
-              e.approve_flag == "P"
-          )
-        );
-      }
-      if (
-        localStorage.getItem("user_type") == "5" ||
-        localStorage.getItem("user_type") == "4"
-      ) {
+      //         e.approve_flag == "P"
+      //     )
+      //   );
+      // }
+      // if (
+      //   localStorage.getItem("user_type") == "5" ||
+      //   localStorage.getItem("user_type") == "4"
+      // ) {
         setCopy(res?.data?.msg);
         setPoData(res?.data?.msg);
-      }
+      // }
     });
     // console.log
   }, []);

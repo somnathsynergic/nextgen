@@ -184,7 +184,7 @@ function StockInViewCompAll({
             </tr>
           </thead>
           <tbody>
-            {data?.map(item=> item.stock>0 &&
+            {data?.map(item=> item?.stock>0 &&
             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
                 <td
                 scope="row"

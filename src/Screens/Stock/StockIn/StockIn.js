@@ -278,8 +278,8 @@ function StockIn() {
                       </ul>
                     </OverlayPanel>
                     {!projcode && <VError title={"Required"} />}
-                    {proj_id && <Tag color="#eb8d00">Project ID: {proj_id}</Tag>}
-                    {projcode > 0 && (
+                    {proj_id!='0' && <Tag color="#eb8d00">Project ID: {proj_id}</Tag>}
+                    {!projcode > 0 && (
                       <span className="flex justify-between mt-1 items-center">
                         <a
                         // onClick={() => {

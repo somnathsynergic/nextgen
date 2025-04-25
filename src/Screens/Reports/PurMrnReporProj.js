@@ -57,9 +57,10 @@ function PurMrnReporProj() {
     const headers= [
         {name:'pur_req', value:"Purchase Requisition"},
         {name:'proj_name', value:"Project"},
+        {name:'vendor_name', value:"Vendor"},
+        {name:"prod_name",value: "Product"},
         {name:'invoice', value:"Invoice"},
         {name:"mrn_no" ,value: "MRN No"},
-        {name:"prod_name",value: "Product"},
         {name:"quantity",value:"Ordered Quantity"},
         {name:"rc_qty",value:"Received Quantity"}
       
@@ -191,7 +192,7 @@ function PurMrnReporProj() {
   
                       {!dt ? <VError title={"Required"} /> : null}
                     </div> */}
-                    <div className="sm:col-span-2">
+                    <div className="sm:col-span-1">
                       <TDInputTemplate
                         placeholder="Type"
                         type="date"
@@ -208,7 +209,74 @@ function PurMrnReporProj() {
   
                       {!type ? <VError title={"Required"} /> : null}
                     </div>
-                    <div className="sm:col-span-1">
+                    <div className={"sm:col-span-1"}>
+                        <TDInputTemplate
+                          placeholder="Vendor"
+                          type="text"
+                          label="Vendor"
+                          name="vend"
+                          // disabled={params.id > 0 || (intended=='W' && !clientcode)}
+                          formControlName={venVal}
+                          handleFocus={(e) => op_vendor.current.show(e)}
+                          handleChange={(txt) => {
+                            console.log(txt);
+                            setVenVal(txt.target.value);
+                            if (txt.target.value.length) op_vendor.current.show(txt);
+                            else {
+                              op_vendor.current.hide(txt);
+                              setVendorCode();
+                            //   setProjId("")
+                            }
+                            // setLoading(true);
+                            // getItemDetails(txt.target.value);
+                          }}
+                          data={vendorList}
+                          mode={1}
+                        />
+                        {!vendorCode ? <VError title={"Required"} /> : null}
+                      
+  
+                      <OverlayPanel
+                        ref={op_vendor}
+                        className={type!='P'?"w-[980px] border-2 bg-gray-200 border-green-900":"w-[485px] border-2 bg-gray-200 border-green-900"}
+                      >
+                        <span className="text-xs text-green-900 italic">
+                          Search results for: "{venVal}"
+                        </span>
+                        <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                          {vendorList?.filter((e) =>
+                            e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
+                          ).length > 0 &&
+                            vendorList
+                              ?.filter((e) =>
+                                e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
+                              )
+                              ?.map((lst) => (
+                                <li
+                                  onClick={(e) => {
+                                    op_vendor.current.hide(e);
+                                    setVenVal(lst.name);
+                                    setVendorCode(lst.code);
+                                  }}
+                                  class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
+                                >
+                                  <div class="flex items-center rtl:space-x-reverse">
+                                    <div class="flex-1 min-w-0">
+                                      <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
+                                        {lst.name}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  {/* <hr className=" border-gray-100"/> */}
+                                </li>
+                              ))}
+                          {projectList.filter((e) =>
+                            e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
+                          ).length == 0 && <Empty />}
+                        </ul>
+                      </OverlayPanel>
+                    </div>
+                    <div className="sm:col-span-2">
                       {type == "P" && (
                         <TDInputTemplate
                           placeholder="Project"
@@ -280,73 +348,7 @@ function PurMrnReporProj() {
                         </ul>
                       </OverlayPanel>
                     </div>
-                    <div className={type!='P'?"sm:col-span-2":"sm:col-span-1"}>
-                        <TDInputTemplate
-                          placeholder="Vendor"
-                          type="text"
-                          label="Vendor"
-                          name="vend"
-                          // disabled={params.id > 0 || (intended=='W' && !clientcode)}
-                          formControlName={venVal}
-                          handleFocus={(e) => op_vendor.current.show(e)}
-                          handleChange={(txt) => {
-                            console.log(txt);
-                            setVenVal(txt.target.value);
-                            if (txt.target.value.length) op_vendor.current.show(txt);
-                            else {
-                              op_vendor.current.hide(txt);
-                              setVendorCode();
-                            //   setProjId("")
-                            }
-                            // setLoading(true);
-                            // getItemDetails(txt.target.value);
-                          }}
-                          data={vendorList}
-                          mode={1}
-                        />
-                        {!vendorCode ? <VError title={"Required"} /> : null}
-                      
-  
-                      <OverlayPanel
-                        ref={op_vendor}
-                        className={type!='P'?"w-[980px] border-2 bg-gray-200 border-green-900":"w-[485px] border-2 bg-gray-200 border-green-900"}
-                      >
-                        <span className="text-xs text-green-900 italic">
-                          Search results for: "{venVal}"
-                        </span>
-                        <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
-                          {vendorList?.filter((e) =>
-                            e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
-                          ).length > 0 &&
-                            vendorList
-                              ?.filter((e) =>
-                                e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
-                              )
-                              ?.map((lst) => (
-                                <li
-                                  onClick={(e) => {
-                                    op_vendor.current.hide(e);
-                                    setVenVal(lst.name);
-                                    setVendorCode(lst.code);
-                                  }}
-                                  class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
-                                >
-                                  <div class="flex items-center rtl:space-x-reverse">
-                                    <div class="flex-1 min-w-0">
-                                      <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
-                                        {lst.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  {/* <hr className=" border-gray-100"/> */}
-                                </li>
-                              ))}
-                          {projectList.filter((e) =>
-                            e.name?.toLowerCase().includes(venVal?.toLowerCase()) ||e.email?.toLowerCase().includes(venVal?.toLowerCase()) ||e.gst?.toLowerCase().includes(venVal?.toLowerCase()) || e.pan?.toLowerCase().includes(venVal?.toLowerCase()) ||e.address?.toLowerCase().includes(venVal?.toLowerCase()) || e.phone?.toLowerCase().includes(venVal?.toLowerCase())
-                          ).length == 0 && <Empty />}
-                        </ul>
-                      </OverlayPanel>
-                    </div>
+                   
                   </div>
   
                   {/* <BtnComp mode={params.id>0?'E':'A'} onReset={formik.handleReset}/> */}
@@ -354,7 +356,7 @@ function PurMrnReporProj() {
   
                 <div className="flex justify-center">
                   <button
-                  disabled={!type && !vendorCode}
+                  disabled={!type || (!vendorCode && !projCode)}
                     type="submit"
                     className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-1 -mb-2 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                     onClick={() => {

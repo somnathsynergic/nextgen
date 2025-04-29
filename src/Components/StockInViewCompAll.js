@@ -188,7 +188,7 @@ function StockInViewCompAll({
             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
                 <td
                 scope="row"
-                className="px-4 w-1/6 py-1.5 text-center flex-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                className="px-4 w-1/6 py-1.5 text-center flex-wrap text-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {item?.prod_name}
               </td>

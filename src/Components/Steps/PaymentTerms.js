@@ -121,7 +121,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
                 
                 }}
                 disabled={
-                localStorage.getItem('amend_flag') =='Y' ||
+                // localStorage.getItem('amend_flag') =='Y' ||
                   localStorage.getItem('po_status')=='A' ||localStorage.getItem('po_status')=='D'||localStorage.getItem('po_status')=='L' ?true:false}
 
                 // handleChange={formik.handleChange}

@@ -1087,7 +1087,8 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                               scope="row"
                               className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                             >
-                              <div className="flex gap-2 justify-start items-center">
+                              <div className="flex gap-2 text-wrap justify-start items-center">
+                                {index+1} &nbsp;
                                 <Tag
                                   color={
                                     rowSum(

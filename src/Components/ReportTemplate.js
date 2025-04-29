@@ -111,7 +111,7 @@ function ReportTemplate( {headers,
                 rows={isPrinting?10:data?.length}
                 // body={statusBodyTemplate}
                 rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
-                rowClassName="bg-white text-md text-nowrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
+                rowClassName="bg-white text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
               text-ellipsis overflow-hidden truncate w-2"
                 tableStyle={{ minWidth: "100%", fontSize: !isPrinting?"10px":"12px" }}
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"

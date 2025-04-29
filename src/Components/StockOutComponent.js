@@ -145,7 +145,7 @@ function StockOutComponent({
           </thead>
           <tbody>
             {dataCopy &&
-              dataCopy?.slice(first, rows + first).map((item, index) => (
+              dataCopy?.slice(first, rows + first).map((item, index) => item.stock>0 && (
                 <>
                   <tr className="border-b-gray-100 border-b-2">
                     <th

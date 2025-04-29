@@ -689,7 +689,7 @@ function PoPreview({ data }) {
                                       ? "USD"
                                       : "EUR"
                                   )
-                                : ""}
+                                : 0}
                               <br />
                               {/* {+item.cgst_id>0?item?.currency=='I'?'(₹)':item?.currency=='U'?'($)':'(€)':''} */}
                               {item.cgst_id > 0
@@ -711,7 +711,7 @@ function PoPreview({ data }) {
                                       ? "USD"
                                       : "EUR"
                                   )
-                                : ""}
+                                : 0}
                               <br />
 
                               {item.sgst_id > 0
@@ -733,7 +733,7 @@ function PoPreview({ data }) {
                                       ? "USD"
                                       : "EUR"
                                   )
-                                : ""}
+                                : 0}
                               {/* {+item.igst_id>0?item.currency=='I'?'(₹)':item.currency=='U'?'($)':'(€)':''}  */}
                               <br />
 

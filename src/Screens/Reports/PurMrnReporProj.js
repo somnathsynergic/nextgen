@@ -6,7 +6,7 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Empty, Spin, Tag, Tooltip } from "antd";
+import { Divider, Empty, Spin, Tag, Tooltip } from "antd";
 import {
     ArrowUpOutlined,
   BorderOutlined,
@@ -47,14 +47,19 @@ function PurMrnReporProj() {
     const [vendorCode, setVendorCode] = useState();
 
     const [type, setType] = useState("");
+    const [po_list,setPOList] = useState([])
+    const [po_no,setPoNo] = useState("")
     const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
     const [clicked, setClicked] = useState(true);
     const [reportData,setReportData] = useState([])
+    const [poCode,setPoCode] = useState(0)
     const op = useRef(null);
+    const op_po = useRef(null);
     const op_vendor = useRef(null);
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
+        {name:'po_no', value:"PO No."},
         {name:'pur_req', value:"Purchase Requisition"},
         {name:'proj_name', value:"Project"},
         {name:'vendor_name', value:"Vendor"},
@@ -62,6 +67,7 @@ function PurMrnReporProj() {
         {name:'invoice', value:"Invoice"},
         {name:"mrn_no" ,value: "MRN No"},
         {name:"quantity",value:"Ordered Quantity"},
+        {name:"approved_ord_qty",value:"Requisition Quantity"},
         {name:"rc_qty",value:"Received Quantity"}
       
       // { name: "created_by", value: "Created by" },
@@ -83,6 +89,12 @@ function PurMrnReporProj() {
               });
             }
           });
+             axios
+                    .post(url + "/api/getpo", { id: 0 })
+                    .then((res) => {
+                      console.log(res);
+                      setPOList(res?.data?.msg?.map(item=>{return {name:item.po_no,value:item.po_no}}))
+                    })
       if (type == "P") {
         setLoading(true);
         projectList.length=0
@@ -233,7 +245,7 @@ function PurMrnReporProj() {
                           data={vendorList}
                           mode={1}
                         />
-                        {!vendorCode ? <VError title={"Required"} /> : null}
+                        {/* {!vendorCode ? <VError title={"Required"} /> : null} */}
                       
   
                       <OverlayPanel
@@ -276,7 +288,7 @@ function PurMrnReporProj() {
                         </ul>
                       </OverlayPanel>
                     </div>
-                    <div className="sm:col-span-2">
+                    <div className="sm:col-span-1">
                       {type == "P" && (
                         <TDInputTemplate
                           placeholder="Project"
@@ -348,6 +360,66 @@ function PurMrnReporProj() {
                         </ul>
                       </OverlayPanel>
                     </div>
+                      <div className={type!='P'?"sm:col-span-2":"sm:col-span-1"}>
+                              <TDInputTemplate
+                                placeholder="Select PO"
+                                type="text"
+                                label="Select PO"
+                                name="po_no"
+                                formControlName={po_no}
+                                handleFocus={(e) => op_po.current.show(e)}
+                                handleChange={(txt) => {
+                                  setPoNo(txt.target.value);
+                                  console.log(txt.target.value);
+                                  // dataCopy = data.filter((e) => e.name.includes(txt.target.value));
+                                  if (txt.target.value.length) op_po.current.show(txt);
+                                  else op_po.current.hide(txt);
+                    
+                                  //   setCode(0)
+                                }}
+                                mode={1}
+                                data={po_list}
+                              />
+                              <OverlayPanel
+                                ref={op_po}
+                                className="w-[610px] -ml-5 border-2 bg-gray-200 border-green-900"
+                              >
+                                <span className="text-xs text-green-900 italic">
+                                  Search results for: "{po_no}"
+                                </span>
+                                <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                                  {po_list.filter((e) => e.name.includes(po_no)).length > 0 &&
+                                    po_list
+                                      .filter((e) => e.name.includes(po_no))
+                                      ?.map((lst) => (
+                                        <li
+                                          onClick={(e) => {
+                                            op_po.current.hide(e);
+                                            setPoNo(lst.name);
+                                            setPoCode(lst.code);
+                                            console.log(lst);
+                                            // setLoading(true);
+                                            
+                                          }}
+                                          class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
+                                        >
+                                          <div class="flex items-center rtl:space-x-reverse">
+                                            <div class="flex-1 min-w-0">
+                                              <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
+                                                {lst.name}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <Divider />
+                                        </li>
+                                      ))}
+                                  {po_list.filter((e) => e.name.includes(po_no)).length == 0 && (
+                                    <Empty />
+                                  )}
+                                </ul>
+                              </OverlayPanel>
+
+                          </div>
                    
                   </div>
   
@@ -356,14 +428,14 @@ function PurMrnReporProj() {
   
                 <div className="flex justify-center">
                   <button
-                  disabled={!type || (!vendorCode && !projCode)}
+                  disabled={!type || (!vendorCode && !projCode && !po_no)}
                     type="submit"
                     className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-1 -mb-2 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                     onClick={() => {
                     //   onSubmit();
                     setLoading(true)
                     console.log(projCode,vendorCode,type)
-                    axios.post(url + "/api/mrnprojreport", { proj_id: projCode || 0, vendor_id: vendorCode || 0,dt:dt,type:type }).then((res) => {
+                    axios.post(url + "/api/mrnprojreport", { proj_id: projCode || 0, vendor_id: vendorCode || 0,dt:dt,type:type,po_no:po_no }).then((res) => {
                          console.log(res)
                          if(res?.data?.suc>0){
                             setReportData(res?.data?.msg)

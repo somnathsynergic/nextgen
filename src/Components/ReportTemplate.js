@@ -58,15 +58,18 @@ function ReportTemplate( {headers,
       
       }
       const setSearch = (e)=>{
+        console.log(e.target.value,flag)
           if(flag==1){
             setDataCopy(data?.filter(item=>item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase())||item.stock?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
           }
           if(flag==2){
             setDataCopy(data?.filter(item=>item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase())||item.project_stock?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||item.prod_name?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+          }
             if(flag==3){
+              console.log("here")
               setDataCopy(data?.filter(item=>item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase())||item.pur_req?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||item.pur_req?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.invoice?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
             }
-          }
+          
       }
   return (
     <>

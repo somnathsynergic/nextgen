@@ -1247,13 +1247,13 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                       >
                                         {" "}
                                         Pending :{" "}
-                                        {item.quantity -
+                                        {parseFloat(item.quantity -
                                           rowSum(
                                             itemList.filter(
                                               (e) => e.sl_no == item.item_id
                                             ),
                                             item.quantity
-                                          ).sum}{" "}
+                                          ).sum).toFixed(3)}{" "}
                                       </Tag>{" "}
                                     </p>
                                   </a>

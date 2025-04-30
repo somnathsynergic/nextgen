@@ -51,7 +51,7 @@ function PurMrnReport() {
       { name: "mrn_no", value: "MRN No." },
       { name: "quantity", value: "Ordered Quantity" },
 
-      { name: "approved_ord_qty", value: "Approved Quantity" },
+      // { name: "approved_ord_qty", value: "Approved Quantity" },
       { name: "rc_qty", value: "Received Quantity" },
      
   
@@ -200,20 +200,20 @@ function PurMrnReport() {
                     console.log(pur_req__listCopy)
                     }
                   }}
-                  disabled={
-                    localStorage.getItem("po_status") == "A" ||
-                    localStorage.getItem("po_status") == "D" ||
-                    localStorage.getItem("po_status") == "L"
-                      ? true
-                      : false
-                  }
+                  // disabled={
+                  //   localStorage.getItem("po_status") == "A" ||
+                  //   localStorage.getItem("po_status") == "D" ||
+                  //   localStorage.getItem("po_status") == "L"
+                  //     ? true
+                  //     : false
+                  // }
                   mode={1}
                 />
                
 
                 <OverlayPanel
                   ref={op_pur_req}
-                  className="w-[67.5%] border-2 bg-gray-200 border-green-900"
+                  className="w-[35.5%] border-2 bg-gray-200 border-green-900"
                 >
                   <span className="text-xs text-green-900 italic">
                     Search results for: "{pur_req}"

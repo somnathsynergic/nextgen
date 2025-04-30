@@ -23,6 +23,7 @@ import CompositeSearch from "../../Components/CompositeSearch";
 import Radiobtn from "../../Components/Radiobtn";
 import DialogBox from "../../Components/DialogBox";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
+import moment from "moment";
 
 
 function RequisitionView() {
@@ -428,7 +429,7 @@ function RequisitionView() {
                         </th>
                         <td class="px-4 py-4 text-green-900 font-bold">{item.req_no}</td>
                         <td class="px-4 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')': 'Warehouse'}</td>
-                        <td class="px-4 py-4 text-gray-600">{item.req_date}</td>
+                        <td class="px-4 py-4 text-gray-600">{moment(item.req_date).format('DD/MM/YYYY')}</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"

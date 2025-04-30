@@ -33,11 +33,11 @@ function Delivery({ pressBack, pressNext, data }) {
       localStorage.setItem("delFlag","1");
       setDelivery(false);
       setDeliveryAdd(
-        "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
       );
       localStorage.setItem(
         "ship_to",
-        "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
       );
       console.log('hello1',delivery,delValue);
     } else if (e.target.value== 2) {
@@ -46,11 +46,11 @@ function Delivery({ pressBack, pressNext, data }) {
       setDelivery(false);
 
       setDeliveryAdd(
-        "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd, Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
       );
       localStorage.setItem(
         "ship_to",
-        "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd, Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
       );
       console.log('hello2',delivery,delValue);
     } else {
@@ -69,7 +69,7 @@ function Delivery({ pressBack, pressNext, data }) {
   const params = useParams();
   localStorage.setItem(
     "bill_to",
-    "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+    "NextGen Automation Pvt Ltd, Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
   );
   const [deliveryConfirm, setDelivery] = useState(
     localStorage.getItem("ware_house_flag") == "Y" ? true : false
@@ -133,7 +133,7 @@ function Delivery({ pressBack, pressNext, data }) {
               label="Bill To"
               name="bill_to"
               formControlName={
-                "NextGen Automation Pvt Ltd Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
+                "NextGen Automation Pvt Ltd, Unit - 102, 1st Floor, PS PACE 1/1A, Mahendra Roy Lane Kolkata 700046,GSTIN- 19AABCN5744L1Z1"
               }
               disabled={true}
               mode={3}
@@ -188,11 +188,11 @@ function Delivery({ pressBack, pressNext, data }) {
                     if (deliveryConfirm == false) {
                       console.log(deliveryConfirm);
                       setDeliveryAdd(
-                        "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+                        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
                       );
                       localStorage.setItem(
                         "ship_to",
-                        "NextGen Automation Pvt Ltd Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+                        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
                       );
                       console.log(delivery);
                     } else {

@@ -14,6 +14,7 @@ import SkeletonLoading from "../../Components/SkeletonLoading";
 import CompositeSearch from "../../Components/CompositeSearch";
 import DialogBox from "../../Components/DialogBox";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
+import moment from "moment";
 
 
 function MinView() {
@@ -337,7 +338,7 @@ function MinView() {
                       </th>
                       <td class="px-6 py-4 w-1/4 text-green-900 font-bold">{item.req_no}</td>
                       <td class="px-6 py-4 w-1/4 text-gray-600 text-wrap">{item?.proj_name?item?.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                      <td class="px-6 py-4 w-1/4 text-gray-600">{item.req_date}</td>
+                      <td class="px-6 py-4 w-1/4 text-gray-600">{moment(item.req_date).format('DD/MM/YYYY')}</td>
                       <td class="px-6 py-4 w-1/4 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                       <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
                       

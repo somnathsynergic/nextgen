@@ -141,7 +141,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
  
   const [itemList, setItemList] = useState(
     data?.itemList?.length
-      ? data?.itemList
+      ? data?.itemList.map(item => ({ ...item, click: 0 }))
       : [
           {
             sl_no: 0,
@@ -159,6 +159,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
             IGST: "",
             delivery_date: "",
             delivery_to: "",
+            click:1
           },
         ]
   );
@@ -188,7 +189,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
       tot = 0;
     }
   }, []);
+  const handleItemClick = (index)=>{
+    let data = [...itemList];
+    data[index]["click"] = 1;
+    setItemList(data);
 
+  }
   const handleDtChange = (index, event) => {
     console.log(grand_total);
     if (event.target.name == "item_name") {
@@ -528,6 +534,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               IGST: itemList[index].IGST,
                               delivery_date: itemList[index].delivery_date,
                               delivery_to: itemList[index].delivery_to,
+                              click:1
                               // poc_address: "",
                             });
                           }}
@@ -556,9 +563,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     )}
                 </div>
 
-                <div className="grid shadow-md bg-[#DDEAE0] p-2.5 px-3 rounded-b-md sm:grid-cols-12 sm:gap-6">
-                  <div className="sm:col-span-2 flex flex-col ">
-                    {localStorage.getItem("po_status") != "A" && (
+                <div className="grid shadow-md bg-[#DDEAE0] p-2.5 px-3 rounded-b-md sm:grid-cols-12 sm:gap-6 flex-col">
+                <p className="text-green-900 text-sm font-bold absolute">{input.click==0?'Item Name':''}</p> 
+
+                  <div onClick={()=>handleItemClick(index)} className={input.click==1?"sm:col-span-2 flex flex-col " : "sm:col-span-2 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
+
+                    {localStorage.getItem("po_status") != "A" && params.flag!='F' && (
                       <a
                         className="ml-24 -mt-1 -mb-7"
                         onClick={() => {
@@ -575,6 +585,10 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         </Tooltip>
                       </a>
                     )}
+                    <span>
+                      
+                    {input.click==0? prodList?.filter(item =>item?.code ==itemList[index]?.item_name)[0]?.name : 
+                    <>
                     <TDInputTemplate
                       placeholder="Item name"
                       type="text"
@@ -599,7 +613,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                           : false
                       }
                       mode={2}
-                    />
+                    /> 
                     {(input.item_name == "Item name" ||
                       input.item_name == "") && (
                       <VError title={"Name is required!"} />
@@ -635,8 +649,10 @@ function ProductDetails({ pressBack, pressNext, data }) {
                      </a> */}
                         </div>
                       )}
+                     </>}
+                     </span>
                   </div>
-
+ 
                   <div className="sm:col-span-2 flex flex-col items-start ">
                     <TDInputTemplate
                       placeholder="Quantity"

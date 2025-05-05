@@ -88,7 +88,7 @@ function PurchaseReqForm() {
   const [mode, setMode] = useState(0);
   const [po_no, setPoNo] = useState(0);
   const [itemDtls, setItemDtls] = useState(
-    params.id > 0 ? [{ sl_no: 0, item_id: "", qty: 0, error: 1 }] : []
+    params.id > 0 ? [{ sl_no: 0, item_id: "", qty: 0, error: 1,click:1 }] : []
   );
   const content = (
     <div className={"grid grid-cols-3 gap-1 p-3 bg-green-100 rounded-lg"}>
@@ -163,7 +163,7 @@ function PurchaseReqForm() {
     if (params.id > 0) {
       setItemDtls([]);
     } else {
-      setItemDtls([{ sl_no: 0, item_id: "", qty: 0, error: 1 }]);
+      setItemDtls([{ sl_no: 0, item_id: "", qty: 0, error: 1,click:1 }]);
     }
     axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
       console.log(res);
@@ -245,7 +245,8 @@ function PurchaseReqForm() {
                     saved_qty: item.ordered_qty,
                     ordered_qty: item.approved_ord_qty,
                     error: 0,
-                    tot_rc:item.tot_rc
+                    tot_rc:item.tot_rc,
+                    click:0
                   },
                 ])
               );
@@ -319,6 +320,12 @@ function PurchaseReqForm() {
     data.splice(index, 1);
     setItemDtls(data);
   };
+  const handleItemClick = (index)=>{
+    let data = [...itemDtls];
+    data[index]["click"] = 1;
+    setItemDtls(data);
+
+  }
   const handleDtChange = (index, event) => {
     let data = [...itemDtls];
     console.log(productList.filter((e) => e.code == event.target.value));
@@ -739,10 +746,8 @@ function PurchaseReqForm() {
                             scope="row"
                             className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
-                            <div >
-                              {/* <div className="flex justify-end float-end gap-1"></div> */}
-                              <a
-                                className="ml-52 float-end -mt-3 -mr-2  z-10 "
+                             <a
+                                className="ml-10 float-end mt-3 -mr-2  z-10 "
                                 onClick={() => {
                                   setFlag(25);
                                   setIndex(index);
@@ -756,6 +761,12 @@ function PurchaseReqForm() {
                                   </Tag>
                                 </Tooltip>
                               </a>
+                            <div onClick={()=>handleItemClick(index)} className={item.click==1?" " : "sm:col-span-2 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
+                              {/* <div className="flex justify-end float-end gap-1"></div> */}
+                             
+                              {item.click==0? productList?.filter(item =>item?.code ==itemDtls[index]?.item_id)[0]?.name
+                              
+                              : <>
                               <TDInputTemplate
                                 placeholder="Item"
                                 type="text"
@@ -834,6 +845,7 @@ function PurchaseReqForm() {
                              
                              
                              </p>
+                             </>}
                               {/* {!purpose && <VError title={"Required"} />} */}
                             </div>
                           </th>
@@ -934,6 +946,7 @@ function PurchaseReqForm() {
                                       item_id: "",
                                       qty: 0,
                                       error: 1,
+                                      click:1
                                     });
                                   }}
                                   icon={<PlusOutlined />}

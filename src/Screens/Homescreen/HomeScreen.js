@@ -97,6 +97,9 @@ function HomeScreen() {
       console.log(res)
       setDashboardData(res?.data)
       setLoading(false)
+      // axios.post(url+'/api/stock_levels_by_date',{pur_no:""}).then(resStock=>{
+      //   console.log(resStock)
+      // }).catch(err=>{console.log(err)})
     })
   },[])
 
@@ -264,7 +267,7 @@ function HomeScreen() {
                         className="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
                         spinning={loading}
                       >
-          <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.stock_cnt?dashboard_data.stock_cnt:loading?'':0}</div>
+          <div class={dashboard_data?.stock_cnt?.length<=3?"text-[#6564DB] text-4xl ml-14 mt-9 font-bold":"text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt?dashboard_data.stock_cnt:loading?'':0}</div>
           {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
           </Spin>
         </Link>

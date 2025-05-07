@@ -400,7 +400,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
       otherwise: () => Yup.string(),
     }),
     manufacture_clearance: Yup.string().required(
-      "Manufacture clearance is required"
+      "Manufacturing clearance is required"
     ),
     // manufacture_clearance_desc: Yup.string().when('manufacture_clearance', {
     //   is: 'A',
@@ -734,7 +734,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="price_basis_flag"
               data={[
                 { name: "FOR", code: "F" },
-                { name: "EX-WORKS", code: "E" },
+                { name: "Ex-Works", code: "E" },
               ]}
               formControlName={formik.values.price_basis_flag}
               handleChange={formik.handleChange}
@@ -2577,9 +2577,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </div>
           <div className="sm:col-span-5 -mt-3">
             <TDInputTemplate
-              placeholder="Manufacture Clearance"
+              placeholder="Manufacturing Clearance"
               type="text"
-              label="Manufacture Clearance"
+              label="Manufacturing Clearance"
               name="manufacture_clearance"
               data={[
                 { name: "Applicable", code: "A" },
@@ -2663,9 +2663,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
             >
               {formik.values.manufacture_clearance == "A" && (
                 <TDInputTemplate
-                  placeholder="Manufacture Clearance Description"
+                  placeholder="Manufacturing Clearance Description"
                   type="text"
-                  label="Manufacture Clearance Description"
+                  label="Manufacturing Clearance Description"
                   name="manufacture_clearance_desc"
                   formControlName={formik.values.manufacture_clearance_desc}
                   // handleChange={formik.handleChange}
@@ -2693,16 +2693,23 @@ function TermsConditions({ pressNext, pressBack, data }) {
         <div className="flex pt-4 justify-between w-full">
           <button
             type="button"
-            className="inline-flex items-center px-5 py-2.5 mt-4 mr-2 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-[#92140C] transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 rounded-full  dark:focus:ring-primary-900"
+            className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
             onClick={pressBack}
-          > <ArrowLeftOutlined className="mr-1"/>
+          > 
+           <span class="relative z-10">
+          <ArrowLeftOutlined className="mr-1"/>
             Back
+            </span>
+            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button>
           <button
             type="submit"
-            className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+            className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
           >
+            <span class="relative z-10">
             Next <ArrowRightOutlined className="ml-1"/>
+            </span>
+            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button>
         </div>
         

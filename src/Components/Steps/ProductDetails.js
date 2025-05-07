@@ -509,7 +509,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
             {itemList.map((input, index) => (
            
               <div key={input.item_name||index}>
-                <div className="sm:col-span-2 px-3 rounded-t-md bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center">
+                {/* <div className="sm:col-span-2 px-3 rounded-t-md bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center"> */}
+                <div className="sm:col-span-2 px-3  bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center">
                 {/* <div className="sm:col-span-2 px-3 bg-green-900 py-2 flex gap-2 justify-end items-center"> */}
                   {localStorage.getItem("po_status") != "A" &&
                     localStorage.getItem("po_status") != "D" &&
@@ -1171,16 +1172,20 @@ function ProductDetails({ pressBack, pressNext, data }) {
           </BlockUI>
           <div className="flex pt-4 justify-between w-full">
             <button
-              className="inline-flex items-center px-5 py-2.5 mt-4 mr-2 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-[#92140C] transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 rounded-full  dark:focus:ring-primary-900"
+              className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
               onClick={pressBack}
             >
               {" "}
+              <span class="relative z-10">
               <ArrowLeftOutlined className="mr-1" />
               Back
+              </span>
+              <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button>
             <button
               type="submit"
-              className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+              className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+
               onClick={() => {
                 var flag = 0;
                 console.log(itemList);
@@ -1219,7 +1224,10 @@ function ProductDetails({ pressBack, pressNext, data }) {
                 if (flag == 0) pressNext(itemList);
               }}
             >
+               <span class="relative z-10">
               Next <ArrowRightOutlined className="ml-1" />
+              </span>
+              <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button>
           </div>
         </div>

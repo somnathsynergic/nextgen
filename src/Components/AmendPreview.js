@@ -889,7 +889,7 @@ function AmendPreview({ id }) {
                       Price Basis
                     </th>
                     <td className="px-1 w-3/4 py-1 text-xs border border-gray-300">
-                      {price_basis_flag == "F" ? "FOR" : "EX-WORKS"},{" "}
+                      {price_basis_flag == "F" ? "FOR" : "Ex-Works"},{" "}
                       {price_basis_desc}
                     </td>
                   </tr>
@@ -1081,7 +1081,7 @@ function AmendPreview({ id }) {
                       scope="row"
                       className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                     >
-                      Manufacture Clearance
+                      Manufacturing Clearance
                     </th>
                     <td className="px-1 py-1 text-xs border border-gray-300">
                       {manufacture_clearance == "A"

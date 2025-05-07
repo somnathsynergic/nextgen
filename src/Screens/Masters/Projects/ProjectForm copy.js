@@ -188,7 +188,7 @@ function ProjectForm() {
   ];
   let priceBasisList = [
     { code: "F", name: "FOR" },
-    { code: "E", name: "EX-WORKS" },
+    { code: "E", name: "Ex-Works" },
   ];
 
   var clientList = [];

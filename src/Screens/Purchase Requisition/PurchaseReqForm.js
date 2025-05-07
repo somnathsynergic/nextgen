@@ -17,6 +17,7 @@ import { Button, Divider, Empty, Popover, Spin, Tag, Tooltip } from "antd";
 import {
   DropboxOutlined,
   LoadingOutlined,
+  LockFilled,
   MinusOutlined,
   PlusCircleOutlined,
   PlusOutlined,
@@ -394,7 +395,12 @@ function PurchaseReqForm() {
             }, 5);}
           }
       />
-      <BlockUI blocked={blocked} className={"bg-red-500"}>
+      <BlockUI template={
+                                                                                 <div className='relative  w-full h-full 0 z-10'>
+                                                                                   <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                              
+                                                                                 </div>
+                                                                               }  blocked={blocked} className={"bg-red-500"}>
         <div className="grid grid-cols-6 gap-2">
           <div className={"w-full col-span-6 bg-white p-6 rounded-2xl"}>
             <Spin
@@ -1059,7 +1065,7 @@ function PurchaseReqForm() {
                       <button
                         // disabled={errorSum(error) || !intended}
                         onClick={() => onSubmit()}
-                        className=" disabled:bg-gray-400 mx-auto disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                        className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                         disabled={
                           !intended_for ||
                           (intended_for == "P" && !projcode) ||
@@ -1069,8 +1075,11 @@ function PurchaseReqForm() {
                           }, 0) > 0
                         }
                       >
-                        <SaveOutlined className="mr-1" />
+                         <span class="relative z-10">
+                        <SaveOutlined className="mr-2" />
                         Submit
+                        </span>
+                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                       </button>
                    )} 
 
@@ -1083,10 +1092,13 @@ function PurchaseReqForm() {
                           setFlag(4);
                           setVisible(true);
                         }}
-                        className=" disabled:bg-gray-400 mx-auto disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                         className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                       >
+                        <span class="relative z-10">
                         <DeleteOutline className="mr-1" />
                         Delete
+                        </span>
+                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
                       </button>
                       )} 
 

@@ -210,7 +210,7 @@ function ProjectForm() {
   ];
   let priceBasisList = [
     { code: "F", name: "FOR" },
-    { code: "E", name: "EX-WORKS" },
+    { code: "E", name: "Ex-Works" },
   ];
 
   var clientList = [];
@@ -1220,16 +1220,18 @@ function ProjectForm() {
                 <div className="flex pt-4 justify-content-end">
                   <button
                     disabled={checkLoad}
-                    className=" disabled:bg-gray-400 
-                                        disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                     className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                     iconPos="right"
                     onClick={() => {
                       onSubmitProject();
                     }}
                   >
                     {" "}
+                    <span class="relative z-10">
                     Next
                     <ArrowRightOutlined className="ml-2" />
+                    </span>
+                    <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                   </button>
                 </div>
                 </div>
@@ -1635,20 +1637,25 @@ function ProjectForm() {
                   <div className="flex pt-4 justify-content-start">
                     <button
 
-                      className="inline-flex items-center px-5 py-2.5 mt-4 mr-2 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-[#92140C] transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 rounded-full  dark:focus:ring-primary-900"
+                     className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                       onClick={() => stepperRef.current.prevCallback()}
                     >
+                      <span class="relative z-10">
                       <ArrowLeftOutlined className="mr-2" />
                       Back
+                      </span>
+                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
                     </button>
                     <button
-                      className=" disabled:bg-gray-400 
-                  disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                     className="relative ml-3 disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                       onClick={() => onSubmitClient()}
                       disabled={!pm_code}
                     > 
+                    <span class="relative z-10">
                       <SaveOutlined className="mr-1" />
                       Submit
+                      </span>
+                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                     </button>
                   </div>
                   </div>
@@ -1711,7 +1718,7 @@ function ProjectForm() {
                     <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
                       Price Basis 
                     </td>
-                    <td className="border text-gray-600 border-gray-300 p-2">{prc_basis=='F'?'FOR':'EX-WORKS'}</td>
+                    <td className="border text-gray-600 border-gray-300 p-2">{prc_basis=='F'?'FOR':'Ex-Works'}</td>
                   </tr>
                   <tr  className="border border-gray-300">
                     <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">

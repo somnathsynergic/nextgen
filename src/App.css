@@ -91,6 +91,11 @@
   font-weight:bold
 }
 
+.p-blockui-container .p-blockui.p-component-overlay.p-component-overlay-enter {
+  background-color: rgba(113, 121, 115, 0.3) !important;
+ 
+}
+
 
 
 

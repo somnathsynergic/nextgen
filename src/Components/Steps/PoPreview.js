@@ -992,7 +992,7 @@ function PoPreview({ data }) {
                           {JSON.parse(localStorage.getItem("terms"))
                             .price_basis_flag == "F"
                             ? "FOR"
-                            : "EX-WORKS"}{" "}
+                            : "Ex-Works"}{" "}
                           {JSON.parse(localStorage.getItem("terms"))
                             .price_basis_desc
                             ? JSON.parse(localStorage.getItem("terms"))
@@ -1353,7 +1353,7 @@ function PoPreview({ data }) {
                           scope="row"
                           className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white"
                         >
-                          Manufacture Clearance
+                          Manufacturing Clearance
                         </th>
                         <td className="px-1 py-1 text-xs border border-gray-300">
                           {JSON.parse(localStorage.getItem("terms"))

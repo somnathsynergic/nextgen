@@ -8,6 +8,7 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../Components/PrintHeader";
 import { url } from "../../Address/BaseUrl";
+import { BlockUI } from "primereact/blockui";
 import {
   BuildOutlined,
   CheckCircleOutlined,
@@ -18,6 +19,7 @@ import {
   InfoCircleFilled,
   InfoOutlined,
   LoadingOutlined,
+  LockFilled,
   ProfileOutlined,
   SaveOutlined,
   StockOutlined,
@@ -39,6 +41,7 @@ function RequisitionForm() {
   const reactToPrintFn = useReactToPrint({
     contentRef,
   });
+  const [blocked, setBlocked] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -145,7 +148,6 @@ function RequisitionForm() {
           name: i.proj_name,
           client: i.client_id,
           proj_id: i.proj_id,
-
         });
         // projectList.push({ value: i.sl_no, label: i.proj_name });
       }
@@ -160,6 +162,7 @@ function RequisitionForm() {
       }
       setClientList(clientList);
     });
+    setBlocked(det?.requisition == 1 ? true : false);
   }, []);
 
   const deleteItem = () => {
@@ -559,10 +562,10 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty_copy:(i.tot_rc_qty - i.tot_req),
-                req_qty:"",
+                req_qty_copy: i.tot_rc_qty - i.tot_req,
+                req_qty: "",
                 // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
-                stock: intended!='W' ?i.project_stock:i.warehouse_stock,
+                stock: intended != "W" ? i.project_stock : i.warehouse_stock,
               });
               itemDtlsFormCopy.push({
                 sl_no: +params.id > 0 ? +params.id : 0,
@@ -578,14 +581,12 @@ function RequisitionForm() {
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
 
-                  req_qty_copy:(i.tot_rc_qty - i.tot_req),
-                  req_qty:"",
+                req_qty_copy: i.tot_rc_qty - i.tot_req,
+                req_qty: "",
 
                 // req_qty: i.tot_rc_qty,
                 // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
-                stock: intended!='W' ?i.project_stock:i.warehouse_stock,
-
-                
+                stock: intended != "W" ? i.project_stock : i.warehouse_stock,
               });
             }
           }
@@ -740,7 +741,13 @@ function RequisitionForm() {
           // req_type: type,
           client_id: clientcode || 0,
           purpose: purpose,
-          items: itemDtlsForm.map(item => ({sl_no: item.sl_no, item_id: item.item_id, req_qty: item.req_qty||0,rc_qty:item.rc_qty,stock:item.stock})), //itemDtlsForm,
+          items: itemDtlsForm.map((item) => ({
+            sl_no: item.sl_no,
+            item_id: item.item_id,
+            req_qty: item.req_qty || 0,
+            rc_qty: item.rc_qty,
+            stock: item.stock,
+          })), //itemDtlsForm,
           in_out_flag: -1,
         })
         .then((res) => {
@@ -780,22 +787,33 @@ function RequisitionForm() {
           }, 5);
         }}
       />
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <BlockUI
+        template={
+          <div className="relative  w-full h-full 0 z-10">
+            <span className="absolute top-2 left-2 font-bold italic text-gray-500">
+              <LockFilled className="text-green-900 " /> Locked (Readonly)
+            </span>
+          </div>
+        }
+        blocked={blocked}
+        className={"bg-red-500"}
       >
-        <div className="grid grid-cols-12 gap-2">
-          <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
-            {/* <span className="flex justify-start my-2">
+        <Spin
+          indicator={<LoadingOutlined spin />}
+          size="large"
+          className="text-green-900 dark:text-gray-400"
+          spinning={loading}
+        >
+          <div className="grid grid-cols-12 gap-2">
+            <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
+              {/* <span className="flex justify-start my-2">
               </span> */}
-            <div className="grid gap-4 sm:grid-cols-12 sm:gap-6">
-              {params.id > 0 && (
-                <div className="sm:col-span-12 flex justify-end">
-                  <Tag color="#014737">Requisition: {req_no} </Tag>
+              <div className="grid gap-4 sm:grid-cols-12 sm:gap-6">
+                {params.id > 0 && (
+                  <div className="sm:col-span-12 flex justify-end">
+                    <Tag color="#014737">Requisition: {req_no} </Tag>
 
-                  {/* {approve_flag == "A" && (
+                    {/* {approve_flag == "A" && (
                     <Tag
                       className="text-[12px] rounded-full w-36"
                       icon={<CheckCircleOutlined />}
@@ -822,68 +840,72 @@ function RequisitionForm() {
                       Pending
                     </Tag>
                   )} */}
-                </div>
-              )}
-              <div
-                className={intended != "C" ? "sm:col-span-6" : "sm:col-span-4"}
-              >
-                <TDInputTemplate
-                  placeholder="Date"
-                  type="date"
-                  label="Date"
-                  name="dt"
-                  min={moment(
-                    new Date(
-                      new Date().setFullYear(new Date().getFullYear() - 3)
-                    )
-                  ).format("yyyy-MM-DD")} //may need to change
-                  formControlName={
-                    params.id > 0
-                      ? req_date
-                      : moment(new Date()).format("yyyy-MM-DD")
+                  </div>
+                )}
+                <div
+                  className={
+                    intended != "C" ? "sm:col-span-6" : "sm:col-span-4"
                   }
-                  max={moment(new Date()).format("yyyy-MM-DD")}
-                  // formControlName={params.po_no}
-                  disabled={true}
-                  mode={1}
-                />
-              </div>
-              <div
-                className={intended != "C" ? "sm:col-span-6" : "sm:col-span-4"}
-              >
-                <TDInputTemplate
-                  placeholder="Intended For"
-                  type="date"
-                  label="Intended For"
-                  name="int"
-                  formControlName={intended}
-                  handleChange={(txt) => {
-                    setIntended(txt.target.value);
-
-                    setClient("");
-                    setClientCode(0);
-                    setProjectList(projectCopy);
-                    if (txt.target.value == "W") {
-                      getItemDetails(0);
+                >
+                  <TDInputTemplate
+                    placeholder="Date"
+                    type="date"
+                    label="Date"
+                    name="dt"
+                    min={moment(
+                      new Date(
+                        new Date().setFullYear(new Date().getFullYear() - 3)
+                      )
+                    ).format("yyyy-MM-DD")} //may need to change
+                    formControlName={
+                      params.id > 0
+                        ? req_date
+                        : moment(new Date()).format("yyyy-MM-DD")
                     }
-                    // setProjCode(0)
-                    // setProject("")
+                    max={moment(new Date()).format("yyyy-MM-DD")}
+                    // formControlName={params.po_no}
+                    disabled={true}
+                    mode={1}
+                  />
+                </div>
+                <div
+                  className={
+                    intended != "C" ? "sm:col-span-6" : "sm:col-span-4"
+                  }
+                >
+                  <TDInputTemplate
+                    placeholder="Intended For"
+                    type="date"
+                    label="Intended For"
+                    name="int"
+                    formControlName={intended}
+                    handleChange={(txt) => {
+                      setIntended(txt.target.value);
 
-                    // if (txt.target.value == "W") {
-                    //   getWarehouseItemDetails(0);
-                    //   setProject(0);
-                    // }
-                  }}
-                  disabled={params.id > 0}
-                  data={[
-                    { name: "Project", code: "C" },
-                    { name: "Warehouse", code: "W" },
-                  ]}
-                  mode={2}
-                />
-                {!intended && <VError title={"Required"} />}
-              </div>
-              {/* <div
+                      setClient("");
+                      setClientCode(0);
+                      setProjectList(projectCopy);
+                      if (txt.target.value == "W") {
+                        getItemDetails(0);
+                      }
+                      // setProjCode(0)
+                      // setProject("")
+
+                      // if (txt.target.value == "W") {
+                      //   getWarehouseItemDetails(0);
+                      //   setProject(0);
+                      // }
+                    }}
+                    disabled={params.id > 0}
+                    data={[
+                      { name: "Project", code: "C" },
+                      { name: "Warehouse", code: "W" },
+                    ]}
+                    mode={2}
+                  />
+                  {!intended && <VError title={"Required"} />}
+                </div>
+                {/* <div
                 className={intended == "C" ? "sm:col-span-6" : "sm:col-span-12"}
               >
                 <TDInputTemplate
@@ -903,333 +925,353 @@ function RequisitionForm() {
                 {!type && <VError title={"Required"} />}
               </div> */}
 
-              {intended == "C" && (
-                <div
-                  className={
-                    intended == "C"
-                      ? "sm:col-span-4 flex-col justify-end items-end"
-                      : "sm:col-span-4 flex-col justify-end items-end -mt-1"
-                  }
-                >
-                  <TDInputTemplate
-                    placeholder="Project"
-                    type="text"
-                    label="Project"
-                    name="proj"
-                    disabled={params.id > 0 || (intended == "W" && !clientcode)}
-                    formControlName={project}
-                    handleFocus={(e) => op.current.show(e)}
-                    handleChange={(txt) => {
-                      console.log(txt);
-                      setProject(txt.target.value);
-                      if (txt.target.value.length) op.current.show(txt);
-                      else {
-                        op.current.hide(txt);
-                        setProjCode(0);
-                      }
-                      // setLoading(true);
-                      // getItemDetails(txt.target.value);
-                    }}
-                    data={projectList}
-                    mode={1}
-                  />
-
-                  <OverlayPanel
-                    ref={op}
-                    className="w-[23%] border-2 bg-gray-200 border-green-900"
+                {intended == "C" && (
+                  <div
+                    className={
+                      intended == "C"
+                        ? "sm:col-span-4 flex-col justify-end items-end"
+                        : "sm:col-span-4 flex-col justify-end items-end -mt-1"
+                    }
                   >
-                    <span className="text-xs text-green-900 italic">
-                      Search results for: "{project}"
-                    </span>
-                    <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
-                      {projectList?.filter((e) =>
-                        e.name?.toLowerCase().includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
-                      ).length > 0 &&
-                        projectList
-                          ?.filter((e) =>
+                    <TDInputTemplate
+                      placeholder="Project"
+                      type="text"
+                      label="Project"
+                      name="proj"
+                      disabled={
+                        params.id > 0 || (intended == "W" && !clientcode)
+                      }
+                      formControlName={project}
+                      handleFocus={(e) => op.current.show(e)}
+                      handleChange={(txt) => {
+                        console.log(txt);
+                        setProject(txt.target.value);
+                        if (txt.target.value.length) op.current.show(txt);
+                        else {
+                          op.current.hide(txt);
+                          setProjCode(0);
+                        }
+                        // setLoading(true);
+                        // getItemDetails(txt.target.value);
+                      }}
+                      data={projectList}
+                      mode={1}
+                    />
+
+                    <OverlayPanel
+                      ref={op}
+                      className="w-[23%] border-2 bg-gray-200 border-green-900"
+                    >
+                      <span className="text-xs text-green-900 italic">
+                        Search results for: "{project}"
+                      </span>
+                      <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                        {projectList?.filter(
+                          (e) =>
                             e.name
                               ?.toLowerCase()
-                              .includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
-                          )
-                          ?.map((lst) => (
-                            <li
-                              onClick={(e) => {
-                                op.current.hide(e);
-                                setProject(lst.name);
-                                setProjCode(lst.code);
-                                getItemDetails(lst.code);
-                                
-                              }}
-                              class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
-                            >
-                              <div class="flex items-center rtl:space-x-reverse">
-                                <div class="flex-1 min-w-0">
-                                  <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
-                                    {lst.name}
-                                  </p>
+                              .includes(project?.toLowerCase()) ||
+                            e.proj_id
+                              ?.toLowerCase()
+                              .includes(project?.toLowerCase())
+                        ).length > 0 &&
+                          projectList
+                            ?.filter(
+                              (e) =>
+                                e.name
+                                  ?.toLowerCase()
+                                  .includes(project?.toLowerCase()) ||
+                                e.proj_id
+                                  ?.toLowerCase()
+                                  .includes(project?.toLowerCase())
+                            )
+                            ?.map((lst) => (
+                              <li
+                                onClick={(e) => {
+                                  op.current.hide(e);
+                                  setProject(lst.name);
+                                  setProjCode(lst.code);
+                                  getItemDetails(lst.code);
+                                }}
+                                class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
+                              >
+                                <div class="flex items-center rtl:space-x-reverse">
+                                  <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
+                                      {lst.name}
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                              {/* <hr className=" border-gray-100"/> */}
-                            </li>
-                          ))}
-                      {projectList.filter((e) =>
-                        e.name?.toLowerCase().includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
-                      ).length == 0 && <Empty />}
-                    </ul>
-                  </OverlayPanel>
-                  {!projcode && <VError title={"Required"} />}
-                  {projcode > 0 && (
-                    <span className="flex justify-between mt-1 items-center">
-                      <a
-                        onClick={() => {
-                          setFlag(17);
-                          setVisible(true);
-                        }}
-                      >
-                        <Tag color="#4FB477" className="mt-1">
-                          <BuildOutlined /> Itemwise breakup
-                        </Tag>
-                      </a>
-                      <a
-                      // onClick={() => {
-                      //   setFlag(17);
-                      //   setVisible(true);
-                      // }}
-                      >
-                        <Tag color="#eb8d00">Project ID: {projID}</Tag>
-                      </a>
-                    </span>
-                  )}
+                                {/* <hr className=" border-gray-100"/> */}
+                              </li>
+                            ))}
+                        {projectList.filter(
+                          (e) =>
+                            e.name
+                              ?.toLowerCase()
+                              .includes(project?.toLowerCase()) ||
+                            e.proj_id
+                              ?.toLowerCase()
+                              .includes(project?.toLowerCase())
+                        ).length == 0 && <Empty />}
+                      </ul>
+                    </OverlayPanel>
+                    {!projcode && <VError title={"Required"} />}
+                    {projcode > 0 && (
+                      <span className="flex justify-between mt-1 items-center">
+                        <a
+                          onClick={() => {
+                            setFlag(17);
+                            setVisible(true);
+                          }}
+                        >
+                          <Tag color="#4FB477" className="mt-1">
+                            <BuildOutlined /> Itemwise breakup
+                          </Tag>
+                        </a>
+                        <a
+                        // onClick={() => {
+                        //   setFlag(17);
+                        //   setVisible(true);
+                        // }}
+                        >
+                          <Tag color="#eb8d00">Project ID: {projID}</Tag>
+                        </a>
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div className={"sm:col-span-12 -mt-1"}>
+                  <TDInputTemplate
+                    placeholder="Purpose"
+                    type="text"
+                    label="Purpose"
+                    name="purpose"
+                    formControlName={purpose}
+                    handleChange={(txt) => setPurpose(txt.target.value)}
+                    mode={1}
+                  />
+                  {/* {!purpose && <VError title={"Required"} />} */}
                 </div>
-              )}
-              <div className={"sm:col-span-12 -mt-1"}>
-                <TDInputTemplate
-                  placeholder="Purpose"
-                  type="text"
-                  label="Purpose"
-                  name="purpose"
-                  formControlName={purpose}
-                  handleChange={(txt) => setPurpose(txt.target.value)}
-                  mode={1}
-                />
-                {/* {!purpose && <VError title={"Required"} />} */}
-              </div>
-              {/* <span className="col-span-8">
+                {/* <span className="col-span-8">
                 <Tag className="italic text-xs w-full col-span-8" color="blue">
                   <InfoCircleFilled /> If the requisition quantity is found to
                   be ordered quantity, then it is because it is using the
                   project stock.
                 </Tag>
               </span> */}
-              {itemDtlsForm.length > 0 && (
-                <ScrollPanel
-                  style={{
-                    width: "100%",
-                    maxheight: "900px",
-                    minHeight: "250px",
-                  }}
-                  className="relative border-2 overflow-x-hidden border-gray-300 p-2 rounded-lg sm:col-span-12"
-                >
-                  <input
-                    type="search"
-                    id="default-search"
-                    className="bg-gray-200 border-gray-300 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Search by items, part no.,article no.,model_no."
-                    onChange={(e) =>
-                      setItemDtlsFormCopy(
-                        itemDtlsForm.filter((lst) =>
-                          lst.prod_name
-                            ?.toLowerCase()
-                            .includes(e.target.value.toLowerCase())
+                {itemDtlsForm.length > 0 && (
+                  <ScrollPanel
+                    style={{
+                      width: "100%",
+                      maxheight: "900px",
+                      minHeight: "250px",
+                    }}
+                    className="relative border-2 overflow-x-hidden border-gray-300 p-2 rounded-lg sm:col-span-12"
+                  >
+                    <input
+                      type="search"
+                      id="default-search"
+                      className="bg-gray-200 border-gray-300 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Search by items, part no.,article no.,model_no."
+                      onChange={(e) =>
+                        setItemDtlsFormCopy(
+                          itemDtlsForm.filter((lst) =>
+                            lst.prod_name
+                              ?.toLowerCase()
+                              .includes(e.target.value.toLowerCase())
+                          )
                         )
-                      )
-                    }
-                  />
-                  <div>
-                    {/* // itemDtlsForm.map((item, index) => ( */}
-                    {itemDtlsFormCopy.length > 0 &&
-                      itemDtlsFormCopy.map((item, index) => (
-                        <>
-                          {(params.id > 0 ||
-                            (item.stock > 0 && params.id == 0)) && (
-                            <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
-                              <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                  <th
-                                    scope="col"
-                                    className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
-                                  >
-                                    Item
-                                  </th>
-
-                                  <th
-                                    scope="col"
-                                    className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
-                                  >
-                                    Received Quantity
-                                  </th>
-                                 {params.id==0 && <th
-                                    scope="col"
-                                    className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
-                                  >
-                                    Max. Requisitory Quantity
-                                  </th>}
-                                  <th
-                                    scope="col"
-                                    className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
-                                  >
-                                    Requisition Quantity
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
-                                  <td
-                                    scope="row"
-                                    className="px-4 w-1/6 py-1.5 flex-wrap justify-between gap-10 items-center text-sm text-gray-900 dark:text-white"
-                                  >
-                                    <div className="flex gap-7 text-wrap justify-start items-center">
-                                      <p className="font-bold text-wrap text-green-900">
-                                        {" "}
-                                        {item.prod_name.split("@")[0]}
-                                      </p>
-                                      <Popover
-                                        content={content}
-                                        title="Stock level"
-                                        trigger="click"
-                                      >
-                                        <span
-                                          onClick={() => {
-                                            // setProjStock(stockData?.filter(e=>e.item_id==item.item_id)[0].project_stock)
-                                            // setWerStock(stockData?.filter(e=>e.item_id==item.item_id)[0].warehouse_stock)
-                                            // setStockLoad(true);
-                                            // axios
-                                            //   .post(url + "/api/getstock", {
-                                            //     proj_id: projcode,
-                                            //     prod_id: item.item_id,
-                                            //   })
-                                            //   .then((res) => {
-                                            //     console.log(res);
-                                            //     setStockLoad(false);
-
-                                            //     setProjStock(
-                                            //       res?.data?.msg[0]
-                                            //         ?.project_stock
-                                            //     );
-                                            //     setWerStock(
-                                            //       res?.data?.msg[0]
-                                            //         ?.warehouse_stock
-                                            //     );
-                                            //     setReqQty(
-                                            //       res?.data?.req_stock
-                                            //     );
-                                            //   });
-
-                                            setStockLoad(true);
-                                            axios
-                                              .post(
-                                                url +
-                                                  "/api/get_logical_stock_req",
-                                                {
-                                                  proj_id:
-                                                    intended != "W"
-                                                      ? projcode
-                                                      : 0,
-                                                  prod_id: item.item_id,
-                                                }
-                                              )
-                                              .then((res) => {
-                                                console.log(res);
-                                                setStockLoad(false);
-
-                                                setProjStock(
-                                                  res?.data?.project_stock
-                                                  // res?.data?.result?.msg[0]?.project_stock - res?.data?.req_stock
-                                                );
-                                                // setCanStock(
-                                                //   res?.data?.cancel_stock
-
-                                                // )
-                                                setLogicalStock(
-                                                  res?.data?.req_stock -
-                                                    res?.data?.del_stock
-                                                );
-                                                setWerStock(
-                                                  res?.data?.warehouse_stock ||
-                                                    0
-                                                );
-                                                // setReqQty(
-                                                //   res?.data?.req_stock || 0
-                                                // );
-                                              });
-                                          }}
-                                          className="flex-col cursor-pointer justify-center items-center"
-                                        >
-                                          <DropboxOutlined className="text-md hover:scale-150 hover:duration-300 hover:text-green-500 " />
-                                          <p className="text-xs -ml-2">
-                                            {" "}
-                                            Stock{" "}
-                                          </p>
-                                        </span>
-                                      </Popover>
-                                    </div>
-                                    <Tag
-                                      color="green"
-                                      className="text-[10px] text-wrap block my-1"
+                      }
+                    />
+                    <div>
+                      {/* // itemDtlsForm.map((item, index) => ( */}
+                      {itemDtlsFormCopy.length > 0 &&
+                        itemDtlsFormCopy.map((item, index) => (
+                          <>
+                            {(params.id > 0 ||
+                              (item.stock > 0 && params.id == 0)) && (
+                              <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
+                                <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
+                                  <tr>
+                                    <th
+                                      scope="col"
+                                      className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
                                     >
-                                      {" "}
-                                      {item.prod_name.split("@")[1]}{" "}
-                                    </Tag>
-                                  </td>
+                                      Item
+                                    </th>
 
-                                  <td
-                                    scope="row"
-                                    className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white"
-                                  >
-                                    {item.rc_qty}
-                                  </td>
-                                 {params.id==0 && <td
-                                    scope="row"
-                                    className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white"
-                                  >
-                                    {item.req_qty_copy}
-                                  </td>
-}
-                                  <td className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white">
-                                    <TDInputTemplate
-                                      placeholder="Quantity"
-                                      type="number"
-                                      name="req_qty"
-                                      formControlName={item.req_qty}
-                                      handleChange={(event) =>
-                                        handleDtChange(index, event)
-                                      }
-                                      mode={1}
-                                    />
-                                    {/* {item.stock == 0 && <Tag color="#92140C">Out of stock</Tag>} */}
-                                    {error[index]["flag"] == 1 && (
-                                      <VError title={"Invalid value"} />
+                                    <th
+                                      scope="col"
+                                      className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
+                                    >
+                                      Received Quantity
+                                    </th>
+                                    {params.id == 0 && (
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
+                                      >
+                                        Max. Requisitory Quantity
+                                      </th>
                                     )}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          )}
-                        </>
-                      ))}
-                  </div>
-                </ScrollPanel>
-              )}
-            </div>
-            {/* {approve_flag == "R" && (
+                                    <th
+                                      scope="col"
+                                      className="px-6 py-1.5 text-nowrap w-1/6 font-bold"
+                                    >
+                                      Requisition Quantity
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
+                                    <td
+                                      scope="row"
+                                      className="px-4 w-1/6 py-1.5 flex-wrap justify-between gap-10 items-center text-sm text-gray-900 dark:text-white"
+                                    >
+                                      <div className="flex gap-7 text-wrap justify-start items-center">
+                                        <p className="font-bold text-wrap text-green-900">
+                                          {" "}
+                                          {item.prod_name.split("@")[0]}
+                                        </p>
+                                        <Popover
+                                          content={content}
+                                          title="Stock level"
+                                          trigger="click"
+                                        >
+                                          <span
+                                            onClick={() => {
+                                              // setProjStock(stockData?.filter(e=>e.item_id==item.item_id)[0].project_stock)
+                                              // setWerStock(stockData?.filter(e=>e.item_id==item.item_id)[0].warehouse_stock)
+                                              // setStockLoad(true);
+                                              // axios
+                                              //   .post(url + "/api/getstock", {
+                                              //     proj_id: projcode,
+                                              //     prod_id: item.item_id,
+                                              //   })
+                                              //   .then((res) => {
+                                              //     console.log(res);
+                                              //     setStockLoad(false);
+
+                                              //     setProjStock(
+                                              //       res?.data?.msg[0]
+                                              //         ?.project_stock
+                                              //     );
+                                              //     setWerStock(
+                                              //       res?.data?.msg[0]
+                                              //         ?.warehouse_stock
+                                              //     );
+                                              //     setReqQty(
+                                              //       res?.data?.req_stock
+                                              //     );
+                                              //   });
+
+                                              setStockLoad(true);
+                                              axios
+                                                .post(
+                                                  url +
+                                                    "/api/get_logical_stock_req",
+                                                  {
+                                                    proj_id:
+                                                      intended != "W"
+                                                        ? projcode
+                                                        : 0,
+                                                    prod_id: item.item_id,
+                                                  }
+                                                )
+                                                .then((res) => {
+                                                  console.log(res);
+                                                  setStockLoad(false);
+
+                                                  setProjStock(
+                                                    res?.data?.project_stock
+                                                    // res?.data?.result?.msg[0]?.project_stock - res?.data?.req_stock
+                                                  );
+                                                  // setCanStock(
+                                                  //   res?.data?.cancel_stock
+
+                                                  // )
+                                                  setLogicalStock(
+                                                    res?.data?.req_stock -
+                                                      res?.data?.del_stock
+                                                  );
+                                                  setWerStock(
+                                                    res?.data
+                                                      ?.warehouse_stock || 0
+                                                  );
+                                                  // setReqQty(
+                                                  //   res?.data?.req_stock || 0
+                                                  // );
+                                                });
+                                            }}
+                                            className="flex-col cursor-pointer justify-center items-center"
+                                          >
+                                            <DropboxOutlined className="text-md hover:scale-150 hover:duration-300 hover:text-green-500 " />
+                                            <p className="text-xs -ml-2">
+                                              {" "}
+                                              Stock{" "}
+                                            </p>
+                                          </span>
+                                        </Popover>
+                                      </div>
+                                      <Tag
+                                        color="green"
+                                        className="text-[10px] text-wrap block my-1"
+                                      >
+                                        {" "}
+                                        {item.prod_name.split("@")[1]}{" "}
+                                      </Tag>
+                                    </td>
+
+                                    <td
+                                      scope="row"
+                                      className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                      {item.rc_qty}
+                                    </td>
+                                    {params.id == 0 && (
+                                      <td
+                                        scope="row"
+                                        className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                                      >
+                                        {item.req_qty_copy}
+                                      </td>
+                                    )}
+                                    <td className="px-4 w-1/6 py-1.5 text-sm text-gray-900 whitespace-nowrap dark:text-white">
+                                      <TDInputTemplate
+                                        placeholder="Quantity"
+                                        type="number"
+                                        name="req_qty"
+                                        formControlName={item.req_qty}
+                                        handleChange={(event) =>
+                                          handleDtChange(index, event)
+                                        }
+                                        mode={1}
+                                      />
+                                      {/* {item.stock == 0 && <Tag color="#92140C">Out of stock</Tag>} */}
+                                      {error[index]["flag"] == 1 && (
+                                        <VError title={"Invalid value"} />
+                                      )}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            )}
+                          </>
+                        ))}
+                    </div>
+                  </ScrollPanel>
+                )}
+              </div>
+              {/* {approve_flag == "R" && (
               <div className="mx-auto flex justify-center">
                 <Alert message={`Rejection note- ${reason}`} type="error"/>
               </div>
             )} */}
-            {/* <span > {projcode} {clientcode} </span>  */}
-            <div className="mx-auto">
-              <div className="flex justify-center gap-2 items-center mx-auto">
-                {/* {params.id > 0 &&
+              {/* <span > {projcode} {clientcode} </span>  */}
+              <div className="mx-auto">
+                <div className="flex justify-center gap-2 items-center mx-auto">
+                  {/* {params.id > 0 &&
                   approve_flag == "P" &&
                   (localStorage.getItem("user_type") == "4" ||
                     localStorage.getItem("user_type") == "5") &&
@@ -1243,38 +1285,44 @@ function RequisitionForm() {
                       Approve
                     </button>
                   )} */}
-                {params.id > 0 &&
-                  itemDtlsFormCopy.filter((item) => +item.approved_qty > 0)
-                    .length == 0 && (
+                  {params.id > 0 &&
+                    itemDtlsFormCopy.filter((item) => +item.approved_qty > 0)
+                      .length == 0 && (
+                      <button
+                        disabled={
+                          itemDtlsFormCopy.filter(
+                            (item) => +item.approved_qty > 0
+                          ).length > 0
+                        }
+                        onClick={() => {
+                          setFlag(4);
+                          setVisible(true);
+                        }}
+                         className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                      >
+                        <span class="relative z-10">
+                        <DeleteOutlined className="mr-1" />
+                        Delete
+                        </span>
+                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+                      </button>
+                    )}
+                  {params.id == 0 && (
                     <button
                       disabled={
-                        itemDtlsFormCopy.filter(
-                          (item) => +item.approved_qty > 0
-                        ).length > 0
+                        errorSum(error) || !intended || det.requisition == 1
                       }
-                      onClick={() => {
-                        setFlag(4);
-                        setVisible(true);
-                      }}
-                      className=" disabled:bg-gray-400 mx-auto disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                      onClick={() => onSubmit()}
+                       className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                     >
-                      <SaveOutlined className="mr-1" />
-                      Delete
+                      <span class="relative z-10">
+                             <SaveOutlined className='mr-2' />
+                             Submit
+                             </span>
+                             <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                     </button>
                   )}
-                {params.id == 0 && (
-                  <button
-                    disabled={
-                      errorSum(error) || !intended || det.requisition == 1
-                    }
-                    onClick={() => onSubmit()}
-                    className=" disabled:bg-gray-400 mx-auto disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
-                  >
-                    <SaveOutlined className="mr-1" />
-                    Submit
-                  </button>
-                )}
-                {/* {approve_flag != "A" && params.id > 0 && (
+                  {/* {approve_flag != "A" && params.id > 0 && (
                   <button
                    
                     onClick={() => {
@@ -1287,7 +1335,7 @@ function RequisitionForm() {
                     Delete
                   </button>
                 )} */}
-                {/* {params.id > 0 &&
+                  {/* {params.id > 0 &&
                   approve_flag == "P" &&
                   (localStorage.getItem("user_type") == "4" ||
                     localStorage.getItem("user_type") == "5") &&
@@ -1306,11 +1354,12 @@ function RequisitionForm() {
                       Reject
                     </button>
                   )} */}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </Spin>
+        </Spin>
+      </BlockUI>
       <div
         ref={contentRef}
         style={{

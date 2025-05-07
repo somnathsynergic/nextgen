@@ -1,3 +1,4 @@
+import '../Steps.css'
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import BtnComp from "../../../Components/BtnComp";
@@ -10,7 +11,7 @@ import { Message } from "../../../Components/Message";
 import axios from "axios";
 import { url } from "../../../Address/BaseUrl";
 import { Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockFilled } from '@ant-design/icons';
 import DialogBox from "../../../Components/DialogBox";
 import { useNavigate } from 'react-router-dom';
 import PrintComp from "../../../Components/PrintComp";
@@ -123,7 +124,12 @@ function DeptForm() {
                   }, 5);}
                 }
             />
-                    <BlockUI blocked={blocked} className={'bg-red-500'}>
+                    <BlockUI blocked={blocked} template={
+                                <div className='relative  w-full h-full 0 z-10'>
+                                  <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                             
+                                </div>
+                              } className={'bg-red-500'}>
             
           <div className="w-full bg-white p-6 rounded-2xl">
            

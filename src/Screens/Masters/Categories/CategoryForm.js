@@ -1,3 +1,4 @@
+import '../Steps.css'
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BtnComp from "../../../Components/BtnComp";
@@ -10,7 +11,7 @@ import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
 import { Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import DialogBox from "../../../Components/DialogBox";
 import PrintComp from "../../../Components/PrintComp";
@@ -136,7 +137,12 @@ const [blocked, setBlocked] = useState(false);
                 }, 5);}
               }
             />
-             <BlockUI blocked={blocked} className={'bg-red-500'}>
+             <BlockUI blocked={blocked} template={
+                                <div className='relative  w-full h-full 0 z-10'>
+                                  <span className='absolute top-1 right-96 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                             
+                                </div>
+                              } className={'bg-red-500'}>
             <div className="grid grid-cols-6 gap-2">
             <div className={products.length>0?'w-full col-span-4 bg-white p-6 rounded-2xl':'w-full col-span-6 bg-white p-6 rounded-2xl'}>
           <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>

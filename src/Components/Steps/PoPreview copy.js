@@ -511,7 +511,7 @@ const numberToWords = (num) => {
                     Price Basis
                 </th>
                 <td className="px-1 w-3/4 py-1 text-xs border border-gray-300">
-                {JSON.parse(localStorage.getItem('terms')).price_basis_flag=='F'?'FOR':'EX-WORKS'} {JSON.parse(localStorage.getItem('terms')).price_basis_desc?JSON.parse(localStorage.getItem('terms')).price_basis_desc+',':''}
+                {JSON.parse(localStorage.getItem('terms')).price_basis_flag=='F'?'FOR':'Ex-Works'} {JSON.parse(localStorage.getItem('terms')).price_basis_desc?JSON.parse(localStorage.getItem('terms')).price_basis_desc+',':''}
                 </td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -631,7 +631,7 @@ const numberToWords = (num) => {
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" className="px-1 py-1 text-xs border border-gray-300 font-bold text-green-700 whitespace-nowrap dark:text-white">
-                Manufacture Clearance
+                Manufacturing Clearance
                 </th>
                 <td className="px-1 py-1 text-xs border border-gray-300">
                 {JSON.parse(localStorage.getItem('terms')).manufacture_clearance=='A'?'Applicable. '+JSON.parse(localStorage.getItem('terms')).manufacture_clearance_desc:'N/A'}

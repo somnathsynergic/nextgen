@@ -240,7 +240,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
       otherwise: () => Yup.string(),
     }),
     manufacture_clearance: Yup.string().required(
-      "Manufacture clearance is required"
+      "Manufacturing clearance is required"
     ),
     // manufacture_clearance_desc: Yup.string().when('manufacture_clearance', {
     //   is: 'A',
@@ -315,7 +315,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="price_basis_flag"
               data={[
                 { name: "FOR", code: "F" },
-                { name: "EX-WORKS", code: "E" },
+                { name: "Ex-Works", code: "E" },
               ]}
               formControlName={formik.values.price_basis_flag}
               handleChange={formik.handleChange}
@@ -1264,9 +1264,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </div>
           <div className="sm:col-span-5">
             <TDInputTemplate
-              placeholder="Manufacture Clearance"
+              placeholder="Manufacturing Clearance"
               type="text"
-              label="Manufacture Clearance"
+              label="Manufacturing Clearance"
               name="manufacture_clearance"
               data={[
                 { name: "Applicable", code: "A" },
@@ -1292,9 +1292,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
           <div className="sm:col-span-5">
             {formik.values.manufacture_clearance == "A" && (
               <TDInputTemplate
-                placeholder="Manufacture Clearance Description"
+                placeholder="Manufacturing Clearance Description"
                 type="text"
-                label="Manufacture Clearance Description"
+                label="Manufacturing Clearance Description"
                 name="manufacture_clearance_desc"
                 formControlName={formik.values.manufacture_clearance_desc}
                 handleChange={formik.handleChange}

@@ -1267,7 +1267,7 @@ function PurchaseOrderForm() {
                   <Tooltip title="Back">
                     <Button
                       type="submit"
-                      className="justify-center disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                      className="justify-center border border-red-900 disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 hover:border hover:border-red-900 hover:bg-white hover:text-red-900 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                       onClick={() => {
                         stepperRef.current.prevCallback();
                       }}
@@ -1280,7 +1280,7 @@ function PurchaseOrderForm() {
                     <Tooltip title="View PO">
                       <Button
                         type="submit"
-                        className="justify-center disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-[#eb8d00] transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                        className="justify-center border border-[#eb8d00] disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center hover:bg-white hover:text-[#eb8d00] text-white bg-[#eb8d00] transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                         onClick={() => setVisible(true)}
                         tooltip={"View Purchase Order"}
                         icon={<EyeOutlined />}
@@ -1296,7 +1296,7 @@ function PurchaseOrderForm() {
                         <Tooltip title="Approve PO">
                           <Button
                             type="submit"
-                            className="justify-center disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                            className="justify-center border border-green-900 disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 hover:bg-white hover:text-green-900 hover:border hover:border-green-900 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                             onClick={() => {
                               localStorage.setItem("po_status", "A");
                               approvepo();
@@ -1325,7 +1325,7 @@ function PurchaseOrderForm() {
                       <Tooltip title="Save PO">
                         <Button
                           type="submit"
-                          className="justify-center disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-500 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                          className="justify-center border border-green-500 disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center mt-4 sm:mt-6 text-sm font-medium text-center text-white hover:border hover:border-green-500 hover:bg-white hover:text-green-500 bg-green-500 transition ease-in-out duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
                           onClick={() => {
                             setLoading(true);
                             setClickFlag(params.flag == "F" ? "U" : "A");

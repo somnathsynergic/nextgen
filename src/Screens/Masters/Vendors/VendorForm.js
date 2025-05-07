@@ -1,3 +1,4 @@
+import '../Steps.css'
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import BtnComp from "../../../Components/BtnComp";
@@ -13,7 +14,7 @@ import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
 import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, LockFilled } from "@ant-design/icons";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Radio } from "antd";
 import AuditTrail from "../../../Components/AuditTrail";
@@ -544,7 +545,12 @@ function VendorForm() {
             }, 5);}
           }
       />
-            <BlockUI blocked={blocked} className={'bg-red-500'}>
+            <BlockUI blocked={blocked} template={
+                                                                          <div className='relative  w-full h-full 0 z-10'>
+                                                                            <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                       
+                                                                          </div>
+                                                                        } className={'bg-red-500'}>
       
       <div className="w-full bg-white p-6 rounded-2xl">
         <Spin

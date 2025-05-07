@@ -1,3 +1,4 @@
+import '../Steps.css'
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +8,7 @@ import TDInputTemplate from "../../../Components/TDInputTemplate";
 import { useFormik, FieldArray, Formik } from "formik";
 import * as Yup from "yup";
 import VError from "../../../Components/VError";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, LockFilled } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { url } from "../../../Address/BaseUrl";
 import { Message } from "../../../Components/Message";
@@ -363,7 +364,12 @@ function ClientForm() {
             }, 5);}
           }
       />
-      <BlockUI blocked={blocked} className={'bg-red-500'}>
+      <BlockUI blocked={blocked} template={
+                                                                    <div className='relative  w-full h-full 0 z-10'>
+                                                                      <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                 
+                                                                    </div>
+                                                                  } className={'bg-red-500'}>
       <div className="w-full bg-white p-6 rounded-2xl">
         <Spin
           indicator={<LoadingOutlined spin />}

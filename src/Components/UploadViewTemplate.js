@@ -181,7 +181,7 @@ function UploadViewTemplate({ flag, title }) {
                       if(flag == "M")
                       navigate(routePaths.MDCCFORM + item.sl_no)
                     else
-                      navigate(routePaths.TESTCERTFORM + item.sl_no+'/'+item.po_no)
+                      navigate(routePaths.TESTCERTFORM + item.sl_no+'/'+encodeURIComponent(item.po_no))
                     }} class="bg-white hover:bg-gray-200 hover:text-green-900 cursor-pointer text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
@@ -199,7 +199,7 @@ function UploadViewTemplate({ flag, title }) {
                           to={
                             flag == "M"
                               ? routePaths.MDCCFORM + item.sl_no
-                              : routePaths.TESTCERTFORM + item.sl_no+'/'+item.po_no
+                              : routePaths.TESTCERTFORM + item.sl_no+'/'+encodeURIComponent(item.po_no)
                           }
                         >
                           <EditOutlined className="text-md text-green-900" />

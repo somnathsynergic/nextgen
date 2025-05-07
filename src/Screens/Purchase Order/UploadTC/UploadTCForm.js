@@ -17,11 +17,7 @@ function UploadTCForm() {
     console.log(values)
     if (
       values.po_no &&
-      values.doc1  &&
-      values.item_no &&
-      values.qty && values.qty>0 &&
-      values.rcv_qty && values.rcv_qty>0 &&
-      values.tc_qty && values.tc_qty>0 
+      values.doc1 
     ) {
       const formData = new FormData();
       setLoading(true);

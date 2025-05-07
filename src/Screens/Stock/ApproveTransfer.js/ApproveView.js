@@ -22,6 +22,7 @@ import Radiobtn from "../../../Components/Radiobtn";
 import DialogBox from "../../../Components/DialogBox";
 import { Message } from "../../../Components/Message";
 import CompositeSearchTransfer from "../../../Components/CompositeSearchTransfer";
+import moment from "moment";
 
 function ApproveView() {
   const [value, setValue] = useState(2);
@@ -461,7 +462,7 @@ function ApproveView() {
                       >
                         {item.sl_no}
                       </th>
-                      <td class="px-6 py-4 text-gray-600">{item.trans_dt}</td>
+                      <td class="px-6 py-4 text-gray-600">{moment(item.trans_dt).format('DD/MM/YYYY')}</td>
                       <td class="px-6 py-4 text-green-900 font-bold">
                         {item.trans_no}
                       </td>

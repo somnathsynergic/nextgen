@@ -929,7 +929,8 @@ function PoPreview({ data }) {
                       Only)
                     </th>
                     <th
-                      class=" pb-3 py-1 px-1 text-[10px] flaot-end font-bold text-wrap text-green-700 break-words whitespace-normal"
+                      // class=" pb-3 py-1 px-1 text-[10px] flaot-end font-bold text-wrap text-green-700 break-words whitespace-normal"
+                      class=" pb-3 py-1 px-2 text-[10px] float-end font-bold text-nowrap text-green-700 break-words whitespace-normal"
                       colspan={1}
                     >
                       {formatNumber(

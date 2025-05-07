@@ -1,3 +1,5 @@
+import './Steps.css'
+
 import React, { useEffect, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import VError from "../../Components/VError";
@@ -5,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { Popover, Tag } from "antd";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
-import { ArrowLeftOutlined, ArrowRightOutlined, FileExcelOutlined, FileImageOutlined, FilePdfOutlined, FileTextOutlined, FileWordOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined, FileExcelOutlined, FileImageOutlined, FilePdfOutlined, FileTextOutlined, FileWordOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 
 function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDrawChange }) {
@@ -32,7 +34,7 @@ function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDraw
 
   useEffect(()=>{
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
-    setBlocked(det.po == 1 ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
 
     
   },[])
@@ -87,9 +89,14 @@ function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDraw
   };
   return (
     <>
-          <BlockUI blocked={blocked} className={'bg-red-500'}>
+          <BlockUI blocked={blocked} template={
+                                              <div className='relative  w-full h-full 0 z-10'>
+                                                <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                                                 <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+                                              </div>
+                                            }>
     
-      <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
+      <div className={!blocked?"grid gap-4 sm:grid-cols-3 sm:gap-6":"grid gap-4 sm:grid-cols-3 sm:gap-6 p-2"}>
         <div className="flex flex-col sm:col-span-1 gap-3 mt-5">
        
           <TDInputTemplate

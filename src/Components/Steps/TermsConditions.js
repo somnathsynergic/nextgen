@@ -1,3 +1,4 @@
+import './Steps.css'
 import React, { useEffect, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import { useFormik, yupToFormErrors } from "formik";
@@ -12,7 +13,7 @@ import { motion } from "framer-motion";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { Popover } from "antd";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 function TermsConditions({ pressNext, pressBack, data }) {
   const [grand_total, setGrand] = useState(0);
   const [checked, setChecked] = useState(true);
@@ -131,7 +132,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
 
   useEffect(() => {
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
-    setBlocked(det.po == 1 ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
 
 
     axios.post(url + "/api/getgst", { id: 0 }).then((resGst) => {
@@ -716,9 +717,15 @@ function TermsConditions({ pressNext, pressBack, data }) {
         Terms & Conditions
       </h2>
       <form onSubmit={formik.handleSubmit}>
-              <BlockUI blocked={blocked} className={'bg-red-500'}>
+              <BlockUI blocked={blocked} template={
+                                    <div className='relative  w-full h-full 0 z-10'>
+                                      <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                                       <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+                                    </div>
+                                  } className={'bg-red-500'}>
+        <div className={blocked?'p-2':''}>
         
-        <div className="grid gap-4 sm:grid-cols-10 sm:gap-6">
+        <div className={"grid gap-4 sm:grid-cols-10 sm:gap-6"}>
           <div className="sm:col-span-10">
             <TDInputTemplate
               placeholder="Price Basis"
@@ -2681,6 +2688,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             </Popover>
           </div>
         </div>
+        </div>
         </BlockUI>
         <div className="flex pt-4 justify-between w-full">
           <button
@@ -2697,6 +2705,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             Next <ArrowRightOutlined className="ml-1"/>
           </button>
         </div>
+        
       </form>
     </div>
   );

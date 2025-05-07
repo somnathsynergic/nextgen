@@ -484,6 +484,7 @@ function PurchaseOrderForm() {
           localStorage.setItem("po_issue_date", res?.data?.msg?.po_issue_date);
           localStorage.setItem("po_no", res?.data?.msg?.po_no);
           localStorage.setItem("amend_note", res?.data?.msg?.amend_note);
+          localStorage.setItem("po_created_by", res?.data?.msg?.created_by);
           localStorage.setItem("amend_flag", res?.data?.msg?.amend_flag);
           localStorage.setItem("pur_req", JSON.stringify(res?.data?.msg?.pur_req.split(',')));
           if(res?.data?.msg?.type!='G'){
@@ -880,15 +881,16 @@ function PurchaseOrderForm() {
           localStorage.getItem("po_status") != "L"
         }
         template={
-          <div className="flex-col justify-center items-center gap-5 -mt-72">
+          <div className="flex-col justify-center items-center gap-5 -mt-52">
             <LockOutlined className="text-9xl ml-44 mb-2 text-green-700 animate-bounce" />
-            <p className="text-white text-xl mb-2">
+            <p className="text-green-900 text-xl mb-2">
               Please cite a ground for amendment to unlock the form.(
               {amendnote.length}/500)
             </p>
             <textarea
               rows="5"
               maxLength={500}
+              placeholder="Please cite a ground for amendment to unlock the form."
               className="bg-white border-1 border-gray-400 text-sm rounded-lg  focus:border-green-900 active:border-green-600 focus:ring-green-600 focus:border-1 duration-500 block w-full p-1.5 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               value={amendnote}
               onChange={(e) => {
@@ -1288,7 +1290,7 @@ function PurchaseOrderForm() {
                     </Tooltip>
                   )}
 
-                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" )&&
+                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && localStorage.getItem('email')==localStorage.getItem("po_created_by") )&&
                     (
                       <>
                         <Tooltip title="Approve PO">

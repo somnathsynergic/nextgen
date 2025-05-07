@@ -93,56 +93,56 @@ function PurchaseOrderView() {
       .then((res) => {
         console.log(res);
         setLoading(false);
-        if(localStorage.getItem('user_type')=='2'){
-        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
-        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
-        if (
-          locationpath.pathname.split("/")[
-            locationpath.pathname.split("/").length - 1
-          ] == "P"
-        ) {
-          setPoData(
-            res?.data?.msg.filter(
-              (e) =>
-                e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
-            )
-          );
-        } else {
-          setPoData(
-            res?.data?.msg.filter(
-              (e) =>
-                e.po_status == "A" ||
-                (e.po_status == "U" && e.fresh_flag == "Y")
-                && e.created_by==localStorage.getItem('email')
-            )
-          );
-        }
-      }
-      else{
-        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')) );
-        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
-        if (
-          locationpath.pathname.split("/")[
-            locationpath.pathname.split("/").length - 1
-          ] == "P"
-        ) {
-          setPoData(
-            res?.data?.msg.filter(
-              (e) =>
-                e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
-            )
-          );
-        } else {
-          setPoData(
-            res?.data?.msg.filter(
-              (e) =>
-                e.po_status == "A" ||
-                (e.po_status == "U" && e.fresh_flag == "Y") && e.created_by==localStorage.getItem('email')
+      //   if(localStorage.getItem('user_type')=='2'){
+      //   setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
+      //   setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
+      //   if (
+      //     locationpath.pathname.split("/")[
+      //       locationpath.pathname.split("/").length - 1
+      //     ] == "P"
+      //   ) {
+      //     setPoData(
+      //       res?.data?.msg.filter(
+      //         (e) =>
+      //           e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
+      //       )
+      //     );
+      //   } else {
+      //     setPoData(
+      //       res?.data?.msg.filter(
+      //         (e) =>
+      //           e.po_status == "A" ||
+      //           (e.po_status == "U" && e.fresh_flag == "Y")
+      //           && e.created_by==localStorage.getItem('email')
+      //       )
+      //     );
+      //   }
+      // }
+      // else{
+        setPoData(res?.data?.msg.filter((e) =>  e.po_status =='P' && e.fresh_flag == "Y"));
+        setCopy(res?.data?.msg.filter((e) =>  e.fresh_flag == "Y"));
+      //   if (
+      //     locationpath.pathname.split("/")[
+      //       locationpath.pathname.split("/").length - 1
+      //     ] == "P"
+      //   ) {
+      //     setPoData(
+      //       res?.data?.msg.filter(
+      //         (e) =>
+      //           e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
+      //       )
+      //     );
+      //   } else {
+      //     setPoData(
+      //       res?.data?.msg.filter(
+      //         (e) =>
+      //           e.po_status == "A" ||
+      //           (e.po_status == "U" && e.fresh_flag == "Y") && e.created_by==localStorage.getItem('email')
                 
-            )
-          );
-        }
-      }
+      //       )
+      //     );
+      //   }
+      // }
       })
       .catch((err) => {
         console.log(err);
@@ -195,6 +195,8 @@ function PurchaseOrderView() {
     localStorage.removeItem('amend_flag')
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
+    localStorage.removeItem("po_created_by");
+
   }, [
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1

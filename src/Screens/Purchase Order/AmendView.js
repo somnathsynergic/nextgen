@@ -227,6 +227,8 @@ function AmendView() {
     localStorage.removeItem('amend_flag')
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
+    localStorage.removeItem("po_created_by");
+
 
     // if(localStorage.getItem('user_type')=='2' || localStorage.getItem('user_type')=='5'){
     axios.post(url + "/api/getamendproject", { id: 0 }).then((res) => {

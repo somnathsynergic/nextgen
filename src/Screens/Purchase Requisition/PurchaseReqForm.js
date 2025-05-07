@@ -752,20 +752,96 @@ function PurchaseReqForm() {
                                   setFlag(25);
                                   setIndex(index);
                                   setVisible(true);
+                                  handleItemClick(index)
                                 }}
                               >
                                 <Tooltip title="Search item">
-                                  <Tag className="ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center">
+                                  <Tag  className="ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center">
                                     {" "}
                                     <SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />
                                   </Tag>
                                 </Tooltip>
                               </a>
-                            <div onClick={()=>handleItemClick(index)} className={item.click==1?" " : "sm:col-span-2 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
+                            <div onClick={()=>handleItemClick(index)}>
                               {/* <div className="flex justify-end float-end gap-1"></div> */}
                              
-                              {item.click==0? productList?.filter(item =>item?.code ==itemDtls[index]?.item_id)[0]?.name
-                              
+                              {item.click==0? 
+                              <>
+                               <TDInputTemplate
+                               placeholder="Item"
+                               type="text"
+                               label=""
+                               name="item_id"
+                               formControlName={productList?.filter(item =>item?.code ==itemDtls[index]?.item_id)[0]?.name}
+                               onFocus={()=>handleItemClick(index)}
+                              //  handleChange={(txt) =>
+                              //    handleDtChange(index, txt)
+                              //  }
+                               mode={1}
+                              //  disabled
+                             />
+                             <p className="flex justify-between items-center">
+                             <div>
+                             {item.item_id && (
+                               <p
+                                 class="mt-1 text-xs text-gray-500 dark:text-gray-300"
+                                 id="file_input_help"
+                               >
+                                 <Tag className="text-xs my-2 p-2 sm:text-wrap" color="green">
+                                   {"   "}
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.part_no? <> <span className="font-bold"> Part No.: </span>
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.part_no
+                                   }{"   "}</>:null}
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.model_no? <><span className="font-bold"> Model No.:</span>
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.model_no
+                                   }{"   "}</>:null}
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.article_no? <><span className="font-bold"> Article No.: </span>
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.article_no
+                                   }{"   "}</>:null}
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.make? <><span className="font-bold"> Make: </span>
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.make
+                                   }{" "}</>:null}
+                                  {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.prod_desc? <><span className="font-bold">   Description: </span>
+                                   {
+                                     productList.filter(
+                                       (e) => e.code == item.item_id
+                                     )[0]?.prod_desc
+                                   }{" "}</>:null}
+                                 </Tag>
+                               </p>
+                             )}
+                             </div>
+                            
+                            
+                            </p>
+                            </>
                               : <>
                               <TDInputTemplate
                                 placeholder="Item"
@@ -1062,7 +1138,7 @@ function PurchaseReqForm() {
                                 <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
                                   Requisition Given By
                                 </td>
-                                <td className="border text-gray-600 border-gray-300 p-2">{localStorage.getItem('email')}</td>
+                                <td className="border text-gray-600 border-gray-300 p-2">{created_by || localStorage.getItem("email")}</td>
                               </tr>
                               
                               <tr  className="border border-gray-300">
@@ -1110,7 +1186,7 @@ function PurchaseReqForm() {
                     </thead>
                     <tbody className="text-gray-600 text-xs">
                       {itemDtls.map(item=><tr>
-                          <td className="border border-gray-300 p-2">
+                          <td className="border border-gray-300 p-2 text-wrap">
                             {productList.filter(e=>e.code==+item.item_id)[0]?.name}
                           </td>
                           <td className="border border-gray-300 p-2">

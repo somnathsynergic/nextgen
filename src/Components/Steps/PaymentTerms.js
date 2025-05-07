@@ -1,7 +1,9 @@
+import './Steps.css'
+
 import React, { useEffect, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import { Button, Popover, Tag,  } from "antd";
-import { PlusOutlined,MinusOutlined, ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { PlusOutlined,MinusOutlined, ArrowRightOutlined, ArrowLeftOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BlockUI } from 'primereact/blockui';
@@ -20,7 +22,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
   };
   useEffect(()=>{
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
-    setBlocked(det.po == 1 ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
 
 
   },[])
@@ -77,8 +79,13 @@ function PaymentTerms({ pressBack, pressNext, data }) {
   return (
     <div className="py-2 px-4 mx-auto w-full lg:py-2">
       <h2 className="text-2xl text-green-900 font-bold my-3">Payment Terms</h2>
-            <BlockUI blocked={blocked} className={'bg-red-500'}>
-      
+            <BlockUI blocked={blocked} template={
+                                    <div className='relative  w-full h-full 0 z-10'>
+                                      <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                                       <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+                                    </div>
+                                  }>
+      <div className={blocked?'p-2':''}>
         {termList.map((input, index) => (
           <React.Fragment key={index}>
                 {localStorage.getItem('po_status')!='A' &&localStorage.getItem('po_status')!='D' && localStorage.getItem('po_status')!='L' &&  
@@ -183,6 +190,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
            
           </React.Fragment>
         ))}
+        </div>
         </BlockUI>
 
         <div className="flex pt-4 justify-between">

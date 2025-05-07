@@ -358,6 +358,8 @@ const DialogBox = ({
     console.log(data?.info);
     if (flag == 32 || flag == 36) {
       setItemInfo(data?.info);
+      if(flag==32)
+        setStatus(data.info[0]?.approve_flag);
     }
   }, [data]);
 
@@ -2399,6 +2401,7 @@ const DialogBox = ({
               type="submit"
               onClick={() => onPress("R", "", itemInfo)}
               className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+              disabled={status=='H' || status=='A'}
               // onClick={()=>onPress('U')}
               // disabled = {
 
@@ -2422,7 +2425,7 @@ const DialogBox = ({
                   +(
                     itemInfo?.filter((e) => e.req_qty == e.approved_qty)
                       ?.length == itemInfo?.length
-                  ) == 1
+                  ) == 1 || status=='H' || status=='A'
                 }
               >
                 <CheckCircleOutlined className="mr-2" />
@@ -3131,26 +3134,31 @@ const DialogBox = ({
 
           {det?.stock != 1 && (
             <div className="flex justify-center gap-3">
-              <button
+             {status!='H' && status!='A' && <button
                 type="reset"
                 onClick={() => onApprove("R", infoCopy)}
+                disabled={
+                   status=='H' || status=='A'
+                }
                 className="inline-flex mr-3 bg-[#92140C] items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
               >
                 Reject
               </button>
+}
 
-              <button
+             {(status!='H' && status!='A') && <button
                 type="reset"
                 onClick={() => onApprove("A", infoCopy)}
                 disabled={
                   itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.error;
-                  }, 0) == 1
+                  }, 0) == 1 
                 }
                 className="inline-flex mr-3 bg-green-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white border border-green-900 bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
               >
                 Approve
               </button>
+}
             </div>
           )}
         </p>

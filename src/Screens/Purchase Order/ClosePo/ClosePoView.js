@@ -126,6 +126,7 @@ function ClosePoView() {
     localStorage.removeItem("amend_flag");
     localStorage.removeItem("amend_note");
     localStorage.removeItem("pur_req");
+    localStorage.removeItem("po_created_by");
   }, [
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1

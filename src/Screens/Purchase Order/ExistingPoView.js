@@ -128,11 +128,11 @@ function ExistingPoView() {
       //   );
       // }
       // else{
-        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
-        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
+        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
+        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
         setPoData(
           res?.data?.msg.filter(
-            (e) => e.fresh_flag == "N" && e.po_status == "P"   && e.created_by==localStorage.getItem('email')
+            (e) => e.fresh_flag == "N" && e.po_status == "P"  
           )
         
         );
@@ -191,6 +191,8 @@ function ExistingPoView() {
       localStorage.removeItem('amend_flag')
       localStorage.removeItem('amend_note')
       localStorage.removeItem('pur_req')
+      localStorage.removeItem("po_created_by");
+
 
     },
     [

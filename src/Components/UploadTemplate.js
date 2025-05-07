@@ -55,12 +55,12 @@ function UploadTemplate({ onSubmit, flag, title }) {
   const [fileList, setFileList] = useState([]);
   const [qtySet, setQtySet] = useState([]);
   const params = useParams();
-  const [po_no, setPoNo] = useState(params.po_no);
+  const [po_no, setPoNo] = useState(decodeURIComponent(params.po_no));
   const [sumRcv, setSumRcv] = useState(0);
   const [sumTc, setSumTc] = useState(0);
   const [item_id, setItemId] = useState(0);
   useEffect(() => {
-    getItemInfo(params.po_no);
+    getItemInfo(decodeURIComponent(params.po_no));
     // if (params.id > 0) {
     //     setLoading(true)
     //   setCount(1);
@@ -157,6 +157,7 @@ function UploadTemplate({ onSubmit, flag, title }) {
         axios
           .post(url + "/api/getpoitemfortc", {
             id: resPO?.data?.msg?.filter((e) => e.po_no == po_no)[0]?.sl_no,
+            po_no: decodeURIComponent(po_no),
           })
           .then((resItems) => {
             if (flag == "T") {
@@ -241,6 +242,7 @@ function UploadTemplate({ onSubmit, flag, title }) {
     });
   };
   const onChangeItem = (value) => {
+    console.log(value)
     setFileList([]);
     fileList.length = 0;
     // if (params.id == 0) {
@@ -256,16 +258,19 @@ function UploadTemplate({ onSubmit, flag, title }) {
     console.log(items.filter((e) => e.sl_no == value)[0]);
     setQty(items.filter((e) => e.sl_no == value)[0].quantity);
     setQty1(items.filter((e) => e.sl_no == value)[0].quantity);
+    setSumRcv(items?.filter((e) => e.sl_no == value).reduce((a, e) => a + e.rc_qty, 0));
+    setSumTc(items?.filter((e) => e.sl_no == value).reduce((a, e) => a + e.tc_qty, 0));
+    setQtySet(items);
     console.log(items);
+    setLoading(false)
     axios
-      .post(url + "/api/gettcbyitem", { item: value, po: po_no })
-      .then((res) => {
-        console.log(res);
-        setSumRcv(res?.data?.msg?.reduce((a, e) => a + e.rc_qty, 0));
-        setSumTc(res?.data?.msg?.reduce((a, e) => a + e.tc_qty, 0));
-        setQtySet(res?.data?.msg);
+      .post(url + "/api/gettcbyitem", { item: value, po: decodeURIComponent(po_no)}).then(resTc=>{
+        console.log(resTc)
+        if(resTc?.data?.msg?.length>0){
+
+        setSumTc(resTc?.data?.msg?.reduce((a, e) => a + e.tc_qty, 0));
         axios
-          .post(url + "/api/gettcdoc", { id: parseInt(params.po_no), item: value })
+          .post(url + "/api/gettcdoc", { id: decodeURIComponent(params.po_no), item: value })
           .then((res) => {
             setLoading(false)
             console.log(res);
@@ -275,7 +280,31 @@ function UploadTemplate({ onSubmit, flag, title }) {
             }
             setFileList(fileList);
           });
-      });
+        }
+        else{
+        setSumTc(0);
+
+        }
+      })
+    // axios
+    //   .post(url + "/api/gettcbyitem", { item: value, po: decodeURIComponent(po_no)})
+    //   .then((res) => {
+    //     console.log(res);
+    //     setSumRcv(res?.data?.msg?.reduce((a, e) => a + e.rc_qty, 0));
+    //     setSumTc(res?.data?.msg?.reduce((a, e) => a + e.tc_qty, 0));
+    //     setQtySet(res?.data?.msg);
+    //     axios
+    //       .post(url + "/api/gettcdoc", { id: decodeURIComponent(params.po_no), item: value })
+    //       .then((res) => {
+    //         setLoading(false)
+    //         console.log(res);
+    //         for (let i of res?.data?.msg) {
+    //           fileList.push(i.doc1);
+    //           console.log(i.doc1);
+    //         }
+    //         setFileList(fileList);
+    //       });
+    //   });
     }
   };
   const checkid = () => {
@@ -321,7 +350,7 @@ function UploadTemplate({ onSubmit, flag, title }) {
                   type="text"
                   label="PO No."
                   name="po_no"
-                  formControlName={params.po_no}
+                  formControlName={decodeURIComponent(params.po_no)}
                   handleChange={(txt) => setPoNo(txt.target.value)}
                   handleBlur={() => checkid()}
                   disabled={true}
@@ -359,21 +388,55 @@ function UploadTemplate({ onSubmit, flag, title }) {
                           Received Quantity
                         </th>
                         <th scope="col" className="px-6 py-3 font-bold">
-                          TC Quantity
+                         Saved TC Quantity
+                        </th>
+                        <th scope="col" className="px-6 py-3 font-bold">
+                        Remaining TC Quantity
                         </th>
                         <th scope="col" className="px-6 py-3 font-bold">
                           Document(s)
                         </th>
-                        <th scope="col" className="px-6 py-3 font-bold">
-                          {/* Document(s) */}
-                        </th>
+                        {/* <th scope="col" className="px-6 py-3 font-bold">
+                          
+                        </th> */}
                       </tr>
                     </thead>
+                    {/* {qty} */}
                     <tbody>
-                      <tr className="bg-[#DDEAE0] border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
-                        <td className="px-6 py-2 w-3/12">{qtySet[0].qty}</td>
+                      <tr className="bg-[#DDEAE0] border-b-2 border-white mt-3 font-bold dark:bg-gray-800 dark:border-gray-700">
+                        {/* <td className="px-6 py-2 w-3/12">{qtySet[0].quantity}</td> */}
+                        <td className="px-6 py-2 w-3/12">{qty}</td>
                         <td className="px-6 py-2 w-3/12">{sumRcv}</td>
-                        <td className="px-6 py-2 w-3/12">{sumTc}</td>
+                        <td className="px-6 py-2 w-3/12">{sumTc} (Remaining: {sumRcv-sumTc})</td>
+                        <td className="px-6 py-2 w-3/12">
+                        <TDInputTemplate
+                  placeholder="TC Quantity"
+                  type="number"
+                  label=""
+                  // disabled={params.id > 0}
+                  name="tc_qty"
+                  formControlName={tc_qty}
+                  handleChange={(txt) => setTc(txt.target.value)}
+                  mode={1}
+                />
+                {!tc_qty ? (
+                  <VError title={"Quantity is required"} />
+                ) : null}
+                {tc_qty < 0 ? (
+                  <VError title={"Quantity should be non-zero positive"} />
+                ) : null}
+                {+tc_qty > +(sumRcv-sumTc) ? (
+                  <VError
+                    title={"Invalid quantity (should be <= " + sumRcv-sumTc + ")"}
+                  />
+                ) : null}
+                {/* {(qtySet.length>0 && (tc_qty > (sumTc-rcv_qty))) ? (
+                  <VError
+                    title={"Invalid quantity (should be <= " + (sumRcv-rcv_qty) + ")"}
+                  />
+                ) : null} */}
+                        
+                        </td>
                         <td className="px-6 py-2 w-3/12">
                           {fileList?.map((item) => (
                             <a target="_blank" href={url + "/uploads/" + item}>
@@ -399,25 +462,20 @@ function UploadTemplate({ onSubmit, flag, title }) {
                             </a>
                           ))}
                         </td>
-                        <td className="px-6 py-2 w-3/12">
+                        {/* <td className="px-6 py-2 w-3/12">
                         <Tooltip title="Delete">
                 <DeleteOutlined className="text-red-900 text-lg"  onClick={()=>setVisible(true)}/>
                 </Tooltip>
-                        {/* <button
-                onClick={() =>setVisible(true)}
-                className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
-              >
-                Delete
-              </button> */}
-                        </td>
+                       
+                        </td> */}
                       </tr>
                     </tbody>
                   </table>
-                )}
+             )} 
               </div>
 
-{!(qty1==sumRcv && sumRcv==sumTc)&& item_no!='Items' && item_no!='' &&<>
-              <div className="sm:col-span-3">
+<>
+              {/* <div className="sm:col-span-3">
                 <TDInputTemplate
                   placeholder="Ordered quantity"
                   type="number"
@@ -469,13 +527,12 @@ function UploadTemplate({ onSubmit, flag, title }) {
                     title={"Invalid quantity (should be <= " + (qty1-sumRcv) + ")"}
                   />
                 ) : null}
-              </div>
-              <div className="sm:col-span-3">
+              </div> */}
+              {/* <div className="sm:col-span-3">
                 <TDInputTemplate
                   placeholder="TC Quantity"
                   type="number"
                   label="TC Quantity"
-                  // disabled={params.id > 0}
                   name="tc_qty"
                   formControlName={tc_qty}
                   handleChange={(txt) => setTc(txt.target.value)}
@@ -492,13 +549,9 @@ function UploadTemplate({ onSubmit, flag, title }) {
                     title={"Invalid quantity (should be <= " + rcv_qty + ")"}
                   />
                 ) : null}
-                {/* {(qtySet.length>0 && (tc_qty > (sumTc-rcv_qty))) ? (
-                  <VError
-                    title={"Invalid quantity (should be <= " + (sumRcv-rcv_qty) + ")"}
-                  />
-                ) : null} */}
-              </div>
-              <div className="sm:col-span-3">
+              
+              </div> */}
+              {qtySet.length > 0 && ( <div className="sm:col-span-12 bg-[#DDEAE0] p-3">
                 <TDInputTemplate
                   placeholder="Comments"
                   type="file"
@@ -532,15 +585,15 @@ function UploadTemplate({ onSubmit, flag, title }) {
                 {!doc1 ? (
                   <VError title={"Must upload a file (max 1MB)"} />
                 ) : null}
-              </div>
-            </>}
+              </div>)}
+            </>
 
             </div>
 
           {det.po!=1 &&  <div className="flex justify-center">
               <button
                 onClick={() => onsubmit()}
-                disabled={+tc_qty > +rcv_qty || tc_qty <= 0 || rcv_qty <= 0 || (qtySet.length>0 && (rcv_qty > (qty1-sumRcv) ))|| +rcv_qty>+qty1  ||!doc1}
+                disabled={!doc1}
                 // disabled={tc_qty <= 0 || rcv_qty <= 0 || (qtySet.length>0 && (rcv_qty > (qty1-sumRcv) ))|| rcv_qty>qty1 }
                 className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
               >

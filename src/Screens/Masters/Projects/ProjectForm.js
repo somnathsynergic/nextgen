@@ -1,3 +1,5 @@
+import './Steps.css'
+
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import HeadingTemplate from "../../../Components/HeadingTemplate";
@@ -18,6 +20,8 @@ import {
   FileExcelOutlined,
   PlusCircleOutlined,
   SaveOutlined,
+  LockFilled,
+  UnlockFilled,
 } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 
@@ -683,7 +687,13 @@ function ProjectForm() {
                 <h2 className="font-bold text-2xl text-green-900 my-3">
                   Project Details
                 </h2>
-                <BlockUI blocked={blocked} className={'bg-red-500'}>
+                <BlockUI blocked={blocked} template={
+                            <div className='relative  w-full h-full 0 z-10'>
+                              <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                              <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {data?.proj_manager_name}</span>
+                            </div>
+                          } >
+            <div className={blocked?'p-2':''}>
                 <div className="grid gap-4 sm:grid-cols-4 sm:gap-6">
                   <div className="sm:col-span-2">
                     <TDInputTemplate
@@ -1222,6 +1232,7 @@ function ProjectForm() {
                     <ArrowRightOutlined className="ml-2" />
                   </button>
                 </div>
+                </div>
                 </BlockUI>
                 {/* </form> */}
               </StepperPanel>
@@ -1235,7 +1246,13 @@ function ProjectForm() {
                   <h2 className="font-bold text-2xl text-green-900 my-3">
                     Client Details
                   </h2>
-                  <BlockUI blocked={blocked} className={'bg-red-500'}>
+                  <BlockUI template={
+                              <div className='relative  w-full h-full 0 z-10'>
+                                <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                                <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {data?.proj_manager_name}</span>
+                              </div>
+                            } blocked={blocked} className={'bg-red-500'}>
+              <div className={blocked?'p-2':''}>
                   <div className="grid gap-4 sm:grid-cols-6 sm:gap-6">
                     <div className="sm:col-span-4">
                       {/* ============================== */}
@@ -1633,6 +1650,7 @@ function ProjectForm() {
                       <SaveOutlined className="mr-1" />
                       Submit
                     </button>
+                  </div>
                   </div>
                   </BlockUI>
                 </Spin>

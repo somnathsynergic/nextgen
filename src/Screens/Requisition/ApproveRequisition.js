@@ -22,6 +22,7 @@ import DialogBox from "../../Components/DialogBox";
 import { Tag } from "antd";
 import { Message } from "../../Components/Message";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
+import moment from "moment";
 
 function ApproveRequisition() {
     const [value, setValue] = useState(2);
@@ -556,13 +557,13 @@ function ApproveRequisition() {
                          }} class="bg-white  cursor-pointer hover:text-green-900 hover:duration-500 hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
-                          class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          class="px-3 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-6 py-4 text-green-900 font-bold">{item.req_no}</td>
-                        <td class="px-6 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                        <td class="px-6 py-4 text-gray-600">{item.req_date}({item.created_at?.split('T')[1]})</td>
+                        <td class="px-6 py-3 text-green-900 font-bold">{item.req_no}</td>
+                        <td class="px-6 py-3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
+                        <td class="px-6 py-3 text-gray-600">{moment(item.req_date).format('DD/MM/YYYY')}({item.created_at?.split('T')[1]})</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"

@@ -121,6 +121,8 @@ function ApproveOrders() {
     localStorage.removeItem('amend_flag')
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
+    localStorage.removeItem("po_created_by");
+
 
   }, []);
   useState(() => {

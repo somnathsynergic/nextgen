@@ -1,3 +1,4 @@
+import './Steps.css'
 import React, { useEffect, useRef, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import VError from "../../Components/VError";
@@ -11,8 +12,11 @@ import {
   ArrowRightOutlined,
   CloseCircleFilled,
   LoadingOutlined,
+  LockFilled,
+  LockOutlined,
   PlusCircleOutlined,
   SyncOutlined,
+  UnlockFilled,
 } from "@ant-design/icons";
 import Viewdetails from "../Viewdetails";
 import DialogBox from "../DialogBox";
@@ -204,7 +208,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
     // else{
     //   setBlocked(false)
     // }
-    setBlocked(det.po == 1 ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
 
 
     // alert("hii")
@@ -469,8 +473,13 @@ function BasicDetails({ pressNext, pressBack, data }) {
           <h2 className="text-2xl text-green-900 font-bold my-3">
             Basic Details
           </h2>
-          <BlockUI blocked={blocked} className={"bg-red-500"}>
-            <div className="grid gap-4 sm:grid-cols-6 sm:gap-6">
+          <BlockUI blocked={blocked} template={
+            <div className='relative  w-full h-full 0 z-10'>
+              <span className='absolute -top-1 right-0 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+           <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+            </div>
+          }  className="p-2">
+            <div className={blocked?"grid gap-4 sm:grid-cols-6 p-2 sm:gap-6":"grid gap-4 sm:grid-cols-6  sm:gap-6"}>
              
               <div className="sm:col-span-3">
                 <TDInputTemplate

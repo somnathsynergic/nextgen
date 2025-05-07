@@ -1,3 +1,5 @@
+import './Steps.css'
+
 import React, { useEffect, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import VError from "../../Components/VError";
@@ -6,7 +8,7 @@ import { Radio } from "antd";
 // import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import { Switch } from "antd";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 
 function Delivery({ pressBack, pressNext, data }) {
@@ -83,7 +85,7 @@ function Delivery({ pressBack, pressNext, data }) {
 
   useEffect(() => {
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
-    setBlocked(det.po == 1 ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
 
 
     setDeliveryAdd(
@@ -123,9 +125,14 @@ function Delivery({ pressBack, pressNext, data }) {
         <h2 className="text-2xl text-green-900 font-bold my-3">
           Delivery Detail
         </h2>
-              <BlockUI blocked={blocked} className={'bg-red-500'}>
+              <BlockUI blocked={blocked} template={
+                                                  <div className='relative  w-full h-full 0 z-10'>
+                                                    <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+                                                     <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+                                                  </div>
+                                                }>
         
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+        <div className={!blocked?"grid gap-4 sm:grid-cols-2 sm:gap-6":"grid gap-4 sm:grid-cols-2 sm:gap-6 p-2"}>
           <div className="sm:col-span-2">
             <TDInputTemplate
               placeholder="Bill To"

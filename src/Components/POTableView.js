@@ -139,7 +139,7 @@ function POTableView({ po_data, setSearch, title,print }) {
            <div className={isPrinting?"hidden rounded-md w-full":"w-full border  border-green-500 rounded-md"}>
                         <PrintHeader />
                         </div>
-        <table class={isPrinting?"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400":"w-full mt-2 mx-auto text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
+        <table class={isPrinting?"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400":"w-full mt-2 mx-auto text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400 overflow-x-hidden"}>
           <thead class={isPrinting?" text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":" text-md  text-white capitalize   bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
             <tr>
               <th scope="col" class="p-4">

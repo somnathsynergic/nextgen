@@ -82,6 +82,7 @@ function VendorMDCC({onClose,data,onLoading}) {
     }
     return (
       <Spin
+        // indicator={<LoadingOutlined spin />}
         indicator={<LoadingOutlined spin />}
         size="large"
         className="text-green-900 dark:text-gray-400"

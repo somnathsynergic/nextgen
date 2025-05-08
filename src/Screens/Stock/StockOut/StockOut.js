@@ -7,10 +7,13 @@ import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
 import { Empty, Spin, Tag, Tooltip } from "antd";
+import { BlockUI } from "primereact/blockui";
+
 import {
   ArrowUpOutlined,
   BorderOutlined,
   LoadingOutlined,
+  LockFilled,
   MinusCircleOutlined,
   SaveOutlined,
   SnippetsOutlined,
@@ -31,6 +34,8 @@ function StockOut() {
   const [out_from,setOutFrom] = useState("")
   const [projectCopy, setProjectCopy] = useState([]);
   const [products, setProducts] = useState([]);
+   const det = JSON.parse(localStorage.getItem("perm"));
+      const [blocked,setBlocked] = useState(false)
   const [prodList, setProdList] = useState([]);
   const [showProd, setShowProd] = useState(false);
   const [prodVal, setProdVal] = useState("");
@@ -80,6 +85,8 @@ function StockOut() {
     });
 
     setReqPerson(localStorage.getItem("email"));
+    setBlocked(det?.stock==1?true:false)
+
   }, []);
   useEffect(() => {
     setLoading(true);
@@ -167,6 +174,13 @@ function StockOut() {
 
 
                 </div> */}
+                 <BlockUI blocked={blocked} 
+                              template={
+                                                                                            <div className='relative  w-full h-full 0 z-10'>
+                                                                                              <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                                         
+                                                                                            </div>
+                                                                                          } className={'bg-red-500'}>
       <div className="grid grid-cols-6 gap-2">
         <div className="ml-1 -mb-11 z-50">
           {clicked && (
@@ -462,6 +476,7 @@ function StockOut() {
           </div>
         </div>
       )}
+      </BlockUI>
     </section>
   );
 }

@@ -119,6 +119,7 @@ function ProjectInfo({ data }) {
         title="Project Details"
         className="mx-auto my-6"
         labelStyle={{ color: "#014737",fontWeight:'bold' }}
+        style={{ borderBottom: "2px gray" }}
         items={items}
       />
       {data.poc.length>0 && <>

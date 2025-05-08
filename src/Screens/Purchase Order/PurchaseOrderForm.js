@@ -1290,7 +1290,8 @@ function PurchaseOrderForm() {
                     </Tooltip>
                   )}
 
-                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && localStorage.getItem('email')==localStorage.getItem("po_created_by") )&&
+                  {/* {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && localStorage.getItem('email')==localStorage.getItem("po_created_by") )&& */}
+                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" )&&
                     (
                       <>
                         <Tooltip title="Approve PO">

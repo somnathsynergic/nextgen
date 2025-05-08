@@ -81,6 +81,7 @@ export const routePaths={
     PROJECTWISE:'/home/reportComp/projectwise/',
     ITEMWISE:'/home/reportComp/itemwise/',
     MRNWISEONE:'/home/reportComp/mrnwise_one/',
-    MRNWISETWO:'/home/reportComp/mrnwise_two/'
+    MRNWISETWO:'/home/reportComp/mrnwise_two/',
+    STOCKOUTREPORT:'/home/reportComp/stock_out_report/'
 
 }

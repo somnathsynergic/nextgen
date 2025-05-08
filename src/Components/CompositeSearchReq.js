@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, FilterOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";
@@ -257,7 +257,7 @@ function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
           className="flex justify-between gap-4 w-80 shadow-lg"
           onHide={() => setVisible(false)}
         >
-          <p className="font-bold text-lg text-green-900">Search by </p>
+          <p className="font-bold bg-green-900 text-lg text-white py-1 px-2 rounded-md"><SearchOutlined/> Search by </p>
   
           <div onClick={handleClickInside} className="gap-4 mt-5">
             <div className=" my-4">

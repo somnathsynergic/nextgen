@@ -666,7 +666,7 @@ function PoPreview({ data }) {
                             >
                               {/* {parseFloat(+item.item_rt-(+item.discount))?.toFixed(2)} */}
                               {formatNumber(
-                                +item.item_rt - +item.discount,
+                                (+item.item_rt - +item.discount)*item.quantity,
                                 item?.currency == "I"
                                   ? "INR"
                                   : item?.currency == "U"

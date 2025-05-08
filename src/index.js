@@ -13,6 +13,7 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const StockOutReport =lazy(()=>import("./Screens/Reports/StockOutReport"));
 const PurMrnReporProj=lazy(()=>import("./Screens/Reports/PurMrnReporProj"));
 // import CancelPO from "./Screens/Purchase Order/CancelPO";
 // import CancelPoView from "./Screens/Purchase Order/CancelView";
@@ -707,6 +708,10 @@ const router = createBrowserRouter([
               {
                 path: "mrnwise_two",
                 element: <PurMrnReporProj />,
+              },
+              {
+                path: "stock_out_report",
+                element: <StockOutReport />,
               },
             ],
           },

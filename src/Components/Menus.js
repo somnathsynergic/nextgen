@@ -548,6 +548,12 @@ function Menus({ theme,data,shrink }) {
             label:<Link to={routePaths.MRNWISETWO}>Projectwise MRN Report</Link>,
   
           },
+          {
+            key: "rep:stock_out",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.STOCKOUTREPORT}>Stock Out Report</Link>,
+  
+          },
 
     ]
 

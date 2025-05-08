@@ -85,7 +85,10 @@ function Delivery({ pressBack, pressNext, data }) {
 
   useEffect(() => {
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
+    // 
     setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
+    // setBlocked(false)
+    // 
 
 
     setDeliveryAdd(

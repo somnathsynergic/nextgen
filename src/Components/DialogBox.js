@@ -463,8 +463,8 @@ const DialogBox = ({
         <div
           className={
             flag != 1
-              ? "text-green-900  font-bold"
-              : "text-green-900  font-bold w-20"
+              ? "text-white font-bold"
+              : "text-white font-bold w-20"
           }
         >
           {(flag == 1 || flag == 4 || flag == 19 || flag == 20 || flag == 31) &&
@@ -499,6 +499,7 @@ const DialogBox = ({
           {flag == 35 && "Cancel Requisition"}
           {flag == 41 && "Close PO"}
         </div>
+       
       }
       visible={visible}
       maximizable
@@ -512,7 +513,7 @@ const DialogBox = ({
       }}
     >
       {flag == 1 && (
-        <p className="m-0">
+        <p className="mt-2 mt-2">
           Do you want to logout?
           <div className="flex justify-center">
             <button
@@ -547,7 +548,7 @@ const DialogBox = ({
       )}
       {flag == 3 && <PasswordComp mode={3} onPress={onPress} />}
       {flag == 4 && (
-        <p className="m-0">
+        <p className="mt-2 mt-2">
           Do you want to delete this item?
           <div className="flex justify-center">
             <button
@@ -568,37 +569,37 @@ const DialogBox = ({
         </p>
       )}
       {flag == 5 && (
-        <p className="m-0">
+        <p className="mt-2">
           <ClientInfo data={data} />
         </p>
       )}
       {flag == 6 && (
-        <p className="m-0">
+        <p className="mt-2">
           <PocInfo data={data} />
         </p>
       )}
       {flag == 7 && (
-        <p className="m-0">
+        <p className="mt-2">
           <ProjectInfo data={data} />
         </p>
       )}
       {flag == 8 && (
-        <p className="m-0">
+        <p className="mt-2">
           <VendorInfo data={data} />
         </p>
       )}
       {flag == 9 && (
-        <p className="m-0">
+        <p className="mt-2">
           <ProdInfo data={data} />
         </p>
       )}
       {flag == 10 && (
-        <p className="m-0">
+        <p className="mt-2">
           <PoPreview data={data} />
         </p>
       )}
       {flag == 11 && (
-        <p className="m-0">
+        <p className="mt-2">
           <TDInputTemplate
             placeholder="Select PO"
             type="text"
@@ -690,7 +691,7 @@ const DialogBox = ({
         </p>
       )}
       {flag == 12 && (
-        <p className="m-0">
+        <p className="mt-2">
           Do you want to cancel this PO?
           <div className="flex justify-center">
             <button
@@ -711,7 +712,7 @@ const DialogBox = ({
         </p>
       )}
       {flag == 13 && (
-        <p className="m-0">
+        <p className="mt-2">
           Do you want to cancel this PO without citing any reason?
           <div className="flex justify-center">
             <button
@@ -733,7 +734,7 @@ const DialogBox = ({
       )}
       {flag == 14 && <AmendPreview id={id} />}
       {flag == 15 && (
-        <>
+        <div className="mt-2">
           <Spin
             indicator={<LoadingOutlined spin />}
             size="large"
@@ -742,10 +743,10 @@ const DialogBox = ({
           >
             <Timeline className="my-2" mode="right" items={timeLineItems} />
           </Spin>
-        </>
+        </div>
       )}
       {flag == 16 && (
-        <>
+        <div className="mt-2">
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table
               id="tablePrint"
@@ -938,10 +939,10 @@ const DialogBox = ({
               </Fab>
             </Tooltip>
           </div>
-        </>
+        </div>
       )}
       {flag == 17 && (
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-2">
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-white uppercase bg-green-900 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -979,7 +980,7 @@ const DialogBox = ({
       )}
 
       {flag == 19 && (
-        <p className="m-0">
+        <p className="mt-2">
           Do you want to deactivate this user?
           <TDInputTemplate
             placeholder="Why do you want to deactivate/block this user?"
@@ -1013,7 +1014,7 @@ const DialogBox = ({
       )}
 
       {flag == 20 && (
-        <p className="m-0">
+        <p className="mt-2">
           Do you want to reject this requisition?
           <TDInputTemplate
             placeholder="Write a log..."
@@ -2201,7 +2202,7 @@ const DialogBox = ({
             )}
           </div> */}
 
-          <div className="sm:col-span-12 flex justify-end mb-2 ">
+          <div className="sm:col-span-12 flex justify-end my-2 ">
             <Tag className="text-sm" color="#014737">
               Requisition : {data?.reqInfo[0]?.min_req_no}
             </Tag>
@@ -2885,7 +2886,7 @@ const DialogBox = ({
         </>
       )}
       {flag == 31 && (
-        <p className="m-0">
+        <p className="mt-2">
           This item already has an unapproved requisition...
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -2965,7 +2966,7 @@ const DialogBox = ({
       )}
 
       {flag == 32 && (
-        <p className="m-0">
+        <p className="mt-2">
           <div className="sm:col-span-12 flex justify-end mb-2 ">
             <Tag className="text-sm bg-green-900 text-white">
               Transfer No. : {data?.trans_no}
@@ -3304,7 +3305,7 @@ const DialogBox = ({
       )}
 
       {flag == 34 && (
-        <p className="m-0">
+        <p className="mt-2">
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-white uppercase bg-green-900 dark:bg-gray-700 dark:text-gray-400">
@@ -3603,7 +3604,7 @@ const DialogBox = ({
             ref={contentRef}
             className={
               !isPrinting
-                ? "relative m-0 p-2 overflow-x-auto shadow-md sm:rounded-lg"
+                ? "relative mt-2 p-2 overflow-x-auto shadow-md sm:rounded-lg"
                 : "relative overflow-x-auto shadow-md sm:rounded-lg"
             }
           >
@@ -4235,7 +4236,7 @@ const DialogBox = ({
 
       {flag == 39 && (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mt-2">
             <table className="min-w-full border border-gray-300 rounded-lg">
               <thead>
                 <tr className="bg-green-900 text-white">
@@ -4267,7 +4268,7 @@ const DialogBox = ({
       )}
       {flag == 40 && (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mt-2">
             <table className="min-w-full border border-gray-300 rounded-lg">
               <thead>
                 <tr className="bg-green-900 text-white">
@@ -4300,7 +4301,7 @@ const DialogBox = ({
         </>
       )}
       {flag == 41 && (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center mt-2">
           <AmendPreview id={id} />
           {po_status != "C" ? (
             <Spin

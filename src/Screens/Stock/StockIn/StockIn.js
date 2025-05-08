@@ -7,18 +7,20 @@ import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
 import { Empty, Spin, Tag, Tooltip} from 'antd';
-import { ArrowUpOutlined, BorderOutlined, LoadingOutlined, MinusCircleOutlined, SaveOutlined, SnippetsOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, BorderOutlined, LoadingOutlined, LockFilled, MinusCircleOutlined, SaveOutlined, SnippetsOutlined } from '@ant-design/icons';
 import PrintComp from "../../../Components/PrintComp";
 import { OverlayPanel } from "primereact/overlaypanel";
 import moment from "moment";
 import StockInViewComp from "../../../Components/StockInViewComp";
 import StockInViewCompAll from "../../../Components/StockInViewCompAll";
+import { BlockUI } from "primereact/blockui";
 
 
 function StockIn() {
     const params = useParams();
   const [can_stock,setCanStock] = useState(0)
-
+    const det = JSON.parse(localStorage.getItem("perm"));
+    const [blocked,setBlocked] = useState(false)
     const [loading,setLoading]=useState(false)
     const [project, setProject] = useState("");
     const [projectList, setProjectList] = useState([]);
@@ -83,6 +85,7 @@ function StockIn() {
             prodList.push({ code: i.sl_no, name: i.prod_name,part_no:i.part_no,make:i.prod_make,article_no:i.article_no,model_no:i.model_no});
           }
         });
+        setBlocked(det?.stock==1?true:false)
     },[])
     const onSubmit = (values) => {
       console.log(prodCode)
@@ -136,6 +139,13 @@ function StockIn() {
                 mode={2}
                 title={'Report'}
               />
+              <BlockUI blocked={blocked} 
+              template={
+                                                                            <div className='relative  w-full h-full 0 z-10'>
+                                                                              <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                         
+                                                                            </div>
+                                                                          } className={'bg-red-500'}>
               <div className="grid grid-cols-6 gap-2">
               <div className="ml-1 -mb-11 z-50">
           {clicked && (
@@ -389,7 +399,7 @@ function StockIn() {
               </div>
 
            
-       
+              </BlockUI>
          
       </section>
     );

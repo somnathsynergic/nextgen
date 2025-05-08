@@ -362,9 +362,10 @@ function POTableView({ po_data, setSearch, title,print }) {
                   <td class="px-13 py-4">
                     {item.po_status == "P" ? (
                       <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
+                        className="text-[12px]  w-24"
                         icon={<SyncOutlined spin />}
-                        color="processing"
+                        color="#0092b8"
+                        // color="processing"
                       >
                         In Progress
                         <Tooltip title="Draft saved">
@@ -374,25 +375,27 @@ function POTableView({ po_data, setSearch, title,print }) {
                       </Tag>
                     ) : item.po_status == "A" ? (
                       <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
+                        className="text-[12px]  w-24  bg-green-900 text-white"
                         icon={<CheckCircleOutlined />}
-                        color="success"
+                        color="#014737"
+                        // color="success"
                       >
                         Approved
                       </Tag>
                     ) : item.po_status == "U" ? (
                       <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
+                        className="text-[12px] w-24"
                         icon={<ClockCircleOutlined className="animate-pulse" />}
-                        color="error"
+                        color="#82181a"
+                        // color="error"
                       >
-                        Pending Approval
+                        Pending
                       </Tag>
                     ) : item.po_status == "D" ? (
                       <Tag
                         className="text-[12px] p-1 rounded-full w-36"
                         icon={<TruckOutlined />}
-                        color="lime"
+                        // color="lime"
                       >
                         Delivered
                       </Tag>
@@ -400,7 +403,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                       <Tag
                         className="text-[12px] p-1 rounded-full w-36"
                         icon={<TruckOutlined />}
-                        color="lime"
+                        // color="lime"
                       >
                         {" "}
                         Partially Delivered{" "}

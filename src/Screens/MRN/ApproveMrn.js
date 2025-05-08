@@ -6,7 +6,7 @@ import axios from "axios";
 import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
-import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, EditOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import SkeletonLoading from "../../Components/SkeletonLoading";
 import CompositeSearch from "../../Components/CompositeSearch";
 import DialogBox from "../../Components/DialogBox";
@@ -508,29 +508,32 @@ function ApproveMrn() {
 
                         <td class="px-4 py-4 w-1/3">{item.approve_flag=='A'?
                          <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<CheckCircleOutlined />}
-                         color="success"
-                       >
-                        Approved
-                        </Tag>
+                                                className="text-[12px]  w-24  bg-green-900 text-white"
+                                                icon={<CheckCircleOutlined />}
+                                                color="#014737"
+                                                // color="success"
+                                              >
+                                                Approved
+                                              </Tag>
                         :
                         item.approve_flag=='P'?
                         <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
-                        icon={<SyncOutlined spin />}
-                        color="processing"
+                        className="text-[9px] w-24"
+                        icon={<ClockCircleOutlined className="animate-pulse" />}
+                        color="#82181a"
+                        // color="error"
                       >
-                        Pending
-                        </Tag>
+                        Pending 
+                      </Tag>
                         :
                         <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
-                        icon={<CloseCircleOutlined className="animate-spin" />}
-                        color="error"
+                        className="text-[9px] w-24"
+                        icon={<ClockCircleOutlined className="animate-pulse" />}
+                        color="#82181a"
+                        // color="error"
                       >
                         Rejected
-                        </Tag>
+                      </Tag>
                         
                         }</td>
                         <td class="px-6 py-4 w-1/3 text-gray-600">{item.created_by}</td>

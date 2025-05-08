@@ -18,7 +18,7 @@ export const Search=(e,word,dt)=>{
     return dt?.filter(e=>e?.prod_name?.toLowerCase().includes(word?.toLowerCase()) || e?.prod_make?.toLowerCase().includes(word?.toLowerCase()) || e?.part_no?.toLowerCase().includes(word?.toLowerCase()) || e?.article_no?.toLowerCase().includes(word?.toLowerCase())|| e?.model_no?.toLowerCase().includes(word?.toLowerCase()) || e?.stk_cnt?.toLowerCase().includes(word?.toLowerCase()) || e?.hsn_code?.toLowerCase().includes(word?.toLowerCase())|| e?.prod_desc?.toLowerCase().includes(word?.toLowerCase())||e?.created_by?.toLowerCase().includes(word?.toLowerCase()))
   }
   else if(e=='projects'){
-    return dt?.filter(e=>e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) || e?.proj_manager_name?.toLowerCase().includes(word?.toLowerCase()) ||e?.created_by?.toLowerCase().includes(word?.toLowerCase()))
+    return dt?.filter(e=>e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) || e?.proj_manager_name?.toLowerCase().includes(word?.toLowerCase()) || e?.proj_id?.toString().toLowerCase().includes(word?.toLowerCase()) ||e?.created_by?.toLowerCase().includes(word?.toLowerCase()))
   }
   else if(e=='users'){
     return dt?.filter(e=>e?.user_name?.toLowerCase().includes(word?.toLowerCase()) || e?.user_email?.toLowerCase().includes(word?.toLowerCase()) || e?.user_phone?.toLowerCase().includes(word?.toLowerCase())||e?.created_by?.toLowerCase().includes(word?.toLowerCase()) )

@@ -8,6 +8,7 @@ import { Button, Popover } from "antd";
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
+  CloseCircleOutlined,
   EditOutlined,
   FileTextOutlined,
   SyncOutlined,
@@ -369,40 +370,44 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                    <td class="px-13 py-4">
                      {item.po_status == "P" ? (
                        <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<SyncOutlined spin />}
-                         color="processing"
-                       >
-                         In Progress
-                         <Tooltip title="Draft saved">
-                           {" "}
-                           <FileTextOutlined className="text-red-500 ml-7" />
-                         </Tooltip>{" "}
-                       </Tag>
+                                               className="text-[12px]  w-24"
+                                               icon={<SyncOutlined spin />}
+                                               color="#0092b8"
+                                               // color="processing"
+                                             >
+                                               In Progress
+                                               <Tooltip title="Draft saved">
+                                                 {" "}
+                                                 <FileTextOutlined className="text-red-500 ml-7" />
+                                               </Tooltip>{" "}
+                                             </Tag>
                      ) : item.po_status == "A" ? (
                        <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<CheckCircleOutlined />}
-                         color="success"
-                       >
-                         Approved
-                       </Tag>
+                                              className="text-[12px]  w-24  bg-green-900 text-white"
+                                              icon={<CheckCircleOutlined />}
+                                              color="#014737"
+                                              // color="success"
+                                            >
+                                              Approved
+                                            </Tag>
                      ) : item.po_status == "U" ? (
-                       <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<ClockCircleOutlined className="animate-pulse" />}
-                         color="error"
-                       >
-                         Pending Approval
-                       </Tag>
+                      <Tag
+                                              className="text-[12px] w-24"
+                                              icon={<ClockCircleOutlined className="animate-pulse" />}
+                                              color="#82181a"
+                                              // color="error"
+                                            >
+                                              Pending 
+                                            </Tag>
                      ) : item.po_status == "C" ? (
-                       <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<CancelOutlined className="text-[10px]" />}
-                         color="red"
-                       >
-                         Closed
-                       </Tag>
+                      <Tag
+                                              className="text-[12px] w-24"
+                                              icon={<CloseCircleOutlined className="animate-spin" />}
+                                              color="#c10007"
+                                              // color="error"
+                                            >
+                                              Closed
+                                            </Tag>
                      ) : (
                        <Tag
                          className="text-[12px] p-1 rounded-full w-36"

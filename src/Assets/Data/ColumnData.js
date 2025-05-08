@@ -98,6 +98,7 @@ export const masterheaders={
     btnText:'Add client orders',
     headers: [
       { name: "serial_number", value: "#" },
+      { name: "proj_id", value: "Project ID" },
       { name: "proj_name", value: "Name" },
       { name: "proj_manager_name", value: "Project Manager" },
       { name: "created_by", value: "Created by" },

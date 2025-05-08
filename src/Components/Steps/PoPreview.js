@@ -1487,11 +1487,11 @@ function PoPreview({ data }) {
                       </th>
                       <td className="px-1 py-1 w-3/4 border border-gray-300 text-xs">
                         {localStorage.getItem("drawing_flag") == "Y"
-                          ? "Yes . " +
-                            localStorage.getItem("drawing") +
-                            ", " +
-                            localStorage.getItem("dt")
-                          : "N/A"}
+                          ? "Yes. ":'N/A' }
+                            {localStorage.getItem("drawing")!='None' &&  localStorage.getItem("drawing")?
+                            localStorage.getItem("drawing")+' ':'' }
+                            {localStorage.getItem("dt")!='None' && localStorage.getItem("dt")?'(Date: '+localStorage.getItem("dt")+')':''}
+                           
                       </td>
                     </tr>
                   </tbody>

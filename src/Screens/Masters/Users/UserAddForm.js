@@ -13,7 +13,7 @@ import { Message } from "../../../Components/Message";
 import { BlockUI } from 'primereact/blockui';
 
 import { Spin, Tag } from "antd";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { BlockOutlined, LoadingOutlined, LockFilled, ReloadOutlined, SyncOutlined } from "@ant-design/icons";
 import AuditTrail from "../../../Components/AuditTrail";
 import DialogBox from "../../../Components/DialogBox";
 import DrawerComp from "../../../Components/DrawerComp";
@@ -205,7 +205,13 @@ const UserAddForm = () => {
               }, 5);}
             }
         />
-              <BlockUI blocked={blocked} className={'bg-red-500'}>
+              <BlockUI blocked={blocked} 
+              template={
+                                                                            <div className='relative  w-full h-full 0 z-10'>
+                                                                              <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
+                                                                         
+                                                                            </div>
+                                                                          } className={'bg-red-500'}>
         
       <div  className="w-full bg-white p-6 rounded-2xl">
 
@@ -420,26 +426,37 @@ const UserAddForm = () => {
             onReset={formik.handleReset}
           />
          <div className='flex justify-center w-1/4 mx-auto items-center my-4'>
-         {active_flag=='N' &&  <button type="submit" onClick={()=>activate('Y','')}  className="text-white bg-green-900 hover:bg-
-      green-900 w-1/4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm sm:w-full px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:bg-blue-400">
+         {active_flag=='N' &&  <button type="submit" onClick={()=>activate('Y','')}  className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+      
+      >
+         <span class="relative z-10">
         Activate
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>}
     
       
       </div>
         </form>
         <div className="flex justify-between w-1/3 mx-auto items-center">
-        {active_flag=='Y' &&  <button type="submit" onClick={()=>setVisible(true)} className="text-white bg-red-900 hover:bg-
-      red-900 w-1/4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm sm:w-full px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:bg-blue-400">
+        {active_flag=='Y' &&  <button type="submit" onClick={()=>setVisible(true)} className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600">
+        <span class="relative z-10">
+          <BlockOutlined className='mr-2'/>
         Deactivate/Block
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>}
       {params.id>0 &&  <button onClick={()=>{ 
                           setMode(9);
                           setOpen(true);
                       
-                      }} className="text-white bg-green-500 hover:bg-
-      red-900 w-1/6  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-xs sm:w-full px-6 py-3 text-center dark:bg-green-500 dark:hover:bg-green-700 text-nowrap dark:focus:ring-green-800 disabled:bg-blue-400 ml-2">
+                      }} className="relative disabled:bg-gray-400 group shadow-xl border border-green-500 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-500 transition ease-in-out hover:bg-white hover:border hover:border-green-500 hover:shadow-2xl hover:text-green-500  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+>
+<span class="relative z-10">
+  <ReloadOutlined className='mr-2'/>
         Reset Pasword
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-500 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>}
       </div>
         </Spin>

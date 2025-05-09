@@ -539,13 +539,13 @@ function Menus({ theme,data,shrink }) {
           {
             key: "rep:mrn_one",
             icon: <PieChartFilled />,
-            label:<Link to={routePaths.MRNWISEONE}>Purchase Requisitionwise MRN Report</Link>,
+            label:<Link to={routePaths.MRNWISEONE}>PR-wise MRN Report</Link>,
   
           },
           {
             key: "rep:mrn_two",
             icon: <PieChartFilled />,
-            label:<Link to={routePaths.MRNWISETWO}>Projectwise MRN Report</Link>,
+            label:<Link to={routePaths.MRNWISETWO}>PO-wise MRN Report</Link>,
   
           },
           {

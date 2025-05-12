@@ -180,7 +180,7 @@ function HomeScreen() {
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
           <div class="text-gray-800 text-xs ml-4 2xl:text-2xl absolute right-1 top-3 font-bold">
-            Outstanding from client(s)jkjkjkjkjkjk
+            Outstanding from client(s)
           </div>
           <div class="text-emerald-600 text-4xl ml-14 mt-9 font-bold">0</div>
         </Link>

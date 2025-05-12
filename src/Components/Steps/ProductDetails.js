@@ -579,7 +579,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                 <div className="grid shadow-md bg-[#DDEAE0] p-2.5 px-3 rounded-b-md sm:grid-cols-12 sm:gap-6 flex-col">
                 <p className="text-green-900 text-sm font-bold absolute">{input.click==0?'Item Name':''}</p> 
 
-                  <div onClick={()=>handleItemClick(index)} className={input.click==1?"sm:col-span-12 flex flex-col " : "sm:col-span-12 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
+                  <div onClick={()=>handleItemClick(index)} className={input.click==1?"sm:col-span-10 flex flex-col " : "sm:col-span-10 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
 
                     {localStorage.getItem("po_status") != "A" && params.flag!='F' && (
                       <a

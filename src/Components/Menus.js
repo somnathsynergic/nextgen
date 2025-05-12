@@ -554,6 +554,12 @@ function Menus({ theme,data,shrink }) {
             label:<Link to={routePaths.STOCKOUTREPORT}>Stock Out Report</Link>,
   
           },
+          {
+            key: "rep:mat_val_report",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.MATVALREPORT}>Material Value Report</Link>,
+  
+          },
 
     ]
 

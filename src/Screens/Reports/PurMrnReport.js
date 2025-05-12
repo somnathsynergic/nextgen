@@ -47,6 +47,7 @@ function PurMrnReport() {
     const headers= [
       { name: "prod_name", value: "Product" },
       { name: "invoice", value: "Invoice" },
+      { name: "invoice_dt", value: "Invoice Date" },
 
       { name: "mrn_no", value: "MRN No." },
       { name: "quantity", value: "Ordered Quantity" },

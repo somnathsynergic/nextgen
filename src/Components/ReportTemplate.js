@@ -89,7 +89,7 @@ function ReportTemplate( {headers,
 <div className='mb-2'>
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative">
-        <div class={flag==2?"absolute inset-y-0 start-0 flex items-center ps-3 -mb-5 pointer-events-none":"absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"}>
+        <div class={flag==2?"absolute inset-y-0 start-0 flex items-center ps-3 -mb-5 pointer-events-none":"absolute inset-y-5 start-0 flex items-center ps-3 pointer-events-none"}>
             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
@@ -105,7 +105,7 @@ function ReportTemplate( {headers,
                                       {flag==2 &&<Tag color="#014737">Warehouse quantity of this product: {wStock}</Tag>}
 
 <DataTable
-                value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0)}
+                value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0 || item?.rc_qty)}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"
@@ -114,16 +114,16 @@ function ReportTemplate( {headers,
                 rows={isPrinting?10:data?.length}
                 // body={statusBodyTemplate}
                 rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
-                rowClassName="bg-white text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
+                rowClassName="bg-white text-justify text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
               text-ellipsis overflow-hidden truncate w-2"
                 tableStyle={{ minWidth: "100%", fontSize: !isPrinting?"10px":"12px" }}
-                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                paginatorTemplate="RowsPerPageDropdown  FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 paginatorClassName={isPrinting?"bg-white text-emerald-500":"hidden"}
                 currentPageReportTemplate="{first} to {last} of {totalRecords}"
                 
                 // paginatorLeft={paginatorLeft}
                 // paginatorRight={paginatorRight}
-                styleclassName="p-datatable-gridlines hover:duration-500 dark:bg-gray-800 dark:text-gray-300 shadow-lg"
+                styleclassName="p-datatable-gridlines text-justify hover:duration-500 dark:bg-gray-800 dark:text-gray-300 shadow-lg"
                 className="shadow-lg rounded-lg"
                 selectionMode="single"
                 // selection={selectedItem}

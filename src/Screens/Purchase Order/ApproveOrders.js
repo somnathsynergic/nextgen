@@ -122,6 +122,7 @@ function ApproveOrders() {
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
     localStorage.removeItem("po_created_by");
+    localStorage.getItem("pur_req_by")
 
 
   }, []);

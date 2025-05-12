@@ -518,7 +518,7 @@ function ApproveMrn() {
                         :
                         item.approve_flag=='P'?
                         <Tag
-                        className="text-[9px] w-24"
+                        className="text-[12px] w-24"
                         icon={<ClockCircleOutlined className="animate-pulse" />}
                         color="#82181a"
                         // color="error"

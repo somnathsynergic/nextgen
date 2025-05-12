@@ -13,6 +13,7 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const MaterialVal =lazy(()=>import("./Screens/Reports/MaterialVal"));
 const StockOutReport =lazy(()=>import("./Screens/Reports/StockOutReport"));
 const PurMrnReporProj=lazy(()=>import("./Screens/Reports/PurMrnReporProj"));
 // import CancelPO from "./Screens/Purchase Order/CancelPO";
@@ -712,6 +713,10 @@ const router = createBrowserRouter([
               {
                 path: "stock_out_report",
                 element: <StockOutReport />,
+              },
+               {
+                path: "mat_val_report",
+                element: <MaterialVal />,
               },
             ],
           },

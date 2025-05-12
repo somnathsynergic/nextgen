@@ -1099,11 +1099,12 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                           <tr className="bg-[#DDEAE0] border-b-2 border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
                             <th
                               scope="row"
-                              className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                              className="px-4 w-1/6  py-1.5 max-w-52 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                             >
                               <div className="flex gap-2 text-wrap justify-start items-center">
                                 {index+1} &nbsp;
                                 <Tag
+                                className='text-wrap'
                                   color={
                                     rowSum(
                                       itemList.filter(
@@ -1167,7 +1168,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                               </div>
                               <Tag
                                 color="green"
-                                className="text-[10px] text-wrap block my-1"
+                                className="text-[10px] text-wrap whitespace-wrap block my-1"
                               >
                                 {" "}
                                 {item.name.split("@")[1]}{" "}

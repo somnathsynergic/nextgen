@@ -228,6 +228,7 @@ function AmendView() {
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
     localStorage.removeItem("po_created_by");
+    localStorage.getItem("pur_req_by")
 
 
     // if(localStorage.getItem('user_type')=='2' || localStorage.getItem('user_type')=='5'){

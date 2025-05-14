@@ -13,6 +13,9 @@ function App() {
       Steps:{
         colorPrimary:'#22543d',
       },
+      Empty:{
+        colorTextDescription:'#014737'
+      },
       Timeline:{
         dotBg:'#22543d',
         tailColor:'#22543d',

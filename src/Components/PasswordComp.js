@@ -8,7 +8,7 @@ import { Checkbox, Spin } from 'antd';
 import { Message } from './Message';
 import axios from 'axios';
 import { url } from '../Address/BaseUrl';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SaveOutlined } from '@ant-design/icons';
 import VError from './VError';
 const PasswordComp = ({mode}) => {
   const [type,setType]=useState('password')
@@ -127,9 +127,14 @@ const PasswordComp = ({mode}) => {
       <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
       <button type="submit" 
       disabled={formik.values.confirm_pass!=formik.values.new_pass} 
-      className="text-white bg-green-900 hover:bg-
-      green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-full px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:bg-blue-400">
+             className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+>
+        <span class="relative z-10">
+
+       <SaveOutlined className='mr-2' />
         Submit
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>
       </Spin>
       </div>

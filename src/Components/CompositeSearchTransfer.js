@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, FilterOutlined, ReloadOutlined, SaveOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";
@@ -307,6 +307,7 @@ function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
                 onReset();
               }}
             >
+              <ReloadOutlined className="mr-2"/>
               Reset
             </button>
             {/* {set_two_code} */}
@@ -332,7 +333,11 @@ function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
                 });
               }}
             >
-              Submit 
+               <span class="relative z-10">
+        <SaveOutlined className='mr-2' />
+        Submit
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button>
           </div>
         </OverlayPanel>

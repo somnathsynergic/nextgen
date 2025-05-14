@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, FilterOutlined, ReloadOutlined, SaveOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";
@@ -604,6 +604,7 @@ function CompositeSearch({ data, onSubmit, onReset,flag }) {
               onReset();
             }}
           >
+            <ReloadOutlined class='mr-2'/>
             Reset
           </button>
           {/* {set_two_code} */}
@@ -621,7 +622,8 @@ function CompositeSearch({ data, onSubmit, onReset,flag }) {
               // !set_three_val &&
               // !set_eight_val && (flag==2 && !set_seven_val) && !set_six_val
             }
-            className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out   rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
+                    className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+
             onClick={() => {
               console.log(set_one_val, set_two_val);
               setVisible(true);
@@ -647,7 +649,11 @@ function CompositeSearch({ data, onSubmit, onReset,flag }) {
               });
             }}
           >
-            Submit 
+            <span class="relative z-10">
+        <SaveOutlined className='mr-2' />
+        Submit
+        </span>
+        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button>
         </div>
       </OverlayPanel>

@@ -161,14 +161,15 @@ function Itemwise() {
                     {!prodCode ? <VError title={"Required"} /> : null}
                 
 
-<OverlayPanel ref={op} className='w-[480px] border-2 bg-gray-200 border-green-900'>
+<OverlayPanel ref={op} className='w-[480px] border-2 bg-gray-50 border-[#C4F1BE]'>
    <span className='text-xs text-green-900 italic'>Search results for: "{prodVal}"</span>
         <ul class=" divide-y max-h-48 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
-        {prodList?.filter(e=>e.name?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.model_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.article_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.make?.toLowerCase().includes(prodVal?.toLowerCase()) ).length>0 && prodList?.filter(e=>e.name?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.model_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.article_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.make?.toLowerCase().includes(prodVal?.toLowerCase()) )?.map(lst=><li onClick={(e)=>{op.current.hide(e);setProdVal(lst.name);setProdCode(lst.code) }} class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4">
+        {prodList?.filter(e=>e.name?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.model_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.article_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.make?.toLowerCase().includes(prodVal?.toLowerCase()) ).length>0 && prodList?.filter(e=>e.name?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.part_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.model_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.article_no?.toLowerCase().includes(prodVal?.toLowerCase()) ||e.make?.toLowerCase().includes(prodVal?.toLowerCase()) )?.map(lst=><li onClick={(e)=>{op.current.hide(e);setProdVal(lst.name);setProdCode(lst.code) }}                                 class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+>
             <div class="flex items-center rtl:space-x-reverse">
             
              <div class="flex-1 min-w-0">
-                <p class="text-sm font-bold p-0.5 w-full text-green-900 truncate dark:text-white">
+                <p class="text-sm p-0.5 w-full text-green-900 group-active:text-white truncate dark:text-white">
                  {lst.name}
                 </p>
                

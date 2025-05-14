@@ -1299,7 +1299,7 @@ function ProjectForm() {
                       <OverlayPanel
                         ref={op}
                         // style={{marginTop:'420px',marginLeft:'325px'}}
-                        className="mt-84 w-[46%] border-2 bg-gray-200 border-green-900"
+                        className="mt-84 w-[46%] border-2 bg-gray-50 border-[#C4F1BE]"
                       >
                         <span className="text-xs text-green-900 italic">
                           Search results for: "{client_id}"
@@ -1320,16 +1320,15 @@ function ProjectForm() {
                                     setCode(lst.code);
                                     handleChangeClient(lst.code)
                                   }}
-                                  class=" cursor-pointer py-2 hover:bg-[#C4F1BE] rounded-md hover:duration-300 "
+                                  class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
                                 >
                                   <div class="flex items-center rtl:space-x-reverse">
                                     <div class="flex-1 min-w-0">
-                                      <p class="text-sm font-bold w-full text-green-900 truncate dark:text-white">
+                                      <p class="text-sm p-0.5 w-full text-green-900 group-active:text-white truncate dark:text-white">
                                         {lst.name}
                                       </p>
                                     </div>
                                   </div>
-                                  <hr className="text-green-900 border-gray-300  bg-green-900"/>
                                 </li>
                               ))}
                           {client.filter((e) =>
@@ -1592,7 +1591,7 @@ function ProjectForm() {
                      <OverlayPanel
                         ref={op1}
                         // style={{marginTop:'420px',marginLeft:'325px'}}
-                        className=" w-[69.8%] border-2 bg-gray-200 border-green-900"
+                        className=" w-[69.8%] border-2 bg-gray-50 border-[#C4F1BE]"
                       >
                         <span className="text-xs text-green-900 italic">
                           Search results for: "{assgn_pm}"
@@ -1611,16 +1610,16 @@ function ProjectForm() {
                                     setPmCode(lst.code);
                                     // handleChangeClient(lst.code)
                                   }}
-                                  class=" cursor-pointer py-2 hover:bg-[#C4F1BE] rounded-md hover:duration-300 "
+                                  class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
                                 >
                                   <div class="flex items-center rtl:space-x-reverse">
                                     <div class="flex-1 min-w-0">
-                                      <p class="text-sm font-bold w-full text-green-900 truncate dark:text-white">
+                                      <p class="text-sm  p-0.5 w-full text-green-900 group-active:text-white truncate dark:text-white">
                                         {lst.name}
                                       </p>
                                     </div>
                                   </div>
-                                  <hr className="text-green-900 border-gray-300  bg-green-900"/>
+                                  {/* <hr className="text-green-900 border-gray-300  bg-green-900"/> */}
                                 </li>
                               ))}
                           {pmList.filter((e) =>

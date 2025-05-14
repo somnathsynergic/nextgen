@@ -106,7 +106,7 @@ function HomeScreen() {
   return (
     <main class="px-4 h-auto ">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <Link to={routePaths.PROJECTS} class="relative cursor-pointer  border-dashed transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 2xl:h-32 flex  items-center">
+        <Link to={routePaths.PROJECTS} class="relative cursor-pointer  border-dashed transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 bg-white rounded-lg bg-clip-border shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 2xl:h-32 flex  items-center">
        
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#92140C]">
             <ProjectOutlined class="text-white text-5xl" />

@@ -224,7 +224,7 @@ function PurchaseOrderForm() {
         vendor_id: localStorage.getItem("vendor_name"),
         vend_ref: localStorage.getItem("vend_ref"),
         // pur_req: localStorage.getItem("pur_req"),
-        pur_req:pur,
+        pur_req:JSON.parse(localStorage.getItem('pur_req')).join(','),
         item_dtl: JSON.parse(localStorage.getItem("itemList")),
         price_basis: JSON.parse(localStorage.getItem("terms"))
           ? JSON.parse(localStorage.getItem("terms")).price_basis_flag
@@ -875,7 +875,8 @@ function PurchaseOrderForm() {
       />
 
       {(localStorage.getItem("po_no") != "null" && localStorage.getItem('po_no'))&& (
-        <Tag color="#4FB477">PO: {localStorage.getItem("po_no")}</Tag>
+        <Tag className="ml-1" color="#4FB477">PO: {localStorage.getItem("po_no")}</Tag>
+        // <Tag className="ml-1" color="#014737">PO: {localStorage.getItem("po_no")}</Tag>
       )}
 
       <BlockUI

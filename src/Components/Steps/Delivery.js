@@ -35,11 +35,11 @@ function Delivery({ pressBack, pressNext, data }) {
       localStorage.setItem("delFlag","1");
       setDelivery(false);
       setDeliveryAdd(
-        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd , Village : Barunda, Para – Madhya Para, P.O. - Bagnan, District : Howrah, Pin :711303. GSTIN- 19AABCN5744L1Z1"
       );
       localStorage.setItem(
         "ship_to",
-        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+        "NextGen Automation Pvt Ltd , Village : Barunda, Para – Madhya Para, P.O. - Bagnan, District : Howrah, Pin :711303. GSTIN- 19AABCN5744L1Z1"
       );
       console.log('hello1',delivery,delValue);
     } else if (e.target.value== 2) {
@@ -198,11 +198,11 @@ function Delivery({ pressBack, pressNext, data }) {
                     if (deliveryConfirm == false) {
                       console.log(deliveryConfirm);
                       setDeliveryAdd(
-                        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+                        "NextGen Automation Pvt Ltd , Village : Barunda, Para – Madhya Para, P.O. - Bagnan, District : Howrah, Pin :711303. GSTIN- 19AABCN5744L1Z1"
                       );
                       localStorage.setItem(
                         "ship_to",
-                        "NextGen Automation Pvt Ltd, Panchla,Beltala,National Highway 6,Surikhali, P.S.- Uluberia, District - Howrah, Pin-711322,GSTIN- 19AABCN5744L1Z1"
+                        "NextGen Automation Pvt Ltd , Village : Barunda, Para – Madhya Para, P.O. - Bagnan, District : Howrah, Pin :711303. GSTIN- 19AABCN5744L1Z1"
                       );
                       console.log(delivery);
                     } else {

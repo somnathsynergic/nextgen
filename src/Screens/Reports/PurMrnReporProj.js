@@ -68,7 +68,7 @@ function PurMrnReporProj() {
     { name: "invoice_dt", value: "Invoice Date" },
     { name: "mrn_no", value: "MRN No" },
     // { name: "quantity", value: "Ordered Quantity" },
-    // {name:"approved_ord_qty",value:"Requisition Quantity"},
+    {name:"approved_ord_qty",value:"Ordered Quantity"},
     { name: "rc_qty", value: "Received Quantity" },
 
     // { name: "created_by", value: "Created by" },

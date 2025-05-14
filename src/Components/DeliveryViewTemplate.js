@@ -353,7 +353,7 @@ function DeliveryViewTemplate({ flag }) {
                                 "/" +
                                 encodeURIComponent(item.po_no))
                               else navigate(routePaths.TESTCERTFORM + item.sl_no)
-                    }} class="bg-white hover:duration-500 text-[12.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                    }} class="bg-white hover:duration-500 text-[10.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                       <th
                         scope="row"
                         class="px-4 py-4 w-1/4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -361,11 +361,11 @@ function DeliveryViewTemplate({ flag }) {
                       {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
                       {item.sl_no}
                       </th>
-                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap">{item.po_no}</td>
-                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.vendor_name}</td>
-                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap text-[12.5px]">{item.po_no}</td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td>
-                      <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
+                      <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap text-xs">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">
                         <Link
                           to={

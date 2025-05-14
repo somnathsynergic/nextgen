@@ -46,6 +46,7 @@ function App() {
         itemMarginInline:15,
         itemHoverBg:'white',
         itemSelectedColor:'#4C9F70',
+        optionSelectedColor:'#4C9F70',
         // itemSelectedColor:'#014737',
         itemHoverColor:'#014737',
         itemDisabledColor:'#FEF08A'

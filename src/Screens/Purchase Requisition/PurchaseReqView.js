@@ -385,15 +385,15 @@ function PurchaseReqView() {
                       )}} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
-                          class="px-3 py-4 w-1/6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          class="px-3 py-4 w-1/6 font-medium  text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-4 py-4 w-1/6 text-green-900 font-bold">{item.pur_no}</td>
-                        <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
-                        <td class="px-4 py-4 w-1/6 text-gray-600">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
-                        <td class="px-4 py-4 w-1/3 text-gray-600">{item.created_by} ({item.created_at?.split('T')[1]})</td>
-                       {isPrinting? <td class="px-3 py-4 w-1/6 flex gap-3 text-gray-600">
+                        <td class="px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5]">{item.pur_no}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
+                        <td class="px-4 py-4 w-1/6 text-gray-600 text-xs">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600 text-xs">{item.created_by} ({item.created_at?.split('T')[1]})</td>
+                       {isPrinting? <td class="px-3 py-4 w-1/6  flex gap-3 text-gray-600">
 {/*                         
                           <Link
                             to={

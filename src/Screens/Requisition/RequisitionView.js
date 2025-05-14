@@ -427,9 +427,9 @@ function RequisitionView() {
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-4 py-4 text-green-900 font-bold">{item.req_no}</td>
-                        <td class="px-4 py-4 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')': 'Warehouse'}</td>
-                        <td class="px-4 py-4 text-gray-600">{moment(item.req_date).format('DD/MM/YYYY')}</td>
+                        <td class="px-4 py-4 text-green-900 font-bold text-[12.5px]">{item.req_no}</td>
+                        <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')': 'Warehouse'}</td>
+                        <td class="px-4 py-4 text-gray-600 text-xs">{moment(item.req_date).format('DD/MM/YYYY')}</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"
@@ -457,8 +457,8 @@ function RequisitionView() {
                         </Tag>
                         
                         }</td> */}
-                        <td class="px-6 py-4 text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
-                       {isPrinting && <td class="px-3 py-4 flex gap-3">
+                        <td class="px-6 py-4 text-xs text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
+                       {isPrinting && <td class="px-3 tex-xs py-4 flex gap-3">
                         
                           <Link
                             to={

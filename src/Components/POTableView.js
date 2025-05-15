@@ -1,7 +1,6 @@
 import React, { useState,useRef,useEffect } from "react";
 import { routePaths } from "../Assets/Data/Routes";
 import { Link, useNavigate } from "react-router-dom";
-import Tooltip from "@mui/material/Tooltip";
 import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import { Button, Popover } from "antd";
@@ -9,7 +8,6 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   EditOutlined,
-  FileTextOutlined,
   SyncOutlined,
   TruckOutlined,
   UploadOutlined,
@@ -19,6 +17,7 @@ import DrawerComp from "./DrawerComp";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import moment from "moment";
+import InfoTags from "./InfoTags";
 function POTableView({ po_data, setSearch, title,print }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -354,60 +353,70 @@ function POTableView({ po_data, setSearch, title,print }) {
                       )}
                     </p>}
                   </td>
-                  <td class="px-4 py-4 text-gray-600  text-xs">{moment(item.po_issue_date).format('MM/DD/YYYY')}</td>
+                  <td class="px-4 py-4 text-gray-600  text-xs">{moment(item.po_issue_date).format('DD/MM/YYYY')}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
                     {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
                   </td>
                   <td class="px-13 py-4">
                     {item.po_status == "P" ? (
-                      <Tag
-                        className="text-[12px]  w-24"
-                        icon={<SyncOutlined spin />}
-                        color="#0092b8"
-                        // color="processing"
-                      >
-                        In Progress
-                        <Tooltip title="Draft saved">
-                          {" "}
-                          <FileTextOutlined className="text-red-500 ml-7" />
-                        </Tooltip>{" "}
-                      </Tag>
+                      // <Tag
+                      //   className="text-[12px]  w-24"
+                      //   icon={<SyncOutlined spin />}
+                      //   color="#0092b8"
+                      //   // color="processing"
+                      // >
+                      //   In Progress
+                      //   <Tooltip title="Draft saved">
+                      //     {" "}
+                      //     <FileTextOutlined className="text-red-500 ml-7" />
+                      //   </Tooltip>{" "}
+                      // </Tag>
+                        <InfoTags text="In Progress" color="#0092b8" bgCol={"text-[12px]  w-24"} icon={<SyncOutlined spin /> }/>
+
                     ) : item.po_status == "A" ? (
-                      <Tag
-                        className="text-[12px]  w-24  bg-green-900 text-white"
-                        icon={<CheckCircleOutlined />}
-                        color="#014737"
-                        // color="success"
-                      >
-                        Approved
-                      </Tag>
+                      // <Tag
+                      //   className="text-[12px]  w-24  bg-green-900 text-white"
+                      //   icon={<CheckCircleOutlined />}
+                      //   color="#014737"
+                      //   // color="success"
+                      // >
+                      //   Approved
+                      // </Tag>
+                        <InfoTags text="Approved" color="#014737" bgCol={"text-[12px]  w-24 bg-green-900 text-white"} icon={<CheckCircleOutlined  /> }/>
+
                     ) : item.po_status == "U" ? (
-                      <Tag
-                        className="text-[12px] w-24"
-                        icon={<ClockCircleOutlined className="animate-pulse" />}
-                        color="#82181a"
-                        // color="error"
-                      >
-                        Pending
-                      </Tag>
+                      // <Tag
+                      //   className="text-[12px] w-24"
+                      //   icon={<ClockCircleOutlined className="animate-pulse" />}
+                      //   color="#82181a"
+                      //   // color="error"
+                      // >
+                      //   Pending
+                      // </Tag>
+                        <InfoTags text="Pending" color="#82181a" bgCol={"text-[12px]  w-24 "} icon={<ClockCircleOutlined className="animate-pulse" /> }/>
+
                     ) : item.po_status == "D" ? (
-                      <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
-                        icon={<TruckOutlined />}
-                        // color="lime"
-                      >
-                        Delivered
-                      </Tag>
+                      // <Tag
+                      //   className="text-[12px] p-1 rounded-full w-36"
+                      //   icon={<TruckOutlined />}
+                      //   // color="lime"
+                      // >
+                      //   Delivered
+                      // </Tag>
+                        <InfoTags text="Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
+
                     ) : (
-                      <Tag
-                        className="text-[12px] p-1 rounded-full w-36"
-                        icon={<TruckOutlined />}
-                        // color="lime"
-                      >
-                        {" "}
-                        Partially Delivered{" "}
-                      </Tag>
+                      // <Tag
+                      //   className="text-[12px] p-1 rounded-full w-36"
+                      //   icon={<TruckOutlined />}
+                      //   // color="lime"
+                      // >
+                      //   {" "}
+                      //   Partially Delivered{" "}
+                      // </Tag>
+                        <InfoTags text="Partially Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
+
                     )}
                   </td>
                   <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>

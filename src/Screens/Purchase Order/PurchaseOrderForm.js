@@ -43,6 +43,7 @@ import { BlockUI } from "primereact/blockui";
 import { SaveOutlined } from "@mui/icons-material";
 import PoLogs from "../../Components/Steps/PoLogs";
 import { motion } from "framer-motion";
+import InfoTags from "../../Components/InfoTags";
 
 function PurchaseOrderForm() {
   const stepperRef = useRef(null);
@@ -875,8 +876,7 @@ function PurchaseOrderForm() {
       />
 
       {(localStorage.getItem("po_no") != "null" && localStorage.getItem('po_no'))&& (
-        <Tag className="ml-1" color="#4FB477">PO: {localStorage.getItem("po_no")}</Tag>
-        // <Tag className="ml-1" color="#014737">PO: {localStorage.getItem("po_no")}</Tag>
+        <InfoTags icon={<FileTextOutlined/>} bgCol={"ml-1"} color="#4FB477" text={'PO:'+ localStorage.getItem("po_no")}/>
       )}
 
       <BlockUI
@@ -949,50 +949,59 @@ function PurchaseOrderForm() {
               <>
                 <div className={"flex gap-5 justify-end"}>
                   {clickFlag == "P" ? (
-                    <Tag
-                      bordered={false}
-                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
-                      color="processing"
-                      icon={<SyncOutlined spin />}
-                    >
-                      In Progress
-                    </Tag>
+                    // <Tag
+                    //   bordered={false}
+                    //   className="text-base rounded-full shadow-lg p-1.5 ml-10"
+                    //   color="processing"
+                    //   icon={<SyncOutlined spin />}
+                    // >
+                    //   In Progress
+                    // </Tag>
+                    <InfoTags color="processing" bgCol={'text-base rounded-full shadow-lg p-1.5 ml-10'} text="In Progress" icon={<SyncOutlined spin />}/>
                   ) : clickFlag == "U" ? (
-                    <Tag
-                      bordered={false}
-                      icon={<ClockCircleOutlined className="animate-pulse" />}
-                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
-                      color="error"
-                    >
-                      Approval Pending
-                    </Tag>
+                    // <Tag
+                    //   bordered={false}
+                    //   icon={<ClockCircleOutlined className="animate-pulse" />}
+                    //   className="text-base rounded-full shadow-lg p-1.5 ml-10"
+                    //   color="error"
+                    // >
+                    //   Approval Pending
+                    // </Tag>
+                    <InfoTags color="error" bgCol={'text-base rounded-full shadow-lg p-1.5 ml-10'} text="Approval Pending" icon={<ClockCircleOutlined className="animate-pulse" />}/>
+
                   ) : clickFlag == "A" ? (
-                    <Tag
-                      bordered={false}
-                      icon={<CheckCircleOutlined />}
-                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
-                      color="green"
-                    >
-                      Approved
-                    </Tag>
+                    // <Tag
+                    //   bordered={false}
+                    //   icon={<CheckCircleOutlined />}
+                    //   className="text-base rounded-full shadow-lg p-1.5 ml-10"
+                    //   color="green"
+                    // >
+                    //   Approved
+                    // </Tag>
+                    <InfoTags  color="green" bgCol={'text-base rounded-full shadow-lg p-1.5 ml-10'} text="Approved" icon={<CheckCircleOutlined />}/>
+
                   ) : clickFlag == "D" ? (
-                    <Tag
-                      icon={<TruckOutlined />}
-                      bordered={false}
-                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
-                      color="lime"
-                    >
-                      Delivered
-                    </Tag>
+                    // <Tag
+                    //   icon={<TruckOutlined />}
+                    //   bordered={false}
+                    //   className="text-base rounded-full shadow-lg p-1.5 ml-10"
+                    //   color="lime"
+                    // >
+                    //   Delivered
+                    // </Tag>
+                    <InfoTags  color="lime" bgCol={'text-base rounded-full shadow-lg p-1.5 ml-10'} text="Delivered" icon={<TruckOutlined />}/>
+
                   ) : (
-                    <Tag
-                      bordered={false}
-                      icon={<TruckOutlined />}
-                      className="text-base rounded-full shadow-lg p-1.5 ml-10"
-                      color="purple"
-                    >
-                      Partially Delivered
-                    </Tag>
+                    // <Tag
+                    //   bordered={false}
+                    //   icon={<TruckOutlined />}
+                    //   className="text-base rounded-full shadow-lg p-1.5 ml-10"
+                    //   color="purple"
+                    // >
+                    //   Partially Delivered
+                    // </Tag>
+                    <InfoTags  color="purple" bgCol={'text-base rounded-full shadow-lg p-1.5 ml-10'} text="Partially Delivered"  icon={<TruckOutlined />}/>
+
                   )}
 
                   {localStorage.getItem("amend_note") != "null" &&

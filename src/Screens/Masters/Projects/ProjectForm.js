@@ -25,7 +25,7 @@ import {
 } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 
-import { Divider, Empty, Popover, Spin, Tag } from "antd";
+import { Empty, Popover, Spin } from "antd";
 import TDInputTemplate from "../../../Components/TDInputTemplate";
 import axios from "axios";
 import { url } from "../../../Address/BaseUrl";
@@ -42,6 +42,8 @@ import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
+import BtnGroupReuse from '../../../Components/BtnGroupReuse';
+import InfoTags from '../../../Components/InfoTags';
 function ProjectForm() {
   const navigate = useNavigate();
      const [blocked, setBlocked] = useState(false);
@@ -711,9 +713,10 @@ function ProjectForm() {
                       disabled={params.id > 0}
                     />
                     {checkLoad && (
-                      <Tag icon={<SyncOutlined spin />} color="processing">
-                        Checking...
-                      </Tag>
+                      // <Tag icon={<SyncOutlined spin />} color="processing">
+                      //   Checking...
+                      // </Tag>
+                      <InfoTags color="processing" icon={<SyncOutlined spin />} text="Checking..."/>
                     )}
                     {!proj_id && (
                       <VError title={"A unique project ID is required!"} />
@@ -882,7 +885,7 @@ function ProjectForm() {
                           <ul>
                             {ldlist?.map((price) => (
                               <li className="my-2">
-                                <Tag
+                                {/* <Tag
                                   className="cursor-pointer"
                                   onClick={(index) => {
                                     setDtl(price.ld_clause);
@@ -891,7 +894,14 @@ function ProjectForm() {
                                   }}
                                 >
                                   {price.ld_clause}
-                                </Tag>
+                                </Tag> */}
+                                <InfoTags onPress={(index) => {
+                                    setDtl(price.ld_clause);
+                                    handleOpenChangeld(false);
+                                  }}
+                                  text={price.ld_clause}
+                                  bgCol={'cursor-pointer text-green-900 font-semibold'}
+                                  />
                               </li>
                             ))}
                           </ul>
@@ -943,7 +953,7 @@ function ProjectForm() {
                         <ul>
                           {wlist?.map((price) => (
                             <li className="my-2">
-                              <Tag
+                              {/* <Tag
                                 className="cursor-pointer"
                                 onClick={(index) => {
                                   setWarranty(price.warranty);
@@ -952,7 +962,15 @@ function ProjectForm() {
                                 }}
                               >
                                 {price.warranty}
-                              </Tag>
+                              </Tag> */}
+                              <InfoTags text={price.warranty}  onPress={(index) => {
+                                  setWarranty(price.warranty);
+                                  // console.log()
+                                  handleOpenChangew(false);
+                                }}
+                                bgCol={'cursor-pointer text-green-900 font-semibold'}
+                                />
+
                             </li>
                           ))}
                         </ul>
@@ -1218,7 +1236,7 @@ function ProjectForm() {
                 </div>
                 {/* </div> */}
                 <div className="flex pt-4 justify-content-end">
-                  <button
+                  {/* <button
                     disabled={checkLoad}
                      className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                     iconPos="right"
@@ -1232,7 +1250,17 @@ function ProjectForm() {
                     <ArrowRightOutlined className="ml-2" />
                     </span>
                     <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                  </button>
+                  </button> */}
+                  <BtnGroupReuse flag={1} text={'Next'} icon={
+                    <ArrowRightOutlined className="mr-2" />
+
+                  }
+                  disabled={checkLoad}
+                  loading={loading}
+                  onClick={() => {
+                      onSubmitProject();
+                    }}
+                    />
                 </div>
                 </div>
                 </BlockUI>
@@ -1356,10 +1384,11 @@ function ProjectForm() {
                             setOpen(true);
                           }}
                         >
-                          <Tag color="#4FB477">
+                          {/* <Tag color="#4FB477">
                             {" "}
                             <PlusCircleOutlined /> Not in list?
-                          </Tag>
+                          </Tag> */}
+                          <InfoTags bgCol={'text-white hover:scale-110 active:scale-90'} icon={ <PlusCircleOutlined />} text="Not in list?" color="#4FB477"/>
                         </a>
                       </div>
                     </div>
@@ -1633,8 +1662,8 @@ function ProjectForm() {
                   </div>
                   {params.id > 0 && <AuditTrail data={data} />}
                   {/* {isEdited} */}
-                  <div className="flex pt-4 justify-content-start">
-                    <button
+                  <div className="flex pt-4 justify-between gap-2">
+                    {/* <button
 
                      className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                       onClick={() => stepperRef.current.prevCallback()}
@@ -1644,8 +1673,9 @@ function ProjectForm() {
                       Back
                       </span>
                       <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                    </button>
-                    <button
+                    </button> */}
+                    <BtnGroupReuse loading={loading} flag={2} icon={<ArrowLeftOutlined className="mr-2" />} onClick={() => stepperRef.current.prevCallback()} text={'Back'}/>
+                    {/* <button
                      className="relative ml-3 disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                       onClick={() => onSubmitClient()}
                       disabled={!pm_code}
@@ -1655,7 +1685,8 @@ function ProjectForm() {
                       Submit
                       </span>
                       <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                    </button>
+                    </button> */}
+                    <BtnGroupReuse loading={loading} onClick={() => onSubmitClient()} disabled={!pm_code} icon={<SaveOutlined className="mr-2" />} flag={1} text={'Submit'}/>
                   </div>
                   </div>
                   </BlockUI>

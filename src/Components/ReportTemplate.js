@@ -9,6 +9,8 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 function ReportTemplate( {headers,
     data,info,flag,wStock}) {
+      const [first, setFirst] = useState(0); // Pagination state
+  const rowsPerPage = 10;
       console.log(data,info,headers,flag,wStock)
         const dt = useRef(null);
             const contentRef = useRef(null);
@@ -23,6 +25,10 @@ function ReportTemplate( {headers,
         const exportCSV = (selectionOnly) => {
         dt.current.exportCSV({ selectionOnly });
     };
+     const serialNumberTemplate = (_, { rowIndex }) => {
+    const currentPageIndex = Math.floor(first / rowsPerPage);
+    return currentPageIndex * rowsPerPage + rowIndex + 1;
+  };
    useEffect(()=>{
     setDataCopy(data)
    },[data])
@@ -133,6 +139,15 @@ function ReportTemplate( {headers,
                 // onRowUnselect={onRowUnselect}
                 metaKeySelection={false}
               >
+                 <Column
+        header="#"
+        body={serialNumberTemplate}
+        style={{ width: '5%' }}
+        headerClassName={ isPrinting?
+                      "text-green-900 bg-[#C4F1BE] border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold":
+                      "text-white bg-green-500 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold"
+                    }
+      />
                 {headers.map((item, index) => (
                   <Column
                     key={index}
@@ -146,7 +161,8 @@ function ReportTemplate( {headers,
 
                     style={{ width: "10%" }}
                   ></Column>
-                ))}
+                  
+                                ))}
 
               </DataTable>
               </div>

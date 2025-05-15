@@ -106,7 +106,9 @@ function HomeScreen() {
   return (
     <main class="px-4 h-auto ">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <Link to={routePaths.PROJECTS} class="relative cursor-pointer  border-dashed transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 bg-white rounded-lg bg-clip-border shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 2xl:h-32 flex  items-center">
+        <Link to={routePaths.PROJECTS} style={{
+          // clipPath:"path('M 0 44 C 0 0.9849735503722608 0.9849735503722608 0 44 0 L 100 0 C 143.01502644962773 0 144 0.9849735503722608 144 44 L 144 44 C 144 87.01502644962774 143.01502644962773 88 100 88 L 44 88 C 0.9849735503722608 88 0 87.01502644962774 0 44 z')"
+        }} class="relative cursor-pointer rounded-lg  border-dashed transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 2xl:h-32 flex  items-center">
        
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#92140C]">
             <ProjectOutlined class="text-white text-5xl" />

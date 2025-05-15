@@ -9,6 +9,7 @@ import axios from "axios";
 import { BlockUI } from 'primereact/blockui';
 
 import { url } from "../../Address/BaseUrl";
+import BtnGroupReuse from '../BtnGroupReuse';
 function PaymentTerms({ pressBack, pressNext, data }) {
     const [blocked, setBlocked] = useState(false);
   
@@ -194,7 +195,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
         </BlockUI>
 
         <div className="flex pt-4 justify-between">
-          <button
+          {/* <button
             className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
             onClick={pressBack}
           >
@@ -203,17 +204,20 @@ function PaymentTerms({ pressBack, pressNext, data }) {
             Back
             </span>
             <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-          </button>
-          <button
+          </button> */}
+          <BtnGroupReuse flag={2} icon={<ArrowLeftOutlined className="mr-2"/>} text="Back"  onClick={pressBack} />
+          {/* <button
             type="submit"
             className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
             onClick={() => pressNext(termList)}
           >
 <span class="relative z-10">
           Next  <ArrowRightOutlined className="ml-1"/>
-          </span>
-          <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-          </button>
+          </span> */}
+          {/* <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
+          </button> */}
+          <BtnGroupReuse flag={1} icon={<ArrowRightOutlined className="mr-2"/>} text="Next" onClick={() => pressNext(termList)}/>
+
         </div>
       </div>
   );

@@ -1,7 +1,7 @@
 import './Steps.css'
 import React, { useEffect, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
-import { useFormik, yupToFormErrors } from "formik";
+import { useFormik } from "formik";
 import { BlockUI } from 'primereact/blockui';
 
 import * as Yup from "yup";
@@ -14,6 +14,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { Popover } from "antd";
 import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
+import BtnGroupReuse from '../BtnGroupReuse';
 function TermsConditions({ pressNext, pressBack, data }) {
   const [grand_total, setGrand] = useState(0);
   const [checked, setChecked] = useState(true);
@@ -2705,6 +2706,9 @@ function TermsConditions({ pressNext, pressBack, data }) {
             </span>
             <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button>
+          {/* <BtnGroupReuse  flag={2} icon={<ArrowLeftOutlined className="mr-2"/>} text='Back' onClick={pressBack}/>
+          <BtnGroupReuse  flag={2} onClick={pressBack} text="Back" icon={<ArrowLeftOutlined className="mr-2" />}/> */}
+         
           <button
             type="submit"
             className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -2714,6 +2718,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             </span>
             <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button>
+          {/* <BtnGroupReuse text="Next" flag={1}  */}
         </div>
         
       </form>

@@ -22,6 +22,7 @@ import PrintHeader from "../Components/PrintHeader";
 import DialogBox from "./DialogBox";
 import { CancelOutlined } from "@mui/icons-material";
 import moment from "moment";
+import InfoTags from "./InfoTags";
 
 function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
   const [first, setFirst] = useState(0);
@@ -369,54 +370,64 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                    </td>
                    <td class="px-13 py-4">
                      {item.po_status == "P" ? (
-                       <Tag
-                                               className="text-[12px]  w-24"
-                                               icon={<SyncOutlined spin />}
-                                               color="#0092b8"
-                                               // color="processing"
-                                             >
-                                               In Progress
-                                               <Tooltip title="Draft saved">
-                                                 {" "}
-                                                 <FileTextOutlined className="text-red-500 ml-7" />
-                                               </Tooltip>{" "}
-                                             </Tag>
+                      //  <Tag
+                      //                          className="text-[12px]  w-24"
+                      //                          icon={<SyncOutlined spin />}
+                      //                          color="#0092b8"
+                      //                          // color="processing"
+                      //                        >
+                      //                          In Progress
+                      //                          <Tooltip title="Draft saved">
+                      //                            {" "}
+                      //                            <FileTextOutlined className="text-red-500 ml-7" />
+                      //                          </Tooltip>{" "}
+                      //                        </Tag>
+                                              <InfoTags text="In Progress" color="#0092b8" bgCol={"text-[12px]  w-24"} icon={<SyncOutlined spin /> }/>
+                      
                      ) : item.po_status == "A" ? (
-                       <Tag
-                                              className="text-[12px]  w-24  bg-green-900 text-white"
-                                              icon={<CheckCircleOutlined />}
-                                              color="#014737"
-                                              // color="success"
-                                            >
-                                              Approved
-                                            </Tag>
+                      //  <Tag
+                      //                         className="text-[12px]  w-24  bg-green-900 text-white"
+                      //                         icon={<CheckCircleOutlined />}
+                      //                         color="#014737"
+                      //                         // color="success"
+                      //                       >
+                      //                         Approved
+                      //                       </Tag>
+                                              <InfoTags text="Approved" color="#014737" bgCol={"text-[12px]  w-24 bg-green-900 text-white"} icon={<CheckCircleOutlined  /> }/>
+                      
                      ) : item.po_status == "U" ? (
-                      <Tag
-                                              className="text-[12px] w-24"
-                                              icon={<ClockCircleOutlined className="animate-pulse" />}
-                                              color="#82181a"
-                                              // color="error"
-                                            >
-                                              Pending 
-                                            </Tag>
+                      // <Tag
+                      //                         className="text-[12px] w-24"
+                      //                         icon={<ClockCircleOutlined className="animate-pulse" />}
+                      //                         color="#82181a"
+                      //                         // color="error"
+                      //                       >
+                      //                         Pending 
+                      //                       </Tag>
+                        <InfoTags text="Pending" color="#82181a" bgCol={"text-[12px]  w-24 "} icon={<ClockCircleOutlined className="animate-pulse" /> }/>
+
                      ) : item.po_status == "C" ? (
-                      <Tag
-                                              className="text-[12px] w-24"
-                                              icon={<CloseCircleOutlined className="animate-spin" />}
-                                              color="#c10007"
-                                              // color="error"
-                                            >
-                                              Closed
-                                            </Tag>
+                      // <Tag
+                      //                         className="text-[12px] w-24"
+                      //                         icon={<CloseCircleOutlined className="animate-spin" />}
+                      //                         color="#c10007"
+                      //                         // color="error"
+                      //                       >
+                      //                         Closed
+                      //                       </Tag>
+                                              <InfoTags text="Closed" color="#c10007" bgCol={"text-[12px] w-24"} icon={<CloseCircleOutlined className="animate-spin" />}/>
+                      
                      ) : (
-                       <Tag
-                         className="text-[12px] p-1 rounded-full w-36"
-                         icon={<TruckOutlined />}
-                         color="lime"
-                       >
-                         {" "}
-                         Partially Delivered{" "}
-                       </Tag>
+                      //  <Tag
+                      //    className="text-[12px] p-1 rounded-full w-36"
+                      //    icon={<TruckOutlined />}
+                      //    color="lime"
+                      //  >
+                      //    {" "}
+                      //    Partially Delivered{" "}
+                      //  </Tag>
+                                               <InfoTags text="Partially Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
+                       
                      )}
                    </td>
                    <td class="px-3 py-4 text-xs text-gray-600">{item.po_status=='C'?item.modified_by:''} {item.po_status=='C'?'('+item.modified_at.split('T')[1]+')':''}</td>

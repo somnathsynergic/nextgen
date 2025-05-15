@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ArrowLeftOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { BlockUI } from 'primereact/blockui';
+import BtnGroupReuse from '../BtnGroupReuse';
 
 function Notes({pressBack,pressNext,data}) {
   const params = useParams();
@@ -47,7 +48,7 @@ useEffect(()=>{
 
                               </BlockUI>
                                          <div className="flex pt-4 justify-between w-full">
-        <button
+        {/* <button
           className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
           onClick={pressBack}
         >
@@ -56,8 +57,10 @@ useEffect(()=>{
           Back
           </span>
           <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-        </button>
-        <button
+        </button> */}
+        <BtnGroupReuse flag={2} icon={<ArrowLeftOutlined className='mr-2'/>} text="Back" onClick={pressBack} />
+        <BtnGroupReuse flag={1} icon={<ArrowRightOutlined className='mr-2'/>} text="Next" onClick={()=>pressNext(notes)} />
+        {/* <button
           type="submit"
           className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
           onClick={()=>pressNext(notes)}
@@ -66,7 +69,7 @@ useEffect(()=>{
           Next <ArrowRightOutlined className='ml-1'/>
           </span>
           <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-        </button>
+        </button> */}
       </div>
     </div>
   )

@@ -25,6 +25,7 @@ import Viewdetails from "../Components/Viewdetails";
 import { Spin, Tag, Tooltip } from "antd";
 import { Message } from "./Message";
 import moment from "moment";
+import BtnGroupReuse from "./BtnGroupReuse";
 
 function UploadTemplate({ onSubmit, flag, title }) {
   const [visible, setVisible] = useState(false);
@@ -591,7 +592,7 @@ function UploadTemplate({ onSubmit, flag, title }) {
             </div>
 
           {det.po!=1 &&  <div className="flex justify-center">
-              <button
+              {/* <button
                 onClick={() => onsubmit()}
                 disabled={!doc1}
                 // disabled={tc_qty <= 0 || rcv_qty <= 0 || (qtySet.length>0 && (rcv_qty > (qty1-sumRcv) ))|| rcv_qty>qty1 }
@@ -603,7 +604,8 @@ function UploadTemplate({ onSubmit, flag, title }) {
                 Submit
                  </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+              </button> */}
+              <BtnGroupReuse disabled={!doc1} text={'Submit'} onClick={() => onsubmit()} flag={1} icon={<SaveOutlined className='mr-2' />}/>
 
               {/* {params.id > 0 && (
               <button

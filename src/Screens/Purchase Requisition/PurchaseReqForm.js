@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import BtnComp from "../../Components/BtnComp";
 import HeadingTemplate from "../../Components/HeadingTemplate";
 import VError from "../../Components/VError";
 import TDInputTemplate from "../../Components/TDInputTemplate";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
@@ -13,27 +10,29 @@ import { BlockUI } from "primereact/blockui";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../Components/PrintHeader";
 
-import { Button, Divider, Empty, Popover, Spin, Tag, Tooltip } from "antd";
+import { Button, Divider, Empty, Spin, Tag, Tooltip } from "antd";
 import {
-  DropboxOutlined,
+  CloseCircleOutlined,
+  DeleteColumnOutlined,
+  InfoCircleOutlined,
   LoadingOutlined,
   LockFilled,
   MinusOutlined,
+  MoneyCollectOutlined,
   PlusCircleOutlined,
   PlusOutlined,
   SaveOutlined,
   SearchOutlined,
-  StockOutlined,
+  DeleteOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import PrintComp from "../../Components/PrintComp";
-import AuditTrail from "../../Components/AuditTrail";
-import { ListBox } from "primereact/listbox";
 import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import DrawerComp from "../../Components/DrawerComp";
-import { DeleteOutline } from "@mui/icons-material";
+import { CheckCircleOutline, DeleteOutline, MoneyOffOutlined } from "@mui/icons-material";
+import InfoTags from "../../Components/InfoTags";
+import BtnGroupReuse from "../../Components/BtnGroupReuse";
 
 function PurchaseReqForm() {
   const params = useParams();
@@ -91,39 +90,39 @@ function PurchaseReqForm() {
   const [itemDtls, setItemDtls] = useState(
     params.id > 0 ? [{ sl_no: 0, item_id: "", qty: 0, error: 1,click:1 }] : []
   );
-  const content = (
-    <div className={"grid grid-cols-3 gap-1 p-3 bg-green-100 rounded-lg"}>
-      {!stockLoad ? (
-        <>
-          {" "}
-          <Tag
-            className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-            color="#eb8d00"
-          >
-            <StockOutlined /> Physical Quantity : {physical_stock || 0}
-          </Tag>
-          <Tag
-            className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-            color="#014737"
-          >
-            <StockOutlined /> Logical Quantity : {logical_stock || 0}
-          </Tag>
-          <Tag
-            className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-            color="#4FB477"
-          >
-            <StockOutlined /> Requisition Quantity :{" "}
-            {physical_stock - logical_stock || 0}
-          </Tag>
-        </>
-      ) : (
-        <span className="text-green-900 flex gap-2">
-          Fetching
-          <LoadingOutlined className="text-green-900" />
-        </span>
-      )}
-    </div>
-  );
+  // const content = (
+  //   <div className={"grid grid-cols-3 gap-1 p-3 bg-green-100 rounded-lg"}>
+  //     {!stockLoad ? (
+  //       <>
+  //         {" "}
+  //         <Tag
+  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
+  //           color="#eb8d00"
+  //         >
+  //           <StockOutlined /> Physical Quantity : {physical_stock || 0}
+  //         </Tag>
+  //         <Tag
+  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
+  //           color="#014737"
+  //         >
+  //           <StockOutlined /> Logical Quantity : {logical_stock || 0}
+  //         </Tag>
+  //         <Tag
+  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
+  //           color="#4FB477"
+  //         >
+  //           <StockOutlined /> Requisition Quantity :{" "}
+  //           {physical_stock - logical_stock || 0}
+  //         </Tag>
+  //       </>
+  //     ) : (
+  //       <span className="text-green-900 flex gap-2">
+  //         Fetching
+  //         <LoadingOutlined className="text-green-900" />
+  //       </span>
+  //     )}
+  //   </div>
+  // );
 
   const check_item = (val) => {
     axios
@@ -411,9 +410,10 @@ function PurchaseReqForm() {
             >
               {params.id > 0 && (
                 <div className="sm:col-span-12 flex justify-end">
-                  <Tag color="#014737">
+                  <InfoTags color="#014737" bgCol={"border-[#014737]"} icon={<MoneyCollectOutlined className="text-xs"/>} text={" Purchase Requisition No.:" +trans_no}/>
+                  {/* <Tag className="border-[#014737]" color="#014737">
                     Purchase Requisition No.: {trans_no}{" "}
-                  </Tag>
+                  </Tag> */}
                 </div>
               )}
               {/* {trans_dt} */}
@@ -640,7 +640,8 @@ function PurchaseReqForm() {
                       <span className="flex justify-end items-center">
 
                      {!projcode && <VError title={"Required"} />}
-                     {proj_id && <Tag className="bg-amber-600 mt-1 text-white">Project ID: {proj_id}</Tag>
+                     {/* {proj_id && <Tag className="bg-amber-600 mt-1 text-white"><InfoCircleOutlined/> ID: {proj_id}</Tag> */}
+                     {proj_id && <InfoTags bgCol={'bg-amber-600'} textCol={'text-white mt-1'} icon={<InfoCircleOutlined/>} text={'ID:'+ proj_id}/>
 }
                       </span>
                     </div>
@@ -685,12 +686,13 @@ function PurchaseReqForm() {
                         setOpen(true);
                       }}
                     >
-                      <Tag color="#4FB477">
+                      {/* <Tag color="#4FB477">
                         {" "}
                         <PlusCircleOutlined /> Not in list?
-                      </Tag>
+                      </Tag> */}
+                      <InfoTags bgCol={'bg-[#4FB477]'} icon={<PlusCircleOutlined />} text={'Not in list?'}/>
                     </a>
-                    <Tag color="#014737">PO No.: {po_no} </Tag>
+                    {/* <Tag color="#014737">PO No.: {po_no} </Tag> */}
                   </div>
                 ) : (
                   <div className="sm:col-span-12 flex justify-start items-center">
@@ -701,10 +703,12 @@ function PurchaseReqForm() {
                         setOpen(true);
                       }}
                     >
-                      <Tag color="#4FB477">
+                      {/* <Tag color="#4FB477">
                         {" "}
                         <PlusCircleOutlined /> Not in list?
-                      </Tag>
+                      </Tag> */}
+                      <InfoTags bgCol={'bg-[#4FB477] hover:scale-110 active:scale-90'} textCol={'text-white'} icon={<PlusCircleOutlined />} text={'Not in list?'}/>
+
                     </a>
                   </div>
                 )}
@@ -762,10 +766,11 @@ function PurchaseReqForm() {
                                 }}
                               >
                                 <Tooltip title="Search item">
-                                  <Tag  className="ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center">
+                                  {/* <Tag  className="ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center">
                                     {" "}
                                     <SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />
-                                  </Tag>
+                                  </Tag> */}
+                                  <InfoTags text={<SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />} bgCol={'ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center'}/>
                                 </Tooltip>
                               </a>
                             <div onClick={()=>handleItemClick(index)}>
@@ -965,17 +970,56 @@ function PurchaseReqForm() {
                                 "sm:col-span-5 border-2 flex-col gap-10"
                               }
                             >
-                              {((item.qty == item.ordered_qty) && (item.qty>0)) && <Tag onClick={
-                                ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
-                              } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>}
-                              {((item.qty > item.ordered_qty) && item.ordered_qty>0) && <Tag onClick={
-                                ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
-                              } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
-                              {((item.ordered_qty==0) && (item.qty>0)) && <Tag className="bg-red-800 text-white">Not Ordered</Tag>}
+                              {((item.qty == item.ordered_qty) && (item.qty>0)) && 
+                              // <Tag onClick={
+                              //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
+                              // } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>
+                              <InfoTags bgCol={"bg-green-900 cursor-pointer text-white"} icon={<CheckCircleOutline/>} onClick={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
+                              }
+                              {((item.qty > item.ordered_qty) && item.ordered_qty>0) &&
+                              //  <Tag onClick={
+                              //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
+                              // } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
+                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 cursor-pointer text-white"} onClick={
+                                ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Partly Ordered'}/>
+                              }
+                              {((item.ordered_qty==0) && (item.qty>0)) && <InfoTags icon={<CloseCircleOutlined/>} bgCol={"bg-red-800 text-white"} text={"Not Ordered"}/>
+                            }
 
                               {
-                                <Tag
-                                  onClick={() => {
+                                // <Tag
+                                //   onClick={() => {
+                                //     if(item.tot_rc)
+                                //      { axios
+                                //         .post(url + "/api/get_receive_log", {
+                                //           pur_no: trans_no,
+                                //           item_id:item.item_id
+                                //         })
+                                //         .then((res) => {
+                                //           console.log(res);
+                                //           setItemInfo(res.data.msg);
+                                //           setFlag(40);
+                                //           setVisible(true);
+                                //         });
+                                //       }
+                                    
+                                //   }}
+                                //   className={
+                                //     !item.tot_rc
+                                //       ? "bg-red-800 mt-2 text-white"
+                                //       : +item.tot_rc < +item.ordered_qty
+                                //       ? "bg-yellow-500 cursor-pointer mt-2 text-white"
+                                //       : "bg-green-900 cursor-pointer mt-2  text-white"
+                                //   }
+                                // >
+                                //   {!item.tot_rc 
+                                //     ? "Not Received"
+                                //     : +item.tot_rc < +item.ordered_qty
+                                //     ? "Partly Received"
+                                //     : "Fully Received"}
+                                // </Tag>
+                                <InfoTags
+                                onClick={() => {
                                     if(item.tot_rc)
                                      { axios
                                         .post(url + "/api/get_receive_log", {
@@ -991,20 +1035,27 @@ function PurchaseReqForm() {
                                       }
                                     
                                   }}
-                                  className={
-                                    !item.tot_rc
+                                  icon={
+                                     !item.tot_rc
+                                      ? <CloseCircleOutlined/>
+                                      : +item.tot_rc < +item.ordered_qty
+                                      ? <CheckCircleOutline/>
+                                      : <CheckCircleOutline/>
+                                  }
+                                bgCol={  !item.tot_rc
                                       ? "bg-red-800 mt-2 text-white"
                                       : +item.tot_rc < +item.ordered_qty
                                       ? "bg-yellow-500 cursor-pointer mt-2 text-white"
-                                      : "bg-green-900 cursor-pointer mt-2  text-white"
-                                  }
-                                >
-                                  {!item.tot_rc 
+                                      : "bg-green-900 cursor-pointer mt-2  text-white"}
+                                      
+                                      text={
+                                        !item.tot_rc 
                                     ? "Not Received"
                                     : +item.tot_rc < +item.ordered_qty
                                     ? "Partly Received"
-                                    : "Fully Received"}
-                                </Tag>
+                                    : "Fully Received"
+                                      }
+                                      />
                               } 
                             </div>
                           </th>}
@@ -1062,10 +1113,10 @@ function PurchaseReqForm() {
                           }, 0)  && ( */}
                            {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length 
                             && (
-                      <button
-                        // disabled={errorSum(error) || !intended}
+                      <BtnGroupReuse
+                      loading={loading}
                         onClick={() => onSubmit()}
-                        className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                        flag={1}
                         disabled={
                           !intended_for ||
                           (intended_for == "P" && !projcode) ||
@@ -1074,32 +1125,42 @@ function PurchaseReqForm() {
                             return accumulator + item.error;
                           }, 0) > 0
                         }
-                      >
-                         <span class="relative z-10">
-                        <SaveOutlined className="mr-2" />
-                        Submit
-                        </span>
-                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                      </button>
+                       
+                        icon={
+                           <SaveOutlined className="mr-2" />
+                        }
+                        text={'Submit'}
+                      />
+                       
                    )} 
 
                     { (!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.saved_qty;
                           }, 0)  && params.id > 0) && (
-                      <button
-                        // disabled={errorSum(error) || !intended}
-                        onClick={() => {
+                      // <button
+                      //   onClick={() => {
+                      //     setFlag(4);
+                      //     setVisible(true);
+                      //   }}
+                      //    className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                      // >
+                      //   <span class="relative z-10">
+                      //   <DeleteOutline className="mr-1" />
+                      //   Delete
+                      //   </span>
+                      //   <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+                      // </button>
+                      <BtnGroupReuse flag={2}  onClick={() => {
                           setFlag(4);
                           setVisible(true);
                         }}
-                         className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                      >
-                        <span class="relative z-10">
-                        <DeleteOutline className="mr-1" />
-                        Delete
-                        </span>
-                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                      </button>
+                        icon={
+                        <DeleteOutlined className="mr-2" />
+
+                        }
+                        text={'Delete'}
+                        loading={loading}
+                        />
                       )} 
 
                     {/* {approve_flag != "A" && params.id > 0 && (

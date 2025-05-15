@@ -117,6 +117,13 @@ function App() {
         colorPrimary:"#014737",
         buttonColor:'#014737',
         colorBorder:'#014737'
+      },
+      Message:{
+        borderRadius:50,
+        borderRadiusLG:50,
+        borderRadiusOuter:50,
+        borderRadiusXS:50,
+        borderRadiusSM:50
       }
     },
   }}>

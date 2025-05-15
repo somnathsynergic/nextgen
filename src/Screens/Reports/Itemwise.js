@@ -29,7 +29,7 @@ function Itemwise() {
   const [info,setInfo] = useState([])
 
     const headers= [
-        { name:'serial_number',value:'#'},
+        // { name:'serial_number',value:'#'},
         { name: "prod_name", value: "Product" },
         { name: "proj_name", value: "Project" },
         { name: "project_stock", value: "Project quantity" },

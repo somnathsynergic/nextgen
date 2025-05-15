@@ -7,10 +7,11 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { BlockUI } from "primereact/blockui";
 
-import { Empty, Spin } from "antd";
+import { Empty, Spin, Tag } from "antd";
 import {
   ArrowRightOutlined,
   CloseCircleFilled,
+  InfoCircleOutlined,
   LoadingOutlined,
   LockFilled,
   LockOutlined,
@@ -22,9 +23,11 @@ import Viewdetails from "../Viewdetails";
 import DialogBox from "../DialogBox";
 import moment from "moment";
 import DrawerComp from "../DrawerComp";
-import { Tag } from "antd";
+// import { Tag } from "antd";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Chip } from "primereact/chip";
+import InfoTags from '../InfoTags';
+import BtnGroupReuse from '../BtnGroupReuse';
 
 function BasicDetails({ pressNext, pressBack, data }) {
   console.log(data);
@@ -232,7 +235,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
     setPurReq(localStorage.getItem(""));
     setPurCode(localStorage.getItem(""));
     // localStorage.setItem("pur_req",JSON.stringify(selectedList));
-    setProjID(projectList.filter((e) => e.code == +projCode)[0]?.projID)
+    setProjID(projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]?.proj_id)
+    console.log(projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]?.proj_id)
 
     purList=[]
   }, [data.type]);
@@ -283,7 +287,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
         projectList.push({
           name: i.proj_name,
           code: i.sl_no,
-          projID:i.proj_id
+          proj_id:i.proj_id
         });
       }
       setProjectList(projectList);
@@ -456,7 +460,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
     });
   };
   useEffect(()=>{
-    setProjID(projectList.filter((e) => e.code == +projCode)[0]?.projID)
+    setProjID(projectList.filter((e) => e.code == +projCode)[0]?.proj_id)
   },[projCode])
   return (
     <section className="bg-white dark:bg-[#001529]">
@@ -572,9 +576,10 @@ function BasicDetails({ pressNext, pressBack, data }) {
                     <VError title={"Po Number is required!"} />
                   )}
                   {checkLoad && (
-                    <Tag icon={<SyncOutlined spin />} color="processing">
-                      Checking...
-                    </Tag>
+                    // <Tag icon={<SyncOutlined spin />} color="processing">
+                    //   Checking...
+                    // </Tag>
+                    <InfoTags icon={<SyncOutlined spin />} color="processing" text={'Checking...'}/>
                   )}
                   {count > 0 && <VError title={"PO No. already exists!"} />}
                 </div>
@@ -643,7 +648,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                               proj_name != undefined
                                 ? proj_name?.toLowerCase()
                                 : ""
-                            ) || e?.projID?.toLowerCase().includes(proj_name)
+                            ) || e?.proj_id?.toLowerCase().includes(proj_name)
                         ).length > 0 &&
                           projectList
                             ?.filter((e) =>
@@ -653,7 +658,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                                   proj_name != undefined
                                     ? proj_name?.toLowerCase()
                                     : ""
-                                ) || e?.projID?.toLowerCase().includes(proj_name?.toLowerCase())
+                                ) || e?.proj_id?.toLowerCase().includes(proj_name?.toLowerCase())
                             )
                             ?.map((lst) => (
                               <li
@@ -662,7 +667,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                                   console.log(lst)
                                   setProjName(lst.name);
                                   setProjCode(lst.code);
-                                  setProjID(lst.projID);
+                                  setProjID(lst.proj_id);
                                   localStorage.setItem("proj_name", lst.code);
                                   setSelectedList([])
                                   setSelectedListCopy([])
@@ -686,7 +691,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                               proj_name != undefined
                                 ? proj_name?.toLowerCase()
                                 : ""
-                            ) || e?.projID?.toLowerCase().includes(proj_name?.toLowerCase())
+                            ) || e?.proj_id?.toLowerCase().includes(proj_name?.toLowerCase())
                         ).length == 0 && <Empty />}
                       </ul>
                     </OverlayPanel>
@@ -699,14 +704,16 @@ function BasicDetails({ pressNext, pressBack, data }) {
                     <div
                       className={
                         // proj_name ? "flex justify-between" : "flex justify-end"
-                        "flex justify-between items-center" 
+                        "flex justify-end items-center" 
                       }
                     >
                         {!projCode && type == "P" && (
                         <VError title={"Project is required!"} />
                       )}
-                        {projID &&  <Tag className="bg-amber-600 text-white">Project ID: {projID}</Tag>
-}
+                      {/* {projID} */}
+                        {/* {projID &&  <Tag className="bg-amber-600 text-white"> ID: {projID}</Tag>} */}
+                        {projID &&  <InfoTags bgCol="bg-amber-600 border-amber-600 text-white mt-1" icon={<InfoCircleOutlined/>} text={ 'Project ID:' +projID}/>}
+ {/* } */}
                       {projCode && (
                         <Viewdetails
                           click={() => {
@@ -743,10 +750,11 @@ function BasicDetails({ pressNext, pressBack, data }) {
                               setOpen(true);
                             }}
                           >
-                            <Tag color="#4FB477">
+                            {/* <Tag color="#4FB477">
                               {" "}
                               <PlusCircleOutlined /> Not in list?
-                            </Tag>
+                            </Tag> */}
+                            <InfoTags bgCol={'mt-1 hover:scale-105 active:scale-90'} icon={<PlusCircleOutlined />} text="Not in list?" color="#4FB477"/>
                           </a>
                         )}
                       {/* <p>Not in list?</p> */}
@@ -944,9 +952,11 @@ function BasicDetails({ pressNext, pressBack, data }) {
                           setOpen(true);
                         }}
                       >
-                        <Tag color="#4FB477">
+                        {/* <Tag color="#4FB477">
                           <PlusCircleOutlined /> Not in list?
-                        </Tag>
+                        </Tag> */}
+                            <InfoTags bgCol={'-mt-3 hover:scale-105 active:scale-90'} icon={<PlusCircleOutlined />} text="Not in list?" color="#4FB477"/>
+
                       </a>
                     )}
                 </div>
@@ -1151,7 +1161,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
             >
               Back
             </button> */}
-            <button
+            {/* <button
               type="submit"
               // disabled={checkLoad || (params.flag=='F' && selectedList.length==0)}
                className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -1161,7 +1171,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
               Next <ArrowRightOutlined className="ml-1" />
               </span>
               <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
+            <BtnGroupReuse loading={loading} text={'Next'} icon={<ArrowRightOutlined className="mr-2" /> } onClick={() => onSubmit()} flag={1}/>
           </div>
         </div>
       </Spin>

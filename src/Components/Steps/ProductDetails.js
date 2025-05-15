@@ -1,5 +1,5 @@
 import './Steps.css'
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import {
   PlusOutlined,
@@ -11,6 +11,7 @@ import {
   SearchOutlined,
   LockFilled,
   UnlockFilled,
+  CalculatorOutlined,
 } from "@ant-design/icons";
 import { Button, Tag, Tooltip } from "antd";
 import { Spin } from "antd";
@@ -24,6 +25,9 @@ import { url } from "../../Address/BaseUrl";
 import DialogBox from "../DialogBox";
 import DrawerComp from "../DrawerComp";
 import moment from "moment";
+import InfoTags from '../InfoTags';
+import { CurrencyRupee } from '@mui/icons-material';
+import BtnGroupReuse from '../BtnGroupReuse';
 
 function ProductDetails({ pressBack, pressNext, data }) {
   console.log(data);
@@ -642,10 +646,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               setOpen(true);
                             }}
                           >
-                            <Tag color="#4FB477">
+                            {/* <Tag color="#4FB477">
                               {" "}
                               <PlusCircleOutlined /> Not in list?
-                            </Tag>
+                            </Tag> */}
+                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
                           </a>
                           {/* <a
                        className="my-2"
@@ -850,10 +855,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
                             setOpen(true);
                           }}
                         >
-                          <Tag color="#4FB477">
+                          {/* <Tag color="#4FB477">
                             {" "}
                             <PlusCircleOutlined /> Not in list?
-                          </Tag>
+                          </Tag> */}
+                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
+
                         </a>
                       )}
                   </div>
@@ -898,17 +905,26 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.CGST / 100) >
                         0 && (
-                        <Tag
-                          className=" flex justify-center  w-1/2 px-2 my-2"
-                          color="#eb8d00"
-                        >
-                          &#8377;{" "}
-                          {(
+                        // <Tag
+                        //   className=" flex justify-center  w-1/2 px-2 my-2"
+                        //   color="#eb8d00"
+                        // >
+                        //   &#8377;{" "}
+                        //   {(
+                        //     input.unit_price *
+                        //     input.qty *
+                        //     (input.CGST / 100)
+                        //   ).toFixed(2)}
+                        // </Tag>
+                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
+                        
+                          (
                             input.unit_price *
                             input.qty *
                             (input.CGST / 100)
-                          ).toFixed(2)}
-                        </Tag>
+                          ).toFixed(2)
+                        }
+                        />
                       )}
                       {/* {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
@@ -966,17 +982,25 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.SGST / 100) >
                         0 && (
-                        <Tag
-                          className=" flex justify-center  w-1/2 px-2 my-2"
-                          color="#eb8d00"
-                        >
-                          &#8377;{" "}
-                          {(
+                        // <Tag
+                        //   className=" flex justify-center  w-1/2 px-2 my-2"
+                        //   color="#eb8d00"
+                        // >
+                        //   &#8377;{" "}
+                        //   {(
+                        //     input.unit_price *
+                        //     input.qty *
+                        //     (input.SGST / 100)
+                        //   ).toFixed(2)}
+                        // </Tag>
+                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
+                        (
                             input.unit_price *
                             input.qty *
                             (input.SGST / 100)
-                          ).toFixed(2)}
-                        </Tag>
+                          ).toFixed(2)
+                        }
+                        />
                       )}
                       {/* {formik.errors.price_basis_desc && formik.touched.price_basis_desc && (
                       <VError title={formik.errors.price_basis_desc} />
@@ -1025,17 +1049,26 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.IGST / 100) >
                         0 && (
-                        <Tag
-                          className=" flex justify-center w-1/2 my-1"
-                          color="#eb8d00"
-                        >
-                          &#8377;{" "}
-                          {(
+                        // <Tag
+                        //   className=" flex justify-center w-1/2 my-1"
+                        //   color="#eb8d00"
+                        // >
+                        //   &#8377;{" "}
+                        //   {(
+                        //     input.unit_price *
+                        //     input.qty *
+                        //     (input.IGST / 100)
+                        //   ).toFixed(2)}
+                        // </Tag>
+                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
+                        
+                        (
                             input.unit_price *
                             input.qty *
                             (input.IGST / 100)
-                          ).toFixed(2)}
-                        </Tag>
+                          ).toFixed(2)
+                        }
+                        />
                       )}
                       {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
@@ -1047,10 +1080,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               setOpen(true);
                             }}
                           >
-                            <Tag color="#4FB477">
+                            {/* <Tag color="#4FB477">
                               {" "}
                               <PlusCircleOutlined /> Not in list?
-                            </Tag>
+                            </Tag> */}
+                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
+
                           </a>
                         )}
                     </div>
@@ -1160,12 +1195,13 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       {igstval}
                     </Tag> */}
                       {grand_total > 0 && (
-                        <Tag className="text-lg" color="#014737">
-                          Grand Total: &#8377;{" "}
-                          {grand_total > 0
-                            ? parseFloat(grand_total)?.toFixed(2)
-                            : 0.0}
-                        </Tag>
+                        // <Tag className="text-lg" color="#014737">
+                        //   Grand Total: &#8377;{" "}
+                        //   {grand_total > 0
+                        //     ? parseFloat(grand_total)?.toFixed(2)
+                        //     : 0.0}
+                        // </Tag>
+                            <InfoTags text={`GrandTotal: ${grand_total > 0 ? parseFloat(grand_total)?.toFixed(2) : 0.0}`} bgCol={'text-lg'} color="#014737" icon={<CalculatorOutlined/>} />
                       )}
                     </div>
                   )}
@@ -1174,7 +1210,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
             ))}
           </BlockUI>
           <div className="flex pt-4 justify-between w-full">
-            <button
+            {/* <button
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
               onClick={pressBack}
             >
@@ -1184,8 +1220,9 @@ function ProductDetails({ pressBack, pressNext, data }) {
               Back
               </span>
               <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+            <BtnGroupReuse loading={loading} flag={2} onClick={pressBack} text="Back" icon={<ArrowLeftOutlined className="mr-2" />}/>
+            {/* <button
               type="submit"
               className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
 
@@ -1231,7 +1268,44 @@ function ProductDetails({ pressBack, pressNext, data }) {
               Next <ArrowRightOutlined className="ml-1" />
               </span>
               <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
+            <BtnGroupReuse loading={loading} flag={1} text="Next" icon={<ArrowRightOutlined className='mr-2'/>}   onClick={() => {
+                var flag = 0;
+                console.log(itemList);
+                for (let i of itemList) {
+                  if (
+                    i.item_name != "Item name" &&
+                    i.item_name != "" &&
+                    i.qty > 0 &&
+                    i.rate > 0 &&
+                    i.unit != "Unit" &&
+                    i.delivery_date <= i.delivery_to &&
+                    i.delivery_date >= localStorage.getItem("po_issue_date") &&
+                    i.unit != "" &&
+                    i.delivery_date &&
+                    i.delivery_to &&
+                    i.unit_price > 0 &&
+                    (i.disc >= 0 || i.disc == "") &&
+                    (i.disc_prtg >= 0 || i.disc_prtg == "") &&
+                    ((i.SGST != "SGST" &&
+                      i.SGST != "" &&
+                      i.CGST != "CGST" &&
+                      i.CGST != "") ||
+                      (i.IGST != "IGST" && i.IGST != "" && i.currency == "I") ||
+                      i.currency == "U" ||
+                      i.currency == "E") &&
+                    i.currency != "Currency" &&
+                    i.currency != ""
+                  )
+                    flag = 0;
+                  else {
+                    flag = 1;
+                    break;
+                  }
+                }
+                console.log(flag);
+                if (flag == 0) pressNext(itemList);
+              }}/>
           </div>
         </div>
       </Spin>

@@ -37,7 +37,7 @@ function AllStock() {
   const [info,setInfo] = useState([])
   const [projId,setProjId] = useState("")
   const headers= [
-    { name:'serial_number',value:'#'},
+    // { name:'serial_number',value:'#'},
     { name: "prod_name", value: "Product" },
     { name: "stock", value: "Quantity" },
 

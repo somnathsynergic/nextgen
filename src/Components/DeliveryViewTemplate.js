@@ -11,6 +11,7 @@ import SkeletonLoading from "../Components/SkeletonLoading";
 import CompositeSearch from "./CompositeSearch";
 import DialogBox from "./DialogBox";
 import { Tag } from "antd";
+import InfoTags from "./InfoTags";
 
 function DeliveryViewTemplate({ flag }) {
   
@@ -364,7 +365,7 @@ function DeliveryViewTemplate({ flag }) {
                       <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap text-[12.5px]">{item.po_no}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                      <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><Tag color="#014737" className="rounded-full">{item.invoice_count}</Tag></td>
+                      <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><InfoTags color="#014737" bgCol="rounded-full" text={item.invoice_count}/></td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap text-xs">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">
                         <Link

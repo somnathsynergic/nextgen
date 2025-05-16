@@ -150,6 +150,9 @@ function StockInViewCompAll({
           <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
             <td className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold">
+              #
+              </td>
+              <td className="px-6 py-1.5 text-center text-nowrap w-1/6 font-bold">
               Item
               </td>
              {proj_id!=0 && <th
@@ -184,8 +187,14 @@ function StockInViewCompAll({
             </tr>
           </thead>
           <tbody>
-            {data?.map(item=> item?.stock>0 &&
+            {data?.map((item,index)=> item?.stock>0 &&
             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
+                 <td
+                scope="row"
+                className="px-4 w-1/6 py-1.5 text-center flex-wrap text-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {index+1}
+              </td>
                 <td
                 scope="row"
                 className="px-4 w-1/6 py-1.5 text-center flex-wrap text-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
@@ -282,6 +291,9 @@ function StockInViewCompAll({
            
             <tr className="text-green-500 font-bold text-center">
             <th  className="border border-gray-300 p-2 capitalize">
+               #
+              </th>
+              <th  className="border border-gray-300 p-2 capitalize">
                Item
               </th>
               {proj_id!=0 && <th  className="border border-gray-300 p-2 capitalize">
@@ -304,7 +316,10 @@ function StockInViewCompAll({
             </tr>
             </thead>
             <tbody className="text-gray-600 text-xs">
-            {data?.map(item=> <tr>
+            {data?.map((item,index)=> <tr>
+               <td className="border border-gray-300 p-2">
+              {index+1}
+              </td>
                 <td className="border border-gray-300 p-2">
               {item?.prod_name}
               </td>

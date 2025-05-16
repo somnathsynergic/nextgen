@@ -1483,7 +1483,7 @@ const DialogBox = ({
                       routePaths.DELIVERYCUSTOMERFORM +
                         lst.del_sl +
                         "/" +
-                        lst.po_no
+                        encodeURIComponent(lst.po_no)
                     );
                   }}
                   class="pb-3 p-2 sm:pb-4 cursor-pointer hover:bg-gray-200"

@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FileExcelOutlined, FilePdfFilled, FilePdfOutlined } from '@ant-design/icons';
-import { Tag, Tooltip } from 'antd';
-import { Descriptions } from "antd";
+import { Tooltip } from 'antd';
+
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
+import InfoTags from './InfoTags';
 function ReportTemplate( {headers,
-    data,info,flag,wStock}) {
+    data,info,flag,wStock,reportHeader}) {
       const [first, setFirst] = useState(0); // Pagination state
   const rowsPerPage = 10;
       console.log(data,info,headers,flag,wStock)
@@ -108,10 +109,13 @@ function ReportTemplate( {headers,
                          <div className={isPrinting?"hidden rounded-md w-full":"w-full border  border-green-500 rounded-md mb-1"}>
                                       <PrintHeader />
                                       </div>
-                                      {flag==2 &&<Tag color="#014737">Warehouse quantity of this product: {wStock}</Tag>}
+{reportHeader && !isPrinting && <h2 className='bg-green-500 text-white p-2 w-full my-2'>{reportHeader}</h2>}
 
+                                      {flag==2 &&<InfoTags color={isPrinting?"#014737":'#10b981'} text={'Warehouse quantity of this product: '+ wStock} />}
 <DataTable
-                value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0 || item?.rc_qty)}
+                value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0 || item?.rc_qty || item?.project_stock>0
+
+                )}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"

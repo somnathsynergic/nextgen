@@ -23,7 +23,8 @@ import {
   PlusOutlined,
   SaveOutlined,
   SearchOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  CheckCircleFilled
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
@@ -974,13 +975,13 @@ function PurchaseReqForm() {
                               // <Tag onClick={
                               //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
                               // } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>
-                              <InfoTags bgCol={"bg-green-900 cursor-pointer text-white"} icon={<CheckCircleOutline/>} onClick={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
+                              <InfoTags bgCol={"bg-green-900 cursor-pointer text-white"} icon={<CheckCircleFilled className="text-[13.5px]"/>} onPress={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
                               }
                               {((item.qty > item.ordered_qty) && item.ordered_qty>0) &&
                               //  <Tag onClick={
                               //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
                               // } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
-                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 cursor-pointer text-white"} onClick={
+                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 cursor-pointer text-white"} onPress={
                                 ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Partly Ordered'}/>
                               }
                               {((item.ordered_qty==0) && (item.qty>0)) && <InfoTags icon={<CloseCircleOutlined/>} bgCol={"bg-red-800 text-white"} text={"Not Ordered"}/>
@@ -1019,7 +1020,7 @@ function PurchaseReqForm() {
                                 //     : "Fully Received"}
                                 // </Tag>
                                 <InfoTags
-                                onClick={() => {
+                                onPress={() => {
                                     if(item.tot_rc)
                                      { axios
                                         .post(url + "/api/get_receive_log", {
@@ -1039,8 +1040,8 @@ function PurchaseReqForm() {
                                      !item.tot_rc
                                       ? <CloseCircleOutlined/>
                                       : +item.tot_rc < +item.ordered_qty
-                                      ? <CheckCircleOutline/>
-                                      : <CheckCircleOutline/>
+                                      ? <CheckCircleFilled/>
+                                      : <CheckCircleFilled/>
                                   }
                                 bgCol={  !item.tot_rc
                                       ? "bg-red-800 mt-2 text-white"

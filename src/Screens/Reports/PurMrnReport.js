@@ -20,6 +20,8 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
+import InfoTags from "../../Components/InfoTags";
+import BtnGroupReuse from "../../Components/BtnGroupReuse";
 
 function PurMrnReport() {
     const params = useParams();
@@ -315,7 +317,7 @@ function PurMrnReport() {
                 </form>
   
                 <div className="flex justify-center">
-                  <button
+                  {/* <button
                
                     type="submit"
                     className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -328,7 +330,8 @@ function PurMrnReport() {
                            Submit
                            </span>
                            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                  </button>
+                  </button> */}
+                  <BtnGroupReuse text="Submit" onClick={() => {onSubmit();}} flag={1} icon={<SaveOutlined className='mr-2' />}/>
                 </div>
               </Spin>
             )}
@@ -341,9 +344,9 @@ function PurMrnReport() {
   
                 <div className="w-full col-span-6 bg-white p-6 rounded-2xl ">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <Tag color="white" >Warehouse quantity of this product: </Tag>
+            <InfoTags color="white" text='Warehouse quantity of this product: ' />
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate reportHeader={'MRN Report for '+pur_req} data={reportData} headers={headers} info={info} flag={1}/>
             </div>
           </div>
   

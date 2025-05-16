@@ -18,6 +18,8 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import moment from "moment";
 import InfoTags from "./InfoTags";
+import axios from "axios";
+import { url } from "../Address/BaseUrl";
 function POTableView({ po_data, setSearch, title,print }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -25,6 +27,7 @@ function POTableView({ po_data, setSearch, title,print }) {
   const [mode, setMode] = useState(0);
   const [id, setId] = useState(0);
   const [po, setPO] = useState(0);
+  const [loading,setLoading] = useState(false)
   const [isPrinting, setIsPrinting] = useState(true);
       const contentRef = useRef(null);
     
@@ -421,15 +424,38 @@ function POTableView({ po_data, setSearch, title,print }) {
                   </td>
                   <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
                   {isPrinting && <td class="px-1 py-4 text-nowrap">
-                    <Link
+                    {/* <Link
                       to={
                         item.fresh_flag == "Y"
                           ? routePaths.PURCHASEORDERFORM + "F/" + item.sl_no
                           : routePaths.PURCHASEORDERFORM + "E/" + item.sl_no
                       }
-                    >
-                      <EditOutlined class="text-md ml-7 text-green-900" />
-                    </Link>
+                    > */}
+                      {!loading?<EditOutlined 
+                      onClick={()=>{
+                        
+                        console.log('amend_flag',item.amend_flag,item.parent_po_no)
+                        if(item.amend_flag=='Y' && item.parent_po_no){
+                            setLoading(false)
+                            axios.post(url+'/api/get_fresh_flag',{po_no:item.parent_po_no}).then(res=>{
+                              setLoading(false)
+                              console.log('res',res)
+
+                               navigate(res?.data?.msg[0]?.fresh_flag == "Y"
+                          ? routePaths.PURCHASEORDERFORM + "F/" + item.sl_no
+                          : routePaths.PURCHASEORDERFORM + "E/" + item.sl_no)
+                            })
+                        }
+                        else{
+                        navigate(item.fresh_flag == "Y"
+                          ? routePaths.PURCHASEORDERFORM + "F/" + item.sl_no
+                          : routePaths.PURCHASEORDERFORM + "E/" + item.sl_no)
+                        }
+                        }}
+
+                          // navigate(routePaths.PURCHASEORDERFORM + "E/" + item.sl_no)}}
+                      class="text-md ml-7 text-green-900" />:<SyncOutlined spin class="text-md ml-7 text-green-900"/>}
+                    {/* </Link> */}
                   </td>}
                 </tr>
               ))}

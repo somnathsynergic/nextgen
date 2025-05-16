@@ -22,6 +22,7 @@ import {
   ClusterOutlined,
   DeleteOutlined,
   DropboxOutlined,
+  FileDoneOutlined,
   FileExcelOutlined,
   FileImageOutlined,
   FilePdfOutlined,
@@ -40,6 +41,8 @@ import { Message } from "./Message";
 import { Checkbox, Col, Row } from "antd";
 import moment from "moment/moment";
 import { OverlayPanel } from "primereact/overlaypanel";
+import BtnGroupReuse from './BtnGroupReuse';
+import InfoTags from './InfoTags'
 
 function DeliveryFormComp({ flag, title, onSubmit }) {
   const [visible, setVisible] = useState(false);
@@ -169,14 +172,15 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
         <>
           {" "}
           {po_type != "G" && (
-            <Tag
-              className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
-              color="#4FB477"
-            >
-              <StockOutlined /> Project Quantity : {proj_stock || 0}
-            </Tag>
+            // <Tag
+            //   className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
+            //   color="#4FB477"
+            // >
+            //   <StockOutlined /> Project Quantity : {proj_stock || 0}
+            // </Tag>
+            <InfoTags icon={<StockOutlined />} text={"Project Quantity : " +(proj_stock || 0)}  color="#4FB477" bgCol={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}/>
           )}
-          <Tag
+          {/* <Tag
             className={
               po_type != "G"
                 ? "cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
@@ -185,7 +189,11 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
             color="#014737"
           >
             <StockOutlined /> Warehouse Quantity : {wer_stock || 0}
-          </Tag>
+          </Tag> */}
+            <InfoTags icon={<StockOutlined />} text={"Warehouse Quantity : " +(wer_stock || 0)}   color="#014737" bgCol={ po_type != "G"
+                ? "cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
+                : "cursor-pointer col-span-2 px-2 py-0.5 shadow-lg"}/>
+
           {/* {reqQty>0 && <Tag
             className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
             color="#eb8d00"
@@ -696,10 +704,11 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                           getMrnLog();
                         }}
                       >
-                        <Tag color="#4FB477">
+                        {/* <Tag color="#4FB477">
                           {" "}
                           <ClusterOutlined /> Items under this invoice
-                        </Tag>
+                        </Tag> */}
+                        <InfoTags icon={<ClusterOutlined />} bgCol={'hover:scale-105 active:scale-90'} text="Items under this invoice" color="#4FB477"/>
                       </a>
                     </span>
                   )}
@@ -708,33 +717,39 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
               {mrn_no && (
                 <div className="sm:col-span-12 flex justify-between">
                   {approve_flag == "A" ? (
-                    <Tag
-                      className="text-[12px] p-1 rounded-full w-36"
-                      icon={<CheckCircleOutlined />}
-                      color="success"
-                    >
-                      Approved
-                    </Tag>
+                    // <Tag
+                    //   className="text-[12px] p-1 rounded-full w-36"
+                    //   icon={<CheckCircleOutlined />}
+                    //   color="success"
+                    // >
+                    //   Approved
+                    // </Tag>
+                    <InfoTags text="Approved" icon={<CheckCircleOutlined />} color="success" bgCol={"text-[12px] p-1 rounded-full w-36"}/>
                   ) : approve_flag == "P" ? (
-                    <Tag
-                      className="text-[12px] p-1 rounded-full w-36"
-                      icon={<SyncOutlined spin />}
-                      color="processing"
-                    >
-                      Pending
-                    </Tag>
+                    // <Tag
+                    //   className="text-[12px] p-1 rounded-full w-36"
+                    //   icon={<SyncOutlined spin />}
+                    //   color="processing"
+                    // >
+                    //   Pending
+                    // </Tag>
+                    <InfoTags text="Pending" icon={<SyncOutlined spin />} color="processing" bgCol={"text-[12px] p-1 rounded-full w-36"}/>
+
                   ) : (
-                    <Tag
-                      className="text-[12px] p-1 rounded-full w-auto"
-                      icon={<CloseCircleOutlined className="animate-spin" />}
-                      color="error"
-                    >
-                      Rejected | {rej_note}
-                    </Tag>
+                    // <Tag
+                    //   className="text-[12px] p-1 rounded-full w-auto"
+                    //   icon={<CloseCircleOutlined className="animate-spin" />}
+                    //   color="error"
+                    // >
+                    //   Rejected | {rej_note}
+                    // </Tag>
+                    <InfoTags text={"Rejected |"+rej_note} icon={<CloseCircleOutlined className="animate-spin" />} color="error" bgCol={"text-[12px] p-1 rounded-full w-auto"}/>
+
                   )}
-                  <Tag className="text-lg" color="#eb8d00">
+                  {/* <Tag className="text-lg" color="#eb8d00">
                     {mrn_no}
-                  </Tag>
+                  </Tag> */}
+                  <InfoTags text={mrn_no} icon={<FileDoneOutlined/>} bgCol={'text-lg'} color="#eb8d00"/>
                 </div>
               )}
 
@@ -789,9 +804,10 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                         mode={1}
                       />
                       {checkload && (
-                        <Tag icon={<SyncOutlined spin />} color="processing">
-                          Checking...
-                        </Tag>
+                        // <Tag icon={<SyncOutlined spin />} color="processing">
+                        //   Checking...
+                        // </Tag>
+                        <InfoTags text="Checking..." icon={<SyncOutlined spin />} color="processing"/>
                       )}
                       {count > 0 && (
                         <VError title={"Invoice No. already exists"} />
@@ -1103,7 +1119,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                             >
                               <div className="flex gap-2 text-wrap justify-start items-center">
                                 {index+1} &nbsp;
-                                <Tag
+                                {/* <Tag
                                 className='text-wrap'
                                   color={
                                     rowSum(
@@ -1124,8 +1140,26 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                   }
                                 >
                                   {" "}
-                                  {item.name.split("@")[0]}{" "}
-                                </Tag>
+                                  {item.name.split("@")[0]}{" "} 
+                                </Tag> */}
+                                <InfoTags text={item.name.split("@")[0]+' '}   color={
+                                    rowSum(
+                                      itemList.filter(
+                                        (e) => e.sl_no == item.item_id
+                                      ),
+                                      item.quantity
+                                    ).flag == 1
+                                      ? "#014737"
+                                      : rowSum(
+                                          itemList.filter(
+                                            (e) => e.sl_no == item.item_id
+                                          ),
+                                          item.quantity
+                                        ).sum > 0
+                                      ? "#eb8d00"
+                                      : "#92140C"
+                                  }
+                                  bgCol={'text-wrap'}/>
 
                                 <Popover
                                   content={content}
@@ -1166,13 +1200,15 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                   </span>
                                 </Popover>
                               </div>
-                              <Tag
+                              {/* <Tag
                                 color="green"
                                 className="text-[10px] text-wrap whitespace-wrap block my-1"
                               >
                                 {" "}
                                 {item.name.split("@")[1]}{" "}
-                              </Tag>
+                              </Tag> */}
+                              <InfoTags text={item.name.split("@")[1]+' '} color="green"
+                                bgCol="text-[10px] text-wrap whitespace-wrap block my-1"/>
                             </th>
                             <th
                               scope="row"
@@ -1208,10 +1244,11 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                       setVisible(true);
                                     }}
                                   >
-                                    <Tag color="#4FB477">
+                                    {/* <Tag color="#4FB477">
                                       {" "}
                                       <BranchesOutlined /> View Log
-                                    </Tag>
+                                    </Tag> */}
+                                    <InfoTags color="#4FB477" icon={<BranchesOutlined />} text="View Log" bgCol={'hover:scale-105 active:scale-90'}/>
                                   </a>
                                 </span>
                               )}
@@ -1250,13 +1287,14 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                       setVisible(true);
                                     }}
                                   >
-                                    <Tag color="#4FB477">
+                                    {/* <Tag color="#4FB477">
                                       {" "}
                                       <BranchesOutlined /> View Log
-                                    </Tag>
+                                    </Tag> */}
+                                    <InfoTags color="#4FB477" icon={<BranchesOutlined />} text="View Log" bgCol={'hover:scale-105 active:scale-90'}/>
 
                                     <p className="my-2 ">
-                                      <Tag
+                                      {/* <Tag
                                         onClick={(e) => e.preventDefault()}
                                         color="#92140C"
                                       >
@@ -1269,7 +1307,15 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                             ),
                                             item.quantity
                                           ).sum).toFixed(3)}{" "}
-                                      </Tag>{" "}
+                                      </Tag>{" "} */}
+                                    <InfoTags onPress={(e) => e.preventDefault()} color="#92140C" icon={<BranchesOutlined />} text={` Pending ${parseFloat(item.quantity -
+                                          rowSum(
+                                            itemList.filter(
+                                              (e) => e.sl_no == item.item_id
+                                            ),
+                                            item.quantity
+                                          ).sum).toFixed(3)}`} bgCol={'hover:scale-105 active:scale-90'}/>
+
                                     </p>
                                   </a>
                                 </th>
@@ -1417,7 +1463,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                 </div>
               </ScrollPanel>
             </div>
-            <Tag className="my-5 border-green-900 " color="#C4F1BE">
+            {/* <Tag className="my-5 border-green-900 " color="#C4F1BE">
               <Checkbox
                 className="italic font-bold"
                 checked={con}
@@ -1427,7 +1473,19 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                 I have checked all the materials and have gone through the
                 quantities and the serial numbers of each
               </Checkbox>
-            </Tag>
+            </Tag> */}
+            <InfoTags text={
+              <Checkbox
+                className="italic font-bold"
+                checked={con}
+                name="con"
+                onChange={onChangeIc}
+              >
+                I have checked all the materials and have gone through the
+                quantities and the serial numbers of each
+              </Checkbox>
+            }
+            bgCol="my-5 border-green-900 " color="#C4F1BE"/>
             {zeroError ? (
               <p>
                 <VError title={"Must enter atleast one received quantity"} />
@@ -1436,25 +1494,53 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
             <div className="flex justify-center items-center gap-4">
               {/* {!con } {errorSum(isError)} {zeroError} { invoice } {inv_dt}  */}
               {showDel && approve_flag != "A" && det.mrn != 1 && (
-                <button
-                  // disabled={!con || errorSum(isError) ||zeroError || !invoice || !inv_dt || checkload || count>0}
-                  onClick={() => {
+                // <button
+                //   // disabled={!con || errorSum(isError) ||zeroError || !invoice || !inv_dt || checkload || count>0}
+                //   onClick={() => {
+                //     setFlag(4);
+                //     setDelMode(2);
+                //     setVisible(true);
+                //   }}
+                //   className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                // >
+                //   <span class="relative z-10">
+                //   <DeleteOutlined className="mr-1" />
+                //   Delete
+                //   </span>
+                //   <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+                // </button>
+                <BtnGroupReuse flag={2} text="Delete" icon={<DeleteOutlined className="mr-2"/>}  onClick={() => {
                     setFlag(4);
                     setDelMode(2);
                     setVisible(true);
-                  }}
-                  className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                >
-                  <span class="relative z-10">
-                  <DeleteOutlined className="mr-1" />
-                  Delete
-                  </span>
-                  <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                </button>
+                  }} 
+                  
+                  
+                  />
               )}
               {!showDel && det.mrn != 1 && (
-                <button
-                  disabled={
+                // <button
+                //   disabled={
+                //     !con ||
+                //     errorSum(isError) ||
+                //     zeroError ||
+                //     !invoice ||
+                //     !inv_dt ||
+                //     checkload ||
+                //     count > 0 ||
+                //     (wb && !waybill) ||
+                //     (!lr_no && lr)
+                //   }
+                //   onClick={() => onsubmit()}
+                //   className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                // >
+                //  <span class="relative z-10">
+                //          <SaveOutlined className='mr-2' />
+                //          Submit
+                //          </span>
+                //          <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
+                // </button>
+                <BtnGroupReuse flag={1} onClick={() => onsubmit()}  disabled={
                     !con ||
                     errorSum(isError) ||
                     zeroError ||
@@ -1465,15 +1551,11 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                     (wb && !waybill) ||
                     (!lr_no && lr)
                   }
-                  onClick={() => onsubmit()}
-                  className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                >
-                 <span class="relative z-10">
+                  icon={ 
                          <SaveOutlined className='mr-2' />
-                         Submit
-                         </span>
-                         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                </button>
+
+                  } 
+                  loading={loading} text="Submit"/>
               )}
             </div>
           </div>

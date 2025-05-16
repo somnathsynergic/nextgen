@@ -120,7 +120,7 @@ function StockIn() {
         .post(url + "/api/get_logical_stock_req_all", { prod_id: prodCode||0, proj_id: type=='P'?projcode:0 })
         .then((res) => {
           console.log(res);
-          setReportData(res?.data.msg)
+          setReportData(res?.data.msg.filter(e=>e.stock>0))
           setLoading(false);
           if(res?.data?.result?.msg?.length==0){
               Message('error','No Data')

@@ -9,7 +9,7 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import InfoTags from './InfoTags';
 function ReportTemplate( {headers,
-    data,info,flag,wStock,reportHeader}) {
+    data,info,flag,wStock,reportHeader,grand_tot}) {
       const [first, setFirst] = useState(0); // Pagination state
   const rowsPerPage = 10;
       console.log(data,info,headers,flag,wStock)
@@ -64,6 +64,7 @@ function ReportTemplate( {headers,
         }, 10);
       
       }
+      const footer = `Grand Total = ${grand_tot}`;
       const setSearch = (e)=>{
         console.log(e.target.value,flag)
           if(flag==1){
@@ -116,6 +117,7 @@ function ReportTemplate( {headers,
                 value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0 || item?.rc_qty || item?.project_stock>0
 
                 )}
+                footer={footer}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"

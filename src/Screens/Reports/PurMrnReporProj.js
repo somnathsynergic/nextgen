@@ -20,6 +20,7 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
+import BtnGroupReuse from "../../Components/BtnGroupReuse";
 
 function PurMrnReporProj() {
   // const headers= [
@@ -553,7 +554,7 @@ function PurMrnReporProj() {
               </form>
 
               <div className="flex justify-center">
-                <button
+                {/* <button
                   disabled={!type || (!vendorCode && !projCode && !po_no)}
                   type="submit"
                   className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -584,7 +585,34 @@ function PurMrnReporProj() {
                           Submit
                           </span>
                           <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                </button>
+                </button> */}
+                <BtnGroupReuse flag={1} icon={ <SaveOutlined className='mr-2' />} text="Submit"  disabled={!type || (!vendorCode && !projCode && !po_no)}
+                 onClick={() => {
+                    //   onSubmit();
+                    setLoading(true);
+                    console.log(projCode, vendorCode, type);
+                    axios
+                      .post(url + "/api/mrnprojreport", {
+                        proj_id: projCode || 0,
+                        vendor_id: vendorCode || 0,
+                        dt: dt,
+                        type: type,
+                        po_no: po_no || "0",
+                      })
+                      .then((res) => {
+                        console.log(res);
+                          setLoading(false);
+
+                        if (res?.data?.suc > 0) {
+                          setReportData(res?.data?.msg);
+
+                        }
+                        else{
+                          Message('error','No Data')
+                        }
+                      });
+                  }}
+                  />
               </div>
             </Spin>
           )}

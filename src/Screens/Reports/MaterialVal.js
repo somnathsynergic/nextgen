@@ -20,6 +20,7 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
+import BtnGroupReuse from "../../Components/BtnGroupReuse";
 function MaterialVal() {
   const params = useParams();
     const [loading, setLoading] = useState(false);
@@ -35,10 +36,15 @@ function MaterialVal() {
     const op = useRef(null);
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
+    const [grand_tot,setGrandTot] = useState(0)
     const headers= [
     //   { name:'date',value:'Date'},
       { name: "prod_name", value: "Product" },
       { name: "net_unit_price", value: "Net Unit Price" },
+      { name: "cgst_id", value: "CGST" },
+      { name: "sgst_id", value: "SGST" },
+      { name: "igst_id", value: "IGST" },
+      { name: "total", value: "Total" },
       { name: "total_qty", value: "Stock in Quantity" },
       { name: "total_rc_qty", value: "Received Quantity " },
       { name: "invoice", value: "Invoice" },
@@ -76,13 +82,17 @@ function MaterialVal() {
         .then((res) => {
           console.log(res);
           setReportData(res?.data?.msg)
+
           setLoading(false);
           if(res?.data?.msg?.length==0){
               Message('error','No Data')
           }
-          // else{
-          //     setClicked(!clicked)
-          // }
+          else{
+             setGrandTot(res?.data?.msg.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.total,
+  0,
+))
+          }
         });
     };
   
@@ -255,7 +265,7 @@ function MaterialVal() {
                 </form>
   
                 <div className="flex justify-center">
-                  <button
+                  {/* <button
                   disabled={!dt ||  !type || (type=='P' && !projCode)}
                     type="submit"
                     className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -268,7 +278,17 @@ function MaterialVal() {
                            Submit
                            </span>
                            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                  </button>
+                  </button> */}
+                  <BtnGroupReuse  onClick={() => {
+                      onSubmit();
+                    }}
+                  disabled={!dt ||  !type || (type=='P' && !projCode)}
+                  icon={<SaveOutlined className='mr-2' />}
+                  flag={1}
+                  text="Submit"
+                  loading={loading}
+                  />
+
                 </div>
               </Spin>
             )}
@@ -283,7 +303,7 @@ function MaterialVal() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot}/>
             </div>
           </div>
   

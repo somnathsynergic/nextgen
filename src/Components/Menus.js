@@ -560,6 +560,12 @@ function Menus({ theme,data,shrink }) {
             label:<Link to={routePaths.MATVALREPORT}>Material Value Report</Link>,
   
           },
+          {
+            key: "rep:pr_ord_create",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.PRORDCREATE}>PR-wise Order Creation</Link>,
+  
+          },
 
     ]
 

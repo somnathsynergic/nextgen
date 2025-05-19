@@ -117,7 +117,7 @@ function ReportTemplate( {headers,
                 value={dataCopy.filter(item=>item?.stock>0 || item.quantity>0 || item.qty>0 || item?.rc_qty || item?.project_stock>0
 
                 )}
-                footer={footer}
+                footer={grand_tot>0?footer:''}
                 showGridlines={true}
                 stripedRows
                 stickyHeader="true"

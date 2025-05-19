@@ -79,6 +79,7 @@ export const routePaths={
     REQUISITIONRCVDFORM:'/home/stockComp/requisitionsrcvdform/',
     ALLSTOCKREPORT:'/home/reportComp/allstock/',
     MATVALREPORT:'/home/reportComp/mat_val_report/',
+    PRORDCREATE:'/home/reportComp/pr_ord_create/',
     PROJECTWISE:'/home/reportComp/projectwise/',
     ITEMWISE:'/home/reportComp/itemwise/',
     MRNWISEONE:'/home/reportComp/mrnwise_one/',

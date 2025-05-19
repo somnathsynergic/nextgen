@@ -13,6 +13,7 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const Pr_ord_create = lazy(()=>import("./Screens/Reports/Pr_ord_create"))
 const MaterialVal =lazy(()=>import("./Screens/Reports/MaterialVal"));
 const StockOutReport =lazy(()=>import("./Screens/Reports/StockOutReport"));
 const PurMrnReporProj=lazy(()=>import("./Screens/Reports/PurMrnReporProj"));
@@ -717,6 +718,10 @@ const router = createBrowserRouter([
                {
                 path: "mat_val_report",
                 element: <MaterialVal />,
+              },
+              {
+                path: "pr_ord_create",
+                element: <Pr_ord_create />,
               },
             ],
           },

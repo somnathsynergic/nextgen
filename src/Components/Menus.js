@@ -557,14 +557,19 @@ function Menus({ theme,data,shrink }) {
           {
             key: "rep:mat_val_report",
             icon: <PieChartFilled />,
-            label:<Link to={routePaths.MATVALREPORT}>Material Value Report</Link>,
+            label:<Link to={routePaths.MATVALREPORT}>Material Value Against MRN</Link>,
+  
+          },
+           {
+            key: "rep:mat_val_stockout",
+            icon: <PieChartFilled />,
+            label:<Link to={routePaths.MATVALSTOCKOUT}>Material Value Against Stockout</Link>,
   
           },
           {
             key: "rep:pr_ord_create",
             icon: <PieChartFilled />,
             label:<Link to={routePaths.PRORDCREATE}>PR-wise Order Creation</Link>,
-  
           },
 
     ]

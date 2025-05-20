@@ -23,8 +23,9 @@ import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import InfoTags from "../../Components/InfoTags";
-function MaterialVal() {
-  const params = useParams();
+
+function MatValStockout() {
+ const params = useParams();
     const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState([]);
     const [projectList, setProjectList] = useState([]);
@@ -38,19 +39,13 @@ function MaterialVal() {
     const op = useRef(null);
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
-    const [grand_tot,setGrandTot] = useState(0)
     const headers= [
-    //   { name:'date',value:'Date'},
-      { name: "prod_name", value: "Product" },
+     { name: "prod_name", value: "Product" },
       { name: "net_unit_price", value: "Net Unit Price" },
       { name: "cgst_id", value: "CGST" },
       { name: "sgst_id", value: "SGST" },
       { name: "igst_id", value: "IGST" },
       { name: "total", value: "Total" },
-      { name: "total_qty", value: "Stock in Quantity" },
-      { name: "total_rc_qty", value: "Received Quantity " },
-      { name: "invoice", value: "Invoice" },
-      { name: "invoice_dt", value: "Invoice Date" },
       { name: "stock_out_qty", value: "Stocked Out Qty" },
   
       // { name: "created_by", value: "Created by" },
@@ -80,21 +75,17 @@ function MaterialVal() {
       setInfo([{key:'1',label:'Date',children:<p>{dt}</p>},{key:'2',label:type=='P'?'Project Stock for ':'Warehouse Stock',children:<p>{type=='P'?projVal:'N/A'}</p>}])
       setLoading(true);
       axios
-        .post(url + "/api/matvalmrn", { proj_id: projCode || 0 })
+        .post(url + "/api/matvalstockout", { type:type, proj_id: projCode || 0,dt:dt })
         .then((res) => {
           console.log(res);
           setReportData(res?.data?.msg)
-
           setLoading(false);
           if(res?.data?.msg?.length==0){
               Message('error','No Data')
           }
-          else{
-             setGrandTot(res?.data?.msg.reduce(
-  (accumulator, currentValue) => accumulator + currentValue.total,
-  0,
-))
-          }
+          // else{
+          //     setClicked(!clicked)
+          // }
         });
     };
   
@@ -102,7 +93,7 @@ function MaterialVal() {
       <section className="bg-transparent dark:bg-[#001529]">
         {/* {params.id>0 && data && <PrintComp toPrint={data} title={'Department'}/>} */}
         <HeadingTemplate
-          text={"Material Value Report against MRN"}
+          text={"Material Value report against stockout"}
           mode={2}
           title={"Report"}
           // data={params.id && data?data:''}
@@ -216,7 +207,7 @@ function MaterialVal() {
                       )}
                         {!projCode && type=='P' ? <VError title={"Required"} /> : null}
                         {/* {projId ? <Tag className="bg-amber-600 text-white">Project ID:{projId}</Tag> : null} */}
-                        {projId ? <InfoTags icon={<FileDoneOutlined/>} bgCol="bg-amber-600 text-white" text={'Project ID: '+projId}/> : null}
+                        {projId ? <InfoTags bgCol="bg-amber-600 text-white" text={'Project ID: '+projId} icon={<FileDoneOutlined/>}/> : null}
   
                       <OverlayPanel
                         ref={op}
@@ -282,16 +273,9 @@ function MaterialVal() {
                            </span>
                            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                   </button> */}
-                  <BtnGroupReuse  onClick={() => {
+                  <BtnGroupReuse text="Submit" flag={1} icon={<SaveOutlined className="mr-2"/>} disabled={!dt ||  !type || (type=='P' && !projCode)}  onClick={() => {
                       onSubmit();
-                    }}
-                  disabled={!dt ||  !type || (type=='P' && !projCode)}
-                  icon={<SaveOutlined className='mr-2' />}
-                  flag={1}
-                  text="Submit"
-                  loading={loading}
-                  />
-
+                    }}/>
                 </div>
               </Spin>
             )}
@@ -306,7 +290,7 @@ function MaterialVal() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot} reportHeader={+type=='P'?'Material value against MRN for '+projVal+' (ID: '+projId+')':'Warehouse'}/>
+              <ReportTemplate data={reportData} headers={headers} info={info} flag={1}/>
             </div>
           </div>
   
@@ -318,4 +302,5 @@ function MaterialVal() {
       </section>
     );
 }
-export default MaterialVal
+
+export default MatValStockout

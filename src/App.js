@@ -49,7 +49,8 @@ function App() {
         optionSelectedColor:'#4C9F70',
         // itemSelectedColor:'#014737',
         itemHoverColor:'#014737',
-        itemDisabledColor:'#FEF08A'
+        itemDisabledColor:'#CCAD8F',
+        subMenuItemSelectedColor: '#4C9F70'
       },
       Segmented:{
         itemActiveBg:'#014737',

@@ -650,7 +650,7 @@ function MinForm() {
                 //           </span>
                 //           <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                 // </button>
-                <BtnGroupReuse flag={1} onClick={() => onsubmit()} icon={ <SaveOutlined className='mr-2' />} text="Submit"/>
+                <BtnGroupReuse flag={1} loading={loading} onClick={() => onsubmit()} icon={ <SaveOutlined className='mr-2' />} text="Submit"/>
               ) : approve_flag == "A" ? (
                 <Tag
                   className="text-sm p-1 rounded-full my-2"

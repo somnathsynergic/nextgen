@@ -48,6 +48,7 @@ function Pr_ord_create() {
     const [projId,setProjId] = useState("")
     const headers= [
       { name: "pur_no", value: "PR No." },
+      { name: "proj_name", value: "Intended For" },
       { name: "qty", value: "PR Quantity" },
       { name: "po_no", value: "PO No.(s)" },
       { name: "ordered_qty", value: "Ordered Quantity" },
@@ -331,7 +332,7 @@ function Pr_ord_create() {
                            </span>
                            <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                   </button> */}
-                  <BtnGroupReuse disabled={!purCode} text="Submit" onClick={() => {onSubmit();}} flag={1} icon={<SaveOutlined className='mr-2' />}/>
+                  <BtnGroupReuse loading={loading} disabled={!purCode} text="Submit" onClick={() => {onSubmit();}} flag={1} icon={<SaveOutlined className='mr-2' />}/>
                 </div>
               </Spin>
             )}
@@ -346,7 +347,7 @@ function Pr_ord_create() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <InfoTags color="white" text='Warehouse quantity of this product: ' />
             
-              <ReportTemplate reportHeader={'MRN Report for '+pur_req} data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate reportHeader={'Order Creation Report for '+pur_req} data={reportData} headers={headers} info={info} flag={1}/>
             </div>
           </div>
   

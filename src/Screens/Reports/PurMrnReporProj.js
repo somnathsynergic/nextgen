@@ -21,6 +21,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import InfoTags from "../../Components/InfoTags";
 
 function PurMrnReporProj() {
   // const headers= [
@@ -411,9 +412,10 @@ function PurMrnReporProj() {
                     )}
                     {/* {!projCode && type=='P' ? <VError title={"Required"} /> : null} */}
                     {projId ? (
-                      <Tag className="bg-amber-600 text-white">
-                        Project ID:{projId}
-                      </Tag>
+                      // <Tag className="bg-amber-600 text-white">
+                      //   Project ID:{projId}
+                      // </Tag>
+                      <InfoTags bgCol={"bg-amber-600 text-white"} text={"Project ID: "+projId} />
                     ) : null}
 
                     <OverlayPanel
@@ -552,6 +554,7 @@ function PurMrnReporProj() {
 
                 {/* <BtnComp mode={params.id>0?'E':'A'} onReset={formik.handleReset}/> */}
               </form>
+      {/* {'MRN Report for '+vendorCode>0?'Vendor: '+venVal:''+type=='W'?' Intended For: Warehouse':projCode?' Intended For: '+projVal:''+po_no?' PO: '+po_no:''} */}
 
               <div className="flex justify-center">
                 {/* <button
@@ -612,6 +615,7 @@ function PurMrnReporProj() {
                         }
                       });
                   }}
+                  loading={loading}
                   />
               </div>
             </Spin>
@@ -633,6 +637,7 @@ function PurMrnReporProj() {
                 <ReportTemplate
                   data={reportData}
                   headers={headers}
+                  reportHeader={'MRN Report for '+vendorCode>0?'Vendor: '+venVal:''+type=='W'?' Intended For: Warehouse':projCode?' Intended For: '+projVal:''+po_no?' PO: '+po_no:''}
                   info={info}
                   flag={3}
                 />

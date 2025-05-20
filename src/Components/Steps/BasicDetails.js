@@ -252,7 +252,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
   }
   useEffect(()=>{
     console.log(selectedList)
-    localStorage.setItem("pur_req",JSON.stringify(selectedList));
+    // localStorage.setItem("pur_req",JSON.stringify(selectedList));
   },[])
   useEffect(()=>{
     console.log(selectedList)

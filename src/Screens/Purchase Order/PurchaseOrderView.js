@@ -196,6 +196,12 @@ function PurchaseOrderView() {
     localStorage.removeItem('amend_note')
     localStorage.removeItem('pur_req')
     localStorage.removeItem("po_created_by");
+    localStorage.getItem("pur_req_by")
+    localStorage.removeItem("drawing_doc");
+    localStorage.removeItem("mdcc_doc");
+    localStorage.removeItem("insp_doc");
+
+
 
   }, [
     locationpath.pathname.split("/")[

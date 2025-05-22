@@ -36,6 +36,9 @@ function MatValStockout() {
     const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
     const [clicked, setClicked] = useState(true);
     const [reportData,setReportData] = useState([])
+    const [grand_tot,setGrandTot] = useState(0)
+    const [net_tot,setNetTot] = useState(0)
+    
     const op = useRef(null);
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
@@ -47,7 +50,7 @@ function MatValStockout() {
       { name: "igst_id", value: "IGST" },
       { name: "total", value: "Total" },
       { name: "stock_out_qty", value: "Stocked Out Qty" },
-  
+     
       // { name: "created_by", value: "Created by" },
     ]
     useEffect(() => {
@@ -86,6 +89,16 @@ function MatValStockout() {
           // else{
           //     setClicked(!clicked)
           // }
+          else{
+              setGrandTot(res?.data?.msg.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.total,
+  0,
+))
+ setNetTot(res?.data?.msg.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.net_unit_price,
+  0,
+))
+          }
         });
     };
   
@@ -290,7 +303,7 @@ function MatValStockout() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} grand_tot={grand_tot} info={info} flag={1}/>
             </div>
           </div>
   

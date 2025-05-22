@@ -51,6 +51,7 @@ import {
   CloseOutlined,
   RightOutlined,
   CheckOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import { Alert } from "antd";
 import { Chip } from "primereact/chip";
@@ -64,6 +65,8 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "./PrintHeader";
 import { Message } from "./Message";
 import { CancelOutlined } from "@mui/icons-material";
+import BtnGroupReuse from "./BtnGroupReuse";
+import InfoTags from "./InfoTags";
 const DialogBox = ({
   visible,
   flag,
@@ -521,19 +524,25 @@ const DialogBox = ({
         <p className="mt-2 mt-2">
           Do you want to logout?
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
               className="relative disabled:bg-red-900 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
             >
+             
      <span class="relative z-10">
 
               <CloseOutlined className='mr-2'/> 
         No
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse flag={1} text="Yes" onClick={() => {
+                localStorage.clear();
+                navigate(routePaths.LANDING);
+              }} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               type="submit"
               onClick={() => {
                 localStorage.clear();
@@ -546,7 +555,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -565,7 +574,7 @@ const DialogBox = ({
         <p className="mt-2 mt-2">
           Do you want to delete this item?
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
                     className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -576,8 +585,10 @@ const DialogBox = ({
                      No
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse flag={1} text="Yes" onClick={onDelete} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               type="submit"
               onClick={onDelete}
               className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -587,7 +598,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -693,26 +704,30 @@ const DialogBox = ({
           )}
           <div className="flex justify-end">
             {po_no_code && count == 0 && (
-              <button
-                disabled={loading}
-                type="submit"
-                className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                onClick={() => amendPo(po_no_code)}
-              >
-               <span class="relative z-10">
-        <RightOutlined className='mr-2' />
-        Proceed
-        </span>
-        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+        //       <button
+        //         disabled={loading}
+        //         type="submit"
+        //         className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+        //         onClick={() => amendPo(po_no_code)}
+        //       >
+        //        <span class="relative z-10">
+        // <RightOutlined className='mr-2' />
+        // Proceed
+        // </span>
+        // <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
+        //       </button>
+             <BtnGroupReuse loading={loading} disabled={loading} flag={1} text="Proceed" onClick={() => amendPo(po_no_code)} icon={<RightOutlined className='mr-2' /> }/>
+
             )}{" "}
           </div>
           <div className="flex justify-center">
             {count > 0 && (
-              <Tag className="bg-red-900 text-white">
-                Cannot amend this PO as MRN has already been performed for this
-                PO or an amended copy.
-              </Tag>
+              // <Tag className="bg-red-900 text-white">
+              //   Cannot amend this PO as MRN has already been performed for this
+              //   PO or an amended copy.
+              // </Tag>
+              <InfoTags text="Cannot amend this PO as MRN has already been performed for this
+                PO or an amended copy." bgCol={"bg-red-900 text-white"} icon={<WarningOutlined/>}/>
             )}
           </div>
         </p>
@@ -721,7 +736,7 @@ const DialogBox = ({
         <p className="mt-2">
           Do you want to cancel this PO?
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -731,8 +746,10 @@ const DialogBox = ({
                      No
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse flag={1} text="Yes" onClick={onDelete} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               type="submit"
               onClick={onDelete}
               className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -742,7 +759,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -750,7 +767,7 @@ const DialogBox = ({
         <p className="mt-2">
           Do you want to cancel this PO without citing any reason?
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -760,8 +777,10 @@ const DialogBox = ({
                      No
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse flag={1} text="Yes" onClick={onDelete} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               type="submit"
               onClick={onDelete}
               className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -771,7 +790,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -1035,7 +1054,7 @@ const DialogBox = ({
             mode={3}
           />
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -1045,8 +1064,12 @@ const DialogBox = ({
                      No
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse disabled={!reason} flag={1} text="Yes"  onClick={() => {
+                onDeactivate(reason);
+              }} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               disabled={!reason}
               type="submit"
               onClick={() => {
@@ -1059,7 +1082,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -1077,7 +1100,7 @@ const DialogBox = ({
             mode={3}
           />
           <div className="flex justify-center gap-2">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -1087,8 +1110,12 @@ const DialogBox = ({
                      No
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
-            <button
+            </button> */}
+              <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse disabled={!reason} flag={1} text="Yes"  onClick={() => {
+                onDeactivate(reason);
+              }} icon={ <CheckOutlined className='mr-2' /> }/>
+            {/* <button
               disabled={!reason}
               type="submit"
               onClick={() => {
@@ -1101,7 +1128,7 @@ const DialogBox = ({
         Yes
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
           </div>
         </p>
       )}
@@ -1837,37 +1864,43 @@ const DialogBox = ({
           <div ref={contentRef} className="px-2 pt-3">
             <div className="flex justify-start gap-6">
               {data?.details[0]?.approve_flag == "A" ? (
-                <Tag
-                  className="text-[12px] p-1 rounded-full w-36"
-                  icon={<CheckCircleOutlined />}
-                  color="success"
-                >
-                  Approved
-                </Tag>
+                // <Tag
+                //   className="text-[12px] p-1 rounded-full w-36"
+                //   icon={<CheckCircleOutlined />}
+                //   color="success"
+                // >
+                //   Approved
+                // </Tag>
+                <InfoTags bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<CheckCircleOutlined />} color={"success"} text={'Approved'}/>
               ) : data?.details[0]?.approve_flag == "P" ? (
-                <Tag
-                  className="text-[12px] p-1 rounded-full w-36"
-                  icon={<SyncOutlined spin />}
-                  color="processing"
-                >
-                  Pending
-                </Tag>
+                // <Tag
+                //   className="text-[12px] p-1 rounded-full w-36"
+                //   icon={<SyncOutlined spin />}
+                //   color="processing"
+                // >
+                //   Pending
+                // </Tag>
+                <InfoTags bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<SyncOutlined spin />} color={"processing"} text={'Pending'}/>
+
               ) : (
-                <Tag
-                  className="text-[12px] p-1 rounded-full w-36"
-                  icon={<CloseCircleOutlined className="animate-spin" />}
-                  color="error"
-                >
-                  Rejected
-                </Tag>
+                // <Tag
+                //   className="text-[12px] p-1 rounded-full w-36"
+                //   icon={<CloseCircleOutlined className="animate-spin" />}
+                //   color="error"
+                // >
+                //   Rejected
+                // </Tag>
+                <InfoTags bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<CloseCircleOutlined className="animate-spin" />} color={"error"} text={'Rejected'}/>
+
               )}
             </div>
 
             <div className="sm:col-span-12 flex justify-end mb-2 ">
-              <Tag className="text-sm" color="#014737">
+              {/* <Tag className="text-sm" color="#014737">
                 PO : {data?.details[0]?.po_no} | MRN :{" "}
                 {data?.details[0]?.mrn_no}
-              </Tag>
+              </Tag> */}
+              <InfoTags bgCol={"text-sm"} color="#014737" text={'PO : '+data?.details[0]?.po_no +' | MRN : '+ data?.details[0]?.mrn_no} />
             </div>
             <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
               <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
@@ -2201,7 +2234,7 @@ const DialogBox = ({
                 icon={<QuestionCircleOutlined style={{ color: "white" }} />}
                 onConfirm={() => onPress("U", rej_note)}
               >
-                <button
+                {/* <button
                   type="submit"
                   className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                   // onClick={()=>onPress('U')}
@@ -2212,9 +2245,10 @@ const DialogBox = ({
                   Reject
                    </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                </button>
+                </button> */}
+                <BtnGroupReuse flag={2} text="Reject" icon={<CloseCircleOutlined className="mr-2" />}/>
               </Popconfirm>
-              <button
+              {/* <button
                 type="submit"
                 className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
                 onClick={() => onPress("A", "")}
@@ -2225,7 +2259,9 @@ const DialogBox = ({
                 Approve
                 </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+              </button> */}
+                <BtnGroupReuse flag={1} text="Approve"  onClick={() => onPress("A", "")} icon={<CheckCircleOutlined className="mr-2" />}/>
+
             </div>
           )}
         </>
@@ -2270,9 +2306,10 @@ const DialogBox = ({
           </div> */}
 
           <div className="sm:col-span-12 flex justify-end my-2 ">
-            <Tag className="text-sm" color="#014737">
+            {/* <Tag className="text-sm" color="#014737">
               Requisition : {data?.reqInfo[0]?.min_req_no}
-            </Tag>
+            </Tag> */}
+            <InfoTags text={"Requisition : "+data?.reqInfo[0]?.min_req_no} bgCol={"text-sm"} color="#014737"/>
           </div>
 
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4 mb-6">
@@ -2465,23 +2502,16 @@ const DialogBox = ({
                   Reject
                 </button>
               </Popconfirm> */}
-            <button
+            {/* <button
               type="submit"
               onClick={() => onPress("R", "", itemInfo)}
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-              // disabled={status=='H' || status=='A'}
               disabled={itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.approved_qty;
                   }, 0) > 0 ||  itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.cancelled_qty;
                   }, 0) >0}
-              // onClick={()=>onPress('U')}
-              // disabled = {
-
-              //   itemInfo?.reduce((accumulator, currentValue) => {
-              //     return accumulator + currentValue.error;
-              //   }, 0)==1 || +(itemInfo?.filter(e=>e.req_qty==e.approved_qty)?.length==itemInfo?.length)==1
-              // }
+             
             >
               <span class="relative z-10">
               <CloseCircleOutlined className="mr-2" />
@@ -2489,13 +2519,38 @@ const DialogBox = ({
               </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
 
-            </button>
+            </button> */}
+            <BtnGroupReuse onClick={() => onPress("R", "", itemInfo)}  disabled={itemInfo?.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.approved_qty;
+                  }, 0) > 0 ||  itemInfo?.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.cancelled_qty;
+                  }, 0) >0} icon={<CloseCircleOutlined className="mr-2" />} flag={2} text="Reject"/>
             {det?.requisition != 1 && (
-              <button
-                type="submit"
-                        className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+        //       <button
+        //         type="submit"
+        //                 className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
 
-                onClick={() => onPress("A", "", itemInfo)}
+        //         onClick={() => onPress("A", "", itemInfo)}
+        //         disabled={
+        //           itemInfo?.reduce((accumulator, currentValue) => {
+        //             return accumulator + currentValue.approved_qty;
+        //           }, 0) > 0 ||  itemInfo?.reduce((accumulator, currentValue) => {
+        //             return accumulator + currentValue.cancelled_qty;
+        //           }, 0) >0 ||
+        //           +(
+        //             itemInfo?.filter((e) => e.req_qty == e.approved_qty)
+        //               ?.length == itemInfo?.length
+        //           ) == 1 
+        //         }
+        //       >
+        // <span class="relative z-10">
+
+        //         <CheckCircleOutlined className="mr-2" />
+        //         Approve
+        //          </span>
+        // <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
+        //       </button>
+              <BtnGroupReuse text="Approve" onClick={() => onPress("A", "", itemInfo)}
                 disabled={
                   itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.approved_qty;
@@ -2506,15 +2561,7 @@ const DialogBox = ({
                     itemInfo?.filter((e) => e.req_qty == e.approved_qty)
                       ?.length == itemInfo?.length
                   ) == 1 
-                }
-              >
-        <span class="relative z-10">
-
-                <CheckCircleOutlined className="mr-2" />
-                Approve
-                 </span>
-        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+                } icon={<CheckCircleOutlined className="mr-2" />} flag={1}/>
             )}
           </div>
           {/* )} */}
@@ -3037,7 +3084,7 @@ const DialogBox = ({
             </table>
           </div>
           <div className="flex justify-center">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
                     className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -3048,7 +3095,8 @@ const DialogBox = ({
                      Close
                      </span>
                      <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
+            <BtnGroupReuse onClick={onPress} flag={2} text="Close" icon={<CloseOutlined className='mr-2'/> }/>
           </div>
         </p>
       )}
@@ -3056,9 +3104,10 @@ const DialogBox = ({
       {flag == 32 && (
         <p className="mt-2">
           <div className="sm:col-span-12 flex justify-end mb-2 ">
-            <Tag className="text-sm bg-green-900 text-white">
+            {/* <Tag className="text-sm bg-green-900 text-white">
               Transfer No. : {data?.trans_no}
-            </Tag>
+            </Tag> */}
+            <InfoTags text={"Transfer No. : "+data?.trans_no} bgCol={"text-sm bg-green-900 text-white"}/>
           </div>
           <div className="sm:col-span-12 flex justify-center gap-2 items-center my-6 ">
             <span>
@@ -3067,7 +3116,9 @@ const DialogBox = ({
                 {data?.from_proj_name || "Warehouse"}{" "}
                 {data?.from_proj_name ? "(ID: " + data?.from_projid + ")" : ""}
               </Tag>
+              {/* <InfoTags text={data?.from_proj_name || "Warehouse"+' '+} */}
             </span>
+
             <span>
               <ForwardFilled />
             </span>
@@ -3223,26 +3274,32 @@ const DialogBox = ({
 
           {det?.stock != 1 && (
             <div className="flex justify-center gap-3">
-             {status!='H' && status!='A' && <button
-                type="reset"
-                onClick={() => onApprove("R", infoCopy)}
-                disabled={
+             {status!='H' && status!='A' && 
+            //  <button
+            //     type="reset"
+            //     onClick={() => onApprove("R", infoCopy)}
+            //     disabled={
+            //        itemInfo?.reduce((accumulator, currentValue) => {
+            //         return accumulator + currentValue.approved_qty;
+            //       }, 0) > 0
+            //     }
+            //           className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+
+            //   >
+            //     <span class="relative z-10">
+            //         <CloseOutlined className='mr-2'/> 
+            //             Reject
+            //             </span>
+            //             <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+            //   </button>
+              <BtnGroupReuse onClick={() => onApprove("R", infoCopy)} disabled={
                    itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.approved_qty;
                   }, 0) > 0
-                }
-                      className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-
-              >
-                <span class="relative z-10">
-                    <CloseOutlined className='mr-2'/> 
-                        Reject
-                        </span>
-                        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+                } icon={<CloseOutlined className='mr-2'/> } flag={2} text="Reject"/>
 }
 
-             <button
+             {/* <button
                 type="reset"
                 onClick={() => onApprove("A", infoCopy)}
                 disabled={
@@ -3260,8 +3317,15 @@ const DialogBox = ({
                 Approve
                  </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
-
+              </button> */}
+              <BtnGroupReuse flag={1}  onClick={() => onApprove("A", infoCopy)}
+                disabled={
+                  itemInfo?.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.error;
+                  }, 0) == 1 ||  itemInfo?.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.approved_qty;
+                  }, 0) > 0
+                } icon={<CheckOutlined className='mr-2' />} text="Approve" />
             </div>
           )}
         </p>
@@ -3460,7 +3524,7 @@ const DialogBox = ({
             </table>
           </div>
           <div className="flex justify-center">
-            <button
+            {/* <button
               type="reset"
               onClick={onPress}
                     className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -3471,7 +3535,8 @@ const DialogBox = ({
               Close
                </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
+            <BtnGroupReuse  onClick={onPress} flag={2} text="Close" icon={<CloseOutlined className='mr-2'/> }/>
           </div>
         </p>
       )}
@@ -3479,9 +3544,10 @@ const DialogBox = ({
       {flag == 35 && (
         <>
           <div className="sm:col-span-12 flex justify-end mb-2 ">
-            <Tag className="text-sm" color="#014737">
+            {/* <Tag className="text-sm" color="#014737">
               Requisition : {data?.reqInfo[0]?.min_req_no}
-            </Tag>
+            </Tag> */}
+            <InfoTags text={"Requisition : " + data?.reqInfo[0]?.min_req_no} bgCol={"text-sm"} color="#014737"/> 
           </div>
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
             <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
@@ -3668,23 +3734,29 @@ const DialogBox = ({
                 </button>
               </Popconfirm> */}
             {det?.requisition != 1 && (
-              <button
-                type="submit"
-                      className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+        //       <button
+        //         type="submit"
+        //               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
 
-                onClick={() => onPress("R", "", itemInfo)}
+        //         onClick={() => onPress("R", "", itemInfo)}
+        //         disabled={
+        //           itemInfo?.reduce((accumulator, currentValue) => {
+        //             return accumulator + currentValue.error;
+        //           }, 0) == 1
+        //         }
+        //       >
+        //          <span class="relative z-10">
+        //         <CloseCircleOutlined className="mr-2" />
+        //         Cancel
+        //         </span>
+        // <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+        //       </button>
+              <BtnGroupReuse  onClick={() => onPress("R", "", itemInfo)}
                 disabled={
                   itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.error;
                   }, 0) == 1
-                }
-              >
-                 <span class="relative z-10">
-                <CloseCircleOutlined className="mr-2" />
-                Cancel
-                </span>
-        <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+                } icon={<CloseCircleOutlined className="mr-2" />} flag={2} text="Cancel"/>
             )}
           </div>
           {/* )} */}
@@ -3728,9 +3800,10 @@ const DialogBox = ({
             </div>
             {/* </div> */}
             <div className="sm:col-span-12 flex justify-end mb-2 ">
-              <Tag className="text-sm bg-green-900 text-white">
+              {/* <Tag className="text-sm bg-green-900 text-white">
                 Delivery No. : {data?.del_no}
-              </Tag>
+              </Tag> */}
+              <InfoTags text={"Delivery No. : "+data?.del_no} bgCol={"text-sm bg-green-900 text-white"}/>
             </div>
             <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400 sm:col-span-12">
               <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
@@ -4421,7 +4494,7 @@ const DialogBox = ({
               size="large"
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
-              <button
+              {/* <button
                       className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
 
                 onClick={() => {
@@ -4453,16 +4526,42 @@ const DialogBox = ({
                         Close Order
                         </span>
                         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button>
+              </button> */}
+              <BtnGroupReuse   onClick={() => {
+                  setLoading(true);
+                  axios
+                    .post(url + "/api/cancelpo", {
+                      id: id,
+                      status: "C",
+                      user: localStorage.getItem("email"),
+                    })
+                    .then((res) => {
+                      setLoading(false);
+                      if (res?.data?.suc > 0) {
+                        Message("success", "Order Closed Successfully");
+                        onPress();
+                      } else {
+                        Message("error", "Error in Closing Order");
+                      }
+                    })
+                    .catch((err) => {
+                      setLoading(false);
+
+                      Message("error", err);
+                    });
+                }} icon={<CloseOutlined className='mr-2'/> } text="Close Order" flag={2}/>
             </Spin>
           ) : (
-            <Tag
-              className="text-[12px] p-1 rounded-full w-36"
+            // <Tag
+            //   className="text-[12px] p-1 rounded-full w-36"
+            //   icon={<CancelOutlined className="text-[10px]" />}
+            //   color="red"
+            // >
+            //   Closed
+            // </Tag>
+            <InfoTags bgCol="text-[12px] p-1 rounded-full w-36"
               icon={<CancelOutlined className="text-[10px]" />}
-              color="red"
-            >
-              Closed
-            </Tag>
+              color="red" text="Closed"/>
           )}
         </div>
       )}

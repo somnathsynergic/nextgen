@@ -354,7 +354,30 @@ function DeliveryViewTemplate({ flag }) {
                                 "/" +
                                 encodeURIComponent(item.po_no))
                               else navigate(routePaths.TESTCERTFORM + item.sl_no)
-                    }} class="bg-white hover:duration-500 text-[10.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                    }} 
+                    
+                    // class="bg-white hover:duration-500 text-[10.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700"
+                    
+                    
+                     className={
+                    +Math.floor(
+                          (new Date().getTime() -
+                            new Date(item.created_at).getTime()) /
+                            1000
+                        ) < 1800
+                        ? "bg-[#ffe4c4] px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] cursor-pointer duration-500 hover:bg-gray-200 hover:duration-500 delay-700 border-b dark:bg-gray-800 hover:text-green-900 dark:border-gray-700 text-nowrap"
+                        : "bg-white border-b px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] hover:text-green-900 cursor-pointer hover:bg-gray-200 dark:bg-gray-800 hover:duration-500 dark:border-gray-700  text-nowrap"
+                     
+                  }
+                    
+                    
+                    
+                    
+                    >
+                     
+                     
+                     
+                     
                       <th
                         scope="row"
                         class="px-4 py-4 w-1/4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -362,7 +385,68 @@ function DeliveryViewTemplate({ flag }) {
                       {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
                       {item.sl_no}
                       </th>
-                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap text-[12.5px]">{item.po_no}</td>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap text-[12.5px]">{item.po_no}
+                      <p class="text-[10.5px] text-gray-500 italic">
+                       <span>
+                          {" "}
+                        PO Created{" "}
+                          {+Math.floor(
+                            (new Date().getTime() -
+                              new Date(item.created_at).getTime()) /
+                              1000
+                          ) < 60
+                            ? +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ).toFixed(0) + " second(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                60 <
+                              60
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 60
+                              ).toFixed(0) + " minute(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                3600 <
+                              24
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 3600
+                              ).toFixed(0) + " hour(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                (3600 * 24) <
+                              31
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24)
+                              ).toFixed(0) + " day(s) ago":""}
+                              </span>
+                              </p>
+                      
+                      </td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><InfoTags color="#014737" bgCol="rounded-full" text={item.invoice_count}/></td>

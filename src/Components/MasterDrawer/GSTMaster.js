@@ -11,7 +11,6 @@ import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import AuditTrail from "../../Components/AuditTrail";
 
 function GSTMaster({onClose,onLoading}) {
   const params = useParams();

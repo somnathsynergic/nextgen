@@ -289,7 +289,7 @@ function StockOutReport() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate data={reportData} headers={headers} info={info} flag={5}/>
             </div>
           </div>
   

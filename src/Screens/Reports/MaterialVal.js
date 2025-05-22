@@ -39,6 +39,7 @@ function MaterialVal() {
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const [grand_tot,setGrandTot] = useState(0)
+    const [net_tot,setNetTot] = useState(0)
     const headers= [
     //   { name:'date',value:'Date'},
       { name: "prod_name", value: "Product" },
@@ -92,6 +93,10 @@ function MaterialVal() {
           else{
              setGrandTot(res?.data?.msg.reduce(
   (accumulator, currentValue) => accumulator + currentValue.total,
+  0,
+))
+  setNetTot(res?.data?.msg.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.net_unit_price,
   0,
 ))
           }
@@ -306,7 +311,7 @@ function MaterialVal() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot} reportHeader={+type=='P'?'Material value against MRN for '+projVal+' (ID: '+projId+')':'Warehouse'}/>
+              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot} reportHeader={+type=='P'?'Material value against MRN for '+projVal+' (ID: '+projId+')':'Warehouse'}/>
             </div>
           </div>
   

@@ -13,7 +13,7 @@ function BtnGroupReuse({ icon, text, flag, onClick, disabled,loading }) {
                     {!loading?icon:<LoadingOutlined spin className='text-white mr-2'/>}
                     {text}
                 </span>
-                <span class={flag == 1 ? "absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0" : "absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"}></span>
+              <span class={flag == 1 ? "absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0 " : "absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full  z-0"}></span>
             </button>
 
         </>

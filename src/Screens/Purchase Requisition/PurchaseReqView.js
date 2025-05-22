@@ -382,14 +382,182 @@ function PurchaseReqView() {
                       <tr onClick={()=>{navigate(  
                         routePaths.PURFORM + item.sl_no
   
-                      )}} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                      )}} 
+                      
+                      // class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700"
+                      
+                        className={
+                    item.modified_at == null
+                      ? +Math.floor(
+                          (new Date().getTime() -
+                            new Date(item.created_at).getTime()) /
+                            1000
+                        ) < 1800
+                        ? "bg-[#ffe4c4] px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] cursor-pointer duration-500 hover:bg-gray-200 hover:duration-500 delay-700 border-b dark:bg-gray-800 hover:text-green-900 dark:border-gray-700 text-nowrap"
+                        : "bg-white border-b px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] hover:text-green-900 cursor-pointer hover:bg-gray-200 dark:bg-gray-800 hover:duration-500 dark:border-gray-700  text-nowrap"
+                      : +Math.floor(
+                          (new Date().getTime() -
+                            new Date(item.modified_at).getTime()) /
+                            1000
+                        ) < 1800
+                      ? "bg-[#ffe4c4] border-b px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] hover:text-green-900 cursor-pointer dark:bg-gray-800 hover:bg-gray-200 duration-500 hover:duration-500 dark:border-gray-700  text-nowrap"
+                      : "bg-white border-b px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] hover:text-green-900 cursor-pointer hover:duration-500 hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-700  text-nowrap"
+                  }
+                      
+                      
+                      >
+                       
+                       
                         <th
                           scope="row"
-                          class="px-3 py-4 w-1/6 font-medium  text-gray-900 whitespace-nowrap dark:text-white"
+                          class="px-4 py-4 w-1/6 font-medium  text-green-900 font-bold text-[12.5] whitespace-nowrap dark:text-white"
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5]">{item.pur_no}</td>
+                        <td 
+                        class="px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5]"
+                        
+                       
+                        
+                        >{item.pur_no}
+                        <p class="text-[10.5px] text-gray-500 italic">
+                      {item.modified_at == null ? (
+                        <span>
+                          {" "}
+                          Created{" "}
+                          {+Math.floor(
+                            (new Date().getTime() -
+                              new Date(item.created_at).getTime()) /
+                              1000
+                          ) < 60
+                            ? +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ).toFixed(0) + " second(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                60 <
+                              60
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 60
+                              ).toFixed(0) + " minute(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                3600 <
+                              24
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 3600
+                              ).toFixed(0) + " hour(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                (3600 * 24) <
+                              31
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24)
+                              ).toFixed(0) + " day(s) ago"
+                            : (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24 * 31)
+                              ).toFixed(0) + " month(s) ago"}
+                        </span>
+                      ) : (
+                        <span>
+                          {" "}
+                          Modified{" "}
+                          {+Math.floor(
+                            (new Date().getTime() -
+                              new Date(item.modified_at).getTime()) /
+                              1000
+                          ) < 60
+                            ? +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.modified_at).getTime()) /
+                                  1000
+                              ).toFixed(0) + " second(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.modified_at).getTime()) /
+                                  1000
+                              ) /
+                                60 <
+                              60
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.modified_at).getTime()) /
+                                    1000
+                                ) / 60
+                              ).toFixed(0) + " minute(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.modified_at).getTime()) /
+                                  1000
+                              ) /
+                                3600 <
+                              24
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.modified_at).getTime()) /
+                                    1000
+                                ) / 3600
+                              ).toFixed(0) + " hour(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.modified_at).getTime()) /
+                                  1000
+                              ) /
+                                (3600 * 24) <
+                              31
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.modified_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24)
+                              ).toFixed(0) + " day(s) ago"
+                            : (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.modified_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24 * 31)
+                              ).toFixed(0) + " month(s) ago"}
+                        </span>
+                      )}
+                    </p>
+                        
+                        
+                        </td>
                         <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
                         <td class="px-4 py-4 w-1/6 text-gray-600 text-xs">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
                         <td class="px-4 py-4 w-1/3 text-gray-600 text-xs">{item.created_by} ({item.created_at?.split('T')[1]})</td>

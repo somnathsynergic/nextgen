@@ -11,6 +11,7 @@ import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
 import { Spin, Tag } from "antd";
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import InfoTags from "../InfoTags";
 
 function ProductMaster({onClose,onLoading}) {
   const [cat, setCat] = useState([]);
@@ -200,9 +201,10 @@ function ProductMaster({onClose,onLoading}) {
                   mode={1}
                 />
  {checkLoad && (
-                  <Tag icon={<SyncOutlined spin />} color="processing">
-                    Checking...
-                  </Tag>
+                  // <Tag icon={<SyncOutlined spin />} color="processing">
+                  //   Checking...
+                  // </Tag>
+                  <InfoTags text="Checking..." icon={<SyncOutlined spin />} color="processing"/>
                 )}
                 {formik.errors.prodnm && formik.touched.prodnm ? (
                   <VError title={formik.errors.prodnm} />

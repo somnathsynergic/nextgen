@@ -26,6 +26,7 @@ import { routePaths } from "../../Assets/Data/Routes";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
+import Marquee from "../../Components/Marquee";
 function HomeScreen() {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
@@ -181,8 +182,9 @@ function HomeScreen() {
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-emerald-600">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
-          <div class="text-gray-800 text-xs ml-4 2xl:text-2xl absolute right-1 top-3 font-bold">
-            Outstanding from client(s)
+          <div class="text-gray-800 text-xs ml-4 2xl:text-xl absolute right-1 top-3 font-bold">
+           
+            <Marquee text=" Outstanding from client(s)" />
           </div>
           <div class="text-emerald-600 text-4xl ml-14 mt-9 font-bold">0</div>
         </Link>
@@ -190,8 +192,10 @@ function HomeScreen() {
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-rose-500">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
-          <div class="text-gray-800  text-xs 2xl:text-2xl text-wrap absolute right-1 top-3 font-bold">
-            Outstanding from vendor(s)
+          <div class="text-gray-800  text-xs 2xl:text-xl text-wrap absolute right-1 top-3 font-bold">
+           
+            <Marquee text=" Outstanding from vendor(s)" />
+
           </div>
           <div class="text-rose-500 text-4xl ml-14 mt-9 font-bold">0</div>
         </Link>
@@ -269,7 +273,7 @@ function HomeScreen() {
                         className="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
                         spinning={loading}
                       >
-          <div class={dashboard_data?.stock_cnt?.length<=3?"text-[#6564DB] text-6xl ml-14 mt-9 font-bold":"text-[#6564DB] text-6xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt?dashboard_data.stock_cnt:loading?'':0}</div>
+          <div class={dashboard_data?.stock_cnt?.toString()?.length<=5?"text-[#6564DB] text-4xl ml-12 mt-9 font-bold":"text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt?dashboard_data.stock_cnt:loading?'':0}</div>
           {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
           </Spin>
         </Link>

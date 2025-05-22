@@ -346,7 +346,7 @@ function PurMrnReport() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <InfoTags color="white" text='Warehouse quantity of this product: ' />
             
-              <ReportTemplate reportHeader={'MRN Report for '+pur_req} data={reportData} headers={headers} info={info} flag={1}/>
+              <ReportTemplate reportHeader={'MRN Report for '+pur_req} data={reportData} headers={headers} info={info} flag={4}/>
             </div>
           </div>
   

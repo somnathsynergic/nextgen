@@ -12,6 +12,7 @@ import { BlockUI } from "primereact/blockui";
 import {
   ArrowUpOutlined,
   BorderOutlined,
+  FileDoneOutlined,
   LoadingOutlined,
   LockFilled,
   MinusCircleOutlined,
@@ -23,6 +24,8 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import moment from "moment";
 // import StockInViewComp from "../../../Components/StockInViewComp";
 import StockOutComponent from "../../../Components/StockOutComponent";
+import BtnGroupReuse from "../../../Components/BtnGroupReuse";
+import InfoTags from "../../../Components/InfoTags";
 
 function StockOut() {
   const params = useParams();
@@ -132,7 +135,7 @@ function StockOut() {
         console.log(res);
         setReportData(res?.data?.msg);
         setReportDataCopy([])
-       res?.data?.msg?.forEach(e=>{
+       res?.data?.msg?.filter(item=>item.req_list.length>0)?.forEach(e=>{
             setReportDataCopy(prev=>[...prev,{
               id:e.id,
               name:e.name,
@@ -326,8 +329,9 @@ function StockOut() {
                       </ul>
                     </OverlayPanel>
                     {!projcode && <VError title={"Required"} />}
-                    {proj_id && <Tag className="bg-amber-600 text-white">Project ID:{proj_id}</Tag>}
-                    {projcode > 0 && (
+                    {/* {proj_id && <Tag className="bg-amber-600 text-white">Project ID:{proj_id}</Tag>} */}
+                    {proj_id && <InfoTags bgCol="bg-amber-600 text-white" icon={<FileDoneOutlined/>} text={"Project ID: "+proj_id} />}
+                    {projcode > 0 && ( 
                       <span className="flex justify-between mt-1 items-center">
                         <a
                         // onClick={() => {
@@ -402,7 +406,7 @@ function StockOut() {
                 </div>
               </form>
               <div className="flex justify-center items-center">
-                <button
+                {/* <button
                   disabled={(out_from=='P' && !projcode)|| !out_from}
                   type="submit"
                   className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -413,7 +417,8 @@ function StockOut() {
                          Submit
                          </span>
                          <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                </button>
+                </button> */}
+                <BtnGroupReuse  onClick={() => onSubmit()} disabled={(out_from=='P' && !projcode)|| !out_from} text="Submit" icon={<SaveOutlined className='mr-2' />} flag={1}/>
               </div>
             </Spin>
           )}

@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, FilterOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";
@@ -6,6 +6,9 @@ import TDInputTemplate from "./TDInputTemplate";
 import moment from "moment";
 import VError from "./VError";
 import { Empty } from "antd";
+import BtnGroupReuse from "./BtnGroupReuse";
+import { SaveOutlined } from "@mui/icons-material";
+
 
 function CompositeSearchClient({data, onSubmit, onReset,flag}) {
     const [visible, setVisible] = useState(false);
@@ -359,7 +362,7 @@ function CompositeSearchClient({data, onSubmit, onReset,flag}) {
           </div>
   
           <div className="flex gap-4 justify-between">
-            <button
+            {/* <button
               type="submit"
               className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm border-2 border-green-900 font-medium text-center text-green-900 bg-white transition ease-in-out   rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
               onClick={() => {
@@ -380,21 +383,32 @@ function CompositeSearchClient({data, onSubmit, onReset,flag}) {
               }}
             >
               Reset
-            </button>
+            </button> */}
+            <BtnGroupReuse text="Reset" onClick={() => {
+                setOne("");
+                setOneCode()
+                setTwo("");
+                setTwoCode()
+                setThree("");
+                setFour("");
+                setFourCode()
+                setFive("");
+                setSix("");
+                setSeven("");
+                setEight("");
+                setNine("");
+                setVisible(false);
+                onReset();
+              }} flag={2}
+              icon={<ReloadOutlined className="mr-2"/>}
+              />
             {/* {set_two_code} */}
-            <button
+            {/* <button
               type="submit" 
               disabled={
-                // flag!=2? !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val: !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val  && !set_seven_val
-              //  !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) &&  !set_seven_val 
-               !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_eight_val || !set_nine_val) &&  !set_seven_val && (!set_five_val || !set_six_val)
-                // !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_five_val || !set_six_val) && !set_eight_val && (flag==2  && !set_seven_val)
                
-                // !set_one_code &&
-                // set_two_code &&
-                // set_four_code  &&
-                // !set_three_val &&
-                // !set_eight_val && (flag==2 && !set_seven_val) && !set_six_val
+               !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_eight_val || !set_nine_val) &&  !set_seven_val && (!set_five_val || !set_six_val)
+               
               }
               className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out   rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
               onClick={() => {
@@ -425,7 +439,40 @@ function CompositeSearchClient({data, onSubmit, onReset,flag}) {
               }}
             >
               Submit 
-            </button>
+            </button> */}
+            <BtnGroupReuse  flag={1} onClick={() => {
+                console.log(set_one_val, set_two_val);
+                setVisible(true);
+                onSubmit({
+                  val_one:set_one_val,
+                  code_one: set_one_code?.toString()||'',
+                  val_two: set_two_val,
+                  code_two: set_two_code?.toString()||'',
+  
+                  val_three: set_three_val,
+                  code_three: set_three_val,
+                  val_four:  set_four_val,
+                  code_four: set_four_code?.toString()||'',
+  
+                  val_five: set_five_val,
+                  code_five: set_five_val,
+                  val_six: set_six_val,
+                  code_six: set_six_val,
+                  val_seven: set_seven_val,
+                  code_seven: set_seven_val,
+                  val_eight:set_eight_val,
+                  code_eight:set_eight_val,
+                  val_nine:set_nine_val,
+                  code_nine:set_nine_val
+                });
+              }}
+              text="Submit"
+               icon={<SaveOutlined className="mr-2"/>}
+               disabled={
+               
+               !set_one_code && !set_two_code && !set_three_val && !set_four_code && (!set_eight_val || !set_nine_val) &&  !set_seven_val && (!set_five_val || !set_six_val)
+               
+              }/>
           </div>
         </OverlayPanel>
       </motion.button>

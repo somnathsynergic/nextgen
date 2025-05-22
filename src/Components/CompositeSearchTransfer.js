@@ -6,6 +6,7 @@ import TDInputTemplate from "./TDInputTemplate";
 import moment from "moment";
 import VError from "./VError";
 import { Empty } from "antd";
+import BtnGroupReuse from "./BtnGroupReuse";
 function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
     const [visible, setVisible] = useState(false);
     const [set_one_val, setOne] = useState("");
@@ -290,7 +291,7 @@ function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
           </div>
   
           <div className="flex gap-4 justify-between">
-            <button
+            {/* <button
               type="submit"
               className=" disabled:bg-gray-400 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm border-2 border-green-900 font-medium text-center text-green-900 bg-white transition ease-in-out   rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 dark:bg-[#22543d] dark:hover:bg-gray-600"
               onClick={() => {
@@ -309,9 +310,23 @@ function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
             >
               <ReloadOutlined className="mr-2"/>
               Reset
-            </button>
+            </button> */}
+            <BtnGroupReuse text="Reset" icon={<ReloadOutlined className="mr-2"/>}  onClick={() => {
+                setOne("");
+                setOneCode()
+                setTwo("");
+                setTwoCode()
+                setThree("");
+                setFour("");
+                setFourCode()
+               
+                setEight("");
+                setVisible(false);
+                onReset();
+              }} flag={2}
+              />
             {/* {set_two_code} */}
-            <button
+            {/* <button
               type="submit" 
               disabled={
                  !set_one_code && !set_two_code && !set_three_val && !set_four_code && !set_eight_val
@@ -338,7 +353,26 @@ function CompositeSearchTransfer({data, onSubmit, onReset,flag}) {
         Submit
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-            </button>
+            </button> */}
+            <BtnGroupReuse text="Submit" flag={1} icon={<SaveOutlined className='mr-2' />}  onClick={() => {
+                setVisible(true);
+                onSubmit({
+                  val_one:set_one_val,
+                  code_one: set_one_code?.toString()||'',
+                  val_two: set_two_val,
+                  code_two: set_two_code?.toString()||'',
+                  val_three: set_three_val,
+                  code_three: set_three_val,
+                  val_four:  set_four_val,
+                  code_four: set_four_code?.toString()||'',
+                  val_eight:set_eight_val,
+                  code_eight:set_eight_val
+                });
+              }}
+               disabled={
+                 !set_one_code && !set_two_code && !set_three_val && !set_four_code && !set_eight_val
+              }
+              />
           </div>
         </OverlayPanel>
       </motion.button>

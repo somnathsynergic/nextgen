@@ -12,6 +12,7 @@ import SkeletonLoading from "../../Components/SkeletonLoading";
 import DialogBox from "../../Components/DialogBox";
 import { Tag } from "antd";
 import CompositeSearchVtoC from "../../Components/CompositeSearchVtoC";
+import Pagination from "../../Components/Pagination";
 function ClientDeliveryView() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
@@ -368,13 +369,19 @@ function ClientDeliveryView() {
                     ))}
                 </tbody>
               </table>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

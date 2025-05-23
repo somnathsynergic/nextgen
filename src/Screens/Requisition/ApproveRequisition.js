@@ -23,6 +23,8 @@ import { Tag } from "antd";
 import { Message } from "../../Components/Message";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
 import moment from "moment";
+import Pagination from "../../Components/Pagination";
+import { formatDate } from "../../Functions/formatDate";
 
 function ApproveRequisition() {
     const [value, setValue] = useState(2);
@@ -563,7 +565,7 @@ function ApproveRequisition() {
                         </th>
                         <td class="px-6 py-3 text-green-900 font-bold">{item.req_no}</td>
                         <td class="px-6 py-3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                        <td class="px-6 py-3 text-gray-600">{moment(item.req_date).format('DD/MM/YYYY')}({item.created_at?.split('T')[1]})</td>
+                        <td class="px-6 py-3 text-gray-600">{formatDate(item.req_date)}({item.created_at?.split('T')[1]})</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"
@@ -601,13 +603,19 @@ function ApproveRequisition() {
                     ))}
                 </tbody>
               </table>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

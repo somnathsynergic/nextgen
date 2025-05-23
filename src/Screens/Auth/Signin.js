@@ -14,6 +14,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
 import { motion } from "framer-motion"
+import BtnGroupReuse from "../../Components/BtnGroupReuse";
 function Signin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -160,7 +161,10 @@ function Signin() {
                     className={loading?"bg-green-900  delay-100 hover:duration-500 w-8 h-8 border-2 border-green-900 hover:scale-105  text-white p-3 rounded-full":"bg-green-900 hover:duration-500 w-full hover:scale-105  delay-100 text-white p-3 rounded-full"}
                   >
                    {!loading? 'Login to your account':''}
+
+                   
                   </button>
+                 
                 </div>
           </Spin>
 

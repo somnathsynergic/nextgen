@@ -44,6 +44,7 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
 import BtnGroupReuse from '../../../Components/BtnGroupReuse';
 import InfoTags from '../../../Components/InfoTags';
+import { formatDate } from '../../../Functions/formatDate';
 function ProjectForm() {
   const navigate = useNavigate();
      const [blocked, setBlocked] = useState(false);
@@ -777,12 +778,12 @@ function ProjectForm() {
                       label="Order Date"
                       name="order_dt"
                       formControlName={order_dt}
-                      min={moment(
+                      min={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() - 3)
                         )
-                      ).format("yyyy-MM-DD")}
-                      max={moment(new Date()).format("yyyy-MM-DD")} //may need to change
+                      ,"yyyy-MM-DD")}
+                      max={formatDate(new Date(),"yyyy-MM-DD")} //may need to change
                       handleChange={(txt) => setOrderDt(txt.target.value)}
                       mode={1}
                     />
@@ -852,11 +853,11 @@ function ProjectForm() {
                       disabled={!order_dt}
                       formControlName={proj_end_delvry_dt}
                       handleChange={(txt) => setEndDel(txt.target.value)}
-                      max={moment(
+                      max={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() + 3)
                         )
-                      ).format("yyyy-MM-DD")} //may need to change
+                      ,"yyyy-MM-DD")} //may need to change
                       mode={1}
                     />
                     {/* {!proj_end_delvry_dt && (

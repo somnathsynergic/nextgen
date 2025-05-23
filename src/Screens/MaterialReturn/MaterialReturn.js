@@ -23,6 +23,8 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import moment from "moment";
 import StockInViewComp from "../../Components/StockInViewComp";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import Pagination from "../../Components/Pagination";
+import { formatDate } from "../../Functions/formatDate";
 
 function MaterialReturn() {
   const params = useParams();
@@ -39,7 +41,7 @@ function MaterialReturn() {
   const [showProd, setShowProd] = useState(false);
   const [prodVal, setProdVal] = useState("");
   const [prodCode, setProdCode] = useState();
-  const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
+  const [dt, setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"));
   const [clicked, setClicked] = useState(true);
   const op = useRef(null);
   const op1 = useRef(null);
@@ -265,12 +267,12 @@ function MaterialReturn() {
                       disabled={true}
                       handleChange={(txt) => setDt(txt.target.value)}
                       mode={1}
-                      min={moment(
+                      min={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() - 3)
                         )
-                      ).format("yyyy-MM-DD")} //may need to change
-                      max={moment(new Date()).format("yyyy-MM-DD")}
+                      ,"yyyy-MM-DD")} //may need to change
+                      max={formatDate(new Date(),"yyyy-MM-DD")}
                     />
 
                     {!dt ? <VError title={"Required"} /> : null}
@@ -649,7 +651,7 @@ function MaterialReturn() {
                       loading={loading}
                       />
                   </div>
-                  <Paginator
+                  {/* <Paginator
                     first={first}
                     rows={rows}
                     totalRecords={reportData?.length}
@@ -663,7 +665,21 @@ function MaterialReturn() {
                       reportData?.length,
                     ]}
                     onPageChange={onPageChange}
-                  />
+                  /> */}
+                  <Pagination first={first}
+                    rows={rows}
+                    totalRecords={reportData?.length}
+                    rowsPerPageOptions={[
+                      3,
+                      5,
+                      10,
+                      15,
+                      20,
+                      30,
+                      reportData?.length,
+                    ]}
+                    onPageChange={onPageChange}
+                    />
 
                   {/* <StockInViewComp
                   data={reportData}

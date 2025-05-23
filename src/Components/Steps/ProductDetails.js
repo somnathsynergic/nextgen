@@ -28,6 +28,7 @@ import moment from "moment";
 import InfoTags from '../InfoTags';
 import { CurrencyRupee } from '@mui/icons-material';
 import BtnGroupReuse from '../BtnGroupReuse';
+import { formatDate } from '../../Functions/formatDate';
 
 function ProductDetails({ pressBack, pressNext, data }) {
   console.log(data);
@@ -1122,11 +1123,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                           : false
                       }
                       name="delivery_date"
-                      max={moment(
+                      max={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() + 3)
                         )
-                      ).format("yyyy-MM-DD")} //may need to change
+                     ,"yyyy-MM-DD")} //may need to change
                       handleChange={(event) => handleDtChange(index, event)}
                       // handleChange={handleChange}
                       // handleBlur={handleBlur}
@@ -1151,11 +1152,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       type="date"
                       label="Delivery To"
                       min={input.delivery_date}
-                      max={moment(
+                      max={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() + 3)
                         )
-                      ).format("yyyy-MM-DD")} //may need to change
+                     ,"yyyy-MM-DD")} //may need to change
                       formControlName={input.delivery_to}
                       disabled={
                         !input.delivery_date ||

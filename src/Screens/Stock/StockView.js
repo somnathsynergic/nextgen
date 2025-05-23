@@ -16,6 +16,7 @@ import {
   TruckOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+import Pagination from '../../Components/Pagination';
 function StockView() {
 const [products,setProducts] = useState([])
 const [first, setFirst] = useState(0);
@@ -180,13 +181,19 @@ useEffect(()=>{
               ))}
           </tbody>
         </table>
-        <Paginator
+        {/* <Paginator
           first={first}
           rows={rows}
           totalRecords={products?.length}
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, products?.length]}
           onPageChange={onPageChange}
-        />
+        /> */}
+        <Pagination  first={first}
+          rows={rows}
+          totalRecords={products?.length}
+          rowsPerPageOptions={[3, 5, 10, 15, 20, 30, products?.length]}
+          onPageChange={onPageChange}
+          />
       </motion.section>
     </div>
   )

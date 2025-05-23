@@ -11,6 +11,7 @@ import TDInputTemplate from "./TDInputTemplate";
 import { CompareSharp } from "@mui/icons-material";
 import VError from "./VError";
 import BtnGroupReuse from "./BtnGroupReuse";
+import Pagination from "./Pagination";
 
 function StockOutComponent({
   headers,
@@ -186,13 +187,19 @@ function StockOutComponent({
               ))}
           </tbody>
         </table>
-        <Paginator
+        {/* <Paginator
           first={first}
           rows={rows}
           totalRecords={data?.length}
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, data?.length]}
           onPageChange={onPageChange}
-        />
+        /> */}
+        <Pagination  first={first}
+          rows={rows}
+          totalRecords={data?.length}
+          rowsPerPageOptions={[3, 5, 10, 15, 20, 30, data?.length]}
+          onPageChange={onPageChange}
+          />
         <div className="flex justify-center gap-3 items-center">
           <div className="mx-auto">
             <div className="flex justify-center gap-2 items-center mx-auto mb-2">

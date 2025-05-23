@@ -1,5 +1,5 @@
 import React from "react";
-import { Descriptions } from "antd";
+import DescriptionCompReuse from "./DescriptionCompReuse";
 
 function VendorInfo({data}) {
 
@@ -116,12 +116,13 @@ function VendorInfo({data}) {
       ];
       return (
         <div>
-          <Descriptions
+          {/* <Descriptions
             title="Vendor Details"
             className="mx-auto my-6"
             labelStyle={{ color: "#014737",fontWeight:'bold' }}
             items={items}
-          />
+          /> */}
+          <DescriptionCompReuse title="Vendor Details" items={items}/>
           {data.deals.length>0 &&<>  <p className='font-semibold text-green-900 my-2'> Deals in </p>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

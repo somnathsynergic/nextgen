@@ -20,6 +20,8 @@ import moment from "moment";
 import InfoTags from "./InfoTags";
 import axios from "axios";
 import { url } from "../Address/BaseUrl";
+import Pagination from "./Pagination";
+import { formatDate } from "../Functions/formatDate";
 function POTableView({ po_data, setSearch, title,print }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -356,7 +358,7 @@ function POTableView({ po_data, setSearch, title,print }) {
                       )}
                     </p>}
                   </td>
-                  <td class="px-4 py-4 text-gray-600  text-xs">{moment(item.po_issue_date).format('DD/MM/YYYY')}</td>
+                  <td class="px-4 py-4 text-gray-600  text-xs">{formatDate(item.po_issue_date)}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
                     {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
@@ -462,13 +464,18 @@ function POTableView({ po_data, setSearch, title,print }) {
           </tbody>
         </table>
         </div>
-        <Paginator
+        {/* <Paginator
           first={first}
           rows={rows}
           totalRecords={po_data?.length}
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
           onPageChange={onPageChange}
-        />
+        /> */}
+        <Pagination first={first}
+          rows={rows}
+          totalRecords={po_data?.length}
+          rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+          onPageChange={onPageChange}/>
       </motion.section>
       <DrawerComp
         open={open}

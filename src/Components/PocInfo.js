@@ -1,5 +1,6 @@
 import React from 'react'
 import { Descriptions } from "antd";
+import DescriptionCompReuse from './DescriptionCompReuse';
 
 function PocInfo({data}) {
     console.log(data)
@@ -54,7 +55,8 @@ function PocInfo({data}) {
       ];
   return (
     <div>
-      <Descriptions title="Client Details" className='mx-auto my-6' labelStyle={{color:'#014737',fontWeight:'bold'}} items={items} />
+      {/* <Descriptions title="Client Details" className='mx-auto my-6' labelStyle={{color:'#014737',fontWeight:'bold'}} items={items} /> */}
+      <DescriptionCompReuse title="POC Details" items={items} />
     </div>
   )
 }

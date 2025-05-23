@@ -34,6 +34,7 @@ import moment from "moment/moment";
 import { Popover } from "antd";
 import { OverlayPanel } from "primereact/overlaypanel";
 import BtnGroupReuse from '../../Components/BtnGroupReuse'
+import { formatDate } from "../../Functions/formatDate";
 
 function RequisitionForm() {
   const contentRef = useRef(null);
@@ -492,7 +493,7 @@ function RequisitionForm() {
             });
         });
     } else {
-      setReqDate(moment(new Date()).format("yyyy-MM-DD"));
+      setReqDate(formatDate(new Date(),"yyyy-MM-DD"));
       axios
         .post(url + "/api/req_item_dtls", { last_req_id: +params.id })
         .then((resItems) => {
@@ -853,17 +854,17 @@ function RequisitionForm() {
                     type="date"
                     label="Date"
                     name="dt"
-                    min={moment(
+                    min={formatDate(
                       new Date(
                         new Date().setFullYear(new Date().getFullYear() - 3)
                       )
-                    ).format("yyyy-MM-DD")} //may need to change
+                    ,"yyyy-MM-DD")} //may need to change
                     formControlName={
                       params.id > 0
                         ? req_date
-                        : moment(new Date()).format("yyyy-MM-DD")
+                        : formatDate(new Date(),"yyyy-MM-DD")
                     }
-                    max={moment(new Date()).format("yyyy-MM-DD")}
+                    max={formatDate(new Date(),"yyyy-MM-DD")}
                     // formControlName={params.po_no}
                     disabled={true}
                     mode={1}

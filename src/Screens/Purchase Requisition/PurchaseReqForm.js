@@ -34,6 +34,7 @@ import DrawerComp from "../../Components/DrawerComp";
 import { CheckCircleOutline, DeleteOutline, MoneyOffOutlined } from "@mui/icons-material";
 import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import { formatDate } from "../../Functions/formatDate";
 
 function PurchaseReqForm() {
   const params = useParams();
@@ -56,7 +57,7 @@ function PurchaseReqForm() {
   const [count, setCount] = useState(0);
   const [intended_for, setIntended] = useState("W");
   const [trans_dt, setTransDt] = useState(
-    moment(new Date()).format("yyyy-MM-DD")
+    formatDate(new Date(),"yyyy-MM-DD")
   );
   const [logData,setLogData] = useState([])
   const [purpose, setPurpose] = useState(localStorage.getItem("email"));
@@ -429,8 +430,8 @@ function PurchaseReqForm() {
                       disabled
                       formControlName={
                         !trans_dt
-                          ? moment(new Date()).format("yyyy-MM-DD")
-                          : moment(trans_dt).format("yyyy-MM-DD")
+                          ? formatDate(new Date(),"yyyy-MM-DD")
+                          : formatDate(trans_dt,"yyyy-MM-DD")
                       }
                       //   handleChange={formik.handleChange}
                       //   handleBlur={formik.handleBlur}

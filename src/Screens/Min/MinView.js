@@ -15,6 +15,8 @@ import CompositeSearch from "../../Components/CompositeSearch";
 import DialogBox from "../../Components/DialogBox";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
 import moment from "moment";
+import Pagination from "../../Components/Pagination";
+import { formatDate } from "../../Functions/formatDate";
 
 
 function MinView() {
@@ -412,7 +414,7 @@ function MinView() {
                               </p>
                       </td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap text-xs">{item?.proj_name?item?.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                      <td class="px-4 py-4 w-1/4 text-gray-600 text-xs">{moment(item.req_date).format('DD/MM/YYYY')}</td>
+                      <td class="px-4 py-4 w-1/4 text-gray-600 text-xs">{formatDate(item.req_date,'DD/MM/YYYY')}</td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-xs">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                       <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
                       
@@ -428,13 +430,19 @@ function MinView() {
                   ))}
               </tbody>
             </table>
-            <Paginator
+            {/* <Paginator
               first={first}
               rows={rows}
               totalRecords={po_data?.length}
               rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
               onPageChange={onPageChange}
-            />
+            /> */}
+            <Pagination first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+              />
           </motion.section>
         )}
       </div>

@@ -11,6 +11,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import SkeletonLoading from "../Components/SkeletonLoading";
+import Pagination from "./Pagination";
 
 function UploadViewTemplate({ flag, title }) {
   const [first, setFirst] = useState(0);
@@ -209,13 +210,19 @@ function UploadViewTemplate({ flag, title }) {
                   ))}
               </tbody>
             </table>
-            <Paginator
+            {/* <Paginator
               first={first}
               rows={rows}
               totalRecords={po_data?.length}
               rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
               onPageChange={onPageChange}
-            />
+            /> */}
+            <Pagination  first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+              />
           </motion.section>
         )}
       </div>

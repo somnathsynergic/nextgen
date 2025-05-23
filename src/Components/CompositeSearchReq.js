@@ -7,6 +7,7 @@ import moment from "moment";
 import VError from "./VError";
 import { Empty } from "antd";
 import BtnGroupReuse from "./BtnGroupReuse";
+import { formatDate } from "../Functions/formatDate";
 
 function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
     const [visible, setVisible] = useState(false);
@@ -534,8 +535,10 @@ function CompositeSearchReq({ data, onSubmit, onReset,flag }) {
                     setFive(val.target.value);
                     console.log(val.target.value);
                   }}
-                  min={moment(new Date(new Date().setFullYear(new Date().getFullYear() - 3))).format('yyyy-MM-DD')}
-                  max={moment(new Date()).format("yyyy-MM-DD")}
+                  // min={moment(new Date(new Date().setFullYear(new Date().getFullYear() - 3))).format('yyyy-MM-DD')}
+                  // max={moment(new Date()).format("yyyy-MM-DD")}
+                   min={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 3)),'yyyy-MM-DD')}
+                  max={formatDate(new Date(),"yyyy-MM-DD")}
                   mode={1}
                   // data={data?.set_one}
                 />

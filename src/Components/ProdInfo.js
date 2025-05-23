@@ -1,5 +1,5 @@
 import React from 'react'
-import { Descriptions } from "antd";
+import DescriptionCompReuse from './DescriptionCompReuse';
 function ProdInfo({data}) {
     console.log(data)
 
@@ -53,7 +53,8 @@ function ProdInfo({data}) {
       ];
   return (
     <div>
-      <Descriptions title="Item Details" className='mx-auto my-6' labelStyle={{color:'#014737',fontWeight:'bold'}} items={items} />
+      {/* <Descriptions title="Item Details" className='mx-auto my-6' labelStyle={{color:'#014737',fontWeight:'bold'}} items={items} /> */}
+      <DescriptionCompReuse title="Item Details" items={items} />
     </div>
   )
 

@@ -8,8 +8,10 @@ import { Checkbox, Spin } from 'antd';
 import { Message } from './Message';
 import axios from 'axios';
 import { url } from '../Address/BaseUrl';
-import { LoadingOutlined, SaveOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LogoutOutlined, SaveOutlined } from '@ant-design/icons';
 import VError from './VError';
+import BtnGroupReuse from './BtnGroupReuse';
+
 const PasswordComp = ({mode}) => {
   const [type,setType]=useState('password')
   const navigate=useNavigate()
@@ -119,10 +121,14 @@ const PasswordComp = ({mode}) => {
        
       </div>
       <div className='flex justify-between'>
-     {mode==3 && <button type="submit" onClick={()=>{localStorage.clear();navigate(routePaths.LANDING)}} className="text-white bg-green-900 hover:bg-
-      green-900 focus:ring-4 mr-4 focus:outline-none focus:ring-green-900 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:bg-blue-400">
-        Sign Out
-      </button>}
+     {mode==3 && 
+    //  <button type="submit" onClick={()=>{localStorage.clear();navigate(routePaths.LANDING)}} className="text-white bg-green-900 hover:bg-
+    //   green-900 focus:ring-4 mr-4 focus:outline-none focus:ring-green-900 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:bg-blue-400">
+    //     Sign Out
+    //   </button>
+      <BtnGroupReuse flag={2} icon={<LogoutOutlined/>}  onClick={()=>{localStorage.clear();navigate(routePaths.LANDING)}} text="Sign Out"/>
+      
+      }
 
       <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
       <button type="submit" 
@@ -136,6 +142,7 @@ const PasswordComp = ({mode}) => {
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>
+    
       </Spin>
       </div>
      </form>

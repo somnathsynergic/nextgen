@@ -26,6 +26,7 @@ import moment from "moment";
 import StockOutComponent from "../../../Components/StockOutComponent";
 import BtnGroupReuse from "../../../Components/BtnGroupReuse";
 import InfoTags from "../../../Components/InfoTags";
+import { formatDate } from "../../../Functions/formatDate";
 
 function StockOut() {
   const params = useParams();
@@ -43,7 +44,7 @@ function StockOut() {
   const [showProd, setShowProd] = useState(false);
   const [prodVal, setProdVal] = useState("");
   const [prodCode, setProdCode] = useState();
-  const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
+  const [dt, setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"));
   const [clicked, setClicked] = useState(true);
   const [proj_id,setProjId] = useState("");
   const [req_person, setReqPerson] = useState(
@@ -229,12 +230,12 @@ function StockOut() {
                       formControlName={dt}
                       handleChange={(txt) => setDt(txt.target.value)}
                       mode={1}
-                      min={moment(
+                      min={formatDate(
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() - 3)
                         )
-                      ).format("yyyy-MM-DD")} //may need to change
-                      max={moment(new Date()).format("yyyy-MM-DD")}
+                      ,"yyyy-MM-DD")} //may need to change
+                      max={formatDate(new Date(),"yyyy-MM-DD")}
                     />
 
                     {!dt ? <VError title={"Required"} /> : null}

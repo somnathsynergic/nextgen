@@ -11,6 +11,7 @@ import { url } from "../../Address/BaseUrl";
 import { useReactToPrint } from "react-to-print";
 import { use } from "react";
 import moment from "moment";
+import { formatDate } from "../../Functions/formatDate";
 function PoPreview({ data }) {
   var tot = 0;
   const contentRef = useRef(null);
@@ -376,7 +377,7 @@ function PoPreview({ data }) {
                   </div>
                   <div className="text-gray-800 font-bold">
                     <span className=" font-bold text-green-700">PO Date:</span>{" "}
-                    {moment(localStorage.getItem("po_issue_date")).format(
+                    {formatDate(localStorage.getItem("po_issue_date"),
                       "DD/MM/yyyy"
                     )}
                   </div>
@@ -394,7 +395,7 @@ function PoPreview({ data }) {
                         Parent PO:{" "}
                       </span>{" "}
                       {po_no?.split("-")[0]}-{po_no?.split("-")[1]} (Date:{" "}
-                      {moment(parent_po_dt).format("DD/MM/yyyy")})
+                      {formatDate(parent_po_dt)})
                     </div>
                   )}
                   {/* <div  className="text-gray-800 font-bold"><span className=" font-bold text-green-700">Value:</span>  {grandTot}</div> */}
@@ -844,11 +845,11 @@ function PoPreview({ data }) {
                                 <span className="font-bold text-green-700">
                                   Delivery from:
                                 </span>{" "}
-                                {moment(item.delivery_dt).format("DD/MM/yyyy")}{" "}
+                                {formatDate(item.delivery_dt)}{" "}
                                 <span className="font-bold text-green-700">
                                   to{" "}
                                 </span>{" "}
-                                {moment(item.delivery_to).format("DD/MM/yyyy")}{" "}
+                                {formatDate(item.delivery_to)}{" "}
                               </>
                             </td>
                           </tr>
@@ -1570,7 +1571,7 @@ function PoPreview({ data }) {
             </div>
           </Spin>
         </div>
-        <p className="text-[11px] text-black font-bold">
+        <p className="text-[11px] text-gray-600 font-semibold">
           This is a computer generated purchase order. No signature is required.
         </p>
       </div>

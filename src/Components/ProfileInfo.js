@@ -7,6 +7,7 @@ import { url } from "../Address/BaseUrl";
 import axios from "axios";
 import { Message } from "./Message";
 import { Image } from "antd";
+import BtnGroupReuse from "./BtnGroupReuse";
 const ProfileInfo = () => {
   const inputFile = useRef(null);
   const [img, setImg] = useState("");
@@ -211,7 +212,7 @@ const ProfileInfo = () => {
         className="text-green-900 dark:text-gray-400"
         spinning={loading}
       >
-        <button
+        {/* <button
           type="submit"
           disabled={!name || !phone}
           onClick={() => {
@@ -225,7 +226,14 @@ const ProfileInfo = () => {
           Update
           </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-        </button>
+        </button> */}
+        <BtnGroupReuse text="Update" disabled={!name || !phone} flag={1}
+          onClick={() => {
+            onUpdate();
+          }}
+          icon={ <SaveOutlined className='mr-2' />}
+          loading={loading}
+          />
       </Spin>
     </div>
   );

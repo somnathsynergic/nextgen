@@ -28,6 +28,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Chip } from "primereact/chip";
 import InfoTags from '../InfoTags';
 import BtnGroupReuse from '../BtnGroupReuse';
+import { formatDate } from '../../Functions/formatDate';
 
 function BasicDetails({ pressNext, pressBack, data }) {
   console.log(data);
@@ -276,8 +277,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
       (localStorage.getItem("po_issue_date") == "null" ||
         !localStorage.getItem("po_issue_date"))
     ) {
-      setPoIssueDate(moment(date).format("yyyy-MM-DD"));
-      localStorage.setItem("po_issue_date", moment(date).format("yyyy-MM-DD"));
+      setPoIssueDate(formatDate(date,"yyyy-MM-DD"));
+      localStorage.setItem("po_issue_date", formatDate(date,"yyyy-MM-DD"));
     }
     axios.post(url + "/api/getproject", { id: 0 }).then((resProj) => {
       console.log(resProj);
@@ -488,11 +489,17 @@ function BasicDetails({ pressNext, pressBack, data }) {
                   type="date"
                   label="PO Date"
                   name="po_issue_date"
-                  min={moment(
+                  // min={moment(
+                  //   new Date(
+                  //     new Date().setFullYear(new Date().getFullYear() - 3)
+                  //   )
+                  // ).format("yyyy-MM-DD")} 
+                   min={formatDate(
                     new Date(
                       new Date().setFullYear(new Date().getFullYear() - 3)
                     )
-                  ).format("yyyy-MM-DD")} //may need to change
+                  ,"yyyy-MM-DD")} 
+
                   disabled={
                     params.flag == "F" ||
                     localStorage.getItem("po_status") == "A" ||
@@ -502,7 +509,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
                       : false
                   }
                   formControlName={localStorage.getItem("po_issue_date")}
-                  max={moment(new Date()).format("yyyy-MM-DD")} //may need to change
+                  // max={moment(new Date()).format("yyyy-MM-DD")} 
+                  max={formatDate(new Date(),"yyyy-MM-DD")} 
                   handleChange={(txt) => {
                     setPoIssueDate(txt.target.value);
                     localStorage.setItem("po_issue_date", txt.target.value);

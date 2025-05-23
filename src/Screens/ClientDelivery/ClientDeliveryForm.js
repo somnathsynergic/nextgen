@@ -29,6 +29,7 @@ import { Checkbox, Col, Row } from "antd";
 import { Button, Popover, Space } from "antd";
 import { SyncOutlined } from "@mui/icons-material";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { formatDate } from "../../Functions/formatDate";
 function ClientDeliveryForm() {
   const op = useRef(null);
   const params = useParams();
@@ -350,13 +351,13 @@ function ClientDeliveryForm() {
                     label="Date"
                     name="dt"
                     handleChange={(txt) => setDelDateEdit(txt.target.value)}
-                    min={moment(
+                    min={formatDate(
                       new Date(
                         new Date().setFullYear(new Date().getFullYear() - 3)
                       )
-                    ).format("yyyy-MM-DD")} //may need to change
+                    ,"yyyy-MM-DD")} //may need to change
                     formControlName={del_datetoEdit}
-                    max={moment(new Date()).format("yyyy-MM-DD")}
+                    max={formatDate(new Date(),"yyyy-MM-DD")}
                     // formControlName={params.po_no}
                     // disabled={true}
                     mode={1}
@@ -463,14 +464,14 @@ function ClientDeliveryForm() {
                           name="inv_dt"
                           formControlName={inv_dt}
                           handleChange={(txt) => setInvoiceDt(txt.target.value)}
-                          min={moment(
+                          min={formatDate(
                             new Date(
                               new Date().setFullYear(
                                 new Date().getFullYear() - 3
                               )
                             )
-                          ).format("yyyy-MM-DD")} //may need to change
-                          max={moment(new Date()).format("yyyy-MM-DD")} //may need to change
+                          ,"yyyy-MM-DD")} //may need to change
+                          max={formatDate(new Date(),"yyyy-MM-DD")} //may need to change
                           mode={1}
                         />
                       </td>

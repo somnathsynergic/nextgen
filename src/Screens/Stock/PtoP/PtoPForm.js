@@ -26,6 +26,7 @@ import AuditTrail from "../../../Components/AuditTrail";
 import { ListBox } from "primereact/listbox";
 import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { formatDate } from "../../../Functions/formatDate";
 
 
 function PtoPForm() {
@@ -39,7 +40,7 @@ function PtoPForm() {
     const [productList, setProductList] = useState([]);
     const [count, setCount] = useState(0);
     const [intended_for, setIntended] = useState("W");
-    const [trans_dt,setTransDt] = useState(moment(new Date()).format("yyyy-MM-DD"))
+    const [trans_dt,setTransDt] = useState(formatDate(new Date(),"yyyy-MM-DD"))
     const [purpose, setPurpose] = useState("");
     const [projects, setProjects] = useState([]);
     const [cients, setClients] = useState([]);
@@ -315,7 +316,7 @@ function PtoPForm() {
                       disabled
                       formControlName={
                         params.id == 0
-                          ? moment(new Date()).format("yyyy-MM-DD")
+                          ? formatDate(new Date(),"yyyy-MM-DD")
                           : trans_dt
                       }
                       //   handleChange={formik.handleChange}

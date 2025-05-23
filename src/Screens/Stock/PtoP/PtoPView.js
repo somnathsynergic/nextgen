@@ -23,6 +23,7 @@ import CompositeSearch from "../../../Components/CompositeSearch";
 import Radiobtn from "../../../Components/Radiobtn";
 import DialogBox from "../../../Components/DialogBox";
 import CompositeSearchTransfer from "../../../Components/CompositeSearchTransfer";
+import Pagination from "../../../Components/Pagination";
 
 function PtoPView() {
     const contentRef = useRef(null);
@@ -502,13 +503,19 @@ const [isPrinting, setIsPrinting] = useState(true);
                 </tbody>
               </table>
               </div>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

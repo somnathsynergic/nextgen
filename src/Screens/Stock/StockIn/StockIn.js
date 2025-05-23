@@ -15,6 +15,7 @@ import StockInViewComp from "../../../Components/StockInViewComp";
 import StockInViewCompAll from "../../../Components/StockInViewCompAll";
 import { BlockUI } from "primereact/blockui";
 import BtnGroupReuse from "../../../Components/BtnGroupReuse";
+import { formatDate } from "../../../Functions/formatDate";
 
 
 function StockIn() {
@@ -34,7 +35,7 @@ function StockIn() {
     const [showProd,setShowProd] = useState(false)
     const [prodVal,setProdVal] = useState("")
     const [prodCode,setProdCode] = useState()
-    const [dt,setDt] = useState(moment(new Date()).format("yyyy-MM-DD"))
+    const [dt,setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"))
     const [clicked,setClicked] = useState(true)
     const [proj_id,setProjID] = useState(0)
     const op = useRef(null);
@@ -183,12 +184,12 @@ function StockIn() {
                   disabled={true}
                   handleChange={txt=>setDt(txt.target.value)}
                   mode={1}
-                  min={moment(
+                  min={formatDate(
                     new Date(
                       new Date().setFullYear(new Date().getFullYear() - 3)
                     )
-                  ).format("yyyy-MM-DD")} //may need to change
-                  max={moment(new Date()).format("yyyy-MM-DD")} 
+                  ,"yyyy-MM-DD")} //may need to change
+                  max={formatDate(new Date(),"yyyy-MM-DD")} 
                 />
   
                 {!dt ? (

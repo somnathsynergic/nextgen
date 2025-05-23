@@ -29,6 +29,7 @@ import moment from "moment/moment";
 import { Popover } from "antd";
 import { ScrollPanel } from "primereact/scrollpanel";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import { formatDate } from "../../Functions/formatDate";
 function MinForm() {
      const [blocked, setBlocked] = useState(false);
      const det = JSON.parse(localStorage.getItem('perm'))
@@ -164,7 +165,7 @@ function MinForm() {
         setMinDt(
           res?.data?.msg[0]?.req_date
             ? res?.data?.msg[0]?.req_date
-            : moment(new Date()).format("yyyy-MM-DD")
+            : formatDate(new Date(),"yyyy-MM-DD")
         );
         axios
           .post(url + "/api/get_proj_id", {
@@ -353,12 +354,12 @@ function MinForm() {
                   formControlName={min_dt}
                   handleChange={(txt) => setMinDt(txt.target.value)}
                   disabled={params.id > 0 ? true : false}
-                  min={moment(
+                  min={formatDate(
                     new Date(
                       new Date().setFullYear(new Date().getFullYear() - 3)
                     )
-                  ).format("yyyy-MM-DD")} //may need to change
-                  max={moment(new Date()).format("yyyy-MM-DD")} //may need to change
+                 ,"yyyy-MM-DD")} //may need to change
+                  max={formatDate(new Date(),"yyyy-MM-DD")} //may need to change
                   mode={1}
                 />
                 {!min_dt ? <VError title={"Required"} /> : null}

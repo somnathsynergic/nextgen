@@ -14,6 +14,7 @@ import { Tag } from "antd";
 import Radiobtn from "../../Components/Radiobtn";
 import { Button, Divider, Spin } from "antd";
 import { Message } from "../../Components/Message";
+import Pagination from "../../Components/Pagination";
 
 function ApproveMrn() {
     const [first, setFirst] = useState(0);
@@ -556,13 +557,19 @@ function ApproveMrn() {
                     ))}
                 </tbody>
               </table>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination  first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

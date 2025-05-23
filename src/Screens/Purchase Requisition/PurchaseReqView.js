@@ -21,6 +21,8 @@ import DialogBox from "../../Components/DialogBox";
 import CompositePurReqSearch from "../../Components/CompositePurReqSearch";
 import { Tooltip } from "@mui/material";
 import moment from "moment";
+import Pagination from "../../Components/Pagination";
+import { formatDate } from "../../Functions/formatDate";
 
 function PurchaseReqView() {
     const [first, setFirst] = useState(0);
@@ -559,7 +561,7 @@ function PurchaseReqView() {
                         
                         </td>
                         <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name || 'Warehouse'} {item.proj_name?'(ID:'+item.ID+')':''}</td>
-                        <td class="px-4 py-4 w-1/6 text-gray-600 text-xs">{moment(item.pur_date).format('DD/MM/YYYY')}</td>
+                        <td class="px-4 py-4 w-1/6 text-gray-600 text-xs">{formatDate(item.pur_date)}</td>
                         <td class="px-4 py-4 w-1/3 text-gray-600 text-xs">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                        {isPrinting? <td class="px-3 py-4 w-1/6  flex gap-3 text-gray-600">
 {/*                         
@@ -575,14 +577,21 @@ function PurchaseReqView() {
                     ))}
                 </tbody>
               </table>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 className={!isPrinting?"hidden":"w-full"}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination  first={first}
+                rows={rows}
+                className={!isPrinting?"hidden":"w-full"}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

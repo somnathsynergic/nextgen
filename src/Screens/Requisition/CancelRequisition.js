@@ -22,6 +22,7 @@ import DialogBox from "../../Components/DialogBox";
 import { Tag } from "antd";
 import { Message } from "../../Components/Message";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
+import Pagination from "../../Components/Pagination";
 
 function CancelRequisition() {
     const [value, setValue] = useState(2);
@@ -593,13 +594,19 @@ function CancelRequisition() {
                     ))}
                 </tbody>
               </table>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

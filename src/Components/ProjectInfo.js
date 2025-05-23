@@ -1,5 +1,6 @@
 import React from "react";
 import { Descriptions } from "antd";
+import DescriptionCompReuse from "./DescriptionCompReuse";
 
 function ProjectInfo({ data }) {
 
@@ -115,13 +116,15 @@ function ProjectInfo({ data }) {
   ];
   return (
     <div>
-      <Descriptions
+      {/* <Descriptions
         title="Project Details"
         className="mx-auto my-6"
         labelStyle={{ color: "#014737",fontWeight:'bold' }}
         style={{ borderBottom: "2px gray" }}
         items={items}
-      />
+      /> */}
+    <DescriptionCompReuse title="Project Details" items={items} />
+
       {data.poc.length>0 && <>
 <p className='font-semibold text-green-900 my-2'> Contact Person Information </p>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

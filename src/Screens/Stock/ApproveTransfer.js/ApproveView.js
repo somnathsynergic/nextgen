@@ -23,6 +23,8 @@ import DialogBox from "../../../Components/DialogBox";
 import { Message } from "../../../Components/Message";
 import CompositeSearchTransfer from "../../../Components/CompositeSearchTransfer";
 import moment from "moment";
+import Pagination from "../../../Components/Pagination";
+import { formatDate } from "../../../Functions/formatDate";
 
 function ApproveView() {
   const [value, setValue] = useState(2);
@@ -462,7 +464,7 @@ function ApproveView() {
                       >
                         {item.sl_no}
                       </th>
-                      <td class="px-6 py-4 text-gray-600">{moment(item.trans_dt).format('DD/MM/YYYY')}</td>
+                      <td class="px-6 py-4 text-gray-600">{formatDate(item.trans_dt)}</td>
                       <td class="px-6 py-4 text-green-900 font-bold">
                         {item.trans_no}
                       </td>
@@ -503,13 +505,19 @@ function ApproveView() {
                   ))}
               </tbody>
             </table>
-            <Paginator
+            {/* <Paginator
               first={first}
               rows={rows}
               totalRecords={po_data?.length}
               rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
               onPageChange={onPageChange}
-            />
+            /> */}
+            <Pagination first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+              />
           </motion.section>
         )}
       </div>

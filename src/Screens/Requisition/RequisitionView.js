@@ -24,6 +24,8 @@ import Radiobtn from "../../Components/Radiobtn";
 import DialogBox from "../../Components/DialogBox";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
 import moment from "moment";
+import Pagination from "../../Components/Pagination";
+import { formatDate } from "../../Functions/formatDate";
 
 
 function RequisitionView() {
@@ -506,7 +508,7 @@ function RequisitionView() {
                           
                           </td>
                         <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')': 'Warehouse'}</td>
-                        <td class="px-4 py-4 text-gray-600 text-xs">{moment(item.req_date).format('DD/MM/YYYY')}</td>
+                        <td class="px-4 py-4 text-gray-600 text-xs">{formatDate(item.req_date)}</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"
@@ -550,13 +552,19 @@ function RequisitionView() {
                 </tbody>
               </table>
               </div>
-              <Paginator
+              {/* <Paginator
                 first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
                 rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
                 onPageChange={onPageChange}
-              />
+              /> */}
+              <Pagination first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
             </motion.section>
           )}
         </div>

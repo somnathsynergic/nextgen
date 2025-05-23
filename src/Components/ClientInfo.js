@@ -1,5 +1,6 @@
 import React from 'react'
-import { Descriptions } from "antd";
+// import { Descriptions } from "antd";
+import DescriptionCompReuse from './DescriptionCompReuse';
 
 function ClientInfo({data}) {
   const items= [
@@ -16,7 +17,8 @@ function ClientInfo({data}) {
   ];
   return (
     <div className='mx-auto'>
-    <Descriptions title="Client Details" className='mx-auto my-6' labelStyle={{color:'#014737'}} items={items} />
+    {/* <Descriptions title="Client Details" className='mx-auto my-6' labelStyle={{color:'#014737'}} items={items} /> */}
+    <DescriptionCompReuse title="Client Details" items={items} />
     
 {data.loc.length>0 &&<>  <p className='font-semibold text-green-900 my-2'> Location Information </p>
 

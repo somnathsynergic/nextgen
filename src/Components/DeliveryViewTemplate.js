@@ -12,6 +12,7 @@ import CompositeSearch from "./CompositeSearch";
 import DialogBox from "./DialogBox";
 import { Tag } from "antd";
 import InfoTags from "./InfoTags";
+import Pagination from "./Pagination";
 
 function DeliveryViewTemplate({ flag }) {
   
@@ -469,13 +470,19 @@ function DeliveryViewTemplate({ flag }) {
                   ))}
               </tbody>
             </table>
-            <Paginator
+            {/* <Paginator
               first={first}
               rows={rows}
               totalRecords={po_data?.length}
               rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
               onPageChange={onPageChange}
-            />
+            /> */}
+            <Pagination  first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+              />
           </motion.section>
         )}
       </div>

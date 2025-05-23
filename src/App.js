@@ -52,6 +52,7 @@ function App() {
         itemDisabledColor:'#CCAD8F',
         subMenuItemSelectedColor: '#4C9F70'
       },
+     
       Segmented:{
         itemActiveBg:'#014737',
         itemColor:'#014737',
@@ -86,8 +87,8 @@ function App() {
         colorTextLabel:'#014737',
         colorText:'#014737',
         colorSplit:'#014737',
-        labelBg:'#F1F5F9'
-        
+        labelBg:'#F1F5F9',
+        colorPrimaryBg:'gray'
       },
       Popover:{
         colorBgElevated:'#014737',
@@ -117,7 +118,8 @@ function App() {
       Radio:{
         colorPrimary:"#014737",
         buttonColor:'#014737',
-        colorBorder:'#014737'
+        colorBorder:'#014737',
+        buttonSolidCheckedBg:'#014737'
       },
       Message:{
         borderRadius:50,

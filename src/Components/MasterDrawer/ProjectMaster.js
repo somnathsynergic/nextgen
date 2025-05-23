@@ -28,6 +28,7 @@ import Viewdetails from "../../Components/Viewdetails";
 import { Button, Form, Input } from "antd";
 import VError from "../../Components/VError";
 import moment from "moment";
+import { formatDate } from "../../Functions/formatDate";
 function ProjectMaster({onClose,onLoading}) {
     const navigate = useNavigate();
     const [client, setClient] = useState([]);
@@ -601,8 +602,10 @@ function ProjectMaster({onClose,onLoading}) {
                         name="order_dt"
                         formControlName={order_dt}
                         handleChange={(txt) => setOrderDt(txt.target.value)}
-                        min={moment(new Date(new Date().setFullYear(new Date().getFullYear() - 3))).format('yyyy-MM-DD')}
-                        max={moment(new Date()).format("yyyy-MM-DD")}
+                        // min={moment(new Date(new Date().setFullYear(new Date().getFullYear() - 3))).format('yyyy-MM-DD')}
+                        // max={moment(new Date()).format("yyyy-MM-DD")}
+                        min={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 3)),'yyyy-MM-DD')}
+                        max={formatDate(new Date(),"yyyy-MM-DD")}
                         mode={1}
                       />
                       {!order_dt && <VError title={'Date is required!'} />}

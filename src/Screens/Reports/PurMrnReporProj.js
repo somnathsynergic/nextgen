@@ -22,6 +22,7 @@ import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import InfoTags from "../../Components/InfoTags";
+import { formatDate } from "../../Functions/formatDate";
 
 function PurMrnReporProj() {
   // const headers= [
@@ -51,7 +52,7 @@ function PurMrnReporProj() {
   const [po_list, setPOList] = useState([]);
   const [po_listCopy, setPOListCopy] = useState([]);
   const [po_no, setPoNo] = useState("");
-  const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
+  const [dt, setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"));
   const [clicked, setClicked] = useState(true);
   const [reportData, setReportData] = useState([]);
   const [poCode, setPoCode] = useState(0);

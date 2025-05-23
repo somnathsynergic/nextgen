@@ -27,6 +27,7 @@ import PoPreview from "./Steps/PoPreview";
 import TDInputTemplate from "./TDInputTemplate";
 import AmendPreview from "./AmendPreview";
 import { Timeline } from "antd";
+import { formatDate } from "../Functions/formatDate";
 import {
   CheckCircleFilled,
   CheckCircleOutlined,
@@ -67,6 +68,7 @@ import { Message } from "./Message";
 import { CancelOutlined } from "@mui/icons-material";
 import BtnGroupReuse from "./BtnGroupReuse";
 import InfoTags from "./InfoTags";
+import Pagination from "./Pagination";
 const DialogBox = ({
   visible,
   flag,
@@ -248,7 +250,7 @@ const DialogBox = ({
                 Invoice: {data[i].invoice}
               </p>
               <p className="font-bold text-green-900 flex justify-center items-center">
-                Invoice Date: {data[i].invoice_dt}
+                Invoice Date: {formatDate(data[i].invoice_dt)}
               </p>
             </div>
           </>
@@ -511,9 +513,11 @@ const DialogBox = ({
       }
       visible={visible}
       maximizable
+      
       style={{
         width: "50vw",
         background: "black",
+
       }}
       onHide={() => {
         if (!visible) return;
@@ -655,7 +659,7 @@ const DialogBox = ({
           />
           <OverlayPanel
             ref={op}
-            className="w-[610px] -ml-5 border-2 bg-gray-200 border-green-900"
+            className="w-[610px] border-2 bg-gray-50 border-[#C4F1BE]"
           >
             <span className="text-xs text-green-900 italic">
               Search results for: "{po_no}"
@@ -680,7 +684,8 @@ const DialogBox = ({
                             setCount(res?.data?.msg?.cnt);
                           });
                       }}
-                      class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] rounded-md hover:duration-300 sm:pb-4"
+                    class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+
                     >
                       <div class="flex items-center rtl:space-x-reverse">
                         <div class="flex-1 min-w-0">
@@ -689,7 +694,7 @@ const DialogBox = ({
                           </p>
                         </div>
                       </div>
-                      <Divider />
+                      {/* <Divider /> */}
                     </li>
                   ))}
               {data.filter((e) => e.name.includes(po_no)).length == 0 && (
@@ -864,7 +869,7 @@ const DialogBox = ({
                         scope="row"
                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {item.invoice_dt}
+                        {formatDate(item.invoice_dt)}
                       </th>
                       <td class="px-6 py-4">{item.sl}</td>
                       <td class="px-6 py-4">
@@ -953,7 +958,7 @@ const DialogBox = ({
                         scope="row"
                         class="px-3 py-2 border border-gray-300 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {item.invoice_dt}
+                        {formatDate(item.invoice_dt)}
                       </th>
                       <td class="px-3 py-2 border border-gray-300">
                         {item.sl}
@@ -1594,7 +1599,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.invoice_dt}
+                          {formatDate(lst.invoice_dt)}
                         </span>
                         , MRN: {lst.mrn_no}
                       </p>
@@ -1834,13 +1839,20 @@ const DialogBox = ({
                 </li>
               ))}
             </ul>
-             <Paginator
+             {/* <Paginator
                           first={first}
                           rows={rows}
                           totalRecords={copy?.length}
                           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, copy?.length]}
                           onPageChange={onPageChange}
-                        />
+                        /> */}
+                        <Pagination 
+                          first={first}
+                          rows={rows}
+                          totalRecords={copy?.length}
+                          rowsPerPageOptions={[3, 5, 10, 15, 20, 30, copy?.length]}
+                          onPageChange={onPageChange}
+                          />
                         </>
           ) : (
             <Empty />
@@ -2184,7 +2196,7 @@ const DialogBox = ({
                           scope="row"
                           class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          {item.invoice_dt}
+                          {formatDate(item.invoice_dt)}
                         </th>
                         <td class="px-3 py-4">{item.sl}</td>
 
@@ -2706,7 +2718,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.invoice_dt}
+                          {formatDate(lst.invoice_dt)}
                         </span>
                       </p>
                     </div>
@@ -3059,7 +3071,7 @@ const DialogBox = ({
                         {item.qty}
                       </th>
 
-                      <td class="px-6 py-4  text-nowrap">{item.trans_dt}</td>
+                      <td class="px-6 py-4  text-nowrap">{formatDate(item.trans_dt)}</td>
                       <th
                         scope="row"
                         class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -3199,7 +3211,7 @@ const DialogBox = ({
                         scope="row"
                         class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {item.created_at}
+                        {formatDate(item.created_at)}
                       </th>
 
                       <th
@@ -4400,7 +4412,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.invoice_dt}
+                          {formatDate(lst.invoice_dt)}
                         </span>
                         , MRN: {lst.mrn_no}
                       </p>

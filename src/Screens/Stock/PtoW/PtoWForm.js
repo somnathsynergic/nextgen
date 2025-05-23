@@ -26,6 +26,7 @@ import AuditTrail from "../../../Components/AuditTrail";
 import { ListBox } from "primereact/listbox";
 import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { formatDate } from "../../../Functions/formatDate";
 
 function PtoWForm() {
     const params = useParams();
@@ -41,7 +42,7 @@ function PtoWForm() {
     const [count, setCount] = useState(0);
     const [intended_for, setIntended] = useState("W");
     const [trans_dt, setTransDt] = useState(
-      moment(new Date()).format("yyyy-MM-DD")
+      formatDate(new Date(),"yyyy-MM-DD")
     );
     const [purpose, setPurpose] = useState("");
     const [projects, setProjects] = useState([]);
@@ -315,7 +316,7 @@ function PtoWForm() {
                       disabled
                       formControlName={
                         params.id == 0
-                          ? moment(new Date()).format("yyyy-MM-DD")
+                          ? formatDate(new Date(),"yyyy-MM-DD")
                           : trans_dt
                       }
                       //   handleChange={formik.handleChange}

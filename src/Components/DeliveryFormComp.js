@@ -43,6 +43,7 @@ import moment from "moment/moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import BtnGroupReuse from './BtnGroupReuse';
 import InfoTags from './InfoTags'
+import { formatDate } from '../Functions/formatDate';
 
 function DeliveryFormComp({ flag, title, onSubmit }) {
   const [visible, setVisible] = useState(false);
@@ -820,14 +821,21 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                         name="inv_dt"
                         formControlName={inv_dt}
                         handleChange={(txt) => setInvoiceDt(txt.target.value)}
-                        min={moment(
+                        // min={moment(
+                        //   new Date(
+                        //     new Date().setFullYear(new Date().getFullYear() - 3)
+                        //   )
+                        // ).format("yyyy-MM-DD")}
+                        // max={moment(new Date()).format("yyyy-MM-DD")} 
+                         min={formatDate(
                           new Date(
                             new Date().setFullYear(new Date().getFullYear() - 3)
                           )
-                        ).format("yyyy-MM-DD")} //may need to change
-                        max={moment(new Date()).format("yyyy-MM-DD")} //may need to change
+                        ,"yyyy-MM-DD")}
+                        max={formatDate(new Date(),"yyyy-MM-DD")} 
                         mode={1}
                       />
+
                     </td>
                     <td className="px-6 py-4 w-1/4">
                       <TDInputTemplate

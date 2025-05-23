@@ -22,6 +22,7 @@ import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
 import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import { formatDate } from "../../Functions/formatDate";
 
 function Pr_ord_create() {
   const params = useParams();
@@ -34,7 +35,7 @@ function Pr_ord_create() {
     const [projVal, setProjVal] = useState("");
     const [projCode, setProjCode] = useState();
     const [type, setType] = useState("");
-    const [dt, setDt] = useState(moment(new Date()).format("yyyy-MM-DD"));
+    const [dt, setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"));
     const [clicked, setClicked] = useState(true);
     const [reportData,setReportData] = useState([])
     const [pur_req__list, setPurReqList] = useState([]);
@@ -163,12 +164,12 @@ function Pr_ord_create() {
                         formControlName={dt}
                         handleChange={(txt) => setDt(txt.target.value)}
                         mode={1}
-                        min={moment(
+                        min={formatDate(
                           new Date(
                             new Date().setFullYear(new Date().getFullYear() - 3)
                           )
-                        ).format("yyyy-MM-DD")} //may need to change
-                        max={moment(new Date()).format("yyyy-MM-DD")} 
+                        ,"yyyy-MM-DD")} //may need to change
+                        max={formatDate(new Date(),"yyyy-MM-DD")} 
                       />
   
                       {!dt ? <VError title={"Required"} /> : null}

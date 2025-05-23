@@ -123,7 +123,7 @@ function VendorMDCC({onClose,data,onLoading}) {
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
           </button> */}
-          <BtnGroupReuse text="Submit" loading={ChartsLoadingOverlay} onClick={() => uploadFile()} disabled={!doc} flag={1} icon={<SaveOutlined className='mr-2' />}/>
+          <BtnGroupReuse text="Submit" loading={loading} onClick={() => uploadFile()} disabled={!doc} flag={1} icon={<SaveOutlined className='mr-2' />}/>
           </>
 }
           <span className="mx-auto">

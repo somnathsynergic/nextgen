@@ -13,7 +13,6 @@ import PrintHeader from "../../Components/PrintHeader";
 import { Button, Divider, Empty, Spin, Tag, Tooltip } from "antd";
 import {
   CloseCircleOutlined,
-  DeleteColumnOutlined,
   InfoCircleOutlined,
   LoadingOutlined,
   LockFilled,
@@ -28,13 +27,13 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import DrawerComp from "../../Components/DrawerComp";
-import { CheckCircleOutline, DeleteOutline, MoneyOffOutlined } from "@mui/icons-material";
+import { CheckCircleOutline } from "@mui/icons-material";
 import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function PurchaseReqForm() {
   const params = useParams();
@@ -404,11 +403,8 @@ function PurchaseReqForm() {
                                                                                }  blocked={blocked} className={"bg-red-500"}>
         <div className="grid grid-cols-6 gap-2">
           <div className={"w-full col-span-6 bg-white p-6 rounded-2xl"}>
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               {params.id > 0 && (
                 <div className="sm:col-span-12 flex justify-end">
@@ -1181,7 +1177,7 @@ function PurchaseReqForm() {
                   </div>
                 </div>
               </div>
-            </Spin>
+            </SpinComp>
           </div>
         </div>
       </BlockUI>

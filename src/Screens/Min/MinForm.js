@@ -5,13 +5,12 @@ import VError from "../../Components/VError";
 import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
-import { Divider, Input, Tag } from "antd";
+import { Tag } from "antd";
 import { BlockUI } from 'primereact/blockui';
 
 import {
   BranchesOutlined,
   CheckCircleOutlined,
-  ClockCircleFilled,
   CloseCircleOutlined,
   DropboxOutlined,
   LoadingOutlined,
@@ -21,15 +20,13 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import Viewdetails from "../../Components/Viewdetails";
 import { Spin } from "antd";
 import { Message } from "../../Components/Message";
-import { Checkbox, Col, Row } from "antd";
-import moment from "moment/moment";
 import { Popover } from "antd";
 import { ScrollPanel } from "primereact/scrollpanel";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 function MinForm() {
      const [blocked, setBlocked] = useState(false);
      const det = JSON.parse(localStorage.getItem('perm'))
@@ -318,11 +315,8 @@ function MinForm() {
                                                                                            } 
                                                                                            > 
       
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="grid grid-cols-12 gap-2">
           <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
@@ -672,7 +666,7 @@ function MinForm() {
             </div>
           </div>
         </div>
-      </Spin>
+      </SpinComp>
      </BlockUI>
       <DialogBox
         visible={visible}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../../Components/Header";
 import Sidebar from "../../Components/Sidebar";
@@ -7,7 +7,7 @@ import { ScrollTop } from "primereact/scrolltop";
 import { ErrorBoundary } from "react-error-boundary";
 import Error from "../../Components/Error";
 import DialogBox from "../../Components/DialogBox";
-import { CloseCircleFilled, LeftOutlined, MenuFoldOutlined, MenuUnfoldOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 function Home() {
   const location = useLocation();

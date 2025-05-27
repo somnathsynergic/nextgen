@@ -6,7 +6,6 @@ import { url } from "../../Address/BaseUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Spin } from "antd";
-import { BlockUI } from 'primereact/blockui';
 
 import {
   DeleteOutlined,
@@ -21,6 +20,7 @@ import TimeLine from "./TimeLine";
 import TIME from "../../../src/Assets/Images/time.svg";
 import NOTES from "../../../src/Assets/Images/Notes.png";
 import DialogBox from "../DialogBox";
+import SpinComp from "../SpinComp";
 function PoLogs({ data }) {
   console.log(data);
   const [timeline, setTimeline] = useState([]);
@@ -200,11 +200,8 @@ function PoLogs({ data }) {
                 }}
                 mode={3}
               />
-              <Spin
-                indicator={<LoadingOutlined spin />}
-                size="large"
-                className="text-green-900 dark:text-gray-400"
-                spinning={loading}
+              <SpinComp
+                loading={loading}
               >
                 <button
                   className="bg-green-900 hover:duration-500 w-full hover:scale-105  text-white p-1 my-3 rounded-full"
@@ -216,7 +213,7 @@ function PoLogs({ data }) {
                   {" "}
                   Add comment{" "}
                 </button>
-              </Spin>
+              </SpinComp>
             </span>
             <span className="flex-col justify-between items-center gap-2">
               <TDInputTemplate
@@ -230,11 +227,8 @@ function PoLogs({ data }) {
                 }}
                 mode={1}
               />
-              <Spin
-                indicator={<LoadingOutlined spin />}
-                size="large"
-                className="text-green-900 dark:text-gray-400"
-                spinning={loading}
+              <SpinComp
+                loading={loading}
               >
                 <button
                   className="bg-green-900 hover:duration-500 w-full hover:scale-105  text-white p-1 my-3 rounded-full"
@@ -247,7 +241,7 @@ function PoLogs({ data }) {
                   {" "}
                   Add file{" "}
                 </button>
-              </Spin>
+              </SpinComp>
             </span>
             {fileList.map((item,index) => (
             <>

@@ -7,6 +7,7 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import UploadTemplate from "../../../Components/UploadTemplate";
+import SpinComp from "../../../Components/SpinComp";
 
 function UploadTCForm() {
   const params = useParams();
@@ -67,18 +68,15 @@ function UploadTCForm() {
   };
 
   return (
-    <Spin
-      indicator={<LoadingOutlined spin />}
-      size="large"
-      className="text-green-900 dark:text-gray-400"
-      spinning={loading}
+    <SpinComp
+      loading={loading}
     >
       <UploadTemplate
         flag={"T"}
         title={"Upload Test Certificate"}
         onSubmit={(values) => onSubmit(values)}
       />
-    </Spin>
+    </SpinComp>
   );
 }
 

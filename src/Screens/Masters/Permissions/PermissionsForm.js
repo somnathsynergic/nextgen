@@ -1,4 +1,4 @@
-import { Checkbox, Col, Row, Spin, Tag } from "antd";
+import { Checkbox, Spin, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import HeadingTemplate from "../../../Components/HeadingTemplate";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,8 @@ import { BlockUI } from 'primereact/blockui';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
-import { Divider } from "@mui/material";
+import SpinComp from "../../../Components/SpinComp";
+import InfoTags from "../../../Components/InfoTags";
 function PermissionsForm() {
   const params = useParams();
      const [blocked, setBlocked] = useState(false);
@@ -225,16 +226,12 @@ function PermissionsForm() {
                                                                                         </div>
                                                                                       } className={'bg-red-500'}>
       
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="w-full bg-white p-6 rounded-2xl">
-          <Tag color="#014737" className="my-2 text-base">
-            {user_type}
-          </Tag>
+          <InfoTags text={user_type} color="#014737" bgCol="my-2 text-base"/>
+          
           
           <div class="overflow-x-auto">
   <table class="min-w-full border border-gray-300">
@@ -317,7 +314,7 @@ function PermissionsForm() {
             </button>
           </div>
         </div>
-      </Spin>
+      </SpinComp>
       </BlockUI>
 
       <div ref={contentRef}  style={{

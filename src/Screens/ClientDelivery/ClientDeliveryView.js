@@ -3,14 +3,12 @@ import { routePaths } from "../../Assets/Data/Routes";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import { EditOutlined } from "@ant-design/icons";
 import SkeletonLoading from "../../Components/SkeletonLoading";
 
 import DialogBox from "../../Components/DialogBox";
-import { Tag } from "antd";
 import CompositeSearchVtoC from "../../Components/CompositeSearchVtoC";
 import Pagination from "../../Components/Pagination";
 function ClientDeliveryView() {

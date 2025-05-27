@@ -21,6 +21,7 @@ import axios from "axios";
 import AuditTrail from "../../../Components/AuditTrail";
 import { Image } from "antd";
 import { BlockUI } from 'primereact/blockui';
+import SpinComp from '../../../Components/SpinComp';
 
 function ClientForm() {
   const [loading, setLoading] = useState(false);
@@ -375,11 +376,8 @@ function ClientForm() {
         </div>
       } className={'bg-red-500'}>
         <div className="w-full bg-white p-6 rounded-2xl">
-          <Spin
-            indicator={<LoadingOutlined spin />}
-            size="large"
-            className="text-green-900 dark:text-gray-400"
-            spinning={loading}
+          <SpinComp
+            loading={loading}
           >
             <Formik
               initialValues={+params.id > 0 ? formValues : initialValues}
@@ -784,7 +782,7 @@ function ClientForm() {
                 </form>
               )}
             </Formik>
-          </Spin>
+          </SpinComp>
         </div>
       </BlockUI>
       <div ref={contentRef} style={{

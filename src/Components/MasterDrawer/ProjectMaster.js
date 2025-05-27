@@ -3,13 +3,11 @@ import { useParams } from "react-router";
 import { Message } from "../../Components/Message";
 import { useNavigate } from "react-router-dom";
 import {
-  LoadingOutlined,
   ArrowRightOutlined,
   ArrowLeftOutlined,
   InfoOutlined,
   PlusOutlined,
   MinusOutlined,
-  FileTextOutlined,
   DeleteOutlined,
   FilePdfOutlined,
   FileWordOutlined,
@@ -17,7 +15,6 @@ import {
   FileExcelOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-import { Spin, Tag } from "antd";
 import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
@@ -25,10 +22,11 @@ import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
 import DialogBox from "../../Components/DialogBox";
 import Viewdetails from "../../Components/Viewdetails";
-import { Button, Form, Input } from "antd";
+import { Button } from "antd";
 import VError from "../../Components/VError";
-import moment from "moment";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../SpinComp";
+import InfoTags from "../InfoTags";
 function ProjectMaster({onClose,onLoading}) {
     const navigate = useNavigate();
     const [client, setClient] = useState([]);
@@ -518,11 +516,8 @@ function ProjectMaster({onClose,onLoading}) {
         <h2 className="text-2xl text-green-900 font-bold my-3">
             Add Project
           </h2>
-          <Spin
-            indicator={<LoadingOutlined spin />}
-            size="large"
-            className="text-green-900 dark:text-gray-400"
-            spinning={loading}
+          <SpinComp
+            loading={loading}
           >
             <div className="card flex justify-content-center">
               <Stepper ref={stepperRef} style={{ flexBasis: "100%" }} linear={true} orientation="vertical">
@@ -543,7 +538,7 @@ function ProjectMaster({onClose,onLoading}) {
                         mode={1}
                         // disabled={params.id > 0}
                       />
-                     {checkLoad &&  <Tag icon={<SyncOutlined spin />} color="processing">Checking...</Tag>}
+                     {checkLoad &&  <InfoTags icon={<SyncOutlined spin />} color="processing" text="Checking..."/>}
                     {!proj_id && <VError title={'A unique project ID is required!'} />}
                     {count>0 && <VError title={'Project ID already exists!'} />}
                     </div>
@@ -848,11 +843,8 @@ function ProjectMaster({onClose,onLoading}) {
                   {/* </form> */}
                 </StepperPanel>
                 <StepperPanel header="Client Details">
-                <Spin
-            indicator={<LoadingOutlined spin />}
-            size="large"
-            className="text-green-900 dark:text-gray-400"
-            spinning={loading}
+                <SpinComp
+            loading={loading}
           >
                   <h2 className="font-bold text-2xl text-green-900 my-3">Client Details</h2>
   
@@ -1137,11 +1129,11 @@ function ProjectMaster({onClose,onLoading}) {
                     onClick={()=>onSubmitClient()}>Submit</button>
                    
                   </div>
-                  </Spin>
+                  </SpinComp>
                 </StepperPanel>
               </Stepper>
             </div>
-          </Spin>
+          </SpinComp>
         </div>
         <DialogBox
           visible={visible}

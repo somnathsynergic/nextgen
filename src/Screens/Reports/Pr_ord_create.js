@@ -6,23 +6,19 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Empty, Spin, Tag, Tooltip } from "antd";
+import { Empty, Spin, Tooltip } from "antd";
 import {
     ArrowUpOutlined,
-  BorderOutlined,
   LoadingOutlined,
-  MinusCircleOutlined,
   SaveOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
-import PrintComp from "../../Components/PrintComp";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
-import moment from "moment";
 import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function Pr_ord_create() {
   const params = useParams();
@@ -49,18 +45,15 @@ function Pr_ord_create() {
     const [projId,setProjId] = useState("")
     const headers= [
       { name: "pur_no", value: "PR No." },
-      { name: "proj_name", value: "Intended For" },
-      { name: "qty", value: "PR Quantity" },
-      { name: "po_no", value: "PO No.(s)" },
-      { name: "ordered_qty", value: "Ordered Quantity" },
-      { name: "free_qty", value: "Free For Requisition" },
-
-      { name: "approved_ord_qty", value: "Approved Quantity" },
+      { name: "status", value: "Status" },
+      // { name: "proj_name", value: "Intended For" },
+      // { name: "qty", value: "PR Quantity" },
+      // { name: "po_no", value: "PO No.(s)" },
+      // { name: "ordered_qty", value: "Ordered Quantity" },
+      // { name: "free_qty", value: "Free For Requisition" },
 
       // { name: "approved_ord_qty", value: "Approved Quantity" },
-     
-  
-      // { name: "created_by", value: "Created by" },
+
     ]
     useEffect(() => {
         axios
@@ -94,11 +87,14 @@ function Pr_ord_create() {
         });
       }
     }, [type]);
+    useEffect(()=>{
+      onSubmit()
+    },[])
     const onSubmit = () => {
       setInfo([{key:'1',label:'Date',children:<p>{dt}</p>},{key:'2',label:type=='P'?'Project Stock for ':'Warehouse Stock',children:<p>{type=='P'?projVal:'N/A'}</p>}])
       setLoading(true);
       axios
-        .post(url + "/api/pr_ord_create", { pur_no: purCode})
+        .post(url + "/api/pending_ord_create", { pur_no: purCode||''})
         .then((res) => {
           console.log(res);
           setReportData(res?.data?.msg)
@@ -115,12 +111,12 @@ function Pr_ord_create() {
     return (
       <section className="bg-transparent dark:bg-[#001529]">
         <HeadingTemplate
-          text={"PR-wise Order Creation Report"}
+          text={"Pending Order Creation Against PR"}
           mode={2}
           title={"Report"}
         />
      
-        <div className="grid grid-cols-6 gap-2">
+        {/* <div className="grid grid-cols-6 gap-2">
           <div className="ml-1 -mb-11 z-50">
             {clicked && (
               <Tooltip title="Minimize">
@@ -168,7 +164,7 @@ function Pr_ord_create() {
                           new Date(
                             new Date().setFullYear(new Date().getFullYear() - 3)
                           )
-                        ,"yyyy-MM-DD")} //may need to change
+                        ,"yyyy-MM-DD")} 
                         max={formatDate(new Date(),"yyyy-MM-DD")} 
                       />
   
@@ -205,13 +201,7 @@ function Pr_ord_create() {
                     console.log(pur_req__listCopy)
                     }
                   }}
-                  // disabled={
-                  //   localStorage.getItem("po_status") == "A" ||
-                  //   localStorage.getItem("po_status") == "D" ||
-                  //   localStorage.getItem("po_status") == "L"
-                  //     ? true
-                  //     : false
-                  // }
+                 
                   mode={1}
                 />
                
@@ -285,7 +275,6 @@ function Pr_ord_create() {
                                 </p>
                               </div>
                             </div>
-                            {/* <hr className="text-green-900 border-gray-300  bg-green-900" /> */}
                           </li>
                         ))}
                     {pur_req__list?.filter(
@@ -319,27 +308,17 @@ function Pr_ord_create() {
                 </form>
   
                 <div className="flex justify-center">
-                  {/* <button
-               
-                    type="submit"
-                    className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                    onClick={() => {
-                      onSubmit();
-                    }}
-                  >
-                   <span class="relative z-10">
-                           <SaveOutlined className='mr-2' />
-                           Submit
-                           </span>
-                           <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                  </button> */}
+                  
                   <BtnGroupReuse loading={loading} disabled={!purCode} text="Submit" onClick={() => {onSubmit();}} flag={1} icon={<SaveOutlined className='mr-2' />}/>
                 </div>
               </Spin>
             )}
             {!clicked && <SnippetsOutlined />}
           </div>
-        </div>
+        </div> */}
+         <SpinComp
+                loading={loading}
+              >
         {reportData.length>0 &&   <div className={clicked?"grid grid-cols-6 gap-2 my-3":"grid grid-cols-6 gap-2"}>
                 <div className='w-full col-span-6 bg-white p-2 rounded-2xl '>
            
@@ -347,8 +326,9 @@ function Pr_ord_create() {
                 <div className="w-full col-span-6 bg-white p-6 rounded-2xl ">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <InfoTags color="white" text='Warehouse quantity of this product: ' />
-            
-              <ReportTemplate reportHeader={'Order Creation Report for '+pur_req} data={reportData} headers={headers} info={info} flag={1}/>
+             
+              <ReportTemplate reportHeader={'Pending Order Creation Report'} data={reportData} headers={headers} info={info} flag={6}/>
+          
             </div>
           </div>
   
@@ -357,6 +337,7 @@ function Pr_ord_create() {
                 </div>
              
           }
+          </SpinComp>
       </section>
     );
   

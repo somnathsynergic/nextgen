@@ -10,20 +10,16 @@ import TermsConditions from "../../Components/Steps/TermsConditions";
 import ProductDetails from "../../Components/Steps/ProductDetails";
 import HeadingTemplate from "../../Components/HeadingTemplate";
 import Notes from "../../Components/Steps/Notes";
-import { Badge, Card, Space } from "antd";
 // import Tooltip from '@mui/material/Tooltip';
-import { Popover, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import {
   CheckCircleOutlined,
   CheckOutlined,
   ClockCircleOutlined,
-  ClusterOutlined,
   EyeOutlined,
   FileTextOutlined,
-  InfoCircleOutlined,
-  InfoOutlined,
   LoadingOutlined,
   LockOutlined,
   QuestionCircleOutlined,
@@ -38,12 +34,11 @@ import { url } from "../../Address/BaseUrl";
 import { Spin } from "antd";
 import { Message } from "../../Components/Message";
 import DialogBox from "../../Components/DialogBox";
-import { Tag } from "antd";
 import { BlockUI } from "primereact/blockui";
 import { SaveOutlined } from "@mui/icons-material";
 import PoLogs from "../../Components/Steps/PoLogs";
-import { motion } from "framer-motion";
 import InfoTags from "../../Components/InfoTags";
+import SpinComp from "../../Components/SpinComp";
 
 function PurchaseOrderForm() {
   const stepperRef = useRef(null);
@@ -84,8 +79,7 @@ function PurchaseOrderForm() {
   const [price_basis_desc, setPriceBasisDesc] = useState("");
   const [packing_forwarding, setPackingForwarding] = useState("");
   const [packing_forwardingExtra, setPackingForwardingExtra] = useState("");
-  const [packing_forwardingExtraVal, setPackingForwardingExtraVal] =
-    useState("");
+  const [packing_forwardingExtraVal, setPackingForwardingExtraVal] = useState("");
   const [pur_req,setPurReq] = useState(0)
   const [pf_cgst, setpfcgst] = useState("");
   const [pf_sgst, setpfsgst] = useState("");
@@ -312,7 +306,6 @@ function PurchaseOrderForm() {
         ins_currency: JSON.parse(localStorage.getItem("terms"))
           ? JSON.parse(localStorage.getItem("terms")).ins_currency
           : "",
-        //
         test_certificate: JSON.parse(localStorage.getItem("terms"))
           ? JSON.parse(localStorage.getItem("terms")).test_certificate
           : "",
@@ -938,11 +931,8 @@ function PurchaseOrderForm() {
           </div>
         }
       >
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <div className="card bg-white rounded-lg p-5">
             {clickFlag && (
@@ -1363,7 +1353,7 @@ function PurchaseOrderForm() {
               </StepperPanel>
             </Stepper>
           </div>
-        </Spin>
+        </SpinComp>
       </BlockUI>
       <DialogBox
         visible={visible}

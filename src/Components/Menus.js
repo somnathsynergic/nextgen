@@ -31,6 +31,7 @@ import {
   CloseCircleFilled,
   EnterOutlined,
   UsergroupAddOutlined,
+  DollarCircleFilled,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -86,7 +87,7 @@ function Menus({ theme,data,shrink }) {
 
         {
           key: "masters:unit",
-          icon: <PayCircleFilled />,
+          icon: <DollarCircleFilled />,
           label: <Link disabled={data?.masters=='0'  || data==undefined?true:false} to={data?.masters!='0' && data!=undefined?routePaths.UNITS:'#'}>Unit</Link>,
           disabled:data?.masters=='0'|| data==undefined?true:false
 
@@ -569,7 +570,7 @@ function Menus({ theme,data,shrink }) {
           {
             key: "rep:pr_ord_create",
             icon: <PieChartFilled />,
-            label:<Link to={routePaths.PRORDCREATE}>PR-wise Order Creation</Link>,
+            label:<Link to={routePaths.PRORDCREATE}>Pending Order Creation Against PR</Link>,
           },
 
     ]

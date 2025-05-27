@@ -14,7 +14,8 @@ function App() {
         colorPrimary:'#22543d',
       },
       Empty:{
-        colorTextDescription:'#014737'
+        // colorTextDescription:'#014737',
+        
       },
       Timeline:{
         dotBg:'#22543d',

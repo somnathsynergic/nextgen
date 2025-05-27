@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Auth from "./Screens/Auth/Auth";
 import Notfound from "./Screens/Notfound/Notfound";
-import Details from "./Screens/Homescreen/Details";
+// import Details from "./Screens/Homescreen/Details";
 import { Democontext } from "./Context/Democontext";
 import Loader from "./Components/Loader";
 
@@ -52,7 +52,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const Home = lazy(() => import("./Screens/Homescreen/Home"));
 const HomeScreen = lazy(() => import("./Screens/Homescreen/HomeScreen"));
 const ForgotPass = lazy(() => import("./Screens/Auth/ForgotPass"));
-const Signup = lazy(() => import("./Screens/Auth/Signup"));
+// const Signup = lazy(() => import("./Screens/Auth/Signup"));
 const Signin = lazy(() => import("./Screens/Auth/Signin"));
 const StockIn = lazy(()=>import("./Screens/Stock/StockIn/StockIn"));
 const StockOut =lazy(()=>import("./Screens/Stock/StockOut/StockOut"));
@@ -248,10 +248,10 @@ const router = createBrowserRouter([
             path: "",
             element: <Signin />,
           },
-          {
-            path: "signup",
-            element: <Signup />,
-          },
+          // {
+          //   path: "signup",
+          //   element: <Signup />,
+          // },
           {
             path: "forgotpassword",
             element: <ForgotPass />,
@@ -730,10 +730,10 @@ const router = createBrowserRouter([
               },
             ],
           },
-          {
-            path: "details",
-            element: <Details />,
-          },
+          // {
+          //   path: "details",
+          //   element: <Details />,
+          // },
         ],
       },
     ],

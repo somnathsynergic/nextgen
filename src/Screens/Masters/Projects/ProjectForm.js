@@ -38,7 +38,6 @@ import { Button, Form, Input } from "antd";
 import VError from "../../../Components/VError";
 import DrawerComp from "../../../Components/DrawerComp";
 import { SyncOutlined } from "@ant-design/icons";
-import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";

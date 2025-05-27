@@ -6,23 +6,19 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Divider, Empty, Spin, Tag, Tooltip } from "antd";
+import {  Empty, Spin, Tag, Tooltip } from "antd";
 import {
   ArrowUpOutlined,
-  BorderOutlined,
   LoadingOutlined,
-  MinusCircleOutlined,
   SaveOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
-import PrintComp from "../../Components/PrintComp";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
-import moment from "moment";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import InfoTags from "../../Components/InfoTags";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function PurMrnReporProj() {
   // const headers= [
@@ -212,11 +208,8 @@ function PurMrnReporProj() {
           }
         >
           {clicked && (
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               <form>
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -619,7 +612,7 @@ function PurMrnReporProj() {
                   loading={loading}
                   />
               </div>
-            </Spin>
+            </SpinComp>
           )}
           {!clicked && <SnippetsOutlined />}
         </div>

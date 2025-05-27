@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { routePaths } from "../../../Assets/Data/Routes";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { masterheaders } from "../../../Assets/Data/ColumnData";
 import { url } from "../../../Address/BaseUrl";
 import axios from "axios";
-import Tooltip from "@mui/material/Tooltip";
-import AddIcon from "@mui/icons-material/Add";
-import { PrinterOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import nodata from "../../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../../Components/SkeletonLoading";
-import CompositeSearch from "../../../Components/CompositeSearch";
 import Radiobtn from "../../../Components/Radiobtn";
 import DialogBox from "../../../Components/DialogBox";
 import PoTableCancel from "../../../Components/PoTableCancel";
@@ -18,12 +13,11 @@ import PoTableCancel from "../../../Components/PoTableCancel";
 function ClosePoView() {
   const [loading, setLoading] = useState(false);
   const rdBtn = [
-    { label: "Approved/Pending", value: 1 },
-    { label: "In Progress", value: 2 },
-    // { label: "Others", value: 3 },
+    { label: "Cancelled", value: 1 },
+    { label: "Not Cancelled", value: 2 },
   ];
   const locationpath = useLocation();
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [po_data, setPoData] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [vendorList, setVendorList] = useState([]);
@@ -41,6 +35,7 @@ function ClosePoView() {
   const [isVisible, setIsVisible] = useState(false);
   const [flag, setFlag] = useState(42);
 
+
   var template =
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
@@ -50,34 +45,27 @@ function ClosePoView() {
       locationpath.pathname.split("/").length - 1
     ]
   );
-  //    const onChange = (e) => {
-  //      console.log("radio checked", e);
-  //      // setValue(e);
-  //      if (e == 1) {
-  //        setPoData(
-  //          copy.filter(
-  //            (e) =>
-  //              (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "Y"
-  //          )
-  //        );
-  //        console.log(po_data);
-  //      } else if(e==2) {
-  //        setPoData(
-  //          copy.filter(
-  //            (e) => e.po_status =='P' && e.fresh_flag == "Y"
-  //          )
-  //        );
-  //        console.log(po_data);
-  //      }
-  //      else{
-  //        setPoData(
-  //          copy.filter(
-  //            (e) =>
-  //              (e.po_status == "D" || e.po_status == "L") && e.fresh_flag == "Y"
-  //          )
-  //        );
-  //      }
-  //    };
+     const onChange = (e) => {
+       console.log("radio checked", e);
+       // setValue(e);
+       if (e == 2) {
+         setPoData(
+           copy.filter(
+             (e) =>
+               (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "Y"
+           )
+         );
+         console.log(po_data);
+       } else if(e==1) {
+         setPoData(
+           copy.filter(
+             (e) =>  e.po_status == "C"
+           )
+         );
+         console.log(po_data);
+       }
+     
+     };
   var templateData = masterheaders[template];
   useEffect(() => {
     setLoading(true);
@@ -88,7 +76,7 @@ function ClosePoView() {
         console.log(res);
         setLoading(false);
 
-        setPoData(res?.data?.msg);
+        setPoData(res?.data?.msg.filter(e=>e.po_status=='C'));
         setCopy(res?.data?.msg);
       })
 
@@ -272,15 +260,15 @@ function ClosePoView() {
          </>
  }
        </div> */}
-      <div className="flex justify-end items-center">
-        {/* <Radiobtn
+      <div className="flex justify-start items-center">
+        <Radiobtn
            data={rdBtn}
            val={value}
            onChangeVal={(value) => {
              console.log(value);
              onChange(value);
            }}
-         /> */}
+         />
         {/* <CompositeSearch
           data={{
             set_one: vendorList,

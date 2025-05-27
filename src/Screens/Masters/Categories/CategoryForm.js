@@ -21,6 +21,7 @@ import { BlockUI } from 'primereact/blockui';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
+import SpinComp from '../../../Components/SpinComp';
 
 const CategoryForm = () => {
   const params = useParams();
@@ -145,7 +146,7 @@ const [blocked, setBlocked] = useState(false);
                               } className={'bg-red-500'}>
             <div className="grid grid-cols-6 gap-2">
             <div className={products.length>0?'w-full col-span-4 bg-white p-6 rounded-2xl':'w-full col-span-6 bg-white p-6 rounded-2xl'}>
-          <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
+          <SpinComp  size="large" loading={loading}>
         <form onSubmit={formik.handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="sm:col-span-2">
@@ -173,7 +174,7 @@ const [blocked, setBlocked] = useState(false);
           <BtnComp mode={params.id>0?'E':'A'} onDelete={()=>onDelete()} onReset={formik.handleReset}/>
          
         </form>
-        </Spin>
+        </SpinComp>
       </div>
       {products.length>0 &&  
   

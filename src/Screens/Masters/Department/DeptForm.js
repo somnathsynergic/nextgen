@@ -14,11 +14,11 @@ import { Spin} from 'antd';
 import { LoadingOutlined, LockFilled } from '@ant-design/icons';
 import DialogBox from "../../../Components/DialogBox";
 import { useNavigate } from 'react-router-dom';
-import PrintComp from "../../../Components/PrintComp";
 import AuditTrail from "../../../Components/AuditTrail";
 import { BlockUI } from "primereact/blockui";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
+import SpinComp from '../../../Components/SpinComp';
 
 function DeptForm() {
     const params = useParams();
@@ -133,7 +133,7 @@ function DeptForm() {
             
           <div className="w-full bg-white p-6 rounded-2xl">
            
-            <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
+            <SpinComp loading={loading}>
             <form onSubmit={formik.handleSubmit}>
               <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div className="sm:col-span-2">
@@ -158,7 +158,7 @@ function DeptForm() {
                
               <BtnComp mode={params.id>0?'E':'A'} onDelete={()=>onDelete()} onReset={formik.handleReset}/>
             </form>
-            </Spin>
+            </SpinComp>
           </div>
           </BlockUI>
            <div ref={contentRef}  style={{

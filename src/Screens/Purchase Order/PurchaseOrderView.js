@@ -87,80 +87,21 @@ function PurchaseOrderView() {
         ? 2
         : 1
     );
-    // if(localStorage.getItem('user_type')=='2' || localStorage.getItem('user_type')=='5'){
     axios
       .post(url + "/api/getpo", { id: 0 })
       .then((res) => {
         console.log(res);
         setLoading(false);
-      //   if(localStorage.getItem('user_type')=='2'){
-      //   setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
-      //   setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && e.created_by==localStorage.getItem('email')));
-      //   if (
-      //     locationpath.pathname.split("/")[
-      //       locationpath.pathname.split("/").length - 1
-      //     ] == "P"
-      //   ) {
-      //     setPoData(
-      //       res?.data?.msg.filter(
-      //         (e) =>
-      //           e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
-      //       )
-      //     );
-      //   } else {
-      //     setPoData(
-      //       res?.data?.msg.filter(
-      //         (e) =>
-      //           e.po_status == "A" ||
-      //           (e.po_status == "U" && e.fresh_flag == "Y")
-      //           && e.created_by==localStorage.getItem('email')
-      //       )
-      //     );
-      //   }
-      // }
-      // else{
+     
         setPoData(res?.data?.msg.filter((e) =>  e.po_status =='P' && e.fresh_flag == "Y"));
         setCopy(res?.data?.msg.filter((e) =>  e.fresh_flag == "Y"));
-      //   if (
-      //     locationpath.pathname.split("/")[
-      //       locationpath.pathname.split("/").length - 1
-      //     ] == "P"
-      //   ) {
-      //     setPoData(
-      //       res?.data?.msg.filter(
-      //         (e) =>
-      //           e.po_status != "A" && e.po_status != "U" && e.fresh_flag == "Y"  && e.created_by==localStorage.getItem('email')
-      //       )
-      //     );
-      //   } else {
-      //     setPoData(
-      //       res?.data?.msg.filter(
-      //         (e) =>
-      //           e.po_status == "A" ||
-      //           (e.po_status == "U" && e.fresh_flag == "Y") && e.created_by==localStorage.getItem('email')
-                
-      //       )
-      //     );
-      //   }
-      // }
+     
       })
       .catch((err) => {
         console.log(err);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
-    // }
-    // else if(localStorage.getItem('user_type')=='1'){
-    //   setLoading(true)
-    // axios.post(url + "/api/getpopm", { id: 0 }).then(res=>{
-    //   console.log(res)
-    //   setLoading(false)
-    //  setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
-    //  setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && (e.user_email==localStorage.getItem('email')|| e.type=='G')));
-
-    //  console.log(res?.data?.msg.filter((e) => e.fresh_flag == "Y" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
-    // })
-
-    // }
+    
   }, [
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
@@ -273,14 +214,7 @@ function PurchaseOrderView() {
   };
   const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
     console.log(val1, val2,val7);
-    // let labels = {
-    //   vendor_id:val1,
-    //   project_id:val2,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    // }
+   
     setValue(0);
     // setVisible(true)
     axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
@@ -290,14 +224,7 @@ function PurchaseOrderView() {
       setVisible(true)
     
     })
-    // setPoData(
-    //   copy?.filter(
-    //     (e) =>
-    //       e?.vendor_name?.toLowerCase().includes(val1?.toLowerCase()) &&
-    //       e?.proj_name?.toLowerCase().includes(val2?.toLowerCase()) &&
-    //       e.fresh_flag == "Y"
-    //   )
-    // );
+   
   };
   return (
     <>

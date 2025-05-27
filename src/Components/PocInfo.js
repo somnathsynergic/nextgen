@@ -1,5 +1,4 @@
 import React from 'react'
-import { Descriptions } from "antd";
 import DescriptionCompReuse from './DescriptionCompReuse';
 
 function PocInfo({data}) {

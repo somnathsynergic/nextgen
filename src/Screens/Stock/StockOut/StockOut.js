@@ -27,6 +27,7 @@ import StockOutComponent from "../../../Components/StockOutComponent";
 import BtnGroupReuse from "../../../Components/BtnGroupReuse";
 import InfoTags from "../../../Components/InfoTags";
 import { formatDate } from "../../../Functions/formatDate";
+import SpinComp from "../../../Components/SpinComp";
 
 function StockOut() {
   const params = useParams();
@@ -212,11 +213,8 @@ function StockOut() {
           }
         >
           {clicked && (
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               <form>
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -421,7 +419,7 @@ function StockOut() {
                 </button> */}
                 <BtnGroupReuse  onClick={() => onSubmit()} disabled={(out_from=='P' && !projcode)|| !out_from} text="Submit" icon={<SaveOutlined className='mr-2' />} flag={1}/>
               </div>
-            </Spin>
+            </SpinComp>
           )}
           {!clicked && <SnippetsOutlined />}
         </div>
@@ -436,11 +434,8 @@ function StockOut() {
             <div className="w-full col-span-6 bg-white p-6 rounded-2xl ">
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 {/* <Tag color="#014737">Warehouse quantity of this product: {reportData[0].warehouse_stock || 0}</Tag> */}
-                <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+                <SpinComp
+              loading={loading}
             >
                 <StockOutComponent
                   data={reportDataCopy}
@@ -472,11 +467,10 @@ function StockOut() {
                   
                   }}
                   info={info}
-                  // wStock={reportData[0].warehouse_stock || 0}
                   proj_id={projcode}
                   flag={2}
                 />
-                 </Spin>
+                 </SpinComp>
               </div>
             </div>
           </div>

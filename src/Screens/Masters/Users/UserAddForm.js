@@ -20,6 +20,7 @@ import DrawerComp from "../../../Components/DrawerComp";
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
+import SpinComp from "../../../Components/SpinComp";
 const UserAddForm = () => {
   const params = useParams();
   const contentRef = useRef(null);
@@ -215,11 +216,8 @@ const UserAddForm = () => {
         
       <div  className="w-full bg-white p-6 rounded-2xl">
 
- <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+ <SpinComp
+          loading={loading}
         >
        
         <form onSubmit={formik.handleSubmit}>
@@ -459,7 +457,7 @@ const UserAddForm = () => {
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-500 transition-all duration-300 group-hover:w-full z-0"></span>
       </button>}
       </div>
-        </Spin>
+        </SpinComp>
       </div>
       </BlockUI>
       <div ref={contentRef}  style={{

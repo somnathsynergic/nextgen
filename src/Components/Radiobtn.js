@@ -15,10 +15,11 @@ function Radiobtn({data,onChangeVal,val}) {
     <motion.div  initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, type: 'spring' }}>
  <Radio.Group onChange={onChange} className=" mt-7 mb-4 bg-white rounded-full p-2 shadow-lg gap-4" value={value}>
       {data?.map(item=> <Radio value={item.value} className="text-green-900 hover:bg-[#C4F1BE] border-2 border-white hover:border-2 hover:border-white hover:duration-300 hover:rounded-full font-bold
-       checked:bg-[#C4F1BE] checked:border-2 checked:border-white checked:duration-300 checked:rounded-full
+       checked:bg-[#C4F1BE] active:bg-[#C4F1BE] checked:border-2 checked:border-white checked:duration-300 checked:rounded-full
       ">{item.label}</Radio>)}
      </Radio.Group>
     </motion.div>
+
   )
    
 }

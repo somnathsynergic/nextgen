@@ -13,7 +13,6 @@ import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import DialogBox from "../../../Components/DialogBox";
 import { useNavigate } from "react-router-dom";
-import PrintComp from "../../../Components/PrintComp";
 import AuditTrail from "../../../Components/AuditTrail";
 function DesignationForm() {
   const [loading, setLoading] = useState(false)

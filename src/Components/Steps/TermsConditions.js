@@ -14,7 +14,6 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { Popover } from "antd";
 import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
-import BtnGroupReuse from '../BtnGroupReuse';
 function TermsConditions({ pressNext, pressBack, data }) {
   const [grand_total, setGrand] = useState(0);
   const [checked, setChecked] = useState(true);

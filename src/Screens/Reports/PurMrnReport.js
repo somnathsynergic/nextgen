@@ -6,23 +6,19 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Empty, Spin, Tag, Tooltip } from "antd";
+import { Empty, Spin, Tooltip } from "antd";
 import {
     ArrowUpOutlined,
-  BorderOutlined,
   LoadingOutlined,
-  MinusCircleOutlined,
   SaveOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
-import PrintComp from "../../Components/PrintComp";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import { OverlayPanel } from "primereact/overlaypanel";
 import ReportTemplate from "../../Components/ReportTemplate";
-import moment from "moment";
 import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function PurMrnReport() {
     const params = useParams();
@@ -146,10 +142,7 @@ function PurMrnReport() {
             }
           >
             {clicked && (
-              <Spin
-                indicator={<LoadingOutlined spin />}
-                size="large"
-                className="text-green-900 dark:text-gray-400"
+              <SpinComp
                 spinning={loading}
               >
                 <form>
@@ -334,7 +327,7 @@ function PurMrnReport() {
                   </button> */}
                   <BtnGroupReuse loading={loading} disabled={!purCode} text="Submit" onClick={() => {onSubmit();}} flag={1} icon={<SaveOutlined className='mr-2' />}/>
                 </div>
-              </Spin>
+              </SpinComp>
             )}
             {!clicked && <SnippetsOutlined />}
           </div>

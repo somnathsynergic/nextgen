@@ -11,13 +11,11 @@ import axios from "axios";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { url } from "../Address/BaseUrl";
 import { Empty, Popover } from "antd";
-import { Popconfirm } from "antd";
 import {
   BranchesOutlined,
   CheckCircleFilled,
   CheckCircleOutlined,
   ClockCircleFilled,
-  CloseCircleFilled,
   CloseCircleOutlined,
   ClusterOutlined,
   DeleteOutlined,
@@ -36,10 +34,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../Components/DialogBox";
 import Viewdetails from "../Components/Viewdetails";
-import { Button, Divider, Spin, Tag } from "antd";
+import { Spin } from "antd";
 import { Message } from "./Message";
 import { Checkbox, Col, Row } from "antd";
-import moment from "moment/moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import BtnGroupReuse from './BtnGroupReuse';
 import InfoTags from './InfoTags'

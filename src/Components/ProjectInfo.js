@@ -1,6 +1,6 @@
 import React from "react";
-import { Descriptions } from "antd";
 import DescriptionCompReuse from "./DescriptionCompReuse";
+import { formatDate } from "../Functions/formatDate";
 
 function ProjectInfo({ data }) {
 
@@ -23,12 +23,12 @@ function ProjectInfo({ data }) {
     {
       key: "3",
       label: "Order Date",
-      children: <p>{data?.info?.order_date}</p>,
+      children: <p>{formatDate(data?.info?.order_date)}</p>,
     },
     {
       key: "4",
       label: "Delivery Date",
-      children: <p>{data?.info?.proj_delivery_date}</p>,
+      children: <p>{formatDate(data?.info?.proj_delivery_date)}</p>,
     },
     {
       key: "5",

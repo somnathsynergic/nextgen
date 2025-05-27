@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { routePaths } from "../../Assets/Data/Routes";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import {
-    CheckCircleOutlined,
-  CloseCircleOutlined,
   EditOutlined,
-  InteractionOutlined,
-  PrinterOutlined,
-  SyncOutlined,
 } from "@ant-design/icons";
 import SkeletonLoading from "../../Components/SkeletonLoading";
-import { Tooltip } from "@mui/material";
-import CompositeSearch from "../../Components/CompositeSearch";
-import Radiobtn from "../../Components/Radiobtn";
 import DialogBox from "../../Components/DialogBox";
-import { Tag } from "antd";
 import { Message } from "../../Components/Message";
 import CompositeSearchReq from "../../Components/CompositeSearchReq";
-import moment from "moment";
 import Pagination from "../../Components/Pagination";
 import { formatDate } from "../../Functions/formatDate";
 
@@ -556,16 +544,17 @@ function ApproveRequisition() {
 
                         // })
                         // navigate(routePaths.REQFORM + item.sl_no)
-                         }} class="bg-white  cursor-pointer hover:text-green-900 hover:duration-500 hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                         }} 
+                         class="bg-white text-[12px] cursor-pointer hover:text-green-900 hover:duration-500 hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
                         <th
                           scope="row"
                           class="px-3 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-6 py-3 text-green-900 font-bold">{item.req_no}</td>
-                        <td class="px-6 py-3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
-                        <td class="px-6 py-3 text-gray-600">{formatDate(item.req_date)}({item.created_at?.split('T')[1]})</td>
+                        <td class="px-4 py-3 text-green-900 font-bold">{item.req_no}</td>
+                        <td class="px-4 py-3 text-gray-600 text-wrap">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
+                        <td class="px-4 py-3 text-gray-600">{formatDate(item.req_date)}({item.created_at?.split('T')[1]})</td>
                         {/* <td class="px-6 py-4">{item.approve_flag=='A'?
                          <Tag
                          className="text-[12px] p-1 rounded-full w-36"

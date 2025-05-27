@@ -1,27 +1,18 @@
 import React, { useState,useRef,useEffect } from "react";
-import { routePaths } from "../Assets/Data/Routes";
-import { Link, useNavigate } from "react-router-dom";
-import Tooltip from "@mui/material/Tooltip";
-import { Paginator } from "primereact/paginator";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button, Popover } from "antd";
+import { Popover } from "antd";
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
-  EditOutlined,
-  FileTextOutlined,
   SyncOutlined,
-  TruckOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import { Tag } from "antd";
 import DrawerComp from "./DrawerComp";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import DialogBox from "./DialogBox";
-import { CancelOutlined } from "@mui/icons-material";
-import moment from "moment";
 import InfoTags from "./InfoTags";
 import Pagination from "./Pagination";
 import { formatDate } from "../Functions/formatDate";
@@ -408,28 +399,10 @@ function PoTableCancel({ po_data, setSearch, title,print,isModalVisible }) {
                       //                       </Tag>
                         <InfoTags text="Pending" color="#82181a" bgCol={"text-[12px]  w-24 "} icon={<ClockCircleOutlined className="animate-pulse" /> }/>
 
-                     ) : item.po_status == "C" ? (
-                      // <Tag
-                      //                         className="text-[12px] w-24"
-                      //                         icon={<CloseCircleOutlined className="animate-spin" />}
-                      //                         color="#c10007"
-                      //                         // color="error"
-                      //                       >
-                      //                         Closed
-                      //                       </Tag>
+                     ) :  (
+                    
                                               <InfoTags text="Closed" color="#c10007" bgCol={"text-[12px] w-24"} icon={<CloseCircleOutlined className="animate-spin" />}/>
                       
-                     ) : (
-                      //  <Tag
-                      //    className="text-[12px] p-1 rounded-full w-36"
-                      //    icon={<TruckOutlined />}
-                      //    color="lime"
-                      //  >
-                      //    {" "}
-                      //    Partially Delivered{" "}
-                      //  </Tag>
-                                               <InfoTags text="Partially Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
-                       
                      )}
                    </td>
                    <td class="px-3 py-4 text-xs text-gray-600">{item.po_status=='C'?item.modified_by:''} {item.po_status=='C'?'('+item.modified_at.split('T')[1]+')':''}</td>

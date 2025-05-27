@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import IMG from "../../Assets/Images/sign_in.png";
@@ -9,12 +8,11 @@ import { routePaths } from "../../Assets/Data/Routes";
 import VError from "../../Components/VError";
 import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
-import { Checkbox, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Checkbox,} from "antd";
 import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
 import { motion } from "framer-motion"
-import BtnGroupReuse from "../../Components/BtnGroupReuse";
+import SpinComp from "../../Components/SpinComp";
 function Signin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -148,25 +146,27 @@ function Signin() {
                     </p>
                   </Link> */}
                 </div>
-                <Spin
+                {/* <Spin
               indicator={<LoadingOutlined spin />}
               size={5}
               className="text-emerald-600 w-52 dark:text-gray-400"
               spinning={loading}
-            >
+            > */}
+            <SpinComp size={5} loading={loading}>
                 <div className="pt-4 pb-4 flex justify-center text-sm">
                   <button
                     disabled={!formik.isValid}
                     type="submit"
                     className={loading?"bg-green-900  delay-100 hover:duration-500 w-8 h-8 border-2 border-green-900 hover:scale-105  text-white p-3 rounded-full":"bg-green-900 hover:duration-500 w-full hover:scale-105  delay-100 text-white p-3 rounded-full"}
                   >
-                   {!loading? 'Login to your account':''}
+                   {!loading? 'Login to your accounts':''}
 
                    
                   </button>
                  
                 </div>
-          </Spin>
+                </SpinComp>
+          {/* </Spin> */}
 
               </form>
 
@@ -235,19 +235,13 @@ function Signin() {
         <Checkbox onChange={onChange}>Show Password</Checkbox>
        
       </div>
-                {/* <div className="pt-3">
-                  <Link to={routePaths.FORGOTPASS}>
-                    <p className="text-xs text-green-900 hover:underline py-2 cursor-pointer">
-                      Forgot password?
-                    </p>
-                  </Link>
-                </div> */}
-                <Spin
+                {/* <Spin
               indicator={<LoadingOutlined spin />}
               size={5}
               className="text-emerald-600 w-52 dark:text-gray-400"
               spinning={loading}
-            >
+            > */}
+            <SpinComp loading={loading}>
                 <div className="pt-6 pb-4 flex justify-center text-sm">
                   <button
                     disabled={!formik.isValid}
@@ -257,7 +251,7 @@ function Signin() {
                     Login to your account
                   </button>
                 </div>
-          </Spin>
+         </SpinComp>
 
               </form>
 

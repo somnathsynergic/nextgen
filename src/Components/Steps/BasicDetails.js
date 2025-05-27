@@ -7,28 +7,25 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { BlockUI } from "primereact/blockui";
 
-import { Empty, Spin, Tag } from "antd";
+import { Empty } from "antd";
 import {
   ArrowRightOutlined,
   CloseCircleFilled,
   InfoCircleOutlined,
-  LoadingOutlined,
   LockFilled,
-  LockOutlined,
   PlusCircleOutlined,
   SyncOutlined,
   UnlockFilled,
 } from "@ant-design/icons";
 import Viewdetails from "../Viewdetails";
 import DialogBox from "../DialogBox";
-import moment from "moment";
 import DrawerComp from "../DrawerComp";
-// import { Tag } from "antd";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Chip } from "primereact/chip";
 import InfoTags from '../InfoTags';
 import BtnGroupReuse from '../BtnGroupReuse';
 import { formatDate } from '../../Functions/formatDate';
+import SpinComp from '../SpinComp';
 
 function BasicDetails({ pressNext, pressBack, data }) {
   console.log(data);
@@ -465,11 +462,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
   },[projCode])
   return (
     <section className="bg-white dark:bg-[#001529]">
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="py-2 px-4 mx-auto w-full lg:py-2">
           <h2 className="text-2xl text-green-900 font-bold my-3">
@@ -1183,7 +1177,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
             <BtnGroupReuse loading={loading} text={'Next'} icon={<ArrowRightOutlined className="mr-2" /> } onClick={() => onSubmit()} flag={1}/>
           </div>
         </div>
-      </Spin>
+      </SpinComp>
       <DialogBox
         visible={visible}
         flag={flag}

@@ -27,6 +27,7 @@ import { ListBox } from "primereact/listbox";
 import moment from "moment";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { formatDate } from "../../../Functions/formatDate";
+import SpinComp from "../../../Components/SpinComp";
 
 
 function PtoPForm() {
@@ -294,11 +295,8 @@ function PtoPForm() {
         />
         <div className="grid grid-cols-6 gap-2">
           <div className={"w-full col-span-6 bg-white p-6 rounded-2xl"}>
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
                {params.id > 0 && (
                               <div className="sm:col-span-12 flex justify-end">
@@ -777,7 +775,7 @@ function PtoPForm() {
                 </div>
               </div>
               </div>
-            </Spin>
+            </SpinComp>
           </div>
         </div>
         <DialogBox

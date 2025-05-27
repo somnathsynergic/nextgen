@@ -7,24 +7,19 @@ import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
 import { Empty, Spin, Tag, Tooltip } from "antd";
-import { Paginator } from "primereact/paginator";
 import { BlockUI } from "primereact/blockui";
 import {
   ArrowUpOutlined,
-  BorderOutlined,
   LoadingOutlined,
   LockFilled,
-  MinusCircleOutlined,
   SaveOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
-import PrintComp from "../../Components/PrintComp";
 import { OverlayPanel } from "primereact/overlaypanel";
-import moment from "moment";
-import StockInViewComp from "../../Components/StockInViewComp";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import Pagination from "../../Components/Pagination";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function MaterialReturn() {
   const params = useParams();
@@ -249,11 +244,8 @@ function MaterialReturn() {
           }
         >
           {clicked && (
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               <form>
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -519,18 +511,15 @@ function MaterialReturn() {
                 </button> */}
                 <BtnGroupReuse loading={loading} disabled={!dt || !prodCode || (type=='P' && !projcode) || !type} onClick={() => onSubmit()} flag={1} text="Submit" icon={<SaveOutlined className='mr-2' />}/>
               </div>
-            </Spin>
+            </SpinComp>
           )}
           {!clicked && <SnippetsOutlined />}
         </div>
       </div>
       </BlockUI>
       {reportData?.length > 0 && (
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <div
             className={
@@ -693,7 +682,7 @@ function MaterialReturn() {
               </div>
             </div>
           </div>
-        </Spin>
+        </SpinComp>
       )}
     </section>
   );

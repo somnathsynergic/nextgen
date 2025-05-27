@@ -4,7 +4,6 @@ import { Link, useNavigate} from "react-router-dom";
 import { url } from "../Address/BaseUrl";
 import axios from "axios";
 
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../src/Assets/Images/nodata.png";
 import {

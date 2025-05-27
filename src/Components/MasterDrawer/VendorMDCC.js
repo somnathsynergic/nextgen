@@ -11,14 +11,12 @@ import {
   FilePdfOutlined,
   FileTextOutlined,
   FileWordOutlined,
-  LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import { Spin } from "antd";
 import DialogBox from "../DialogBox";
 import { Tooltip } from "@mui/material";
 import BtnGroupReuse from "../BtnGroupReuse";
-import { ChartsLoadingOverlay } from "@mui/x-charts/ChartsOverlay";
+import SpinComp from "../SpinComp";
 
 function VendorMDCC({onClose,data,onLoading}) {
     console.log(data);
@@ -84,12 +82,8 @@ function VendorMDCC({onClose,data,onLoading}) {
           })
     }
     return (
-      <Spin
-        // indicator={<LoadingOutlined spin />}
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="flex-col justify-center items-center gap-2 mx-auto">
         {file?.length==0 &&<>
@@ -163,7 +157,7 @@ function VendorMDCC({onClose,data,onLoading}) {
           onPress={() => setVisible(false)}
           onDelete={() => deleteItem()}
         />
-      </Spin>
+      </SpinComp>
     );
 }
 

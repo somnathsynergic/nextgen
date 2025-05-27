@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, FilterOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import { FilterOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";

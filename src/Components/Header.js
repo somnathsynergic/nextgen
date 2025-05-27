@@ -266,18 +266,15 @@ function Header() {
                 </MenuItem>
               </MenuList>
             </Menu>
-            {/* <Avatar className="cursor-pointer " onClick={handleClickProfile} style={{ backgroundColor: '#eb8d00', verticalAlign: 'middle' }} size="large"> */}
             <motion.div initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: '95%',stiffness:1}} transition={{ delay: 1.1, type: 'just' }} className="w-auto cursor-pointer text-nowrap p-1 rounded-full bg-white flex shadow-lg justify-start items-center gap-2 text-green-900 hover:bg-[#C4F1BE] border-white border-2 hover:border-2 hover:border-white hover:duration-300" onClick={handleClickProfile}>
             {!relativePath && <Avatar className="cursor-pointer uppercase"  style={{ backgroundColor: '#014737', verticalAlign: 'middle' }} size="small">
               {localStorage.getItem('user_name').charAt(0)}
             </Avatar>}
             {relativePath && 
-            // <Avatar className="cursor-pointer p-0"  style={{ backgroundColor: '#014737', verticalAlign: 'middle' }} size="small">
              <img className="rounded-full h-6 w-6" src={localStorage.getItem('user_profile_pic')}/>
-            // {/* </Avatar> */}
             
             }
-            <span className="text-sm text-nowrap capitalize text-green-900 font-bold">Hi, {localStorage.getItem('user_name').split(' ')[0]}</span>
+            <span className="text-sm text-nowrap capitalize text-green-900 font-bold">Hi, {localStorage.getItem('user_name')?.split(' ')[0]}</span>
             <DownOutlined className="text-sm text-nowrap text-gray-500 font-bold"/>
             </motion.div>
            

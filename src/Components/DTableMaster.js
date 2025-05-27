@@ -283,7 +283,7 @@ const [isPrinting, setIsPrinting] = useState(true);
                 rows={isPrinting?10:data?.length}
                 body={statusBodyTemplate}
                 rowsPerPageOptions={isPrinting?[5, 10, 25, 50, 100, data?.length]:[data?.length]}
-                rowClassName={isPrinting?"bg-white text-nowrap text-gray-800 border border-b-gray-300 border-r-white border-l-white active:border-0 hover:bg-gray-200 hover:text-green-700 hover:duration-500 space-y-2 dark:hover:text-[#1e4834] text-ellipsis overflow-hidden truncate w-2":"bg-white text-wrap text-xs text-gray-800 border border-b-gray-300 border-r-white border-l-white active:border-0 hover:bg-gray-200 hover:text-green-700 hover:duration-500 space-y-2 dark:hover:text-[#1e4834] text-ellipsis overflow-hidden truncate w-2"}
+                rowClassName={isPrinting?"bg-white text-wrap text-gray-800 border border-b-gray-300 border-r-white border-l-white active:border-0 hover:bg-gray-200 hover:text-green-700 hover:duration-500 space-y-1 dark:hover:text-[#1e4834] text-ellipsis overflow-hidden truncate w-2 text-[11.5px]":"bg-white text-wrap text-xs text-gray-800 border border-b-gray-300 border-r-white border-l-white active:border-0 hover:bg-gray-200 hover:text-green-700 hover:duration-500 space-y-2 dark:hover:text-[#1e4834] text-ellipsis overflow-hidden truncate w-2"}
                 tableStyle={{ minWidth: "100%", fontSize: "14px" }}
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 paginatorClassName={isPrinting?"bg-white text-emerald-500":"hidden"}
@@ -321,7 +321,7 @@ const [isPrinting, setIsPrinting] = useState(true);
                   headerClassName={
                    isPrinting? "text-green-900 bg-[#C4F1BE] dark:bg-gray-700 dark:text-white dark:font-bold":"hidden w-0"
                   }
-                  style={isPrinting?{ width: "10%" }:{width: "0%"}}
+                  style={isPrinting?{ width: "10%" }:{width: "0%",}}
                   frozen
                 ></Column>
 

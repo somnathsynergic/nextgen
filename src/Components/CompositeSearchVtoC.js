@@ -1,9 +1,8 @@
-import { CloseCircleOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { motion } from "framer-motion";
 import TDInputTemplate from "./TDInputTemplate";
-import moment from "moment";
 import VError from "./VError";
 import { Empty } from "antd";
 import { formatDate } from "../Functions/formatDate";

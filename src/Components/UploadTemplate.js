@@ -5,27 +5,22 @@ import VError from "../Components/VError";
 import TDInputTemplate from "../Components/TDInputTemplate";
 import axios from "axios";
 import { url } from "../Address/BaseUrl";
-import { BlockUI } from 'primereact/blockui';
 
 import {
-  DeleteOutlined,
   FileExcelOutlined,
   FileImageOutlined,
   FilePdfOutlined,
   FileWordOutlined,
   LoadingOutlined,
   SaveOutlined,
-  SyncOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../Components/DialogBox";
-import PrintComp from "../Components/PrintComp";
-import AuditTrail from "../Components/AuditTrail";
 import Viewdetails from "../Components/Viewdetails";
-import { Spin, Tag, Tooltip } from "antd";
+import { Spin } from "antd";
 import { Message } from "./Message";
-import moment from "moment";
 import BtnGroupReuse from "./BtnGroupReuse";
+import SpinComp from "./SpinComp";
 
 function UploadTemplate({ onSubmit, flag, title }) {
   const [visible, setVisible] = useState(false);
@@ -336,11 +331,8 @@ function UploadTemplate({ onSubmit, flag, title }) {
         title={"Category"}
         data={""}
       />
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="grid grid-cols-12 gap-2">
           <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
@@ -619,7 +611,7 @@ function UploadTemplate({ onSubmit, flag, title }) {
 }
           </div>
         </div>
-      </Spin>
+      </SpinComp>
       <DialogBox
         visible={visible}
         flag={flag1}

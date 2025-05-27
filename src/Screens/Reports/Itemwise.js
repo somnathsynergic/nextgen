@@ -15,6 +15,7 @@ import ReportTemplate from "../../Components/ReportTemplate";
 import moment from "moment";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function Itemwise() {
     const params = useParams();
@@ -110,7 +111,7 @@ function Itemwise() {
             }} className={clicked?'w-full -mt-3 col-span-6  bg-white p-6 rounded-2xl delay-100 duration-300':'w-8 rounded-full col-span-6 h-8 flex justify-center items-center z-50 delay-100 text-white duration-300 cursor-pointer bg-green-900 p-1 -mb-8'}>
            
                {clicked &&
-                <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
+                <SpinComp loading={loading}>
           <form >
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-1">
@@ -208,7 +209,7 @@ function Itemwise() {
     <BtnGroupReuse  loading={loading} flag={1} text='Submit' icon={<SaveOutlined className='mr-2' />} onClick={()=>onSubmit()}  disabled={!dt || !prodCode}/>
 
     </div>
-          </Spin>
+          </SpinComp>
 }
           {!clicked &&
           <SnippetsOutlined />

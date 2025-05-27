@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FileExcelOutlined, FilePdfFilled, FilePdfOutlined } from '@ant-design/icons';
+import { FilePdfOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
 import { useReactToPrint } from "react-to-print";
@@ -82,12 +82,14 @@ function ReportTemplate({ headers, net_tot,
     if (flag == 5) {
       setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.proj_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.created_by?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
+    if (flag == 6) {
+      setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) || item.status?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+    }
 
   }
   return (
     <>
       <div className='float-end flex justify-end gap-2 mb-2'>
-        {/* <Tooltip title="Export CSV"> <button className='h-7 w-7 rounded-full bg-green-700 text-white' onClick={()=>exportCSV(false)}><FileExcelOutlined/></button></Tooltip> */}
         <Tooltip title="Print/Export PDF"> <button className='h-7 w-7 rounded-full bg-red-700 text-white' onClick={() => {
           setIsPrinting(false);
 
@@ -129,7 +131,6 @@ function ReportTemplate({ headers, net_tot,
             scrollable
             paginator
             rows={isPrinting ? 10 : data?.length}
-            // body={statusBodyTemplate}
             rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
             rowClassName="bg-white text-justify text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
                 text-ellipsis overflow-hidden truncate w-2 text-wrap"
@@ -137,17 +138,10 @@ function ReportTemplate({ headers, net_tot,
             paginatorTemplate="RowsPerPageDropdown  FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             paginatorClassName={isPrinting ? "bg-white text-emerald-500" : "hidden"}
             currentPageReportTemplate="{first} to {last} of {totalRecords}"
-
-            // paginatorLeft={paginatorLeft}
-            // paginatorRight={paginatorRight}
             styleclassName="p-datatable-gridlines text-justify hover:duration-500 dark:bg-gray-800 dark:text-gray-300 shadow-lg"
             className="shadow-lg rounded-lg"
             selectionMode="single"
-            // selection={selectedItem}
-            // onSelectionChange={(e) => setSelectedItem(e.value)}
             dataKey="id"
-            // onRowSelect={onRowSelect}
-            // onRowUnselect={onRowUnselect}
             metaKeySelection={false}
           >
             <Column
@@ -168,7 +162,6 @@ function ReportTemplate({ headers, net_tot,
                   "text-green-900 bg-[#C4F1BE] border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold" :
                   "text-white bg-green-500 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold"
                 }
-                // headerClassName={'text-green-900 bg-green-300 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold'}
 
                 style={{ width: "10%" }}
               ></Column>
@@ -179,55 +172,7 @@ function ReportTemplate({ headers, net_tot,
         </div>
 
 
-        {/* <div className='hidden' id="printablediv">
-<Descriptions title="Report details" items={info} />
-{flag==2 && <Tag color="#014737">Warehouse quantity of this product: {wStock}</Tag>}
-              <DataTable
-                value={dataCopy}
-                showGridlines={true}
-                stripedRows
-                stickyHeader="true"
-                scrollable
-                paginator
-                rows={10}
-                ref={dt}
-                // body={statusBodyTemplate}
-                rowsPerPageOptions={[data.length,5, 10, 25, 50, 100, data?.length]}
-                rowClassName="bg-white text-nowrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
-              text-ellipsis overflow-hidden truncate w-2"
-                tableStyle={{ minWidth: "100%", fontSize: "14px" }}
-                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                paginatorClassName="bg-white text-emerald-500"
-                currentPageReportTemplate="{first} to {last} of {totalRecords}"
-                
-                // paginatorLeft={paginatorLeft}
-                // paginatorRight={paginatorRight}
-                styleclassName="p-datatable-gridlines hover:duration-500 dark:bg-gray-800 dark:text-gray-300 shadow-lg"
-                className="shadow-lg rounded-lg"
-                selectionMode="single"
-                // selection={selectedItem}
-                // onSelectionChange={(e) => setSelectedItem(e.value)}
-                dataKey="id"
-                // onRowSelect={onRowSelect}
-                // onRowUnselect={onRowUnselect}
-                metaKeySelection={false}
-              >
-                {headers.map((item, index) => (
-                  <Column
-                    key={index}
-                    field={item.name}
-                    header={item.value}
-                    headerClassName={
-                      "text-green-900 bg-[#C4F1BE] border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold"
-                    }
-                    // headerClassName={'text-green-900 bg-green-300 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold'}
-
-                    style={{ width: "10%" }}
-                  ></Column>
-                ))}
-
-              </DataTable>
-              </div> */}
+     
       </div>
     </>
   )

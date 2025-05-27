@@ -9,13 +9,17 @@ import VError from "../../Components/VError";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
-import { Spin, Tag } from "antd";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { Empty } from "antd";
+import { SyncOutlined } from "@ant-design/icons";
 import InfoTags from "../InfoTags";
-
+import { useRef } from "react";
+import { OverlayPanel } from 'primereact/overlaypanel';
+import SpinComp from "../SpinComp";
 function ProductMaster({onClose,onLoading}) {
   const [cat, setCat] = useState([]);
   const navigate=useNavigate()
+   const op_vendor = useRef(null);
+    const [catID,setCatID] = useState(0)
   var categories = [];
   const [count,setCount]=useState(0)
     const [data,setData]=useState()
@@ -45,7 +49,7 @@ function ProductMaster({onClose,onLoading}) {
         p_id: 0,
         user: localStorage.getItem("email"),
         p_name: values.prodnm,
-        p_cat: values.cat_id.toString(),
+        p_cat: catID.toString(),
         p_article: values.ar_no,
         p_model: values.md_no,
         p_part: values.pr_no,
@@ -154,17 +158,14 @@ function ProductMaster({onClose,onLoading}) {
           </h2>
           
           <div className="w-full bg-white p-6 rounded-2xl">
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
   
-                <TDInputTemplate
+                {/* <TDInputTemplate
                   placeholder="Select category..."
                   type="text"
                   label="Category"
@@ -177,7 +178,75 @@ function ProductMaster({onClose,onLoading}) {
                 />
                 {formik.errors.cat_id && formik.touched.cat_id ? (
                   <VError title={formik.errors.cat_id} />
-                ) : null}
+                ) : null} */}
+                  <TDInputTemplate
+                placeholder="Select category..."
+                type="text"
+                label="Category"
+                name="cat_id"
+                disabled={params.id > 0}
+                handleFocus = {e=>op_vendor.current.show(e)}
+                formControlName={formik.values.cat_id}
+                handleChange={(val) => {
+                  formik.setFieldValue("cat_id",val.target.value);
+                  if(val.target.value.length>0){
+                    op_vendor.current.show(val)
+                   
+                  }
+                  else{
+                    op_vendor.current.hide(val)
+                    // setOneCode()
+
+                  }
+                  console.log(val.target.value);
+                }}
+                mode={1}
+                
+              />
+                <OverlayPanel
+                        ref={op_vendor}
+                        // style={{marginLeft:'325px'}}
+                        className="w-[57.7%]  border-2 bg-gray-50 border-[#C4F1BE]"
+                      >
+                        <span className="text-xs text-green-900 italic">
+                          Search results for: "{formik.values.cat_id}"
+                        </span>
+                        <ul class=" divide-y max-h-32 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                          {cat?.filter((e) =>
+                            e.name
+                              ?.toLowerCase()
+                              .includes(formik.values.cat_id?.toLowerCase())
+                          ).length > 0 &&
+                            cat?.filter((e) => e.name?.toLowerCase().includes(formik.values.cat_id.toLowerCase()))
+                              ?.map((lst) => (
+                                <li
+                                  onClick={(e) => {
+                                    op_vendor.current.hide(e);
+                                    formik.setFieldValue("cat_id",lst.name)
+                                    setCatID(lst.code)
+                                  }}
+                                                               class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+
+                                >
+                                  <div class="flex items-center rtl:space-x-reverse">
+                                <div class="flex-1 min-w-0">
+                                  <p class="text-sm p-0.5 w-full text-green-900 group-active:text-white truncate dark:text-white">
+                                    {lst.name}
+                                  </p>
+                                </div>
+                              </div>
+                                </li>
+                              ))}
+                          {cat?.filter((e) =>
+                            e.name
+                              ?.toLowerCase()
+                              .includes(formik.values.cat_id?.toLowerCase())
+                          ).length == 0 && <Empty />}
+                        </ul>
+                      </OverlayPanel>
+                        {formik.errors.cat_id && formik.touched.cat_id && !catID ? (
+                  <VError title={formik.errors.cat_id} />
+                ) : null} 
               </div>
               <div className="sm:col-span-2 mb-2">
                 <TDInputTemplate
@@ -330,7 +399,7 @@ function ProductMaster({onClose,onLoading}) {
               onReset={formik.handleReset}
             />
           </form>
-        </Spin>
+        </SpinComp>
       </div>
     </section>
   );

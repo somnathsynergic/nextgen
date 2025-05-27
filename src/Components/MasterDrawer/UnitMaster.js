@@ -8,10 +8,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
+import SpinComp from "../SpinComp";
 
 function UnitMaster({onClose,onLoading}) {
   const params = useParams();
@@ -91,7 +90,7 @@ function UnitMaster({onClose,onLoading}) {
           </h2>
           <div className="w-full bg-white p-6 rounded-2xl">
            
-        <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>   
+        <SpinComp loading={loading}>   
         <form onSubmit={formik.handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="sm:col-span-2">
@@ -118,7 +117,7 @@ function UnitMaster({onClose,onLoading}) {
             
           />
         </form>
-        </Spin>
+        </SpinComp>
       </div>
       <DialogBox
         visible={visible}

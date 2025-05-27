@@ -24,11 +24,11 @@ import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import DialogBox from "../DialogBox";
 import DrawerComp from "../DrawerComp";
-import moment from "moment";
 import InfoTags from '../InfoTags';
 import { CurrencyRupee } from '@mui/icons-material';
 import BtnGroupReuse from '../BtnGroupReuse';
 import { formatDate } from '../../Functions/formatDate';
+import SpinComp from '../SpinComp';
 
 function ProductDetails({ pressBack, pressNext, data }) {
   console.log(data);
@@ -473,11 +473,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
   }, [prodListCopy]);
   return (
     <section className="bg-white dark:bg-[#001529]">
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         <div className="py-2 px-4 mx-auto w-full lg:py-2">
           <h2 className="text-2xl text-green-900 font-bold my-1">
@@ -1309,7 +1306,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
               }}/>
           </div>
         </div>
-      </Spin>
+      </SpinComp>
       <DialogBox
         visible={visible}
         flag={flag}

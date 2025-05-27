@@ -7,14 +7,13 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
 import { Spin} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import DialogBox from "../../Components/DialogBox";
-import PrintComp from "../../Components/PrintComp";
 import { Accordion, AccordionTab } from 'primereact/accordion';
+import SpinComp from "../../Components/SpinComp";
 function Projectwise() {
     const params = useParams();
     const [loading,setLoading]=useState(false)
@@ -101,7 +100,7 @@ function Projectwise() {
               <div className={'w-full col-span-6 bg-white p-1 rounded-2xl '}>
               <Accordion activeIndex={0} className="">
                 <AccordionTab header="Report Criteria">
-                <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
+                <SpinComp loading={loading}>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-1">
@@ -145,7 +144,7 @@ function Projectwise() {
             <BtnComp mode={params.id>0?'E':'A'} onReset={formik.handleReset}/>
            
           </form>
-          </Spin>
+          </SpinComp>
                 </AccordionTab>
                 </Accordion>
           

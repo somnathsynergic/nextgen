@@ -9,8 +9,7 @@ import VError from "../../Components/VError";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import SpinComp from '../SpinComp';
 
 function GSTMaster({onClose,onLoading}) {
   const params = useParams();
@@ -75,11 +74,8 @@ function GSTMaster({onClose,onLoading}) {
             Add GST
           </h2>
           <div className="w-full bg-white p-6 rounded-2xl">
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -123,7 +119,7 @@ function GSTMaster({onClose,onLoading}) {
               onReset={formik.handleReset}
             />
           </form>
-        </Spin>
+        </SpinComp>
       </div>
     </section>
   )

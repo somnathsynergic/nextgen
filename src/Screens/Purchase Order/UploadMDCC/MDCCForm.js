@@ -7,6 +7,7 @@ import { Spin, Tag } from "antd";
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import UploadTemplate from "../../../Components/UploadTemplate";
+import SpinComp from "../../../Components/SpinComp";
 
 function MDCCForm() {
   const params = useParams();
@@ -70,18 +71,15 @@ function MDCCForm() {
   };
 
   return (
-    <Spin
-      indicator={<LoadingOutlined spin />}
-      size="large"
-      className="text-green-900 dark:text-gray-400"
-      spinning={loading}
+    <SpinComp
+      loading={loading}
     >
       <UploadTemplate
         flag={"M"}
         title={"Upload MDCC"}
         onSubmit={(values) => onSubmit(values)}
       />
-    </Spin>
+    </SpinComp>
   );
 }
 

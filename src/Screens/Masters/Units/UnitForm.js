@@ -16,7 +16,6 @@ import { Spin} from 'antd';
 import { LoadingOutlined, LockFilled } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../../Components/DialogBox";
-import PrintComp from "../../../Components/PrintComp";
 import AuditTrail from "../../../Components/AuditTrail";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";

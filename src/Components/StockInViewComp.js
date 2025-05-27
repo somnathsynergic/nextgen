@@ -1,7 +1,6 @@
 import React, { useState,useRef } from "react";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
-import { EyeOutlined, LoadingOutlined, PrinterOutlined, StockOutlined } from "@ant-design/icons";
+import { PrinterOutlined,  } from "@ant-design/icons";
 import { Tag } from "antd";
 import axios from "axios";
 import { url } from "../Address/BaseUrl";

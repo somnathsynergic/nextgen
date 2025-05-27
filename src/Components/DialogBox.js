@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Paginator } from "primereact/paginator";
 import { Dialog } from "primereact/dialog";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -31,12 +30,9 @@ import { formatDate } from "../Functions/formatDate";
 import {
   CheckCircleFilled,
   CheckCircleOutlined,
-  CloseCircleFilled,
   CloseCircleOutlined,
-  DeleteOutlined,
   ClockCircleFilled,
   LoadingOutlined,
-  RightCircleOutlined,
   FileTextOutlined,
   FilePdfOutlined,
   FileWordOutlined,
@@ -44,11 +40,8 @@ import {
   FileImageOutlined,
   SyncOutlined,
   QuestionCircleOutlined,
-  SwapOutlined,
   ForwardFilled,
   PrinterOutlined,
-  ReloadOutlined,
-  CloseCircleTwoTone,
   CloseOutlined,
   RightOutlined,
   CheckOutlined,
@@ -57,7 +50,7 @@ import {
 import { Alert } from "antd";
 import { Chip } from "primereact/chip";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { Divider, Fab } from "@mui/material";
+import { Fab } from "@mui/material";
 import { Checkbox } from "antd";
 import { url } from "../Address/BaseUrl";
 import VError from "./VError";
@@ -502,6 +495,7 @@ const DialogBox = ({
             flag == 29 ||
             flag == 33 ||
             flag == 38 ||
+            flag == 37 ||
             flag == 42 ||
             flag == 30) &&
             "Search Result(s)"}
@@ -1265,7 +1259,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.po_issue_date}
+                          {formatDate(lst.po_issue_date)}
                         </span>
                       </p>
                     </div>
@@ -1421,7 +1415,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.req_date}
+                          {formatDate(lst.req_date)}
                         </span>
                       </p>
                     </div>
@@ -1741,7 +1735,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.po_issue_date}
+                          {formatDate(lst.po_issue_date)}
                         </span>
                       </p>
                     </div>
@@ -1780,7 +1774,7 @@ const DialogBox = ({
             <input
               type="search"
               id="default-search"
-              className="bg-gray-200 border-gray-300 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-green-50 border-green-50 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Search by items, part_no, make, article_no, model_no,description..."
               onFocus={()=>setCopy(data.info)}
               onChange={(e) => {
@@ -1819,7 +1813,7 @@ const DialogBox = ({
                   onClick={() => {
                     onSearch(lst.sl_no);
                   }}
-                  class="pb-3 p-2 sm:pb-4 cursor-pointer hover:bg-gray-200"
+                  class="pb-3 p-2 sm:pb-4 cursor-pointer  hover:bg-green-50 duration-300"
                 >
                   <div class="flex items-center space-x-4 rtl:space-x-reverse">
                     {/* <div class="flex-shrink-0">
@@ -2335,7 +2329,7 @@ const DialogBox = ({
                     Date
                   </th>
                   <td class="px-6 py-4  w-3/4 bg-gray-200 font-medium">
-                    {data?.reqInfo[0]?.req_date}
+                    {formatDate(data?.reqInfo[0]?.req_date)}
                   </td>
                 </tr>
                 <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -2858,7 +2852,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.req_date}
+                          {formatDate(lst.req_date)}
                         </span>
                       </p>
                     </div>
@@ -3003,7 +2997,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.order_date}{" "}
+                          {formatDate(lst.order_date)}{" "}
                         </span>
                         , Delivery Date:{" "}
                         <span
@@ -3014,7 +3008,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.proj_delivery_date}{" "}
+                          {formatDate(lst.proj_delivery_date)}{" "}
                         </span>
                       </p>
                     </div>
@@ -3572,7 +3566,7 @@ const DialogBox = ({
                     Date
                   </th>
                   <td class="px-6 py-4  w-3/4 bg-gray-200 font-medium">
-                    {data?.reqInfo[0]?.req_date}
+                    {formatDate(data?.reqInfo[0]?.req_date)}
                   </td>
                 </tr>
                 <tr class="odd:bg-white text-xs odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -4074,7 +4068,7 @@ const DialogBox = ({
                       scope="row"
                       class="px-6 py-4  text-nowrap font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      {data.del_date}
+                      {formatDate(data.del_date)}
                     </th>
 
                     <th
@@ -4239,7 +4233,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.req_date}
+                          {formatDate(lst.req_date)}
                         </span>
                       </p>
                     </div>
@@ -4499,7 +4493,7 @@ const DialogBox = ({
       {flag == 41 && (
         <div className="flex flex-col items-center justify-center mt-2">
           <AmendPreview id={id} />
-          {po_status != "C" ? (
+          {po_status != "C" && po_status!='' ? (
             <Spin
               spinning={loading}
               indicator={<LoadingOutlined spin />}
@@ -4571,7 +4565,7 @@ const DialogBox = ({
             // >
             //   Closed
             // </Tag>
-            <InfoTags bgCol="text-[12px] p-1 rounded-full w-36"
+            <InfoTags bgCol="text-[12px] p-1 mt-3 rounded-full w-36"
               icon={<CancelOutlined className="text-[10px]" />}
               color="red" text="Closed"/>
           )}
@@ -4701,7 +4695,7 @@ const DialogBox = ({
                               : ""
                           }
                         >
-                          {lst.po_issue_date}
+                          {formatDate(lst.po_issue_date)}
                         </span>
                       </p>
                     </div>

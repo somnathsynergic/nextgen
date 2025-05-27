@@ -5,7 +5,7 @@
 // import StockTransTemplate from "../../Components/StockTransTemplate";
 // import HeadingTemplate from '../../Components/HeadingTemplate'
 function StockAssignForm() {
-  const params = useParams();
+  // const params = useParams();
   // console.log(params, "params");
   // return (
    

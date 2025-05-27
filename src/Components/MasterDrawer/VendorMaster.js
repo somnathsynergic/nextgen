@@ -10,10 +10,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Radio } from "antd";
+import SpinComp from "../SpinComp";
 
 function VendorMaster({onClose,onLoading}) {
   const stepperRef = useRef(null);
@@ -369,11 +368,8 @@ function VendorMaster({onClose,onLoading}) {
       <h2 className="text-2xl text-green-900 font-bold my-3">
             Add Vendor
           </h2>
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
          <Formik
             initialValues={+params.id > 0 ? formValues : initialValues}
@@ -1046,7 +1042,7 @@ function VendorMaster({onClose,onLoading}) {
               </form>
             )}
           </Formik>
-        </Spin>
+        </SpinComp>
       </div>
     </section>
   );

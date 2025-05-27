@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
-import { EyeOutlined, SaveOutlined } from "@ant-design/icons";
+import { SaveOutlined } from "@ant-design/icons";
 import { Tag } from "antd";
 import axios from "axios";
 import { url } from "../Address/BaseUrl";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "./DialogBox";
 import TDInputTemplate from "./TDInputTemplate";
-import { CompareSharp } from "@mui/icons-material";
 import VError from "./VError";
 import BtnGroupReuse from "./BtnGroupReuse";
 import Pagination from "./Pagination";

@@ -20,6 +20,7 @@ import DialogBox from '../../../Components/DialogBox';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
+import SpinComp from '../../../Components/SpinComp';
 function GstForm() {
   const params = useParams();
   const contentRef = useRef(null);
@@ -147,11 +148,8 @@ function GstForm() {
                                                                           </div>
                                                                         } className={'bg-red-500'}>
           <div className="w-full bg-white p-6 rounded-2xl">
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -197,7 +195,7 @@ function GstForm() {
               onDelete={()=>onDelete()}
             />
           </form>
-        </Spin>
+        </SpinComp>
       </div></BlockUI>
        <div ref={contentRef}  style={{
                 display: !isPrinting ? "block" : "none",

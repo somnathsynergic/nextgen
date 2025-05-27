@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import HeadingTemplate from '../../Components/HeadingTemplate';
 import { DeleteFilled,EyeOutlined,EyeInvisibleOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button } from 'antd';
 const data = [
     { id: 1, date: '08 May 2024', text: 'Lorem ipsum dolor sit amet. Sit velit esse a quia voluptas ut harum deleniti qui pariatur officiis et dolorem maiores.....' },
     { id: 2, date: '07 May 2024', text: 'Lorem ipsum dolor sit amet. Sit velit esse a quia voluptas ut harum deleniti qui pariatur officiis et dolorem maiores.....' },

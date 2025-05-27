@@ -3,17 +3,16 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import BtnComp from "../../Components/BtnComp";
 import TDInputTemplate from "../../Components/TDInputTemplate";
-import { useFormik, FieldArray, Formik } from "formik";
+import { FieldArray, Formik } from "formik";
 import * as Yup from "yup";
 import VError from "../../Components/VError";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { url } from "../../Address/BaseUrl";
 import { Message } from "../../Components/Message";
-import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
 import axios from "axios";
 import { Image } from "antd";
+import SpinComp from "../SpinComp";
 
 function ClientMaster({ onClose, onLoading }) {
   const [loading, setLoading] = useState(false);
@@ -254,11 +253,8 @@ function ClientMaster({ onClose, onLoading }) {
         /> */}
       <h2 className="text-2xl text-green-900 font-bold my-3">Add Client</h2>
       <div className="w-full bg-white p-6 rounded-2xl">
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <Formik
             initialValues={initialValues}
@@ -665,7 +661,7 @@ function ClientMaster({ onClose, onLoading }) {
               </form>
             )}
           </Formik>
-        </Spin>
+        </SpinComp>
       </div>
     </section>
   );

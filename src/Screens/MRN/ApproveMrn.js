@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { routePaths } from "../../Assets/Data/Routes";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
-import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, EditOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import SkeletonLoading from "../../Components/SkeletonLoading";
 import CompositeSearch from "../../Components/CompositeSearch";
 import DialogBox from "../../Components/DialogBox";
 import { Tag } from "antd";
 import Radiobtn from "../../Components/Radiobtn";
-import { Button, Divider, Spin } from "antd";
 import { Message } from "../../Components/Message";
 import Pagination from "../../Components/Pagination";
 

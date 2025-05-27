@@ -6,7 +6,6 @@ import { LoadingOutlined, SaveOutlined } from "@ant-design/icons";
 import { url } from "../Address/BaseUrl";
 import axios from "axios";
 import { Message } from "./Message";
-import { Image } from "antd";
 import BtnGroupReuse from "./BtnGroupReuse";
 const ProfileInfo = () => {
   const inputFile = useRef(null);

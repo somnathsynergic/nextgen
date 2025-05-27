@@ -11,30 +11,23 @@ import { url } from "../../Address/BaseUrl";
 import { BlockUI } from "primereact/blockui";
 import {
   BuildOutlined,
-  CheckCircleOutlined,
-  ClockCircleFilled,
-  CloseCircleOutlined,
   DeleteOutlined,
   DropboxOutlined,
-  InfoCircleFilled,
-  InfoOutlined,
   LoadingOutlined,
   LockFilled,
-  ProfileOutlined,
   SaveOutlined,
   StockOutlined,
-  SyncOutlined,
 } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import { Alert, Empty, Spin, Tag } from "antd";
+import { Empty, Spin, Tag } from "antd";
 import { Message } from "../../Components/Message";
-import moment from "moment/moment";
 import { Popover } from "antd";
 import { OverlayPanel } from "primereact/overlaypanel";
 import BtnGroupReuse from '../../Components/BtnGroupReuse'
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
 
 function RequisitionForm() {
   const contentRef = useRef(null);
@@ -800,11 +793,8 @@ function RequisitionForm() {
         blocked={blocked}
         className={"bg-red-500"}
       >
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <div className="grid grid-cols-12 gap-2">
             <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
@@ -1381,7 +1371,7 @@ function RequisitionForm() {
               </div>
             </div>
           </div>
-        </Spin>
+        </SpinComp>
       </BlockUI>
       <div
         ref={contentRef}

@@ -14,10 +14,10 @@ import {
   LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import { Spin } from "antd";
 import DialogBox from "../DialogBox";
 import { Tooltip } from "@mui/material";
 import BtnGroupReuse from "../BtnGroupReuse";
+import SpinComp from "../SpinComp";
 
 function Docs({ onClose, data ,onLoading}) {
   console.log(data);
@@ -83,11 +83,8 @@ function Docs({ onClose, data ,onLoading}) {
         })
   }
   return (
-    <Spin
-      indicator={<LoadingOutlined spin />}
-      size="large"
-      className="text-green-900 dark:text-gray-400"
-      spinning={loading}
+    <SpinComp
+      loading={loading}
     >
       <div className="flex-col justify-center items-center gap-2 mx-auto">
         {/* <span className="my-2"> */}
@@ -163,7 +160,7 @@ function Docs({ onClose, data ,onLoading}) {
         onPress={() => setVisible(false)}
         onDelete={() => deleteItem()}
       />
-    </Spin>
+    </SpinComp>
   );
 }
 

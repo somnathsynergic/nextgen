@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Chart } from "primereact/chart";
 
-import { motion } from "framer-motion";
-import { Empty, Segmented, Spin } from "antd";
+import { Empty, Segmented, Tooltip } from "antd";
 import {
-  InfoCircleOutlined,
-  SettingOutlined,
-  CloseOutlined,
-  SolutionOutlined,
+
   ProjectOutlined,
-  BellOutlined,
   UserAddOutlined,
-  SwapOutlined,
   InboxOutlined,
   UserSwitchOutlined,
   FileSearchOutlined,
@@ -19,21 +13,22 @@ import {
   ExceptionOutlined,
   LoadingOutlined
 } from "@ant-design/icons";
-import { Flex, Progress } from "antd";
-import { WidthFull } from "@mui/icons-material";
+import { Progress } from "antd";
 import DialogBox from "../../Components/DialogBox";
 import { routePaths } from "../../Assets/Data/Routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import Marquee from "../../Components/Marquee";
+import SpinComp from "../../Components/SpinComp";
 function HomeScreen() {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
   const [visible, setVisible] = useState(false);
   const [flag, setFlag] = useState(2);
-  const [loading,setLoading] = useState(false)
-  const [dashboard_data,setDashboardData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [dashboard_data, setDashboardData] = useState({})
+  const navigate = useNavigate()
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue("#08453c");
@@ -92,9 +87,9 @@ function HomeScreen() {
     setChartOptions(options);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true)
-    axios.post(url+'/api/get_dashboard_data',{wrd:''}).then(res=>{
+    axios.post(url + '/api/get_dashboard_data', { wrd: '' }).then(res => {
       console.log(res)
       setDashboardData(res?.data)
       setLoading(false)
@@ -102,7 +97,7 @@ function HomeScreen() {
       //   console.log(resStock)
       // }).catch(err=>{console.log(err)})
     })
-  },[])
+  }, [])
 
   return (
     <main class="px-4 h-auto ">
@@ -110,39 +105,40 @@ function HomeScreen() {
         <Link to={routePaths.PROJECTS} style={{
           // clipPath:"path('M 0 44 C 0 0.9849735503722608 0.9849735503722608 0 44 0 L 100 0 C 143.01502644962773 0 144 0.9849735503722608 144 44 L 144 44 C 144 87.01502644962774 143.01502644962773 88 100 88 L 44 88 C 0.9849735503722608 88 0 87.01502644962774 0 44 z')"
         }} class="relative cursor-pointer rounded-lg  border-dashed transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 2xl:h-32 flex  items-center">
-       
+
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#92140C]">
             <ProjectOutlined class="text-white text-5xl" />
           </div>
           <div class="text-gray-800 text-sm 2xl:text-2xl  absolute right-3 top-3 font-bold">
             Projects Opened
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-red-900 ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.project}</div>
-          {/* <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+         
+          <SpinComp classname="text-red-900 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}>
+            <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.project}</div>
+            {/* <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
+          {/* </Spin> */}
         </Link>
-        <Link to={routePaths.PURCHASEORDER+'/P'} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.PURCHASEORDER + '/P'} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-yellow-500">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Pending POs
           </div>
-          <Spin
+          {/* <Spin
                         indicator={<LoadingOutlined spin />}
-                        size="large"
+                      
                         className="text-yellow-500 ml-7 mt-5 dark:text-gray-400"
                         spinning={loading}
-                      >
-          <div class="text-yellow-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.po}</div>
-          {/* <div class="text-yellow-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+                      > */}
+          <SpinComp
+            classname="text-yellow-500 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}>
+            <div class="text-yellow-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.po}</div>
+            {/* <div class="text-yellow-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.REQVIEW} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-green-500">
@@ -151,15 +147,21 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Requisitions
           </div>
-          <Spin
+          {/* <Spin
                         indicator={<LoadingOutlined spin />}
-                        size="large"
+                      
                         className="text-green-500 ml-7 mt-5 dark:text-gray-400"
                         spinning={loading}
-                      >
-          <div class="text-green-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.req}</div>
-          {/* <div class="text-green-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+                      > */}
+          <SpinComp
+
+          
+            classname="text-green-500 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-green-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.req}</div>
+            {/* <div class="text-green-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.APPROVEMRN} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-amber-500">
@@ -168,22 +170,22 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Pending MRN(s)
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-amber-500 ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-amber-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.mrn}</div>
-          {/* <div class="text-amber-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+          <SpinComp
+
+          
+            classname="text-amber-500 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-amber-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.mrn}</div>
+            {/* <div class="text-amber-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.HomeScreen} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-emerald-600">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
           <div class="text-gray-800 text-xs ml-4 2xl:text-xl absolute right-1 top-3 font-bold">
-           
+
             <Marquee text=" Outstanding from client(s)" />
           </div>
           <div class="text-emerald-600 text-4xl ml-14 mt-9 font-bold">0</div>
@@ -193,7 +195,7 @@ function HomeScreen() {
             <ExceptionOutlined class="text-white text-5xl" />
           </div>
           <div class="text-gray-800  text-xs 2xl:text-xl text-wrap absolute right-1 top-3 font-bold">
-           
+
             <Marquee text=" Outstanding from vendor(s)" />
 
           </div>
@@ -206,16 +208,16 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Users
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-green-700 ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-green-700 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.user}</div>
-          {/* <div class="text-green-700 text-4xl ml-14 mt-9 font-bold">0</div> */}
+          <SpinComp
+
           
-          </Spin>
+            classname="text-green-700 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-green-700 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.user}</div>
+            {/* <div class="text-green-700 text-4xl ml-14 mt-9 font-bold">0</div> */}
+
+          </SpinComp>
         </Link>
         <Link to={routePaths.VENDORS} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-teal-500">
@@ -224,15 +226,15 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Vendors
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-teal-500 ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-teal-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.vendor}</div>
-          {/* <div class="text-teal-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+          <SpinComp
+
+          
+            classname="text-teal-500 ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-teal-500 text-4xl ml-14 mt-9 font-bold">{dashboard_data?.vendor}</div>
+            {/* <div class="text-teal-500 text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.CLIENTS} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#6564DB]">
@@ -241,15 +243,15 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Clients
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.client}</div>
-          {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+          <SpinComp
+
+          
+            classname="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.client}</div>
+            {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.HomeScreen} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-green-700">
@@ -267,15 +269,15 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Stock Levels
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class={dashboard_data?.stock_cnt?.toString()?.length<=5?"text-[#6564DB] text-4xl ml-12 mt-9 font-bold":"text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt?dashboard_data.stock_cnt:loading?'':0}</div>
-          {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+          <SpinComp
+
+          
+            classname="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class={dashboard_data?.stock_cnt?.toString()?.length <= 5 ? "text-[#6564DB] text-4xl ml-12 mt-9 font-bold" : "text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt ? dashboard_data.stock_cnt : loading ? '' : 0}</div>
+            {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         <Link to={routePaths.PROJECTS} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-[#92140C]">
@@ -284,15 +286,14 @@ function HomeScreen() {
           <div class="text-gray-800 text-sm 2xl:text-2xl absolute right-3 top-3 font-bold">
             Projects Running
           </div>
-          <Spin
-                        indicator={<LoadingOutlined spin />}
-                        size="large"
-                        className="text-[#92140C] ml-7 mt-5 dark:text-gray-400"
-                        spinning={loading}
-                      >
-          <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.project}</div>
-          {/* <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">0</div> */}
-          </Spin>
+          <SpinComp
+          
+            classname="text-[#92140C] ml-7 mt-5 dark:text-gray-400"
+            loading={loading}
+          >
+            <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">{dashboard_data?.project}</div>
+            {/* <div class="text-[#92140C] text-4xl ml-14 mt-9 font-bold">0</div> */}
+          </SpinComp>
         </Link>
         {/* <Link to={routePaths.PURCHASEORDER} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-yellow-500">
@@ -542,28 +543,31 @@ function HomeScreen() {
                 <th scope="col" class="px-6 py-3">
                   Category
                 </th>
-                
+
               </tr>
             </thead>
             <tbody>
-         {dashboard_data?.products?.length>0 ? <>
-          {dashboard_data?.products?.map(item=>
-              <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {item?.prod_name?.length<=15?item?.prod_name:item?.prod_name?.substring(0,15)+'...'}
-                </th>
-                <td class="px-6 py-4">{item?.part_no?.length<=15?item?.part_no:item?.part_no?.substring(0,15)+'...'}</td>
-                <td class="px-6 py-4">{item?.catg_name?.length<=15?item?.catg_name:item?.catg_name?.substring(0,15)+'...'}</td>
-              </tr>)
-}
-              </>:loading?<div className="mt-16 text-3xl ml-56 mx-auto">
-                <LoadingOutlined className="text-3xl text-green-900" spin/>
-              </div>:<Empty/>
-}
-             
+              {dashboard_data?.products?.length > 0 ? <>
+                {dashboard_data?.products?.map(item =>
+                  <Tooltip className="cursor-pointer" title={"Click to view details of " + item.prod_name}>
+                    <tr onClick={() => navigate(routePaths.ADDPRODUCTS + item.sl_no)} class="cursor-pointer odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {item?.prod_name?.length <= 15 ? item?.prod_name : item?.prod_name?.substring(0, 15) + '...'}
+                      </th>
+                      <td class="px-6 py-4">{item?.part_no?.length <= 15 ? item?.part_no : item?.part_no?.substring(0, 15) + '...'}</td>
+                      <td class="px-6 py-4">{item?.catg_name?.length <= 15 ? item?.catg_name : item?.catg_name?.substring(0, 15) + '...'}</td>
+                    </tr>
+                  </Tooltip>
+                )
+                }
+              </> : loading ? <div className="mt-16 text-3xl ml-56 mx-auto">
+                <LoadingOutlined className="text-3xl text-green-900" spin />
+              </div> : <Empty />
+              }
+
             </tbody>
           </table>
         </div>
@@ -584,7 +588,7 @@ function HomeScreen() {
           />
         </div>
       </div>
-    
+
       {/* <div class="grid grid-cols-2 gap-4 mb-4">
         <div class="border-2 border-dashed rounded-lg border-white dark:border-gray-600 h-48 md:h-72"></div>
         <div class="border-2 border-dashed rounded-lg border-white dark:border-gray-600 h-48 md:h-72"></div>

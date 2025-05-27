@@ -6,6 +6,7 @@ import axios from "axios";
 import { url } from "../Address/BaseUrl";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "antd";
+import { formatDate } from "../Functions/formatDate";
 
 function AmendPreview({ id }) {
   console.log(id)
@@ -513,7 +514,7 @@ function AmendPreview({ id }) {
                   </div>
               <div className="text-gray-800 font-bold">
                                  <span className=" font-bold text-green-700">PO Date:</span>{" "}
-                                {po_issue_date}
+                                {formatDate(po_issue_date)}
                                </div>
               {po_no?.split("-").length > 2 && (
                                 <div className="text-gray-800 font-bold">

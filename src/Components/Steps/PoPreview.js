@@ -9,9 +9,8 @@ import Fab from "@mui/material/Fab";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import { useReactToPrint } from "react-to-print";
-import { use } from "react";
-import moment from "moment";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../SpinComp";
 function PoPreview({ data }) {
   var tot = 0;
   const contentRef = useRef(null);
@@ -351,11 +350,8 @@ function PoPreview({ data }) {
       `}
         </style>
         <div className="h-full border p-3 border-green-500 rounded-md">
-          <Spin
-            indicator={<LoadingOutlined spin />}
-            size="large"
-            className="text-green-700 dark:text-gray-400"
-            spinning={loading}
+          <SpinComp
+            loading={loading}
           >
             <div id="divtoprint">
               <div className="flex flex-col justify-center items-center">
@@ -996,8 +992,8 @@ function PoPreview({ data }) {
                             : "Ex-Works"}{" "}
                           {JSON.parse(localStorage.getItem("terms"))
                             .price_basis_desc
-                            ? JSON.parse(localStorage.getItem("terms"))
-                                .price_basis_desc + ","
+                            ? ", "+JSON.parse(localStorage.getItem("terms"))
+                                .price_basis_desc 
                             : ""}
                         </td>
                       </tr>
@@ -1016,11 +1012,7 @@ function PoPreview({ data }) {
                                 JSON.parse(localStorage.getItem("terms"))
                                   .packing_forwarding_extra
                               }% - ${(
-                                // (subTot *
-                                //   // (grandTot *
-                                //   JSON.parse(localStorage.getItem("terms"))
-                                //     .packing_forwarding_extra) /
-                                // 100
+                               
                                 parseFloat(JSON.parse(localStorage.getItem("terms"))
                                 .packing_forwarding_extra_val)
                               )?.toFixed(2)}  (CGST-${(
@@ -1062,12 +1054,7 @@ function PoPreview({ data }) {
                                 JSON.parse(localStorage.getItem("terms"))
                                   .freight_extra
                               }% - ${(
-                                // (subTot *
-                                //   // (grandTot *
-                                //   JSON.parse(localStorage.getItem("terms"))
-                                //     .freight_extra) /
-                               
-                                // 100
+                              
                                 parseFloat(JSON.parse(localStorage.getItem("terms"))
                                 .freight_extra_val)
                               )?.toFixed(2)} (CGST-${(
@@ -1109,13 +1096,9 @@ function PoPreview({ data }) {
                                   JSON.parse(localStorage.getItem("terms"))
                                     .ins_extra
                                 }% - ${(
-                                  // (subTot *
-                                  //   // (grandTot *
-                                  //   JSON.parse(localStorage.getItem("terms"))
-                                  //     .ins_extra) /
+                                 
                                   parseFloat(JSON.parse(localStorage.getItem("terms"))
                                       .ins_extra_val)
-                                  // 100
                                 )?.toFixed(2)}  (CGST-${(
                                   (JSON.parse(localStorage.getItem("terms"))
                                     .ins_cgst *
@@ -1569,7 +1552,7 @@ function PoPreview({ data }) {
                 </table>
               </div>
             </div>
-          </Spin>
+          </SpinComp>
         </div>
         <p className="text-[11px] text-gray-600 font-semibold">
           This is a computer generated purchase order. No signature is required.

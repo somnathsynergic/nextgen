@@ -16,6 +16,7 @@ import SkeletonLoading from "../../Components/SkeletonLoading";
 import Radiobtn from "../../Components/Radiobtn";
 import CompositeSearch from "../../Components/CompositeSearch";
 import POTableView from "../../Components/POTableView";
+import SpinComp from "../../Components/SpinComp";
 
 function AmendView() {
   const [loading, setLoading] = useState(false);
@@ -285,11 +286,8 @@ function AmendView() {
           transition={{ delay: 1.3, type: "just" }}
           className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="small"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               <Tooltip title={"Amend Orders"}>
                 <button
@@ -301,7 +299,7 @@ function AmendView() {
                   {"Amend Orders"}
                 </button>
               </Tooltip>
-            </Spin>
+            </SpinComp>
             {/* </Link> */}
         </motion.div>
       

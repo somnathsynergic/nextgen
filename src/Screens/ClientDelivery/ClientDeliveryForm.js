@@ -3,13 +3,7 @@ import HeadingTemplate from "../../Components/HeadingTemplate";
 import { Empty, Spin, Tag } from "antd";
 import {
   ClusterOutlined,
-  DeleteOutlined,
   EyeOutlined,
-  FileExcelOutlined,
-  FileImageOutlined,
-  FilePdfOutlined,
-  FileTextOutlined,
-  FileWordOutlined,
   LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
@@ -17,7 +11,6 @@ import { BlockUI } from "primereact/blockui";
 
 import { useNavigate, useParams } from "react-router-dom";
 import TDInputTemplate from "../../Components/TDInputTemplate";
-import moment from "moment";
 import DialogBox from "../../Components/DialogBox";
 import Viewdetails from "../../Components/Viewdetails";
 import axios from "axios";
@@ -26,7 +19,7 @@ import VError from "../../Components/VError";
 import { Message } from "../../Components/Message";
 import { Checkbox, Col, Row } from "antd";
 
-import { Button, Popover, Space } from "antd";
+import { Popover} from "antd";
 import { SyncOutlined } from "@mui/icons-material";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { formatDate } from "../../Functions/formatDate";

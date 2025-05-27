@@ -7,6 +7,7 @@ import { ArrowLeftOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { BlockUI } from 'primereact/blockui';
 import BtnGroupReuse from '../BtnGroupReuse';
+import BlockComp from '../BlockComp';
 
 function Notes({pressBack,pressNext,data}) {
   const params = useParams();
@@ -25,7 +26,7 @@ useEffect(()=>{
 },[])
   return (
     <div>
-            <BlockUI blocked={blocked} template={
+            <BlockComp blocked={blocked} template={
                                                 <div className='relative  w-full h-full 0 z-10'>
                                                   <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                                    <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
@@ -46,7 +47,7 @@ useEffect(()=>{
                               />
                               </div>
 
-                              </BlockUI>
+                              </BlockComp>
                                          <div className="flex pt-4 justify-between w-full">
         {/* <button
           className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"

@@ -10,6 +10,7 @@ import axios from "axios";
 import { ArrowLeftOutlined, ArrowRightOutlined, FileExcelOutlined, FileImageOutlined, FilePdfOutlined, FileTextOutlined, FileWordOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 import BtnGroupReuse from '../BtnGroupReuse';
+import BlockComp from '../BlockComp';
 
 function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDrawChange }) {
   const [insp_flag, setInspFlag] = useState(data.insp_flag?data.insp_flag:"N");
@@ -93,7 +94,7 @@ function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDraw
   };
   return (
     <>
-          <BlockUI blocked={blocked} template={
+          <BlockComp blocked={blocked} template={
                                               <div className='relative  w-full h-full 0 z-10'>
                                                 <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                                  <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
@@ -569,7 +570,7 @@ function More({ pressNext, pressBack, type,data,onMdccChange,onInspChange,onDraw
                         </div>)}
        </div>
       </div>
-      </BlockUI>
+      </BlockComp>
       <div className="flex pt-4 justify-between w-full">
         {/* <button
           className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"

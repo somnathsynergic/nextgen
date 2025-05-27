@@ -14,6 +14,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { Popover } from "antd";
 import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
+import BlockComp from '../BlockComp';
 function TermsConditions({ pressNext, pressBack, data }) {
   const [grand_total, setGrand] = useState(0);
   const [checked, setChecked] = useState(true);
@@ -720,7 +721,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
         Terms & Conditions
       </h2>
       <form onSubmit={formik.handleSubmit}>
-              <BlockUI blocked={blocked} template={
+              <BlockComp blocked={blocked} template={
                                     <div className='relative  w-full h-full 0 z-10'>
                                       <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                        <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
@@ -2692,7 +2693,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
           </div>
         </div>
         </div>
-        </BlockUI>
+        </BlockComp>
         <div className="flex pt-4 justify-between w-full">
           <button
             type="button"

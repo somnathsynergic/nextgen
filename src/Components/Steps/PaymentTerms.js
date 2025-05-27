@@ -10,6 +10,7 @@ import { BlockUI } from 'primereact/blockui';
 
 import { url } from "../../Address/BaseUrl";
 import BtnGroupReuse from '../BtnGroupReuse';
+import BlockComp from '../BlockComp';
 function PaymentTerms({ pressBack, pressNext, data }) {
     const [blocked, setBlocked] = useState(false);
   
@@ -80,7 +81,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
   return (
     <div className="py-2 px-4 mx-auto w-full lg:py-2">
       <h2 className="text-2xl text-green-900 font-bold my-3">Payment Terms</h2>
-            <BlockUI blocked={blocked} template={
+            <BlockComp blocked={blocked} template={
                                     <div className='relative  w-full h-full 0 z-10'>
                                       <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                        <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
@@ -192,7 +193,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
           </React.Fragment>
         ))}
         </div>
-        </BlockUI>
+        </BlockComp>
 
         <div className="flex pt-4 justify-between">
           {/* <button

@@ -5,7 +5,6 @@ import VError from "../../Components/VError";
 import { useParams } from "react-router-dom";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
-import { BlockUI } from "primereact/blockui";
 
 import { Empty } from "antd";
 import {
@@ -17,6 +16,7 @@ import {
   SyncOutlined,
   UnlockFilled,
 } from "@ant-design/icons";
+
 import Viewdetails from "../Viewdetails";
 import DialogBox from "../DialogBox";
 import DrawerComp from "../DrawerComp";
@@ -26,6 +26,7 @@ import InfoTags from '../InfoTags';
 import BtnGroupReuse from '../BtnGroupReuse';
 import { formatDate } from '../../Functions/formatDate';
 import SpinComp from '../SpinComp';
+import BlockComp from '../BlockComp';
 
 function BasicDetails({ pressNext, pressBack, data }) {
   console.log(data);
@@ -469,12 +470,18 @@ function BasicDetails({ pressNext, pressBack, data }) {
           <h2 className="text-2xl text-green-900 font-bold my-3">
             Basic Details
           </h2>
-          <BlockUI blocked={blocked} template={
+          {/* <BlockUI blocked={blocked} template={
             <div className='relative  w-full h-full 0 z-10'>
               <span className='absolute -top-1 right-0 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
            <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
             </div>
-          }  className="p-2">
+          }  className="p-2"> */}
+             <BlockComp blocked={blocked} template={
+            <div className='relative  w-full h-full 0 z-10'>
+              <span className='absolute -top-1 right-0 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
+           <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
+            </div>
+          }  classname="p-2">
             <div className={blocked?"grid gap-4 sm:grid-cols-6 p-2 sm:gap-6":"grid gap-4 sm:grid-cols-6  sm:gap-6"}>
              
               <div className="sm:col-span-3">
@@ -1155,7 +1162,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
             </div>
           
             
-          </BlockUI>
+          </BlockComp>
           <div className="flex pt-4 justify-end">
             {/* <button
               className="inline-flex items-center px-5 py-2.5 mt-4 mr-2 sm:mt-6 text-sm font-medium text-center text-white border border-[#92140C] bg-[#92140C] transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 rounded-full  dark:focus:ring-primary-900"

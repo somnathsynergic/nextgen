@@ -14,9 +14,6 @@ import {
   CalculatorOutlined,
 } from "@ant-design/icons";
 import { Button, Tag, Tooltip } from "antd";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
-import { BlockUI } from "primereact/blockui";
 
 import VError from "../../Components/VError";
 import { json, useParams } from "react-router-dom";
@@ -29,6 +26,7 @@ import { CurrencyRupee } from '@mui/icons-material';
 import BtnGroupReuse from '../BtnGroupReuse';
 import { formatDate } from '../../Functions/formatDate';
 import SpinComp from '../SpinComp';
+import BlockComp from '../BlockComp';
 
 function ProductDetails({ pressBack, pressNext, data }) {
   console.log(data);
@@ -480,13 +478,13 @@ function ProductDetails({ pressBack, pressNext, data }) {
           <h2 className="text-2xl text-green-900 font-bold my-1">
             Item Details
           </h2>
-          <BlockUI blocked={blocked} template={
+          <BlockComp blocked={blocked} template={
                       <div className='relative  w-full h-full 0 z-10'>
                         <span className='absolute top-1 left-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                    <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
                         
                       </div>
-                    } className={"bg-red-500"}>
+                    } >
             {/* <div className="my-3">
       <TDInputTemplate
                     placeholder="Purchase Requisition"
@@ -1206,7 +1204,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                 </div>
               </div>
             ))}
-          </BlockUI>
+          </BlockComp>
           <div className="flex pt-4 justify-between w-full">
             {/* <button
               className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"

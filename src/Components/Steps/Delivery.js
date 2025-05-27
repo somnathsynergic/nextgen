@@ -11,6 +11,7 @@ import { Switch } from "antd";
 import { ArrowLeftOutlined, ArrowRightOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { BlockUI } from 'primereact/blockui';
 import BtnGroupReuse from '../BtnGroupReuse';
+import BlockComp from '../BlockComp';
 
 function Delivery({ pressBack, pressNext, data }) {
   console.log(data);
@@ -129,7 +130,7 @@ function Delivery({ pressBack, pressNext, data }) {
         <h2 className="text-2xl text-green-900 font-bold my-3">
           Delivery Detail
         </h2>
-              <BlockUI blocked={blocked} template={
+              <BlockComp blocked={blocked} template={
                                                   <div className='relative  w-full h-full 0 z-10'>
                                                     <span className='absolute top-1 right-2 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                                      <span className='absolute bottom-0 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
@@ -246,7 +247,7 @@ function Delivery({ pressBack, pressNext, data }) {
             {!delivery && <VError title={"Address is required"} />}
           </div>
         </div>
-             </BlockUI>
+             </BlockComp>
         
         <div className="flex pt-4 justify-between">
           {/* <button

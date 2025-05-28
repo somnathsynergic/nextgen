@@ -44,6 +44,8 @@ import PrintHeader from "../../../Components/PrintHeader";
 import BtnGroupReuse from '../../../Components/BtnGroupReuse';
 import InfoTags from '../../../Components/InfoTags';
 import { formatDate } from '../../../Functions/formatDate';
+import BlockComp from '../../../Components/BlockComp';
+import SpinComp from '../../../Components/SpinComp';
 function ProjectForm() {
   const navigate = useNavigate();
      const [blocked, setBlocked] = useState(false);
@@ -673,11 +675,8 @@ function ProjectForm() {
           }
       />
       <div className="w-full bg-white p-6 rounded-2xl">
-        <Spin
-          indicator={<LoadingOutlined spin />}
-          size="large"
-          className="text-green-900 dark:text-gray-400"
-          spinning={loading}
+        <SpinComp
+          loading={loading}
         >
           <div className="card flex justify-content-center">
             <Stepper
@@ -689,7 +688,7 @@ function ProjectForm() {
                 <h2 className="font-bold text-2xl text-green-900 my-3">
                   Project Details
                 </h2>
-                <BlockUI blocked={blocked} template={
+                <BlockComp blocked={blocked} template={
                             <div className='relative  w-full h-full 0 z-10'>
                               <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                               <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {data?.proj_manager_name}</span>
@@ -1263,20 +1262,17 @@ function ProjectForm() {
                     />
                 </div>
                 </div>
-                </BlockUI>
+                </BlockComp>
                 {/* </form> */}
               </StepperPanel>
               <StepperPanel header="Client Details">
-                <Spin
-                  indicator={<LoadingOutlined spin />}
-                  size="large"
-                  className="text-green-900 dark:text-gray-400"
-                  spinning={loading}
+                <SpinComp
+                  loading={loading}
                 >
                   <h2 className="font-bold text-2xl text-green-900 my-3">
                     Client Details
                   </h2>
-                  <BlockUI template={
+                  <BlockComp template={
                               <div className='relative  w-full h-full 0 z-10'>
                                 <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
                                 <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {data?.proj_manager_name}</span>
@@ -1689,12 +1685,12 @@ function ProjectForm() {
                     <BtnGroupReuse loading={loading} onClick={() => onSubmitClient()} disabled={!pm_code} icon={<SaveOutlined className="mr-2" />} flag={1} text={'Submit'}/>
                   </div>
                   </div>
-                  </BlockUI>
-                </Spin>
+                  </BlockComp>
+                </SpinComp>
               </StepperPanel>
             </Stepper>
           </div>
-        </Spin>
+        </SpinComp>
       </div>
        <div ref={contentRef}  style={{
                 display: !isPrinting ? "block" : "none",

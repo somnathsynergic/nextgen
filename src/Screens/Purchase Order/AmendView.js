@@ -4,9 +4,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import nodata from "../../../src/Assets/Images/nodata.png";
-import { Spin } from "antd";
 import {
-  LoadingOutlined,
   PrinterOutlined,
   SignatureOutlined,
 } from "@ant-design/icons";

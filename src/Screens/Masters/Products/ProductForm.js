@@ -21,6 +21,7 @@ import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
 import { OverlayPanel } from 'primereact/overlaypanel';
 import SpinComp from '../../../Components/SpinComp';
+import BlockComp from '../../../Components/BlockComp';
 
 function ProductForm() {
   const [cat, setCat] = useState([]);
@@ -187,7 +188,7 @@ function ProductForm() {
             }, 5);}
           }
       />
-            <BlockUI blocked={blocked} template={
+            <BlockComp blocked={blocked} template={
                                                               <div className='relative  w-full h-full 0 z-10'>
                                                                 <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                            
@@ -507,7 +508,7 @@ function ProductForm() {
           </form>
         </SpinComp>
       </div>
-      </BlockUI>
+      </BlockComp>
       <div ref={contentRef}  style={{
           display: !isPrinting ? "block" : "none",
         }} >

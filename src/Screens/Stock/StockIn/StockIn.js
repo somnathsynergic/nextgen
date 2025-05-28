@@ -11,10 +11,10 @@ import { ArrowUpOutlined, LoadingOutlined, LockFilled, SaveOutlined, SnippetsOut
 import { OverlayPanel } from "primereact/overlaypanel";
 import StockInViewComp from "../../../Components/StockInViewComp";
 import StockInViewCompAll from "../../../Components/StockInViewCompAll";
-import { BlockUI } from "primereact/blockui";
 import BtnGroupReuse from "../../../Components/BtnGroupReuse";
 import { formatDate } from "../../../Functions/formatDate";
 import SpinComp from "../../../Components/SpinComp";
+import BlockComp from "../../../Components/BlockComp";
 
 
 function StockIn() {
@@ -125,13 +125,13 @@ function StockIn() {
         mode={2}
         title={'Report'}
       />
-      <BlockUI blocked={blocked}
+      <BlockComp blocked={blocked}
         template={
           <div className='relative  w-full h-full 0 z-10'>
             <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 ' /> Locked (Readonly)</span>
 
           </div>
-        } className={'bg-red-500'}>
+        } >
         <div className="grid grid-cols-6 gap-2">
           <div className="ml-1 -mb-11 z-50">
             {clicked && (
@@ -366,7 +366,7 @@ function StockIn() {
         </div>
 
 
-      </BlockUI>
+      </BlockComp>
 
     </section>
   );

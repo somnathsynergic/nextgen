@@ -8,7 +8,6 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../Components/PrintHeader";
 import { url } from "../../Address/BaseUrl";
-import { BlockUI } from "primereact/blockui";
 import {
   BuildOutlined,
   DeleteOutlined,
@@ -21,13 +20,14 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import { Empty, Spin, Tag } from "antd";
+import { Empty, Tag } from "antd";
 import { Message } from "../../Components/Message";
 import { Popover } from "antd";
 import { OverlayPanel } from "primereact/overlaypanel";
 import BtnGroupReuse from '../../Components/BtnGroupReuse'
 import { formatDate } from "../../Functions/formatDate";
 import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 
 function RequisitionForm() {
   const contentRef = useRef(null);
@@ -782,7 +782,7 @@ function RequisitionForm() {
           }, 5);
         }}
       />
-      <BlockUI
+      <BlockComp
         template={
           <div className="relative  w-full h-full 0 z-10">
             <span className="absolute top-2 left-2 font-bold italic text-gray-500">
@@ -791,7 +791,7 @@ function RequisitionForm() {
           </div>
         }
         blocked={blocked}
-        className={"bg-red-500"}
+        
       >
         <SpinComp
           loading={loading}
@@ -1372,7 +1372,7 @@ function RequisitionForm() {
             </div>
           </div>
         </SpinComp>
-      </BlockUI>
+      </BlockComp>
       <div
         ref={contentRef}
         style={{

@@ -8,7 +8,6 @@ import { Popover, Tag } from "antd";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import { ArrowLeftOutlined, ArrowRightOutlined, FileExcelOutlined, FileImageOutlined, FilePdfOutlined, FileTextOutlined, FileWordOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
-import { BlockUI } from 'primereact/blockui';
 import BtnGroupReuse from '../BtnGroupReuse';
 import BlockComp from '../BlockComp';
 

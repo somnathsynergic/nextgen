@@ -22,9 +22,7 @@ import {
   PieChartFilled,
   TruckFilled,
   MergeFilled,
-  DropboxCircleFilled,
   DropboxOutlined,
-  EyeOutlined,
   PullRequestOutlined,
   SwapRightOutlined,
   SwapLeftOutlined,
@@ -36,7 +34,7 @@ import {
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import { routePaths } from "../Assets/Data/Routes";
-import { CheckOutlined, LockOpenOutlined, UploadFileOutlined } from "@mui/icons-material";
+import { LockOpenOutlined, UploadFileOutlined } from "@mui/icons-material";
 
 
 function Menus({ theme,data,shrink }) {

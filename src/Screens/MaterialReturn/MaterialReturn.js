@@ -6,11 +6,9 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { Empty, Spin, Tag, Tooltip } from "antd";
-import { BlockUI } from "primereact/blockui";
+import { Empty,Tag, Tooltip } from "antd";
 import {
   ArrowUpOutlined,
-  LoadingOutlined,
   LockFilled,
   SaveOutlined,
   SnippetsOutlined,
@@ -20,6 +18,7 @@ import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import Pagination from "../../Components/Pagination";
 import { formatDate } from "../../Functions/formatDate";
 import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 
 function MaterialReturn() {
   const params = useParams();
@@ -211,12 +210,12 @@ function MaterialReturn() {
 
 
                 </div> */}
-    <BlockUI template={
+    <BlockComp template={
                                                                                      <div className='relative  w-full h-full 0 z-10'>
                                                                                        <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                                   
                                                                                      </div>
-                                                                                   }  blocked={blocked} className={"bg-red-500"}>
+                                                                                   }  blocked={blocked} >
       <div className="grid grid-cols-6 gap-2">
         <div className="ml-1 -mb-11 z-50">
           {clicked && (
@@ -516,7 +515,7 @@ function MaterialReturn() {
           {!clicked && <SnippetsOutlined />}
         </div>
       </div>
-      </BlockUI>
+      </BlockComp>
       {reportData?.length > 0 && (
         <SpinComp
           loading={loading}

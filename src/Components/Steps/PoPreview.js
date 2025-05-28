@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IMG from "../../Assets/Images/Logo.png";
 import Divider from "@mui/material/Divider";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import { PrinterOutlined } from "@ant-design/icons";
 import Fab from "@mui/material/Fab";

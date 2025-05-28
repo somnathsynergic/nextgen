@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import HeadingTemplate from "../../Components/HeadingTemplate";
-import { Empty, Spin, Tag } from "antd";
+import { Empty, Tag } from "antd";
 import {
   ClusterOutlined,
   EyeOutlined,
   LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import { BlockUI } from "primereact/blockui";
 
 import { useNavigate, useParams } from "react-router-dom";
 import TDInputTemplate from "../../Components/TDInputTemplate";
@@ -23,6 +22,8 @@ import { Popover} from "antd";
 import { SyncOutlined } from "@mui/icons-material";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { formatDate } from "../../Functions/formatDate";
+import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 function ClientDeliveryForm() {
   const op = useRef(null);
   const params = useParams();
@@ -299,14 +300,11 @@ function ClientDeliveryForm() {
         mode={params.id > 0 ? 1 : 0}
         data={""}
       />
-      <BlockUI blocked={blocked} className={"bg-red-500"}>
+      <BlockComp blocked={blocked} >
         <div className="grid grid-cols-12 gap-2">
           <div className={"w-full col-span-12 bg-white p-6 rounded-2xl"}>
-            <Spin
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="text-green-900 dark:text-gray-400"
-              spinning={loading}
+            <SpinComp
+              loading={loading}
             >
               {/* <span className="flex justify-start my-2">
             </span> */}
@@ -884,10 +882,10 @@ function ClientDeliveryForm() {
                 </button>
               )} */}
               </div>
-            </Spin>
+            </SpinComp>
           </div>
         </div>
-      </BlockUI>
+      </BlockComp>
       <DialogBox
         visible={visible}
         flag={flag}

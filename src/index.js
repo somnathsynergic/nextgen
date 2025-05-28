@@ -33,9 +33,9 @@ const ClosePoForm =lazy(()=>import( "./Screens/Purchase Order/ClosePo/ClosePoFor
 const PurMrnReport =lazy(()=>import( "./Screens/Reports/PurMrnReport"))
 const MaterialReturnComp =lazy(()=>import("./Screens/MaterialReturn/MaterialReturnComp"))
 const MaterialReturn =lazy(()=>import("./Screens/MaterialReturn/MaterialReturn"))
-const StatementandTransfer = lazy(() =>
-  import("./Screens/Stock/StatementandTransfer")
-);
+// const StatementandTransfer = lazy(() =>
+//   import("./Screens/Stock/StatementandTransfer")
+// );
 const StockView = lazy(() => import("./Screens/Stock/StockView"));
 
 const ClientDeliveryComp = lazy(() =>
@@ -540,10 +540,10 @@ const router = createBrowserRouter([
                 path: "stockview",
                 element: <StockView />,
               },
-              {
-                path: "statementandtransfer/:id",
-                element: <StatementandTransfer />,
-              },
+              // {
+              //   path: "statementandtransfer/:id",
+              //   element: <StatementandTransfer />,
+              // },
               {
                 path: "transfer",
                 element: <Transfer />,

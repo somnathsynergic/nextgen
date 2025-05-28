@@ -19,6 +19,8 @@ import DialogBox from "../../../Components/DialogBox";
 import AuditTrail from "../../../Components/AuditTrail";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
+import SpinComp from '../../../Components/SpinComp';
+import BlockComp from '../../../Components/BlockComp';
 // import { OverlayPanel } from 'primereact/overlaypanel';
 function UnitForm() {
   const params = useParams();
@@ -129,16 +131,16 @@ function UnitForm() {
                   }, 5);}
                 }
             />
-                  <BlockUI blocked={blocked} template={
+                  <BlockComp blocked={blocked} template={
                                                   <div className='relative  w-full h-full 0 z-10'>
                                                     <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                
                                                   </div>
-                                                } className={'bg-red-500'}>
+                                                } >
             
           <div className="w-full bg-white p-6 rounded-2xl">
            
-        <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>   
+        <SpinComp loading={loading}>   
         <form onSubmit={formik.handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="sm:col-span-2">
@@ -166,7 +168,7 @@ function UnitForm() {
             
           />
         </form>
-        </Spin>
+        </SpinComp>
 
         {/* <TDInputTemplate
                 placeholder="Type Unit name..."
@@ -197,7 +199,7 @@ function UnitForm() {
             </OverlayPanel>
         </div> */}
       </div>
-      </BlockUI>
+      </BlockComp>
       <div ref={contentRef}  style={{
           display: !isPrinting ? "block" : "none",
         }} >

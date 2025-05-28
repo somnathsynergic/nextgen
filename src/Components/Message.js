@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Space } from 'antd';
+import { message } from 'antd';
 export const  Message = (type, msg) => {
     message.open({
         type: type,

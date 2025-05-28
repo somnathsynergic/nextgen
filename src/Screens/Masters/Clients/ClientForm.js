@@ -5,23 +5,21 @@ import { useNavigate } from "react-router-dom";
 import BtnComp from "../../../Components/BtnComp";
 import HeadingTemplate from "../../../Components/HeadingTemplate";
 import TDInputTemplate from "../../../Components/TDInputTemplate";
-import { useFormik, FieldArray, Formik } from "formik";
+import { FieldArray, Formik } from "formik";
 import * as Yup from "yup";
 import VError from "../../../Components/VError";
 import { PlusOutlined, MinusOutlined, LockFilled } from "@ant-design/icons";
-import { Button, Form, Input } from "antd";
+import { Button } from "antd";
 import { url } from "../../../Address/BaseUrl";
 import { Message } from "../../../Components/Message";
-import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
 import axios from "axios";
 import AuditTrail from "../../../Components/AuditTrail";
 import { Image } from "antd";
-import { BlockUI } from 'primereact/blockui';
 import SpinComp from '../../../Components/SpinComp';
+import BlockComp from '../../../Components/BlockComp';
 
 function ClientForm() {
   const [loading, setLoading] = useState(false);
@@ -369,12 +367,12 @@ function ClientForm() {
         }
         }
       />
-      <BlockUI blocked={blocked} template={
+      <BlockComp blocked={blocked} template={
         <div className='relative  w-full h-full 0 z-10'>
           <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 ' /> Locked (Readonly)</span>
 
         </div>
-      } className={'bg-red-500'}>
+      }>
         <div className="w-full bg-white p-6 rounded-2xl">
           <SpinComp
             loading={loading}
@@ -784,7 +782,7 @@ function ClientForm() {
             </Formik>
           </SpinComp>
         </div>
-      </BlockUI>
+      </BlockComp>
       <div ref={contentRef} style={{
         display: !isPrinting ? "block" : "none",
       }} >

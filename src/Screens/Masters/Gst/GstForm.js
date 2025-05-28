@@ -7,20 +7,19 @@ import HeadingTemplate from "../../../Components/HeadingTemplate";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import TDInputTemplate from "../../../Components/TDInputTemplate";
-import { BlockUI } from 'primereact/blockui';
 
 import VError from "../../../Components/VError";
 import axios from "axios";
 import { url } from "../../../Address/BaseUrl";
 import { Message } from "../../../Components/Message";
-import { Spin } from "antd";
-import { LoadingOutlined, LockFilled } from "@ant-design/icons";
+import { LockFilled } from "@ant-design/icons";
 import AuditTrail from "../../../Components/AuditTrail";
 import DialogBox from '../../../Components/DialogBox';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
 import SpinComp from '../../../Components/SpinComp';
+import BlockComp from '../../../Components/BlockComp';
 function GstForm() {
   const params = useParams();
   const contentRef = useRef(null);
@@ -141,12 +140,12 @@ function GstForm() {
                   }, 5);}
                 }
             />
-            <BlockUI blocked={blocked} template={
+            <BlockComp blocked={blocked} template={
                                                                           <div className='relative  w-full h-full 0 z-10'>
                                                                             <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                        
                                                                           </div>
-                                                                        } className={'bg-red-500'}>
+                                                                        } >
           <div className="w-full bg-white p-6 rounded-2xl">
         <SpinComp
           loading={loading}
@@ -196,7 +195,7 @@ function GstForm() {
             />
           </form>
         </SpinComp>
-      </div></BlockUI>
+      </div></BlockComp>
        <div ref={contentRef}  style={{
                 display: !isPrinting ? "block" : "none",
               }} >

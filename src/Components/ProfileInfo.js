@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Descriptions, Spin } from "antd";
 import { Divider } from "@mui/material";
 import { CameraAltOutlined } from "@mui/icons-material";
-import { LoadingOutlined, SaveOutlined } from "@ant-design/icons";
+import { SaveOutlined } from "@ant-design/icons";
 import { url } from "../Address/BaseUrl";
 import axios from "axios";
 import { Message } from "./Message";
 import BtnGroupReuse from "./BtnGroupReuse";
+import SpinComp from "./SpinComp";
 const ProfileInfo = () => {
   const inputFile = useRef(null);
   const [img, setImg] = useState("");
@@ -205,11 +206,8 @@ const ProfileInfo = () => {
         labelStyle={{ color: "#014737", fontWeight: "bold" }}
         items={items}
       />
-      <Spin
-        indicator={<LoadingOutlined spin />}
-        size="large"
-        className="text-green-900 dark:text-gray-400"
-        spinning={loading}
+      <SpinComp
+        loading={loading}
       >
         {/* <button
           type="submit"
@@ -233,7 +231,7 @@ const ProfileInfo = () => {
           icon={ <SaveOutlined className='mr-2' />}
           loading={loading}
           />
-      </Spin>
+      </SpinComp>
     </div>
   );
 };

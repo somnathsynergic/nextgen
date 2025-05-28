@@ -32,7 +32,6 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleFilled,
-  LoadingOutlined,
   FileTextOutlined,
   FilePdfOutlined,
   FileWordOutlined,
@@ -62,6 +61,7 @@ import { CancelOutlined } from "@mui/icons-material";
 import BtnGroupReuse from "./BtnGroupReuse";
 import InfoTags from "./InfoTags";
 import Pagination from "./Pagination";
+import SpinComp from "./SpinComp";
 const DialogBox = ({
   visible,
   flag,
@@ -796,14 +796,11 @@ const DialogBox = ({
       {flag == 14 && <AmendPreview id={id} />}
       {flag == 15 && (
         <div className="mt-2">
-          <Spin
-            indicator={<LoadingOutlined spin />}
-            size="large"
-            className="text-green-900 dark:text-gray-400"
-            spinning={loading}
+          <SpinComp
+            loading={loading}
           >
             <Timeline className="my-2" mode="right" items={timeLineItems} />
-          </Spin>
+          </SpinComp>
         </div>
       )}
       {flag == 16 && (
@@ -4494,11 +4491,8 @@ const DialogBox = ({
         <div className="flex flex-col items-center justify-center mt-2">
           <AmendPreview id={id} />
           {po_status != "C" && po_status!='' ? (
-            <Spin
-              spinning={loading}
-              indicator={<LoadingOutlined spin />}
-              size="large"
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            <SpinComp
+              loading={loading}
             >
               {/* <button
                       className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -4556,7 +4550,7 @@ const DialogBox = ({
                       Message("error", err);
                     });
                 }} icon={<CloseOutlined className='mr-2'/> } text="Close Order" flag={2}/>
-            </Spin>
+            </SpinComp>
           ) : (
             // <Tag
             //   className="text-[12px] p-1 rounded-full w-36"

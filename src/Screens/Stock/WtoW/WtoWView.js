@@ -3,27 +3,21 @@ import { routePaths } from "../../../Assets/Data/Routes";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { url } from "../../../Address/BaseUrl";
 import axios from "axios";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../../src/Assets/Images/nodata.png";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../../Components/PrintHeader";
 import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
   EditOutlined,
   InteractionOutlined,
   PrinterOutlined,
-  SyncOutlined,
 } from "@ant-design/icons";
 import SkeletonLoading from "../../../Components/SkeletonLoading";
 import { Tooltip } from "@mui/material";
-import { Tag } from "antd";
-import CompositeSearch from "../../../Components/CompositeSearch";
-import Radiobtn from "../../../Components/Radiobtn";
 import DialogBox from "../../../Components/DialogBox";
 import CompositeSearchTransfer from "../../../Components/CompositeSearchTransfer";
 import Pagination from "../../../Components/Pagination";
+import { formatDate } from "../../../Functions/formatDate";
 
 function WtoWView() {
   const contentRef = useRef(null);
@@ -452,7 +446,7 @@ const [isPrinting, setIsPrinting] = useState(true);
                       >
                         {item.sl_no}
                       </th>
-                      <td class="px-6 py-4 text-gray-600">{item.trans_dt}</td>
+                      <td class="px-6 py-4 text-gray-600">{formatDate(item.trans_dt)}</td>
                       <td class="px-6 py-4 text-green-900 font-bold">
                         {item.trans_no}
                       </td>

@@ -6,8 +6,6 @@ import { Button, Popover, Tag,  } from "antd";
 import { PlusOutlined,MinusOutlined, ArrowRightOutlined, ArrowLeftOutlined, LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { BlockUI } from 'primereact/blockui';
-
 import { url } from "../../Address/BaseUrl";
 import BtnGroupReuse from '../BtnGroupReuse';
 import BlockComp from '../BlockComp';

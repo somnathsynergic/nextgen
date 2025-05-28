@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import IMG from "../Assets/Images/Logo.png";
-import IMGINV from "../Assets/Images/inverted.png";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,7 +17,7 @@ import { Badge } from 'antd';
 import { useNavigate } from "react-router-dom";
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
-import { DownOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import { url } from "../Address/BaseUrl";
 import axios from "axios";
 function Header() {

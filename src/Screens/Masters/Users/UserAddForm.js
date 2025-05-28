@@ -21,6 +21,7 @@ import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
 import SpinComp from "../../../Components/SpinComp";
+import BlockComp from "../../../Components/BlockComp";
 const UserAddForm = () => {
   const params = useParams();
   const contentRef = useRef(null);
@@ -206,13 +207,13 @@ const UserAddForm = () => {
               }, 5);}
             }
         />
-              <BlockUI blocked={blocked} 
+              <BlockComp blocked={blocked} 
               template={
                                                                             <div className='relative  w-full h-full 0 z-10'>
                                                                               <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                          
                                                                             </div>
-                                                                          } className={'bg-red-500'}>
+                                                                          } >
         
       <div  className="w-full bg-white p-6 rounded-2xl">
 
@@ -459,7 +460,7 @@ const UserAddForm = () => {
       </div>
         </SpinComp>
       </div>
-      </BlockUI>
+      </BlockComp>
       <div ref={contentRef}  style={{
           display: !isPrinting ? "block" : "none",
         }} >

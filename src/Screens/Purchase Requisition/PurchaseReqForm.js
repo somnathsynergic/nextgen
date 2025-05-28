@@ -6,15 +6,13 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import { BlockUI } from "primereact/blockui";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../../Components/PrintHeader";
 
-import { Button, Divider, Empty, Spin, Tag, Tooltip } from "antd";
+import { Button, Divider, Empty, Tag, Tooltip } from "antd";
 import {
   CloseCircleOutlined,
   InfoCircleOutlined,
-  LoadingOutlined,
   LockFilled,
   MinusOutlined,
   MoneyCollectOutlined,
@@ -34,6 +32,7 @@ import InfoTags from "../../Components/InfoTags";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
 import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 
 function PurchaseReqForm() {
   const params = useParams();
@@ -395,12 +394,12 @@ function PurchaseReqForm() {
             }, 5);}
           }
       />
-      <BlockUI template={
+      <BlockComp template={
                                                                                  <div className='relative  w-full h-full 0 z-10'>
                                                                                    <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                               
                                                                                  </div>
-                                                                               }  blocked={blocked} className={"bg-red-500"}>
+                                                                               }  blocked={blocked} >
         <div className="grid grid-cols-6 gap-2">
           <div className={"w-full col-span-6 bg-white p-6 rounded-2xl"}>
             <SpinComp
@@ -1180,7 +1179,7 @@ function PurchaseReqForm() {
             </SpinComp>
           </div>
         </div>
-      </BlockUI>
+      </BlockComp>
          <div ref={contentRef}  style={{
                             display: !isPrinting ? "block" : "none",
                           }} >

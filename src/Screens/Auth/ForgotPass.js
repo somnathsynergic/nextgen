@@ -5,9 +5,9 @@ import { motion } from "framer-motion"
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import { Spin } from "antd";
-import { LeftOutlined, LoadingOutlined } from '@ant-design/icons';
+import { LeftOutlined } from '@ant-design/icons';
 import VError from '../../Components/VError';
+import SpinComp from '../../Components/SpinComp';
 
 const ForgotPass = () => {
   const [loading, setLoading] = useState(false);
@@ -65,14 +65,13 @@ const ForgotPass = () => {
                
                 <div className='block text-sm'>
                     <div className='flex justify-center'>
-                    <Spin
-              indicator={<LoadingOutlined spin />}
+                    <SpinComp
               size={5}
-              className="text-emerald-600 w-52 dark:text-gray-400"
-              spinning={loading}
+              classname="text-emerald-600 w-52 dark:text-gray-400"
+              loading={loading}
             >
                   <button type="submit" className="bg-green-900 hover:duration-500 w-full hover:scale-105 hover:bg-green-800  text-white p-3 rounded-full">Submit</button>
-                  </Spin>
+                  </SpinComp>
                   </div>
                 </div>
 

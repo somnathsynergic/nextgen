@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BtnComp from "../Components/BtnComp";
-import HeadingTemplate from "../Components/HeadingTemplate";
 import VError from "../Components/VError";
 import TDInputTemplate from "../Components/TDInputTemplate";
 import { useFormik } from "formik";
@@ -10,11 +9,8 @@ import { Message } from "../Components/Message";
 import axios from "axios";
 import { url } from "../Address/BaseUrl";
 import { Checkbox, Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-import DialogBox from "../Components/DialogBox";
 import { useNavigate } from 'react-router-dom';
-import PrintComp from "../Components/PrintComp";
-import AuditTrail from "../Components/AuditTrail";
+import SpinComp from "./SpinComp";
 
 function ForgotPass({onClose,onLoading}) {
     const params = useParams();
@@ -76,7 +72,7 @@ function ForgotPass({onClose,onLoading}) {
               /> */}
             <div className="w-full bg-white p-6 rounded-2xl">
              
-              <Spin indicator={<LoadingOutlined spin />} size="large" className="text-green-900 dark:text-gray-400" spinning={loading}>
+              <SpinComp loading={loading}>
               <form onSubmit={formik.handleSubmit}>
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                   <div className="sm:col-span-2">
@@ -104,7 +100,7 @@ function ForgotPass({onClose,onLoading}) {
                  
                 <BtnComp mode={'A'} onReset={formik.handleReset}/>
               </form>
-              </Spin>
+              </SpinComp>
             </div>
           
           </section>

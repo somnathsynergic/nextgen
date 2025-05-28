@@ -5,7 +5,6 @@ import TDInputTemplate from '../TDInputTemplate'
 import { useParams } from 'react-router-dom';
 import { ArrowLeftOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { BlockUI } from 'primereact/blockui';
 import BtnGroupReuse from '../BtnGroupReuse';
 import BlockComp from '../BlockComp';
 

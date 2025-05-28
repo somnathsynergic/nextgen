@@ -31,14 +31,13 @@ import { Button, FloatButton } from "antd";
 import PaymentTerms from "../../Components/Steps/PaymentTerms";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
-import { Spin } from "antd";
 import { Message } from "../../Components/Message";
 import DialogBox from "../../Components/DialogBox";
-import { BlockUI } from "primereact/blockui";
 import { SaveOutlined } from "@mui/icons-material";
 import PoLogs from "../../Components/Steps/PoLogs";
 import InfoTags from "../../Components/InfoTags";
 import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 
 function PurchaseOrderForm() {
   const stepperRef = useRef(null);
@@ -872,7 +871,7 @@ function PurchaseOrderForm() {
         <InfoTags icon={<FileTextOutlined/>} bgCol={"ml-1"} color="#4FB477" text={'PO:'+ localStorage.getItem("po_no")}/>
       )}
 
-      <BlockUI
+      <BlockComp
         blocked={
           blocked &&
           localStorage.getItem("po_status") != "A" &&
@@ -1354,7 +1353,7 @@ function PurchaseOrderForm() {
             </Stepper>
           </div>
         </SpinComp>
-      </BlockUI>
+      </BlockComp>
       <DialogBox
         visible={visible}
         flag={10}

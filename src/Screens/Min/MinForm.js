@@ -6,7 +6,6 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { url } from "../../Address/BaseUrl";
 import { Tag } from "antd";
-import { BlockUI } from 'primereact/blockui';
 
 import {
   BranchesOutlined,
@@ -20,13 +19,13 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../../Components/DialogBox";
-import { Spin } from "antd";
 import { Message } from "../../Components/Message";
 import { Popover } from "antd";
 import { ScrollPanel } from "primereact/scrollpanel";
 import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
 import SpinComp from "../../Components/SpinComp";
+import BlockComp from "../../Components/BlockComp";
 function MinForm() {
      const [blocked, setBlocked] = useState(false);
      const det = JSON.parse(localStorage.getItem('perm'))
@@ -307,7 +306,7 @@ function MinForm() {
         title={"Category"}
         data={""}
       />
-            <BlockUI blocked={blocked} template={
+            <BlockComp blocked={blocked} template={
                                                                                              <div className='relative  w-full h-full 0 z-10'>
                                                                                                <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                                           
@@ -667,7 +666,7 @@ function MinForm() {
           </div>
         </div>
       </SpinComp>
-     </BlockUI>
+     </BlockComp>
       <DialogBox
         visible={visible}
         flag={flag1}

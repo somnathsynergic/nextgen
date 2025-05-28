@@ -11,13 +11,11 @@ import {
   FileImageOutlined,
   FilePdfOutlined,
   FileWordOutlined,
-  LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DialogBox from "../Components/DialogBox";
 import Viewdetails from "../Components/Viewdetails";
-import { Spin } from "antd";
 import { Message } from "./Message";
 import BtnGroupReuse from "./BtnGroupReuse";
 import SpinComp from "./SpinComp";

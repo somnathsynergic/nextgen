@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { routePaths } from "../../../Assets/Data/Routes";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { url } from "../../../Address/BaseUrl";
 import axios from "axios";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
 import nodata from "../../../../src/Assets/Images/nodata.png";
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  EditOutlined,
-  InteractionOutlined,
-  PrinterOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
+import { formatDate } from "../../../Functions/formatDate";
 import SkeletonLoading from "../../../Components/SkeletonLoading";
-import { Tooltip } from "@mui/material";
-import { Tag } from "antd";
-import CompositeSearch from "../../../Components/CompositeSearch";
-import Radiobtn from "../../../Components/Radiobtn";
 import DialogBox from "../../../Components/DialogBox";
 import { Message } from "../../../Components/Message";
 import CompositeSearchTransfer from "../../../Components/CompositeSearchTransfer";
@@ -458,7 +445,7 @@ function CancelView() {
                         >
                           {item.sl_no}
                         </th>
-                        <td class="px-6 py-4 text-gray-600">{item.trans_dt}</td>
+                        <td class="px-6 py-4 text-gray-600">{formatDate(item.trans_dt)}</td>
                         <td class="px-6 py-4 text-green-900 font-bold">
                           {item.trans_no}
                         </td>

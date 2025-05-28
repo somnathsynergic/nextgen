@@ -1,17 +1,17 @@
-import { Checkbox, Spin, Tag } from "antd";
+import { Checkbox } from "antd";
 import React, { useEffect, useState } from "react";
 import HeadingTemplate from "../../../Components/HeadingTemplate";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { url } from "../../../Address/BaseUrl";
-import { LoadingOutlined, LockFilled, SaveOutlined } from "@ant-design/icons";
+import { LockFilled, SaveOutlined } from "@ant-design/icons";
 import { Message } from "../../../Components/Message";
-import { BlockUI } from 'primereact/blockui';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
 import SpinComp from "../../../Components/SpinComp";
 import InfoTags from "../../../Components/InfoTags";
+import BlockComp from "../../../Components/BlockComp";
 function PermissionsForm() {
   const params = useParams();
      const [blocked, setBlocked] = useState(false);
@@ -218,13 +218,13 @@ function PermissionsForm() {
           }
         //   data={params.id && data?data:''}
       />
-            <BlockUI blocked={blocked}
+            <BlockComp blocked={blocked}
              template={
                                                                                         <div className='relative  w-full h-full 0 z-10'>
                                                                                           <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                                                                                      
                                                                                         </div>
-                                                                                      } className={'bg-red-500'}>
+                                                                                      }>
       
       <SpinComp
         loading={loading}
@@ -315,7 +315,7 @@ function PermissionsForm() {
           </div>
         </div>
       </SpinComp>
-      </BlockUI>
+      </BlockComp>
 
       <div ref={contentRef}  style={{
           display: !isPrinting ? "block" : "none",

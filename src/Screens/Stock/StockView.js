@@ -3,18 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { url } from '../../Address/BaseUrl'
 import { routePaths } from "../../Assets/Data/Routes";
 import { Link, useNavigate } from "react-router-dom";
-import Tooltip from "@mui/material/Tooltip";
-import { Paginator } from "primereact/paginator";
 import { motion } from "framer-motion";
-import { Button, Popover } from "antd";
 import {
-  CheckCircleOutlined,
-  ClockCircleOutlined,
   EditOutlined,
-  FileTextOutlined,
-  SyncOutlined,
-  TruckOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import Pagination from '../../Components/Pagination';
 function StockView() {

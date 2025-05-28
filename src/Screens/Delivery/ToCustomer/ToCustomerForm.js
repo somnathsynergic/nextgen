@@ -3,10 +3,9 @@ import { useParams } from "react-router";
 import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
-import { Spin, Tag } from "antd";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DeliveryFormComp from "../../../Components/DeliveryFormComp";
+import SpinComp from "../../../Components/SpinComp";
 
 function ToCustomerForm() {
   const params = useParams();
@@ -72,11 +71,8 @@ function ToCustomerForm() {
     // }
   };
   return (
-    <Spin
-      indicator={<LoadingOutlined spin />}
-      size="large"
-      className="text-green-900 dark:text-gray-400"
-      spinning={loading}
+    <SpinComp
+      loading={loading}
     >
       <DeliveryFormComp
         flag={"C"}
@@ -85,7 +81,7 @@ function ToCustomerForm() {
           onSubmit(values);
         }}
       />
-    </Spin>
+    </SpinComp>
   );
 }
 

@@ -10,18 +10,16 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
-import { Spin} from 'antd';
-import { LoadingOutlined, LockFilled } from '@ant-design/icons';
+import { LockFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import DialogBox from "../../../Components/DialogBox";
-import PrintComp from "../../../Components/PrintComp";
 import AuditTrail from "../../../Components/AuditTrail";
 import { ListBox } from 'primereact/listbox';
-import { BlockUI } from 'primereact/blockui';
 import { useReactToPrint } from "react-to-print";
   import { useRef } from "react";
 import PrintHeader from "../../../Components/PrintHeader";
 import SpinComp from '../../../Components/SpinComp';
+import BlockComp from '../../../Components/BlockComp';
 
 const CategoryForm = () => {
   const params = useParams();
@@ -138,12 +136,12 @@ const [blocked, setBlocked] = useState(false);
                 }, 5);}
               }
             />
-             <BlockUI blocked={blocked} template={
+             <BlockComp blocked={blocked} template={
                                 <div className='relative  w-full h-full 0 z-10'>
                                   <span className='absolute top-1 right-96 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
                              
                                 </div>
-                              } className={'bg-red-500'}>
+                              } >
             <div className="grid grid-cols-6 gap-2">
             <div className={products.length>0?'w-full col-span-4 bg-white p-6 rounded-2xl':'w-full col-span-6 bg-white p-6 rounded-2xl'}>
           <SpinComp  size="large" loading={loading}>
@@ -186,7 +184,7 @@ const [blocked, setBlocked] = useState(false);
 
 }
             </div>
-            </BlockUI>
+            </BlockComp>
             <div ref={contentRef}  style={{
           display: !isPrinting ? "block" : "none",
         }} >

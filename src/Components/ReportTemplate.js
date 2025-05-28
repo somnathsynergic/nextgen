@@ -64,7 +64,7 @@ function ReportTemplate({ headers, net_tot,
     }, 10);
 
   }
-  const footer = `Basic Value=${net_tot}, Grand Total = ${grand_tot}`;
+  const footer = `Basic Value=${parseFloat(net_tot).toFixed(2)}, Grand Total = ${parseFloat(grand_tot).toFixed(2)}`;
   const setSearch = (e) => {
     console.log(e.target.value, flag)
     if (flag == 1) {
@@ -83,7 +83,7 @@ function ReportTemplate({ headers, net_tot,
       setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.proj_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.created_by?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 6) {
-      setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) || item.status?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) ||  item.pur_date?.toLowerCase().includes(e.target.value.toLowerCase())||  item.created_by?.toLowerCase().includes(e.target.value.toLowerCase())|| item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.status?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
 
   }
@@ -121,7 +121,7 @@ function ReportTemplate({ headers, net_tot,
 
           {flag == 2 && <InfoTags color={isPrinting ? "#014737" : '#10b981'} text={'Warehouse quantity of this product: ' + wStock} />}
           <DataTable
-            value={dataCopy.filter(item => item?.stock > 0 || item.quantity > 0 || item.qty > 0 || item?.rc_qty || item?.project_stock > 0
+            value={dataCopy.filter(item => item?.stock > 0 || item.quantity > 0 || item.qty > 0 || (item.rc_qty>0 || item.rc_qty==null) || item?.project_stock > 0
 
             )}
             footer={grand_tot > 0 ? footer : ''}
@@ -132,7 +132,7 @@ function ReportTemplate({ headers, net_tot,
             paginator
             rows={isPrinting ? 10 : data?.length}
             rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
-            rowClassName="bg-white text-justify text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
+            rowClassName="bg-white even:bg-[#DDEAE0] text-justify text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
                 text-ellipsis overflow-hidden truncate w-2 text-wrap"
             tableStyle={{ minWidth: "100%", fontSize: !isPrinting ? "10px" : "12px" }}
             paginatorTemplate="RowsPerPageDropdown  FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"

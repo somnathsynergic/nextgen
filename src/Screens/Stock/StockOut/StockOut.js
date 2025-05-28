@@ -412,7 +412,7 @@ function StockOut() {
                          </span>
                          <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                 </button> */}
-                <BtnGroupReuse  onClick={() => onSubmit()} disabled={(out_from=='P' && !projcode)|| !out_from} text="Submit" icon={<SaveOutlined className='mr-2' />} flag={1}/>
+                <BtnGroupReuse loading={loading} onClick={() => onSubmit()} disabled={(out_from=='P' && !projcode)|| !out_from} text="Submit" icon={<SaveOutlined className='mr-2' />} flag={1}/>
               </div>
             </SpinComp>
           )}

@@ -143,7 +143,7 @@ function PurMrnReport() {
           >
             {clicked && (
               <SpinComp
-                spinning={loading}
+                loading={loading}
               >
                 <form>
                   <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">

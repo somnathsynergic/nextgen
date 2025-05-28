@@ -729,6 +729,7 @@ function PtoPForm() {
                 <div className="flex justify-center gap-2 items-center mx-auto">
                
                   {params.id==0 &&  <BtnGroupReuse
+                  loading={loading}
                       // disabled={errorSum(error) || !intended}
                       onClick={() => onSubmit()}
                       flag={1}

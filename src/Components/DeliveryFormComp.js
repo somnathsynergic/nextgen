@@ -1511,7 +1511,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                   //   </span>
                   //   <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
                   // </button>
-                  <BtnGroupReuse flag={2} text="Delete" icon={<DeleteOutlined className="mr-2" />} onClick={() => {
+                  <BtnGroupReuse loading={loading} flag={2} text="Delete" icon={<DeleteOutlined className="mr-2" />} onClick={() => {
                     setFlag(4);
                     setDelMode(2);
                     setVisible(true);

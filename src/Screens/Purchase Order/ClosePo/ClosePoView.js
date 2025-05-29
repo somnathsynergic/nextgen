@@ -13,8 +13,8 @@ import PoTableCancel from "../../../Components/PoTableCancel";
 function ClosePoView() {
   const [loading, setLoading] = useState(false);
   const rdBtn = [
-    { label: "Cancelled", value: 1 },
-    { label: "Not Cancelled", value: 2 },
+    { label: "Closed", value: 1 },
+    { label: "Not Closed", value: 2 },
   ];
   const locationpath = useLocation();
   const [value, setValue] = useState(1);

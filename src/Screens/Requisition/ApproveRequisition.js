@@ -611,7 +611,7 @@ function ApproveRequisition() {
         <DialogBox
         visible={visible}
         flag={flag}
-        data={flag!=27?{list:adv_search_lst,labels:labels}:{reqInfo:reqInfo,itemInfo:itemDtl,client_name:client_name,project_name:project_name}}
+        data={flag!=27?{list:adv_search_lst,labels:labels}:{reqInfo:reqInfo,itemInfo:itemDtl.filter(i=>i.req_qty>0),client_name:client_name,project_name:project_name}}
         onPress={(status,rej_note,itemInfo) => {
             console.log(status,rej_note)
             setVisible(false)

@@ -330,6 +330,7 @@ function RequisitionForm() {
 
               for (let i of resItems?.data?.msg) {
                 error.push({ flag: 0 });
+                if(i.req_qty){
                 itemDtlsForm.push({
                   sl_no: +params.id > 0 ? +params.id : 0,
                   po_no: i.po_no,
@@ -372,6 +373,7 @@ function RequisitionForm() {
 
                   // req_qty:i.proj_stock
                 });
+              }
                 setItemDtlsForm(itemDtlsForm);
                 setItemDtlsFormCopy(itemDtlsFormCopy);
                 // axios
@@ -994,7 +996,6 @@ function RequisitionForm() {
                                     </p>
                                   </div>
                                 </div>
-                                {/* <hr className=" border-gray-100"/> */}
                               </li>
                             ))}
                         {projectList.filter(

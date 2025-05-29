@@ -548,7 +548,9 @@ function PurMrnReporProj() {
 
               <div className="flex justify-center">
                
-                <BtnGroupReuse flag={1} icon={ <SaveOutlined className='mr-2' />} text="Submit"  disabled={!type || (!vendorCode && !projCode && !po_no)}
+                <BtnGroupReuse flag={1} icon={ <SaveOutlined className='mr-2' />} text="Submit"  
+                // disabled={!type || (!vendorCode && !projCode && !po_no)}
+                disabled={!type}
                  onClick={() => {
                     //   onSubmit();
                     setLoading(true);

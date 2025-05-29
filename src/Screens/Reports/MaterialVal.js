@@ -49,7 +49,7 @@ function MaterialVal() {
       { name: "total_rc_qty", value: "Received Quantity " },
       { name: "invoice", value: "Invoice" },
       { name: "invoice_dt", value: "Invoice Date" },
-      { name: "stock_out_qty", value: "Stocked Out Qty" },
+      // { name: "stock_out_qty", value: "Stocked Out Qty" },
   
       // { name: "created_by", value: "Created by" },
     ]

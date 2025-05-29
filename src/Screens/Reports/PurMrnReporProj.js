@@ -596,7 +596,7 @@ function PurMrnReporProj() {
                 <Tag color="white">Warehouse quantity of this product: </Tag>
 
                 <ReportTemplate
-                  data={reportData}
+                  data={reportData.filter(e=>e.vendor_name!=null)}
                   headers={headers}
                   reportHeader={'MRN Report for '+vendorCode>0?'Vendor: '+venVal:''+type=='W'?' Intended For: Warehouse':projCode?' Intended For: '+projVal:''+po_no?' PO: '+po_no:''}
                   info={info}

@@ -89,7 +89,7 @@ function ReportTemplate({ headers, net_tot,
   }
   return (
     <>
-      <div className='float-end flex justify-end gap-2 mb-2'>
+      <div className='float-end bg-transparent flex justify-end gap-2 mb-2'>
         <Tooltip title="Print/Export PDF"> <button className='h-7 w-7 rounded-full bg-red-700 text-white' onClick={() => {
           setIsPrinting(false);
 
@@ -99,7 +99,7 @@ function ReportTemplate({ headers, net_tot,
           }, 5);
         }}><FilePdfOutlined /></button></Tooltip>
       </div>
-      <div className="card mt-4">
+      <div className="bg-transparent mt-4">
 
         <div className='mb-2'>
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -125,15 +125,15 @@ function ReportTemplate({ headers, net_tot,
 
             )}
             footer={grand_tot > 0 ? footer : ''}
-            showGridlines={true}
+            showGridlines
+           
             stripedRows
             stickyHeader="true"
             scrollable
             paginator
             rows={isPrinting ? 10 : data?.length}
             rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}
-            rowClassName="bg-white even:bg-[#DDEAE0] even:text-green-700 text-justify text-md text-wrap text-gray-800 border border-b-gray-300 border-r-gray-200 border-l-white active:border-0 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] 
-                text-ellipsis overflow-hidden truncate w-2 text-wrap"
+            rowClassName="bg-white even:bg-gray-100 even:text-green-700 text-justify text-md text-wrap text-gray-800 border border-b-gray-300 hover:text-green-700 hover:duration-500 dark:hover:text-[#1e4834] text-ellipsis overflow-hidden truncate w-2 text-wrap"
             tableStyle={{ minWidth: "100%", fontSize: !isPrinting ? "10px" : "12px" }}
             paginatorTemplate="RowsPerPageDropdown  FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             paginatorClassName={isPrinting ? "bg-white text-emerald-500" : "hidden"}
@@ -143,13 +143,15 @@ function ReportTemplate({ headers, net_tot,
             selectionMode="single"
             dataKey="id"
             metaKeySelection={false}
+            
           >
             <Column
               header="#"
               body={serialNumberTemplate}
-              style={{ width: '5%' }}
+              style={{ width:'1%', textAlign:'center' }}
+              className='border-r-gray-200 border'
               headerClassName={isPrinting ?
-                "text-green-900 bg-[#C4F1BE] border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold" :
+                "text-green-900 bg-[#C4F1BE] border-r-gray-300 border border-b-gray-300 dark:bg-gray-700 dark:text-white dark:font-bold" :
                 "text-white bg-green-500 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold"
               }
             />
@@ -158,12 +160,14 @@ function ReportTemplate({ headers, net_tot,
                 key={index}
                 field={item.name}
                 header={item.value}
+                className='border-r-gray-200 border'
+
                 headerClassName={isPrinting ?
-                  "text-green-900 bg-[#C4F1BE] border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold" :
+                  "text-green-900  bg-[#C4F1BE] border-r-gray-300 border border-b-gray-300 dark:bg-gray-700 dark:text-white dark:font-bold" :
                   "text-white bg-green-500 border-b-green-900 dark:bg-gray-700 dark:text-white dark:font-bold"
                 }
 
-                style={{ width: "10%" }}
+                style={{ width: "10%",  }}
               ></Column>
 
             ))}

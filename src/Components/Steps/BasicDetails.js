@@ -207,15 +207,10 @@ function BasicDetails({ pressNext, pressBack, data }) {
   useEffect(() => {
    
     setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
-    // setBlocked(false)
-
-
-    // alert("hii")
     console.log(
       projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]
         ?.name
     );
-
     setProjCode(localStorage.getItem("proj_name"));
     setProjName(
       projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]
@@ -229,11 +224,8 @@ function BasicDetails({ pressNext, pressBack, data }) {
     setVendRef(localStorage.getItem("vend_ref"));
     setPoNo(localStorage.getItem("po_no"));
     setSelectedList(JSON.parse(localStorage.getItem('pur_req')))
-    // setPurReq(localStorage.getItem("pur_req"));
-    // setPurCode(localStorage.getItem("pur_req"));
     setPurReq(localStorage.getItem(""));
     setPurCode(localStorage.getItem(""));
-    // localStorage.setItem("pur_req",JSON.stringify(selectedList));
     setProjID(projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]?.proj_id)
     console.log(projectList.filter((e) => e.code == +localStorage.getItem("proj_name"))[0]?.proj_id)
 

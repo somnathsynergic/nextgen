@@ -118,6 +118,15 @@
   color: #4C9F70 !important;
 }
 
+ant-message-success .ant-message-content {
+  border-radius: 50%;
+}
+
+
+.p-paginator-rpp-options{
+  background-color: #014737 !important;
+}
+
 
 
 

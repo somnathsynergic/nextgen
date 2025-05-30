@@ -67,6 +67,7 @@ function POTableView({ po_data, setSearch, title,print }) {
     
     </div>
   );
+  
   useEffect(() => {
     if(print){
       setIsPrinting(false);

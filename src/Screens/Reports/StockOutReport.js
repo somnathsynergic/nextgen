@@ -39,8 +39,9 @@ function StockOutReport() {
     const [projId,setProjId] = useState("")
     const headers= [
       { name:'date',value:'Date'},
-      { name:'proj_name',value:'Stocked Out From'},
       { name: "prod_name", value: "Product" },
+
+      { name:'proj_name',value:'Stocked Out From'},
       { name: "qty", value: "Quantity" },
       { name: "created_by", value: "Stocked Out By" },
   

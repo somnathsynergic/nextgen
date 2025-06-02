@@ -712,21 +712,27 @@ function PurchaseReqForm() {
                 <table className="w-full my-2 border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
                   <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
+                    {params.id>0 && <th
+                        scope="col"
+                        className="px-6 py-1.5 1/5 text-center font-bold"
+                      >
+                        #
+                      </th>}
                       <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/6 text-center font-bold"
+                        className="px-6 py-1.5 w-2/5 text-center font-bold"
                       >
                         Item
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/6 text-center font-bold"
+                        className="px-6 py-1.5 w-1/5 text-center font-bold"
                       >
                         Quantity
                       </th>
                      {params.id>0 && <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/6 text-center font-bold"
+                        className="px-6 py-1.5 w-1/5 text-center font-bold"
                       >
                         Status
                       </th>}
@@ -738,7 +744,7 @@ function PurchaseReqForm() {
                                   
                                   <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/6 text-center font-bold"
+                        className="px-6 py-1.5 w-1/5 text-center font-bold"
                       >
                         Action
                       </th>}
@@ -749,9 +755,13 @@ function PurchaseReqForm() {
                     <>
                       <tbody>
                         <tr className="bg-[#DDEAE0] border-b-2 text-center border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
+                            <th
+                            scope="row"
+                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                          >{index+1}</th>
                           <th
                             scope="row"
-                            className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-2/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                              <a
                                 className="ml-10 float-end mt-3 -mr-2  z-10 "
@@ -935,7 +945,7 @@ function PurchaseReqForm() {
                           </th>
                           <th
                             scope="row"
-                            className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                             <div className={"sm:col-span-5 border-2"}>
                               <TDInputTemplate
@@ -958,9 +968,9 @@ function PurchaseReqForm() {
                               {/* {itemDtls[index]['error']==1 && <VError title={"Quantity should >0 and <=warehouse stock"} />} */}
                             </div>
                           </th>
-                          {params.id>0 && <th
+                           <th
                             scope="row"
-                            className="px-4 w-1/6  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                             <div
                               className={
@@ -1055,7 +1065,7 @@ function PurchaseReqForm() {
                                       />
                               } 
                             </div>
-                          </th>}
+                          </th>
                           {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
                                   }, 0)  &&    */}
@@ -1063,7 +1073,7 @@ function PurchaseReqForm() {
                                   
                                   
                                   <th  scope="row"
-                            className="px-4 w-1/6  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
+                            className="px-4 w-1/5  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
                           {!po_no ? <div  className={
                                 "sm:col-span-5 border-2"
                               }>

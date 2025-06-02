@@ -219,14 +219,28 @@ function ProductDetails({ pressBack, pressNext, data }) {
       }
     }
     if (event.target.name == "disc_prtg") {
-      console.log(+((data[index]["rate"] * +event.target.value) / 100));
-
+      // console.log(+((data[index]["rate"] * +event.target.value) / 100));
+      console.log('disc_prtg')
+      console.log( data[index]["disc"] = +(
+        data[index]["rate"] *
+        (+event.target.value / 100)
+      ))
       data[index]["disc"] = +(
         data[index]["rate"] *
         (+event.target.value / 100)
       );
+    data[index]["unit_price"] = +(data[index]["rate"] - ( data[index]["rate"] *
+        (+event.target.value / 100)));
+
     }
     if (event.target.name == "disc") {
+      console.log('disc')
+      console.log(+(
+        (+event.target.value * 100) /
+        data[index]["rate"]
+      ))
+    // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
+
       data[index]["disc_prtg"] = +(
         (+event.target.value * 100) /
         data[index]["rate"]
@@ -234,6 +248,16 @@ function ProductDetails({ pressBack, pressNext, data }) {
     }
     data[index][event.target.name] = event.target.value;
     //
+    if (event.target.name== "rate"){
+    // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
+      if(data[index]['disc_prtg']){
+         data[index]["disc"] = +(
+        data[index]["rate"] *
+        (+data[index]["disc_prtg"] / 100)
+      );
+      }
+
+    }
     if (params.flag == "F") {
       if (event.target.name == "item_name") {
         data[index]["qty"] = pur_req_items.filter(
@@ -766,6 +790,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       formControlName={input.disc_prtg}
                       name="disc_prtg"
                       disabled={
+                        !input.rate ||
                         localStorage.getItem("po_status") == "A" ||
                         localStorage.getItem("po_status") == "D" ||
                         localStorage.getItem("po_status") == "L"

@@ -11,8 +11,9 @@ import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Radio } from "antd";
+import { Button, Empty, Radio } from "antd";
 import SpinComp from "../SpinComp";
+import { OverlayPanel } from 'primereact/overlaypanel';
 
 function VendorMaster({onClose,onLoading}) {
   const stepperRef = useRef(null);
@@ -30,6 +31,7 @@ function VendorMaster({onClose,onLoading}) {
   const [exFlag, setExempted] = useState(false);
   const [cat, setCat] = useState([]);
   const [count, setCount] = useState(0);
+  const op_vendor = useRef(null);
 
   console.log(params, "params");
   var categories = [];
@@ -341,7 +343,7 @@ function VendorMaster({onClose,onLoading}) {
         state: values.v_state,
         v_address: values.v_address,
         v_poc: values.dynamicFields,
-        v_deals: values.dynamicFields_category,
+        v_deals: values.dynamicFields_category.map(e=>{return {sl_no:e.sl_no,category_id:cat.filter(item=>item.name==e.category_id)[0].code}}),
         v_bank:values.dynamicFields_bank
       })
       .then((res) => {
@@ -386,6 +388,7 @@ function VendorMaster({onClose,onLoading}) {
               handleSubmit,
               errors,
               touched,
+              setFieldValue
             }) => (
               <form onSubmit={handleSubmit}>
                 <div className="card flex flex-col justify-center">
@@ -469,11 +472,68 @@ function VendorMaster({onClose,onLoading}) {
                                     label="Deals in"
                                     name={`dynamicFields_category[${index}].category_id`}
                                     formControlName={field.category_id}
-                                    handleChange={handleChange}
+                                    handleChange={(val) => {
+                                        handleChange(val)
+                                        console.log("=============================", val)
+                                      // values.dynamicFields_category[index].category_id=val.target.value
+                                        if (val.target.value.length > 0) {
+                                          op_vendor.current.show(val)
+
+                                        }
+                                        else {
+                                          op_vendor.current.hide(val)
+                                          // setOneCode()
+
+                                        }
+                                        console.log(val.target.value);
+                                      }}
                                     handleBlur={handleBlur}
                                     data={cat}
-                                    mode={2}
+                                    mode={1}
                                   />
+                                   <OverlayPanel
+                                                                                              ref={op_vendor}
+                                                                                              // style={{marginLeft:'325px'}}
+                                                                                              className="w-[72.7%]  border-2 bg-gray-50 border-[#C4F1BE]"
+                                                                                            >
+                                                                                              <span className="text-xs text-green-900 italic">
+                                                                                                Search results for: "{values.dynamicFields_category[index].category_id}"
+                                                                                              </span>
+                                                                                              <ul class=" divide-y max-h-32 overflow-y-scroll mt-2 divide-gray-200 dark:divide-gray-700">
+                                                                                                {cat?.filter((e) =>
+                                                                                                  e.name
+                                                                                                    ?.toLowerCase()
+                                                                                                    .includes(values.dynamicFields_category[index].category_id?.toLowerCase())
+                                                                                                ).length > 0 &&
+                                                                                                  cat?.filter((e) => e.name?.toLowerCase().includes(values.dynamicFields_category[index].category_id.toLowerCase()))
+                                                                                                    ?.map((lst) => (
+                                                                                                      <li
+                                                                                                        onClick={(e) => {
+                                                                                                          console.log("++++++++++++++++++++++++++++++++++", e)
+                                                                                                          op_vendor.current.hide(e);
+                                                                                                          // field.category_id=lst.name
+                                                                                                           setFieldValue(`dynamicFields_category[${index}].category_id`, lst.name);
+                                                                                                          // setCatID(lst.code)
+                                                                                                        }}
+                                                                                                                                     class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+                                                                      
+                                                                                                      >
+                                                                                                        <div class="flex items-center rtl:space-x-reverse">
+                                                                                                      <div class="flex-1 min-w-0">
+                                                                                                        <p class="text-sm p-0.5 w-full text-green-900 group-active:text-white truncate dark:text-white">
+                                                                                                          {lst.name}
+                                                                                                        </p>
+                                                                                                      </div>
+                                                                                                    </div>
+                                                                                                      </li>
+                                                                                                    ))}
+                                                                                                {cat?.filter((e) =>
+                                                                                                  e.name
+                                                                                                    ?.toLowerCase()
+                                                                                                    .includes(values.dynamicFields_category[index].category_id?.toLowerCase())
+                                                                                                ).length == 0 && <Empty />}
+                                                                                              </ul>
+                                                                                            </OverlayPanel>
                                   {errors.dynamicFields_category?.[index]
                                     ?.category_id &&
                                   touched.dynamicFields_category?.[index]

@@ -184,6 +184,7 @@ function AmendView() {
     // else if(localStorage.getItem('user_type')=='5'){
       for (let i of res?.data?.msg) {
         if (i.po_status == "A" && i.po_no && i.amend_flag == "N") {
+        // if (i.po_status == "A" && i.po_no ) {
           poList.push({
             code: i.sl_no,
             name: i.po_no,

@@ -568,7 +568,7 @@ function PurMrnReporProj() {
                           setLoading(false);
 
                         if (res?.data?.suc > 0) {
-                          setReportData(res?.data?.msg);
+                          setReportData(res?.data?.msg.filter(e=>e.pur_req));
 
                         }
                         else{

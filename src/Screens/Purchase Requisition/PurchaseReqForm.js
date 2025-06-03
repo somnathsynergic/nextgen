@@ -712,27 +712,27 @@ function PurchaseReqForm() {
                 <table className="w-full my-2 border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
                   <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                    {params.id>0 && <th
+                    <th
                         scope="col"
-                        className="px-6 py-1.5 1/5 text-center font-bold"
+                        className="px-6 py-1.5 1/11 text-center font-bold"
                       >
                         #
-                      </th>}
+                      </th>
                       <th
                         scope="col"
-                        className="px-6 py-1.5 w-2/5 text-center font-bold"
+                        className="px-6 py-1.5 w-4/11 text-center font-bold"
                       >
                         Item
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/5 text-center font-bold"
+                        className="px-6 py-1.5 w-3/11 text-center font-bold"
                       >
                         Quantity
                       </th>
                      {params.id>0 && <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/5 text-center font-bold"
+                        className="px-6 py-1.5 w-2/11 text-center font-bold"
                       >
                         Status
                       </th>}
@@ -744,7 +744,7 @@ function PurchaseReqForm() {
                                   
                                   <th
                         scope="col"
-                        className="px-6 py-1.5 w-1/5 text-center font-bold"
+                        className="px-6 py-1.5 w-1/11 text-center font-bold"
                       >
                         Action
                       </th>}
@@ -757,11 +757,11 @@ function PurchaseReqForm() {
                         <tr className="bg-[#DDEAE0] border-b-2 text-center border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
                             <th
                             scope="row"
-                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-1/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >{index+1}</th>
                           <th
                             scope="row"
-                            className="px-4 w-2/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-4/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                              <a
                                 className="ml-10 float-end mt-3 -mr-2  z-10 "
@@ -945,7 +945,7 @@ function PurchaseReqForm() {
                           </th>
                           <th
                             scope="row"
-                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-3/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                             <div className={"sm:col-span-5 border-2"}>
                               <TDInputTemplate
@@ -968,9 +968,9 @@ function PurchaseReqForm() {
                               {/* {itemDtls[index]['error']==1 && <VError title={"Quantity should >0 and <=warehouse stock"} />} */}
                             </div>
                           </th>
-                           <th
+                          {params.id>0 && <th
                             scope="row"
-                            className="px-4 w-1/5  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
+                            className="px-4 w-2/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
                             <div
                               className={
@@ -981,13 +981,13 @@ function PurchaseReqForm() {
                               // <Tag onClick={
                               //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
                               // } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>
-                              <InfoTags bgCol={"bg-green-900 cursor-pointer text-white"} icon={<CheckCircleFilled className="text-[13.5px]"/>} onPress={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
+                              <InfoTags bgCol={"bg-green-900 hover:scale-105 active:scale-95 cursor-pointer text-white"} icon={<CheckCircleFilled className="text-[13.5px]"/>} onPress={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
                               }
                               {((item.qty > item.ordered_qty) && item.ordered_qty>0) &&
                               //  <Tag onClick={
                               //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
                               // } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
-                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 cursor-pointer text-white"} onPress={
+                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 hover:scale-105 active:scale-95 cursor-pointer text-white"} onPress={
                                 ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Partly Ordered'}/>
                               }
                               {((item.ordered_qty==0) && (item.qty>0)) && <InfoTags icon={<CloseCircleOutlined/>} bgCol={"bg-red-800 text-white"} text={"Not Ordered"}/>
@@ -1052,8 +1052,8 @@ function PurchaseReqForm() {
                                 bgCol={  !item.tot_rc
                                       ? "bg-red-800 mt-2 text-white"
                                       : +item.tot_rc < +item.ordered_qty
-                                      ? "bg-yellow-500 cursor-pointer mt-2 text-white"
-                                      : "bg-green-900 cursor-pointer mt-2  text-white"}
+                                      ? "bg-yellow-500 hover:scale-105 active:scale-95 cursor-pointer mt-2 text-white"
+                                      : "bg-green-900 hover:scale-105 active:scale-95 cursor-pointer mt-2  text-white"}
                                       
                                       text={
                                         !item.tot_rc 
@@ -1065,7 +1065,7 @@ function PurchaseReqForm() {
                                       />
                               } 
                             </div>
-                          </th>
+                          </th>}
                           {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
                                   }, 0)  &&    */}
@@ -1073,7 +1073,7 @@ function PurchaseReqForm() {
                                   
                                   
                                   <th  scope="row"
-                            className="px-4 w-1/5  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
+                            className="px-4 w-1/11  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
                           {!po_no ? <div  className={
                                 "sm:col-span-5 border-2"
                               }>

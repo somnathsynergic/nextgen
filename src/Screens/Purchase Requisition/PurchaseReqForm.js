@@ -798,14 +798,14 @@ function PurchaseReqForm() {
                                mode={1}
                               //  disabled
                              />
-                             <p className="flex justify-between items-center">
+                             <p className="w-full">
                              <div>
                              {item.item_id && (
                                <p
                                  class="mt-1 text-xs text-gray-500 dark:text-gray-300"
                                  id="file_input_help"
                                >
-                                 <Tag className="text-xs my-2 p-2 sm:text-wrap" color="green">
+                                 <Tag className="text-xs my-2 p-2 w-full sm:text-wrap" color="#86CB92">
                                    {"   "}
                                    {
                                      productList.filter(
@@ -878,14 +878,14 @@ function PurchaseReqForm() {
                                   }, 0) > 0
                                 }
                               />
-                              <p className="flex justify-between items-center">
+                              <p className="w-full">
                               <div>
                               {item.item_id && (
                                 <p
                                   class="mt-1 text-xs text-gray-500 dark:text-gray-300"
                                   id="file_input_help"
                                 >
-                                  <Tag className="text-xs my-2 p-2 sm:text-wrap" color="green">
+                                  <Tag className="text-xs w-full my-2 p-2 sm:text-wrap"color="#86CB92">
                                     {"   "}
                                     {
                                       productList.filter(

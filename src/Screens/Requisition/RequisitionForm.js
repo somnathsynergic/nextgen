@@ -1208,7 +1208,7 @@ function RequisitionForm() {
                                         </Popover>
                                       </div>
                                       <Tag
-                                        color="green"
+                                        color="#86CB92"
                                         className="text-[10px] text-wrap block my-1"
                                       >
                                         {" "}

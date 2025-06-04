@@ -232,6 +232,7 @@ function AmendView() {
        localStorage.removeItem("drawing_doc");
     localStorage.removeItem("mdcc_doc");
     localStorage.removeItem("insp_doc");
+    localStorage.getItem("pur_proj_by")
 
 
 

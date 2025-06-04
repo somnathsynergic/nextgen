@@ -13,6 +13,9 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const SiemensComp =lazy(()=>import("./Screens/Siemens/SiemensComp"));
+const SiemensView =lazy(()=>import("./Screens/Siemens/SiemensView"));
+const SiemensForm =lazy(()=>import("./Screens/Siemens/SiemensForm"));
 const MatValStockout = lazy(()=>import("./Screens/Reports/MatValStockout"));
 const Pr_ord_create = lazy(()=>import("./Screens/Reports/Pr_ord_create"))
 const MaterialVal =lazy(()=>import("./Screens/Reports/MaterialVal"));
@@ -627,6 +630,20 @@ const router = createBrowserRouter([
               },
             ],
           },
+           {
+            path: "siemensComp",
+            element: <SiemensComp />,
+            children: [
+              {
+                path: "siemensView",
+                element: <SiemensView />,
+              },
+              {
+                path: "siemensForm/:id",
+                element: <SiemensForm />,
+              },
+            ],
+          },
           {
             path: "minComp",
             element: <MinComp />,
@@ -672,6 +689,7 @@ const router = createBrowserRouter([
                 path: "cancelreq",
                 element: <CancelRequisition />,
               },
+             
             ],
           },
           {

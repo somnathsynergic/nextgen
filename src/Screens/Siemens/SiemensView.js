@@ -1,68 +1,156 @@
 import React, { useEffect, useState } from "react";
 import { routePaths } from "../../Assets/Data/Routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { masterheaders } from "../../Assets/Data/ColumnData";
 import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
-import nodata from "../../../src/Assets/Images/nodata.png";
-
 import { PrinterOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
+import nodata from "../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../Components/SkeletonLoading";
-import Radiobtn from "../../Components/Radiobtn";
 import CompositeSearch from "../../Components/CompositeSearch";
+import Radiobtn from "../../Components/Radiobtn";
 import POTableView from "../../Components/POTableView";
 import DialogBox from "../../Components/DialogBox";
 
-function ExistingPoView() {
+function SiemensView() {
   const [loading, setLoading] = useState(false);
+  const rdBtn = [
+    { label: "Approved/Pending", value: 1 },
+    { label: "In Progress", value: 2 },
+    // { label: "Others", value: 3 },
+  ];
+  const locationpath = useLocation();
+  const [value, setValue] = useState(0);
+  const [po_data, setPoData] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [vendorList, setVendorList] = useState([]);
   const [projects, setProjects] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [copy, setCopy] = useState([]);
+  const [printFlag,setPrintFlag] = useState(0)
+  const navigate = useNavigate();
   const [adv_search_lst,setAdvList] = useState([])
   const [labels,setLabels] = useState()
   const [visible,setVisible] = useState(false)
-  const [printFlag,setPrintFlag] = useState(0)
-  const rdBtn = [
-    { label: "Approved", value: 1 },
-    { label: "In Progress", value: 2 },
-    // { label: "Others", value: 3 },
-  ];
   const det = JSON.parse(localStorage.getItem('perm'))
-
-  const locationpath = useLocation();
-  const [value, setValue] = useState(2);
-  const [po_data, setPoData] = useState([]);
-  const [copy, setCopy] = useState([]);
-  const navigate = useNavigate();
- 
+  
+  var template =
+    locationpath.pathname.split("/")[
+      locationpath.pathname.split("/").length - 1
+    ];
+  console.log(
+    locationpath.pathname.split("/")[
+      locationpath.pathname.split("/").length - 1
+    ]
+  );
   const onChange = (e) => {
     console.log("radio checked", e);
-    setValue(e);
-    if (e == 1)
+    // setValue(e);
+    if (e == 1) {
       setPoData(
         copy.filter(
           (e) =>
-            (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')
+            (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "Y"
         )
       );
-    else if(e==2)
+      console.log(po_data);
+    } else if(e==2) {
       setPoData(
         copy.filter(
-          (e) => e.po_status =='P' && e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')
+          (e) => e.po_status =='P' && e.fresh_flag == "Y"
         )
       );
+      console.log(po_data);
+    }
     else{
       setPoData(
         copy.filter(
-          (e) => (e.po_status =='D' || e.po_status=='L') && e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')
+          (e) =>
+            (e.po_status == "D" || e.po_status == "L") && e.fresh_flag == "Y"
         )
       );
     }
   };
+  var templateData = masterheaders[template];
+  useEffect(() => {
+    setLoading(true);
+
+    setValue(
+      [
+        locationpath.pathname.split("/")[
+          locationpath.pathname.split("/").length - 1
+        ],
+      ] == "P"
+        ? 2
+        : 1
+    );
+    axios
+      .post(url + "/api/getpo", { id: 0 })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+     
+        setPoData(res?.data?.msg.filter((e) =>  e.po_status =='P' && e.fresh_flag == "Y"));
+        setCopy(res?.data?.msg.filter((e) =>  e.fresh_flag == "Y"));
+     
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/error" + "/" + err.code + "/" + err.message);
+      });
+    
+  }, [
+    locationpath.pathname.split("/")[
+      locationpath.pathname.split("/").length - 1
+    ],
+  ]);
+  useEffect(() => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("po_issue_date");
+    localStorage.removeItem("po_status");
+    localStorage.removeItem("po_no");
+    localStorage.removeItem("po_comments");
+    localStorage.removeItem("order_id");
+    localStorage.removeItem("order_date");
+    localStorage.removeItem("order_type");
+    localStorage.removeItem("proj_name");
+    localStorage.removeItem("vendor_name");
+    localStorage.removeItem("vend_ref");
+    localStorage.removeItem("itemList");
+    localStorage.removeItem("terms");
+    localStorage.removeItem("termList");
+    localStorage.removeItem("ship_to");
+    localStorage.removeItem("bill_to");
+    localStorage.removeItem("ware_house_flag");
+    localStorage.removeItem("notes");
+    localStorage.removeItem("mdcc_flag");
+    localStorage.removeItem("mdcc");
+    localStorage.removeItem("insp_flag");
+    localStorage.removeItem("insp");
+    localStorage.removeItem("drawing_flag");
+    localStorage.removeItem("drawing");
+    localStorage.removeItem("dt");
+    localStorage.removeItem('amend_flag')
+    localStorage.removeItem('amend_note')
+    localStorage.removeItem('pur_req')
+    localStorage.removeItem("po_created_by");
+    localStorage.getItem("pur_req_by")
+    localStorage.getItem("pur_proj_by")
+    localStorage.removeItem("drawing_doc");
+    localStorage.removeItem("mdcc_doc");
+    localStorage.removeItem("insp_doc");
+
+
+
+  }, [
+    locationpath.pathname.split("/")[
+      locationpath.pathname.split("/").length - 1
+    ],
+  ]);
   useState(() => {
     axios
       .post(url + "/api/getvendor", { id: 0 })
@@ -110,148 +198,37 @@ function ExistingPoView() {
       setProductList(productList);
     });
   }, []);
-  useEffect(() => {
-    setLoading(true);
-    // if(localStorage.getItem('user_type')=='2' || localStorage.getItem('user_type')=='5'){
-    axios
-      .post(url + "/api/getpo", { id: 0 })
-      .then((res) => {
-        console.log(res);
-      //   if(localStorage.getItem('user_type')=='2'){
-      //   setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
-      //   setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
-      //   setPoData(
-      //     res?.data?.msg.filter(
-      //       (e) => e.fresh_flag == "N" && e.po_status == "P"  && e.created_by==localStorage.getItem('email')
-      //     )
-        
-      //   );
-      // }
-      // else{
-        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
-        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
-        setPoData(
-          res?.data?.msg.filter(
-            (e) => e.fresh_flag == "N" && e.po_status == "P"  
-          )
-        
-        );
-      // }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/error" + "/" + err.code + "/" + err.message);
-      });
-    // }
-    // else if(localStorage.getItem('user_type')=='1'){
-    //   setLoading(true)
-    // axios.post(url + "/api/getpopm", { id: 0 }).then(res=>{
-    //   console.log(res)
-    //   setLoading(false)
-    //  setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
-    //  setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email')|| e.type=='G')));
-
-    //  console.log(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
-    // })
-
-    // }
-  }, [
-    locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
-    ],
-  ]);
-  useEffect(
-    () => {
-      localStorage.removeItem("id");
-      localStorage.removeItem("po_issue_date");
-      localStorage.removeItem("po_status");
-      localStorage.removeItem("po_comments");
-      localStorage.removeItem("po_no");
-      localStorage.removeItem("order_id");
-      localStorage.removeItem("order_date");
-      localStorage.removeItem("order_type");
-      localStorage.removeItem("proj_name");
-      localStorage.removeItem("vendor_name");
-      localStorage.removeItem("vend_ref");
-      localStorage.removeItem("itemList");
-      localStorage.removeItem("terms");
-      localStorage.removeItem("termList");
-      localStorage.removeItem("ship_to");
-      localStorage.removeItem("bill_to");
-      localStorage.removeItem("ware_house_flag");
-      localStorage.removeItem("notes");
-      localStorage.removeItem("mdcc_flag");
-      localStorage.removeItem("mdcc");
-      localStorage.removeItem("insp_flag");
-      localStorage.removeItem("insp");
-      localStorage.removeItem("drawing_flag");
-      localStorage.removeItem("drawing");
-      localStorage.removeItem("dt");
-      localStorage.removeItem('amend_flag')
-      localStorage.removeItem('amend_note')
-      localStorage.removeItem('pur_req')
-      localStorage.removeItem("po_created_by");
-      localStorage.getItem("pur_req_by")
-         localStorage.removeItem("drawing_doc");
-    localStorage.removeItem("mdcc_doc");
-    localStorage.removeItem("insp_doc");
-    localStorage.getItem("pur_proj_by")
-
-
-
-    },
-    [
-     
-    ]
-  );
-
   const setSearch = (word) => {
+    setValue(0);
     setPoData(
       copy?.filter(
         (e) =>
-          e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
-          e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
-          e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
-        (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
-
-          e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
-
-          e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
-          e?.created_by?.toLowerCase().includes(word?.toLowerCase())
+          (e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
+            e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
+            e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+            e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
+            e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
+            (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
+            e?.created_by?.toLowerCase().includes(word?.toLowerCase())) &&
+          e.fresh_flag == "Y"
       )
     );
   };
   const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
     console.log(val1, val2,val7);
-    // let labels = {
-    //   vendor_id:val1,
-    //   project_id:val2,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    //   vendor_id:val1,
-    // }
+   
     setValue(0);
     // setVisible(true)
     axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
       console.log(res)
-      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "N" ))
+      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y" ))
       if(res?.data?.msg?.length)
       setVisible(true)
     
     })
-    // setPoData(
-    //   copy?.filter(
-    //     (e) =>
-    //       e?.vendor_name?.toLowerCase().includes(val1?.toLowerCase()) &&
-    //       e?.proj_name?.toLowerCase().includes(val2?.toLowerCase()) &&
-    //       e.fresh_flag == "Y"
-    //   )
-    // );
+   
   };
   return (
-   
     <>
       <div className="flex items-center  justify-end h-14 -mt-[72px] w-auto dark:bg-[#22543d] md:flex-row space-y-3 md:space-y-0 rounded-lg">
       {det.po!=1 && <>
@@ -261,14 +238,13 @@ function ExistingPoView() {
           transition={{ delay: 1.3, type: "just" }}
           className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
-          <Tooltip title={"Add Existing Order"}>
-           
+          <Tooltip title={"Create Siemens Order"}>
             <Link
-              to={routePaths.PURCHASEORDERFORM + "E/" + 0}
+              to={routePaths.PURCHASEORDERFORM + "F/" + 0}
               type="submit"
               className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
             >
-              <AddIcon className="text-sm" /> {"Add Existing Orders"}
+              <AddIcon className="text-sm" /> {"Create Siemens Orders"}
             </Link>
           </Tooltip>
         </motion.div>
@@ -293,7 +269,6 @@ function ExistingPoView() {
         </>
 }
       </div>
-     
       <div className="flex justify-between items-center">
         <Radiobtn
           data={rdBtn}
@@ -319,12 +294,12 @@ function ExistingPoView() {
             set_six: '',
             set_five_lbl: "From",
             set_six_lbl: "To",
-             set_eight_lbl:'Make',
+            set_eight_lbl:'Make',
             set_eight:''
           }}
           onReset={() => {
-           // setPoData(copy);
-           setValue(2);
+            // setPoData(copy);
+            setValue(2);
           }}
           onSubmit={(values) => {
             console.log(values);
@@ -334,17 +309,18 @@ function ExistingPoView() {
           }}
         />
       </div>
+
       {loading && <SkeletonLoading />}
 
       {copy.length > 0 && !loading && (
-        <POTableView
-          po_data={po_data}
-          title={"Existing Orders"}
-          setSearch={(values) => setSearch(values)}
-          printFlag={printFlag}
-        />
+          <POTableView
+            po_data={po_data}
+            print={printFlag}
+            title={"Siemens Orders"}
+            setSearch={(values) => setSearch(values)}
+          />
       )}
-      {copy.length == 0 && (
+      {copy.length == 0 && loading == false && (
         <div className="flex-col ml-72 mx-auto justify-center items-center">
           <motion.img
             initial={{ opacity: 0 }}
@@ -374,4 +350,4 @@ function ExistingPoView() {
   );
 }
 
-export default ExistingPoView;
+export default SiemensView

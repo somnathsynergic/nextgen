@@ -84,6 +84,8 @@ export const routePaths={
     ITEMWISE:'/home/reportComp/itemwise/',
     MRNWISEONE:'/home/reportComp/mrnwise_one/',
     MRNWISETWO:'/home/reportComp/mrnwise_two/',
+    SIEMENSVIEW:'/home/siemensComp/siemensView',
+    SIEMENSFORM:'/home/siemensComp/siemensForm/',
     STOCKOUTREPORT:'/home/reportComp/stock_out_report/',
     MATVALSTOCKOUT:'/home/reportComp/mat_val_stockout/'
 

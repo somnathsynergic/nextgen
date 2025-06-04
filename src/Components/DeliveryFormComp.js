@@ -1209,7 +1209,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                                 {" "}
                                 {item.name.split("@")[1]}{" "}
                               </Tag> */}
-                                <InfoTags text={item.name.split("@")[1] + ' '} color="green"
+                                <InfoTags text={item.name.split("@")[1] + ' '} color="#86CB92"
                                   bgCol="text-[10px] text-wrap whitespace-wrap block my-1" />
                               </th>
                               <th

@@ -479,11 +479,14 @@ function PurchaseOrderForm() {
           localStorage.setItem("amend_note", res?.data?.msg?.amend_note);
           localStorage.setItem("po_created_by", res?.data?.msg?.created_by);
           localStorage.setItem("amend_flag", res?.data?.msg?.amend_flag);
-          localStorage.setItem("pur_req", JSON.stringify(res?.data?.msg?.pur_req.split(',')));
+          localStorage.setItem("pur_req", JSON.stringify(res?.data?.msg?.pur_req?.split(',')));
            axios.post(url + "/api/get_pur_by", { pur_no: JSON.stringify(res?.data?.msg?.pur_req.split(',')[0]).replace('"','').replace('"','') }).then((resPur) => {
             console.log(resPur);
             localStorage.setItem("pur_req_by", resPur?.data?.msg[0]?.pur_by);
-
+            axios.post(url + "/api/get_proj_by", { proj_no: res?.data?.msg?.project_id.toString() || '0'}).then((resPrj) => {
+            console.log(resPrj);
+            localStorage.setItem("pur_proj_by", resPur?.data?.msg[0]?.user_email);
+            })
           })
           if(res?.data?.msg?.type!='G'){
           axios.post(url + "/api/getproject", { id:res?.data?.msg?.project_id }).then((resEmail) => {
@@ -1294,7 +1297,7 @@ function PurchaseOrderForm() {
                     </Tooltip>
                   )}
 
-                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && localStorage.getItem('email')==localStorage.getItem("pur_req_by") )&&
+                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && (localStorage.getItem('email')==localStorage.getItem("pur_req_by") || localStorage.getItem('email')==localStorage.getItem("pur_proj_by") ) )&&
                   // {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" )&&
                     (
                       <>

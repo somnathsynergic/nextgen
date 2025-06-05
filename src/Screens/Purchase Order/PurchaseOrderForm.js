@@ -855,6 +855,7 @@ function PurchaseOrderForm() {
               height: 50,
               width: 50,
             }}
+            className="active:scale-95"
             onClick={() => {
               setLoading(true);
               setClickFlag("P");

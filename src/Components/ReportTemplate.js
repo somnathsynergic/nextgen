@@ -4,7 +4,6 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilePdfOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import InfoTags from './InfoTags';
@@ -15,7 +14,7 @@ function ReportTemplate({ headers, net_tot,
   console.log(data, info, headers, flag, wStock)
   const dt = useRef(null);
   const contentRef = useRef(null);
-
+  // const contentRef = useRef(null)
   const [isPrinting, setIsPrinting] = useState(true);
 
   const reactToPrintFn = useReactToPrint({
@@ -64,6 +63,11 @@ function ReportTemplate({ headers, net_tot,
     }, 10);
 
   }
+
+
+
+
+
   const footer = `Basic Value=${parseFloat(net_tot).toFixed(2)}, Grand Total = ${parseFloat(grand_tot).toFixed(2)}`;
   const setSearch = (e) => {
     console.log(e.target.value, flag)
@@ -113,7 +117,7 @@ function ReportTemplate({ headers, net_tot,
 
           </div>
         </div>
-        <div ref={contentRef} className={isPrinting ? "w-full" : "w-full p-5"}>
+        <div ref={contentRef} className={isPrinting ? "w-full " : "w-full p-5"}>
           <div className={isPrinting ? "hidden rounded-md w-full" : "w-full border  border-green-500 rounded-md mb-1"}>
             <PrintHeader />
           </div>
@@ -126,10 +130,10 @@ function ReportTemplate({ headers, net_tot,
             )}
             footer={grand_tot > 0 ? footer : ''}
             showGridlines
-           
+           scrollable scrollHeight="600px"
             stripedRows
             stickyHeader="true"
-            scrollable
+            // scrollable
             paginator
             rows={isPrinting ? 10 : data?.length}
             rowsPerPageOptions={[5, 10, 25, 50, 100, data?.length]}

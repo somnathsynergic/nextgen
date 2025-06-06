@@ -97,7 +97,7 @@ function SiemensForm() {
         mfn:item['MFN'],
         customer_article_no:item['Customer Article Number'],
         delivery_no:item['Delivery No.'],
-        list_price:item['List Price'],
+        list_price:+item['List Price'] || 0.00,
         order_dt:item['Order Date'].split('.').reverse().join('-'),
         approved_qty:+item['Confirmed'],
         status:item['Status'],

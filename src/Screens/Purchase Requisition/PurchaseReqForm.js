@@ -773,16 +773,11 @@ function PurchaseReqForm() {
                                 }}
                               >
                                 <Tooltip title="Search item">
-                                  {/* <Tag  className="ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center">
-                                    {" "}
-                                    <SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />
-                                  </Tag> */}
+                                
                                   <InfoTags text={<SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />} bgCol={'ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center'}/>
                                 </Tooltip>
                               </a>
                             <div onClick={()=>handleItemClick(index)}>
-                              {/* <div className="flex justify-end float-end gap-1"></div> */}
-                             
                               {item.click==0? 
                               <>
                                <TDInputTemplate
@@ -792,11 +787,7 @@ function PurchaseReqForm() {
                                name="item_id"
                                formControlName={productList?.filter(item =>item?.code ==itemDtls[index]?.item_id)[0]?.name}
                                onFocus={()=>handleItemClick(index)}
-                              //  handleChange={(txt) =>
-                              //    handleDtChange(index, txt)
-                              //  }
                                mode={1}
-                              //  disabled
                              />
                              <p className="w-full">
                              <div>
@@ -1252,6 +1243,9 @@ function PurchaseReqForm() {
                         <table className="border-collapse border border-gray-500 w-full text-center">
                     <thead>
                       <tr className="text-green-500 font-bold text-center">
+                        <th className="border border-gray-300 p-2 capitalize">
+                            #
+                          </th>
                           <th className="border border-gray-300 p-2 capitalize">
                             Item
                           </th>
@@ -1265,7 +1259,10 @@ function PurchaseReqForm() {
                       </tr>
                     </thead>
                     <tbody className="text-gray-600 text-xs">
-                      {itemDtls.map(item=><tr>
+                      {itemDtls.map((item,index)=><tr>
+                         <td className="border border-gray-300 p-2 text-wrap">
+                            {index+1}
+                          </td>
                           <td className="border border-gray-300 p-2 text-wrap">
                             {productList.filter(e=>e.code==+item.item_id)[0]?.name}
                           </td>

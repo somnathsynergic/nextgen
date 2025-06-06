@@ -12,7 +12,7 @@ import nodata from "../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../Components/SkeletonLoading";
 import CompositeSearch from "../../Components/CompositeSearch";
 import Radiobtn from "../../Components/Radiobtn";
-import POTableView from "../../Components/POTableView";
+import POTableViewSiemens from "../../Components/POTableViewSiemens";
 import DialogBox from "../../Components/DialogBox";
 
 function SiemensView() {
@@ -89,13 +89,13 @@ function SiemensView() {
         : 1
     );
     axios
-      .post(url + "/api/getpo", { id: 0 })
+      .post(url + "/api/getsiemens", { id: 0 })
       .then((res) => {
         console.log(res);
         setLoading(false);
      
-        setPoData(res?.data?.msg.filter((e) =>  e.po_status =='P' && e.fresh_flag == "Y"));
-        setCopy(res?.data?.msg.filter((e) =>  e.fresh_flag == "Y"));
+        setPoData(res?.data?.msg);
+        setCopy(res?.data?.msg);
      
       })
       .catch((err) => {
@@ -143,9 +143,6 @@ function SiemensView() {
     localStorage.removeItem("drawing_doc");
     localStorage.removeItem("mdcc_doc");
     localStorage.removeItem("insp_doc");
-
-
-
   }, [
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
@@ -240,7 +237,7 @@ function SiemensView() {
         >
           <Tooltip title={"Create Siemens Order"}>
             <Link
-              to={routePaths.PURCHASEORDERFORM + "F/" + 0}
+              to={routePaths.SIEMENSFORM + 0}
               type="submit"
               className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
             >
@@ -269,7 +266,7 @@ function SiemensView() {
         </>
 }
       </div>
-      <div className="flex justify-between items-center">
+      {/* <div className="flex justify-between items-center">
         <Radiobtn
           data={rdBtn}
           val={value}
@@ -308,12 +305,12 @@ function SiemensView() {
             onAdvSearch(values.code_one, values.code_two,values.val_three,values.code_four,values.val_five,values.val_six,values.val_eight);
           }}
         />
-      </div>
+      </div> */}
 
       {loading && <SkeletonLoading />}
 
       {copy.length > 0 && !loading && (
-          <POTableView
+          <POTableViewSiemens
             po_data={po_data}
             print={printFlag}
             title={"Siemens Orders"}

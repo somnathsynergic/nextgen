@@ -1298,7 +1298,7 @@ function PurchaseOrderForm() {
                     </Tooltip>
                   )}
 
-                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && (localStorage.getItem('email')==localStorage.getItem("pur_req_by") || localStorage.getItem('email')==localStorage.getItem("pur_proj_by") ) )&&
+                  {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" && (localStorage.getItem('email')?.toLowerCase()==localStorage.getItem("pur_req_by")?.toLowerCase() || localStorage.getItem('email')?.toLowerCase()==localStorage.getItem("pur_proj_by")?.toLowerCase() ) )&&
                   // {(det.approve_po!=1 && localStorage.getItem("po_status") == "U" )&&
                     (
                       <>

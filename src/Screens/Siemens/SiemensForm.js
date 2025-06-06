@@ -72,21 +72,8 @@ function SiemensForm() {
      setCsvData(uploadData)
      if(uploadData){
       setLoading(true)
-      axios.post(url+'/api/post_siemens',{items:csvData.map(item=>{
-      return {
-        po_no:item['Customer Order'],
-        proj_id:item['Customer Order'].split('/')[1],
-        prod_id:item['Product ID'].split('-').join(''),
-        order_qty:+item['Requested'],
-        approved_qty:+item['Confirmed'],
-        po_issue_dt:item['Order Date'].split('.').reverse().join('-'),
-        po_approve_dt:item['Date Confirmed'].split('.').reverse().join('-'),
-        sie_sale_ord:item['Siemens Sales Order #'],
-        customer_no:item['Customer No.'],
-        net_price:+item['Net Price'].split(' ')[0].split(',').join(''),
-        total_price:+item['Total Price'].split(' ')[0].split(',').join('')
-      }
-     })
+      axios.post(url+'/api/post_siemens',{items:uploadData
+    //  })
      }).then(res=>{console.log(res)
       setLoading(false)
       if(res?.data?.suc>0){
@@ -106,9 +93,18 @@ function SiemensForm() {
         proj_id:item['Customer Order'].split('/')[1],
         prod_id:item['Product ID'].split('-').join(''),
         order_qty:+item['Requested'],
+        line_no:+item['Line #'],
+        mfn:item['MFN'],
+        customer_article_no:item['Customer Article Number'],
+        delivery_no:item['Delivery No.'],
+        list_price:item['List Price'],
+        order_dt:item['Order Date'].split('.').reverse().join('-'),
         approved_qty:+item['Confirmed'],
+        status:item['Status'],
+        shipped_qty:+item['Shipped'],
         po_issue_dt:item['Order Date'].split('.').reverse().join('-'),
         po_approve_dt:item['Date Confirmed'].split('.').reverse().join('-'),
+        shipped_dt:item['Date Shipped'].split('.').reverse().join('-'),
         sie_sale_ord:item['Siemens Sales Order #'],
         customer_no:item['Customer No.'],
         net_price:item['Net Price'].split(' ')[0].split(',').join(''),

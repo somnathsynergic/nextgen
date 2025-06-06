@@ -141,15 +141,15 @@ function Menus({ theme, data, shrink }) {
       disabled: data?.purchase_req == '0' || data == undefined ? true : false
 
     },
-    {
-      label: (
-        <Link disabled={data?.po == '0' || data == undefined ? true : false} to={data?.po != '0' && data != undefined ? routePaths.SIEMENSVIEW : '#'}>Siemens Orders</Link>
-      ),
-      key: "siemens-order",
-      icon: <TableOutlined />,
-      disabled: data?.po == '0' || data == undefined ? true : false
+    // {
+    //   label: (
+    //     <Link disabled={data?.po == '0' || data == undefined ? true : false} to={data?.po != '0' && data != undefined ? routePaths.SIEMENSVIEW : '#'}>Siemens Orders</Link>
+    //   ),
+    //   key: "siemens-order",
+    //   icon: <TableOutlined />,
+    //   disabled: data?.po == '0' || data == undefined ? true : false
 
-    },
+    // },
     {
       label: "Orders",
       key: "sub4",

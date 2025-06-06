@@ -72,9 +72,7 @@ function SiemensForm() {
      setCsvData(uploadData)
      if(uploadData){
       setLoading(true)
-      axios.post(url+'/api/post_siemens',{items:uploadData
-    //  })
-     }).then(res=>{console.log(res)
+      axios.post(url+'/api/post_siemens',{items:uploadData}).then(res=>{console.log(res)
       setLoading(false)
       if(res?.data?.suc>0){
         Message('success',res?.data?.msg)
@@ -107,8 +105,8 @@ function SiemensForm() {
         shipped_dt:item['Date Shipped'].split('.').reverse().join('-'),
         sie_sale_ord:item['Siemens Sales Order #'],
         customer_no:item['Customer No.'],
-        net_price:item['Net Price'].split(' ')[0].split(',').join(''),
-        total_price:item['Total Price'].split(' ')[0].split(',').join(''),
+        net_price:+item['Net Price'].split(' ')[0].split(',').join(''),
+        total_price:+item['Total Price'].split(' ')[0].split(',').join(''),
         isSaved:prodList.filter(e=>e.prod_name==item['Product ID'].split('-').join('') || e.part_no==item['Product ID'].split('-').join('')).length || projectList.filter(e=>e.proj_id==item['Customer Order'].split('/')[1]).length  
       }
      }))

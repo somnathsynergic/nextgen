@@ -176,7 +176,7 @@ function PaymentTerms({ pressBack, pressNext, data }) {
                 // handleBlur={formik.handleBlur}
                 mode={3}
                 disabled={
-                localStorage.getItem('amend_flag') =='Y' ||
+               
                   localStorage.getItem('po_status')=='A' ||localStorage.getItem('po_status')=='D'||localStorage.getItem('po_status')=='L' ?true:false}
 
               />

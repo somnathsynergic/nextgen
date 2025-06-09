@@ -38,6 +38,7 @@ function SiemensForm() {
   const [projcode, setProjCode] = useState()
   const [retrievedData,setRetrievedData] = useState([])
   const [retrieveHeader,setRetrievedHeader] = useState([])
+  const [count,setCount] = useState(0)
   
   // const 
   const op = useRef(null);
@@ -83,7 +84,9 @@ function SiemensForm() {
     console.log(uploadData)
     setCsvData(uploadData)
     if (uploadData) {
-      setLoading(true)
+    setLoading(true)
+    axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
+    if(res?.data?.msg[0]?.cnt==0){
       axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
         console.log(res)
         setLoading(false)
@@ -94,6 +97,13 @@ function SiemensForm() {
           navigate(-1)
         }
       })
+    }
+    else{
+      setCsvData([])
+      setLoading(false)
+      Message('error',"Documents with this PO has already been uploaded")
+    }
+    })
     }
 
   }, [uploadData])

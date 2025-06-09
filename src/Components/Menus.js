@@ -245,15 +245,15 @@ function Menus({ theme, data, shrink }) {
             //   icon: <CloseCircleOutlined />,
           ],
         },
-            {
-      label: (
-        <Link disabled={data?.po == '0' || data == undefined ? true : false} to={data?.po != '0' && data != undefined ? routePaths.SIEMENSVIEW : '#'}>Siemens Orders</Link>
-      ),
-      key: "siemens-order",
-      icon: <TableOutlined />,
-      disabled: data?.po == '0' || data == undefined ? true : false
+    //         {
+    //   label: (
+    //     <Link disabled={data?.po == '0' || data == undefined ? true : false} to={data?.po != '0' && data != undefined ? routePaths.SIEMENSVIEW : '#'}>Siemens Orders</Link>
+    //   ),
+    //   key: "siemens-order",
+    //   icon: <TableOutlined />,
+    //   disabled: data?.po == '0' || data == undefined ? true : false
 
-    },
+    // },
       ],
       // children: [
       //   {

@@ -6,7 +6,7 @@ import TDInputTemplate from "../../Components/TDInputTemplate";
 import axios from "axios";
 import { Message } from "../../Components/Message";
 import { url } from "../../Address/BaseUrl";
-import {  Empty, Spin, Tag, Tooltip } from "antd";
+import { Empty, Spin, Tag, Tooltip } from "antd";
 import {
   ArrowUpOutlined,
   LoadingOutlined,
@@ -48,7 +48,7 @@ function PurMrnReporProj() {
   const [po_list, setPOList] = useState([]);
   const [po_listCopy, setPOListCopy] = useState([]);
   const [po_no, setPoNo] = useState("");
-  const [dt, setDt] = useState(formatDate(new Date(),"yyyy-MM-DD"));
+  const [dt, setDt] = useState(formatDate(new Date(), "yyyy-MM-DD"));
   const [clicked, setClicked] = useState(true);
   const [reportData, setReportData] = useState([]);
   const [poCode, setPoCode] = useState(0);
@@ -57,6 +57,7 @@ function PurMrnReporProj() {
   const op_vendor = useRef(null);
   const [info, setInfo] = useState([]);
   const [projId, setProjId] = useState("");
+  const [freshFlag, setFreshFlag] = useState("")
   const headers = [
     // { name: "po_no", value: "PO No." },
     { name: "pur_req", value: "Purchase Requisition" },
@@ -67,11 +68,23 @@ function PurMrnReporProj() {
     { name: "invoice_dt", value: "Invoice Date" },
     { name: "mrn_no", value: "MRN No" },
     // { name: "quantity", value: "Ordered Quantity" },
-    {name:"approved_ord_qty",value:"Ordered Quantity"},
+    { name: "approved_ord_qty", value: "Ordered Quantity" },
     { name: "rc_qty", value: "Received Quantity" },
+
 
     // { name: "created_by", value: "Created by" },
   ];
+  const headersExisting = [
+    { name: "proj_name", value: "Project" },
+    { name: "vendor_name", value: "Vendor" },
+    { name: "prod_name", value: "Product" },
+    { name: "invoice", value: "Invoice" },
+    { name: "invoice_dt", value: "Invoice Date" },
+    { name: "mrn_no", value: "MRN No" },
+    // { name: "quantity", value: "Ordered Quantity" },
+    { name: "quantity", value: "Ordered Quantity" },
+    { name: "rc_qty", value: "Received Quantity" },
+  ]
   useEffect(() => {
     axios.post(url + "/api/getvendor", { id: 0 }).then((res) => {
       console.log(res);
@@ -90,17 +103,17 @@ function PurMrnReporProj() {
       }
     });
     axios.post(url + "/api/getpo", { id: 0 }).then((res) => {
-     var t = type=='W'?'G':'P'
+      var t = type == 'W' ? 'G' : 'P'
       setPOList(
         res?.data?.msg
-          ?.filter((item) => item.po_no != null && item.type==t)
+          ?.filter((item) => item.po_no != null && item.type == t)
           .map((item) => {
             return { name: item.po_no, code: item.po_no, type: item.type };
           })
       );
       setPOListCopy(
         res?.data?.msg
-          ?.filter((item) => item.po_no != null  && item.type==t)
+          ?.filter((item) => item.po_no != null && item.type == t)
           .map((item) => {
             return { name: item.po_no, code: item.po_no, type: item.type };
           })
@@ -159,7 +172,7 @@ function PurMrnReporProj() {
       console.log(po_listCopy.filter((e) => e.type == "G"))
 
     }
-    
+
   }, [type]);
   return (
     <section className="bg-transparent dark:bg-[#001529]">
@@ -167,7 +180,7 @@ function PurMrnReporProj() {
         text={"MRN Report"}
         mode={2}
         title={"Report"}
-        // data={params.id && data?data:''}
+      // data={params.id && data?data:''}
       />
       {/* <div className="float-end">
                   
@@ -282,8 +295,8 @@ function PurMrnReporProj() {
                     <OverlayPanel
                       ref={op_vendor}
                       className=
-                           "w-[485px] border-2 bg-gray-50 border-[#C4F1BE]"
-                      
+                      "w-[485px] border-2 bg-gray-50 border-[#C4F1BE]"
+
                     >
                       <span className="text-xs text-green-900 italic">
                         Search results for: "{venVal}"
@@ -339,7 +352,7 @@ function PurMrnReporProj() {
                                   setVenVal(lst.name);
                                   setVendorCode(lst.code);
                                 }}
-                                                                class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+                                class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
 
                               >
                                 <div class="flex items-center rtl:space-x-reverse">
@@ -407,7 +420,7 @@ function PurMrnReporProj() {
                       // <Tag className="bg-amber-600 text-white">
                       //   Project ID:{projId}
                       // </Tag>
-                      <InfoTags bgCol={"bg-amber-600 text-white"} text={"Project ID: "+projId} />
+                      <InfoTags bgCol={"bg-amber-600 text-white"} text={"Project ID: " + projId} />
                     ) : null}
 
                     <OverlayPanel
@@ -445,7 +458,7 @@ function PurMrnReporProj() {
                                   setProjCode(lst.code);
                                   setProjId(lst.proj_id);
                                 }}
-                                                                class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+                                class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
 
                               >
                                 <div class="flex items-center rtl:space-x-reverse">
@@ -521,7 +534,7 @@ function PurMrnReporProj() {
                                 console.log(lst);
                                 // setLoading(true);
                               }}
-                                                              class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
+                              class="pb-3 cursor-pointer  hover:bg-[#C4F1BE] group active:bg-green-900 rounded-md hover:duration-300 sm:py-1.5"
 
                             >
                               <div class="flex items-center rtl:space-x-reverse">
@@ -547,11 +560,11 @@ function PurMrnReporProj() {
               </form>
 
               <div className="flex justify-center">
-               
-                <BtnGroupReuse flag={1} icon={ <SaveOutlined className='mr-2' />} text="Submit"  
-                // disabled={!type || (!vendorCode && !projCode && !po_no)}
-                disabled={!type}
-                 onClick={() => {
+
+                <BtnGroupReuse flag={1} icon={<SaveOutlined className='mr-2' />} text="Submit"
+                  // disabled={!type || (!vendorCode && !projCode && !po_no)}
+                  disabled={!type}
+                  onClick={() => {
                     //   onSubmit();
                     setLoading(true);
                     console.log(projCode, vendorCode, type);
@@ -565,19 +578,30 @@ function PurMrnReporProj() {
                       })
                       .then((res) => {
                         console.log(res);
-                          setLoading(false);
+                        setLoading(false);
 
                         if (res?.data?.suc > 0) {
-                          setReportData(res?.data?.msg.filter(e=>e.pur_req));
-
+                          // setReportData(res?.data?.msg.filter(e => ((e.pur_req && e.fresh_flag=='Y')||(e.fresh_flag=='N'))))
+                          // .map(item=>{
+                          // return {...item,approved_ord_qty:item.fresh_flag=='Y'?item.approved_ord_qty:item.quantity }}));
+                          setReportData(
+                            res?.data?.msg.filter(e => ((e.pur_req && e.fresh_flag=='Y')||(e.fresh_flag=='N')))
+                              .filter(e => (e.pur_req && e.fresh_flag === 'Y') || e.fresh_flag === 'N')
+                              .map(e => ({
+                                ...e,
+                                approved_ord_qty:
+                                  e.fresh_flag === 'Y' ? e.approved_ord_qty : e.quantity
+                              }))
+                            )
+                          setFreshFlag(res?.data?.msg[0]?.fresh_flag)
                         }
-                        else{
-                          Message('error','No Data')
+                        else {
+                          Message('error', 'No Data')
                         }
                       });
                   }}
                   loading={loading}
-                  />
+                />
               </div>
             </SpinComp>
           )}
@@ -596,9 +620,9 @@ function PurMrnReporProj() {
                 <Tag color="white">Warehouse quantity of this product: </Tag>
 
                 <ReportTemplate
-                  data={reportData.filter(e=>e.vendor_name!=null)}
-                  headers={headers}
-                  reportHeader={'MRN Report for '+vendorCode>0?'Vendor: '+venVal:''+type=='W'?' Intended For: Warehouse':projCode?' Intended For: '+projVal:''+po_no?' PO: '+po_no:''}
+                  data={reportData.filter(e => e.vendor_name != null)}
+                  headers={freshFlag == 'Y' ? headers : headersExisting}
+                  reportHeader={'MRN Report for ' + vendorCode > 0 ? 'Vendor: ' + venVal : '' + type == 'W' ? ' Intended For: Warehouse' : projCode ? ' Intended For: ' + projVal : '' + po_no ? ' PO: ' + po_no : ''}
                   info={info}
                   flag={3}
                 />

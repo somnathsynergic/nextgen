@@ -125,9 +125,10 @@ function ReportTemplate({ headers, net_tot,
 
           {flag == 2 && <InfoTags color={isPrinting ? "#014737" : '#10b981'} text={'Warehouse quantity of this product: ' + wStock} />}
           <DataTable
-            value={dataCopy.filter(item => item?.stock > 0 || item.quantity > 0 || item.qty > 0 || (item.rc_qty>0 || item.rc_qty==null) || item?.project_stock > 0
+            value={dataCopy.filter(item => item?.stock > 0 || item.quantity > 0 || item.qty > 0 || (item.rc_qty>0 || item.rc_qty!=null) || item?.project_stock > 0
 
             )}
+            // value = {dataCopy}
             footer={grand_tot > 0 ? footer : ''}
             showGridlines
            scrollable scrollHeight="600px"

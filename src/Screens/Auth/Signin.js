@@ -51,7 +51,7 @@ function Signin() {
           );
           localStorage.setItem("dept_name", res?.data?.msg[0].dept_name);
           localStorage.setItem("desig_name", res?.data?.msg[0].desig_name);
-          localStorage.setItem("email", values.email);
+          localStorage.setItem("email", values.email?.toLowerCase());
           localStorage.setItem("user_name", res?.data?.msg[0].user_name);
           localStorage.setItem("user_phone", res?.data?.msg[0].user_phone);
           localStorage.setItem("user_type", res?.data?.msg[0].user_type);

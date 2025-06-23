@@ -699,7 +699,7 @@ function AmendPreview({ id }) {
                         scope="col"
                         className="px-1 py-2 text-xs text-wrap text-center border border-gray-300"
                       >
-                        Net Unit Price
+                        Net Price
                       </th>
                     <th scope="col"  className="px-1 py-2 text-center border border-gray-300">
                       CGST

@@ -87,11 +87,10 @@ const UserAddForm = () => {
         user: localStorage.getItem("email"),
         u_name: values.user_name,
         u_phone: values.user_phone.toString(),
-        u_email: values.user_email,
+        u_email: values.user_email.toLowerCase(),
         u_type: values.user_type,
         u_desig: values.user_designation,
         u_dept: values.user_dept,
-        // u_permission: values.user_permission,
         u_loc: values.user_location,
       })
       .then((res) => {

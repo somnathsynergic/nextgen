@@ -485,7 +485,7 @@ function PurchaseOrderForm() {
             localStorage.setItem("pur_req_by", resPur?.data?.msg[0]?.pur_by);
             axios.post(url + "/api/get_proj_by", { proj_no: res?.data?.msg?.project_id.toString() || '0'}).then((resPrj) => {
             console.log(resPrj);
-            localStorage.setItem("pur_proj_by", resPur?.data?.msg[0]?.user_email);
+            localStorage.setItem("pur_proj_by", resPrj?.data?.msg[0]?.user_email);
             })
           })
           if(res?.data?.msg?.type!='G'){

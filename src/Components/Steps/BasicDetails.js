@@ -247,7 +247,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
   },[])
   useEffect(()=>{
     console.log(selectedList)
-    if(selectedList)
+    // if(selectedList)
     localStorage.setItem("pur_req",JSON.stringify(selectedList));
   },[selectedList])
   useEffect(() => {

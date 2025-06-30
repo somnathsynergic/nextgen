@@ -83,37 +83,39 @@ function SiemensForm() {
   useEffect(() => {
     console.log(uploadData)
     setCsvData(uploadData)
-    if (uploadData) {
-    setLoading(true)
-    axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
-    if(res?.data?.msg[0]?.cnt==0){
-      axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
-        console.log(res)
-        setLoading(false)
-        if (res?.data?.suc > 0) {
-          Message('success', res?.data?.msg)
-          setCsvData([])
-          setHeaders([])
-          navigate(-1)
-        }
-      })
-    }
-    else{
-      setCsvData([])
-      setLoading(false)
-      Message('error',"Documents with this PO has already been uploaded")
-    }
-    })
-    }
+    // if (uploadData) {
+    // setLoading(true)
+    // axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
+    // if(res?.data?.msg[0]?.count==0){
+    //   axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
+    //     console.log(res)
+    //     setLoading(false)
+    //     if (res?.data?.suc > 0) {
+    //       Message('success', res?.data?.msg)
+    //       setCsvData([])
+    //       setHeaders([])
+    //       navigate(-1)
+    //     }
+    //   })
+    // }
+    // else{
+    //   setCsvData([])
+    //   setLoading(false)
+    //   Message('error',"Documents with this PO has already been uploaded")
+    // }
+    // })
+    // }
 
   }, [uploadData])
   const onProcess = () => {
+    // console.log(csvData.map(item =>prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join(''))))
     setCsvData(csvData.map(item => { return { ...item, isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length } }))
     setUploadData(csvData.map(item => {
       return {
         po_no: item['Customer Order'],
         proj_id: projcode.toString(),
-        prod_id: item['Product ID'].split('-').join(''),
+        // prod_id: item['Product ID'].split('-').join(''),
+        prod_id: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID']?.split('-').join(''))[0]?.sl_no,
         order_qty: +item['Requested'],
         line_no: +item['Line #'],
         mfn: item['MFN'],
@@ -132,6 +134,7 @@ function SiemensForm() {
         net_price: +item['Net Price'].split(' ')[0].split(',').join(''),
         total_price: +item['Total Price'].split(' ')[0].split(',').join(''),
         isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length
+
       }
     }))
     console.log(csvData)

@@ -83,28 +83,28 @@ function SiemensForm() {
   useEffect(() => {
     console.log(uploadData)
     setCsvData(uploadData)
-    // if (uploadData) {
-    // setLoading(true)
-    // axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
-    // if(res?.data?.msg[0]?.count==0){
-    //   axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
-    //     console.log(res)
-    //     setLoading(false)
-    //     if (res?.data?.suc > 0) {
-    //       Message('success', res?.data?.msg)
-    //       setCsvData([])
-    //       setHeaders([])
-    //       navigate(-1)
-    //     }
-    //   })
-    // }
-    // else{
-    //   setCsvData([])
-    //   setLoading(false)
-    //   Message('error',"Documents with this PO has already been uploaded")
-    // }
-    // })
-    // }
+    if (uploadData) {
+    setLoading(true)
+    axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
+    if(res?.data?.msg[0]?.count==0){
+      axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
+        console.log(res)
+        setLoading(false)
+        if (res?.data?.suc > 0) {
+          Message('success', res?.data?.msg)
+          setCsvData([])
+          setHeaders([])
+          navigate(-1)
+        }
+      })
+    }
+    else{
+      setCsvData([])
+      setLoading(false)
+      Message('error',"Documents with this PO has already been uploaded")
+    }
+    })
+    }
 
   }, [uploadData])
   const onProcess = () => {
@@ -114,8 +114,8 @@ function SiemensForm() {
       return {
         po_no: item['Customer Order'],
         proj_id: projcode.toString(),
-        // prod_id: item['Product ID'].split('-').join(''),
-        prod_id: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID']?.split('-').join(''))[0]?.sl_no,
+        prod_id: item['Product ID'].split('-').join(''),
+        // prod_id: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID']?.split('-').join(''))[0]?.sl_no.toString(),
         order_qty: +item['Requested'],
         line_no: +item['Line #'],
         mfn: item['MFN'],

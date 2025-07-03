@@ -13,26 +13,12 @@ import InfoTags from "./InfoTags";
 import Pagination from "./Pagination";
 import { Tabs } from 'antd';
 function DeliveryViewTemplate({ flag }) {
-  const [viewKey,setViewKey] = useState(1)
+  
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [loading, setLoading] = useState(false);
   const [delFlag, setDelFlag] = useState();
-
-  const items= [
-  {
-    key: '1',
-    label: 'Non-Siemens',
-    children: '',
-  },
-  {
-    key: '2',
-    label: 'Siemens',
-    children: '',
-  },
- 
-];
 
   const onPageChange = (event) => {
     setFirst(event.first);
@@ -40,7 +26,6 @@ function DeliveryViewTemplate({ flag }) {
   };
   const onChange = (key) => {
   console.log(key);
-  setViewKey(key)
 };
   const rdBtn = [
     { label: "Uploaded", value: 1 },
@@ -306,6 +291,7 @@ function DeliveryViewTemplate({ flag }) {
         </div>
       </motion.section>
       {loading && <SkeletonLoading />}
+
       {copy.length == 0 && loading == false && (
         <div class="flex-col ml-72 mx-auto justify-center items-center">
           <motion.img
@@ -327,11 +313,7 @@ function DeliveryViewTemplate({ flag }) {
         </div>
       )}
       <div class="relative overflow-x-auto">
-
         {!loading && copy.length > 0 && (
-          <div className="flex gap-4 w-full">
-      <Tabs defaultActiveKey="1" style={{background:'white', padding:10,borderRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChange} />
-        {viewKey == 1 &&
           <motion.section
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -503,12 +485,6 @@ function DeliveryViewTemplate({ flag }) {
               onPageChange={onPageChange}
               />
           </motion.section>
-}
-{
-  viewKey == 2 && <span>Siemens Dashboard Comes here</span>
-}
-          </div>
-            
         )}
       </div>
       <DialogBox

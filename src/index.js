@@ -13,6 +13,7 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+// const SiemensMRNForm = lazy(()=>import("./Screens/Siemens/SiemensMRNForm"));
 const SiemensComp =lazy(()=>import("./Screens/Siemens/SiemensComp"));
 const SiemensView =lazy(()=>import("./Screens/Siemens/SiemensView"));
 const SiemensForm =lazy(()=>import("./Screens/Siemens/SiemensForm"));
@@ -642,6 +643,10 @@ const router = createBrowserRouter([
                 path: "siemensForm/:id",
                 element: <SiemensForm />,
               },
+              //  {
+              //   path: "siemensMRNForm/:id/:po_no",
+              //   element: <SiemensMRNForm />,
+              // },
             ],
           },
           {

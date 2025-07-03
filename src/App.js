@@ -108,7 +108,8 @@ function App() {
         itemColor:'#014737',
         itemSelectedColor:'#014737',
         itemHoverColor:'#014737',
-        itemActiveColor:'#014737'
+        itemActiveColor:'#014737',
+        cardBg:'white'
       },
       Dropdown:{
         colorBgElevated:'white',

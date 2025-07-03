@@ -128,7 +128,6 @@ function WtoWForm() {
         }
         else{
           itemDtls[index]['error']=1
-
         }
       });
   };

@@ -114,8 +114,8 @@ function SiemensForm() {
       return {
         po_no: item['Customer Order'],
         proj_id: projcode.toString(),
-        prod_id: item['Product ID'].split('-').join(''),
-        // prod_id: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID']?.split('-').join(''))[0]?.sl_no.toString(),
+        // prod_id: item['Product ID'].split('-').join(''),
+        prod_id: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID']?.split('-').join(''))[0]?.sl_no.toString(),
         order_qty: +item['Requested'],
         line_no: +item['Line #'],
         mfn: item['MFN'],
@@ -134,7 +134,6 @@ function SiemensForm() {
         net_price: +item['Net Price'].split(' ')[0].split(',').join(''),
         total_price: +item['Total Price'].split(' ')[0].split(',').join(''),
         isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length
-
       }
     }))
     console.log(csvData)

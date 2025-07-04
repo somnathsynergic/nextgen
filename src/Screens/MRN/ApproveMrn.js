@@ -12,8 +12,10 @@ import { Tag } from "antd";
 import Radiobtn from "../../Components/Radiobtn";
 import { Message } from "../../Components/Message";
 import Pagination from "../../Components/Pagination";
+import { Tabs } from 'antd';
 
 function ApproveMrn() {
+    const [viewKey,setViewKey] = useState(1)
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [searchVal, setSearchVal] = useState("");
@@ -27,6 +29,45 @@ function ApproveMrn() {
   const [itemStock,setItemStock] = useState([])
   const [clickFlag,setClickFlag] = useState(0)
   const [flag,setFlag] = useState(0)
+   const items= [
+  {
+    key: '1',
+    label: 'Non-Siemens',
+    children: '',
+  },
+  {
+    key: '2',
+    label: 'Siemens',
+    children: '',
+  },
+ 
+];
+  const onChoiceChange = (key) => {
+  console.log(key);
+  setViewKey(key)
+  setLoading(true)
+  if(key==1){
+    axios.post(url + "/api/getdeliveryapproval", { id: 0 }).then((res) => {
+        console.log(res);
+        setLoading(false);
+      
+            setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 ));
+            setPoData(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 && e.approve_flag=='P'
+              ));
+            
+      });
+  }
+  else{
+ axios.post(url + "/api/getsiemensdeliveryapproval", { id: 0 }).then((res) => {
+        console.log(res);
+        setLoading(false);
+      
+            setCopy(res?.data?.msg);
+            setPoData(res?.data?.msg);
+            
+      });
+  }
+};
     const onPageChange = (event) => {
       setFirst(event.first);
       setRows(event.rows);
@@ -382,7 +423,7 @@ function ApproveMrn() {
         </motion.section>
         {loading && <SkeletonLoading />}
   
-        {copy.length == 0 && loading == false && (
+        {/* {copy.length == 0 && loading == false && (
           <div class="flex-col ml-72 mx-auto justify-center items-center">
             <motion.img
               initial={{ opacity: 0 }}
@@ -401,9 +442,13 @@ function ApproveMrn() {
               You can either create or search to view any record here!
             </motion.h2>
           </div>
-        )}
-        <div class="relative overflow-x-auto">
-          {!loading && copy.length > 0 && (
+        )} */}
+        <div class="relative overflow-x-auto flex w-full">
+                <Tabs defaultActiveKey="1" style={{background:'white', width:150, padding:10,borderTopLeftRadius:10,borderBottomLeftRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChoiceChange} />
+          
+          {!loading && copy.length > 0 && viewKey == 1 && (
+            // viewKey == 1
+        
             <motion.section
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -554,13 +599,7 @@ function ApproveMrn() {
                     ))}
                 </tbody>
               </table>
-              {/* <Paginator
-                first={first}
-                rows={rows}
-                totalRecords={po_data?.length}
-                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
-                onPageChange={onPageChange}
-              /> */}
+             
               <Pagination  first={first}
                 rows={rows}
                 totalRecords={po_data?.length}
@@ -568,7 +607,172 @@ function ApproveMrn() {
                 onPageChange={onPageChange}
                 />
             </motion.section>
+            
           )}
+            {!loading && copy.length > 0 && viewKey == 2 && (
+            // viewKey == 1
+        
+            <motion.section
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
+            >
+              <table class="w-full text-sm text-left rtl:text-right shadow-lg text-green-900dark:text-gray-400">
+                <thead class=" text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="p-4 w-1/3">
+                      #
+                    </th>
+                    {/* <th scope="col" class="p-4 w-1/3">
+                      PO No.
+                    </th> */}
+                     <th scope="col" class="p-4 w-1/3">
+                      MRN No.
+                    </th>
+                    <th scope="col" class="p-4 w-1/3">
+                      Invoice
+                    </th>
+                   
+                    <th scope="col" class="p-4 w-1/3">
+                      Status
+                    </th>
+                    <th scope="col" class="p-4 w-1/3">
+                      Created By
+                    </th>
+                    {/* <th scope="col" class="p-4 w-1/3">
+                      Action
+                    </th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {po_data &&
+                    po_data?.slice(first, rows + first).map((item) => (
+                       <tr onClick = {()=>{
+                        setSl(item.sl_no)
+                        console.log(item.sl_no)
+                        setClickFlag(1)
+                        // setLoading(true)
+                        console.log(item)
+                        getApprovalDetails(item)
+                        //    setInvoice(item.invoice)
+                        //    setPoNo(item.po_no)
+                         
+                        //    axios
+                        //    .post(url + "/api/get_mrn_list", { last_req_id: item.po_no })
+                        //    .then((res) => {
+                        //      console.log(res);
+                        //      setMrnDetails(res.data.msg.filter(e=>e.invoice==item.invoice))
+                        //      setInvDt(res.data.msg.filter(e=>e.invoice==item.invoice)[0].invoice_dt)
+                        //      axios
+                        //      .post(url + "/api/get_received_items", { invoice: item.invoice, id: item.sl_no })
+                        //      .then((res) => {
+                        //        console.log(res);
+                        //        setItemInfo(res?.data?.msg);
+                        //        itemStock.length=0
+                        //        for(let i of res?.data?.msg){
+                        //          itemStock.push({
+                        //            rc_qty:i.rc_qty,
+                        //            item_id:i.item_id
+                        //          })
+                        //        }
+                        //        axios
+                        //        .post(url + "/api/getdeliverydoc", { po_no: item.invoice })
+                        //        .then((resDoc) => {
+                        //          console.log(resDoc);
+                        //          for (let i of resDoc?.data?.msg) {
+                        //            fileList.push({
+                        //              sl_no: i.sl_no,
+                        //              doc: i.doc,
+                        //            });
+                        //          }
+                        //        setFileList(fileList);
+                        //        setFlag(26)
+                        //        setVisible(true);
+                        //        setLoading(false)
+                        //      });
+                        //     })
+                        // //    setVisible(true)
+
+                        //    })
+                        // if(flag == "C")
+                        //       navigate(routePaths.DELIVERYCUSTOMERFORM +
+                        //           item.sl_no +
+                        //           "/" +
+                        //           item.po_no)
+                        //         else navigate(routePaths.TESTCERTFORM + item.sl_no)
+                      }} class="bg-white hover:duration-500 hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          class="px-6 py-4 w-1/5 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                        {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
+                        {item.serial_number}
+                        </th>
+                        {/* <td class="px-6 py-4 w-1/3 text-green-900 font-bold">{item.po_no}</td> */}
+                        <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-[12.5px]">{item.mrn_no}</td>
+                        <td class="px-4 py-4 w-1/3 text-gray-600 text-xs">{item.invoice}</td>
+
+                        <td class="px-4 py-4 w-1/3">{item.approve_flag=='A'?
+                         <Tag
+                                                className="text-[12px]  w-24  bg-green-900 text-white"
+                                                icon={<CheckCircleOutlined />}
+                                                color="#014737"
+                                                // color="success"
+                                              >
+                                                Approved
+                                              </Tag>
+                        :
+                        item.approve_flag=='P'?
+                        <Tag
+                        className="text-[12px] w-24"
+                        icon={<ClockCircleOutlined className="animate-pulse" />}
+                        color="#82181a"
+                        // color="error"
+                      >
+                        Pending 
+                      </Tag>
+                        :
+                        <Tag
+                        className="text-[9px] w-24"
+                        icon={<ClockCircleOutlined className="animate-pulse" />}
+                        color="#82181a"
+                        // color="error"
+                      >
+                        Rejected
+                      </Tag>
+                        
+                        }</td>
+                        <td class="px-6 py-4 w-1/3 text-gray-600 text-xs">{item.created_by}</td>
+                        {/* <td class="px-3 py-4 w-1/3 text-gray-600 flex gap-3"> */}
+                          {/* <Link
+                            to={
+                              flag == "C"
+                                ? routePaths.DELIVERYCUSTOMERFORM +
+                                  item.sl_no +
+                                  "/" +
+                                  item.po_no
+                                : routePaths.TESTCERTFORM + item.sl_no
+                            }
+                          >
+                            <EditOutlined class="text-md text-green-900" />
+                          </Link> */}
+                        {/* </td> */}
+                      </tr>
+                      
+                    ))}
+                </tbody>
+              </table>
+             
+              <Pagination  first={first}
+                rows={rows}
+                totalRecords={po_data?.length}
+                rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+                onPageChange={onPageChange}
+                />
+            </motion.section>
+            
+          )}
+        
         </div>
         <DialogBox
           visible={visible}

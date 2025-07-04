@@ -38,10 +38,7 @@ function DeliveryViewTemplate({ flag }) {
     setFirst(event.first);
     setRows(event.rows);
   };
-  const onChange = (key) => {
-  console.log(key);
-  setViewKey(key)
-};
+
   const rdBtn = [
     { label: "Uploaded", value: 1 },
     { label: "Yet to upload", value: 2 },
@@ -59,7 +56,27 @@ function DeliveryViewTemplate({ flag }) {
   const [visible,setVisible] = useState(false)
   const params = useParams();
   const navigate = useNavigate();
-  useState(() => {
+    const onChange = (key) => {
+  console.log(key);
+  setViewKey(key)
+  if(key==1){
+   axios.post(url + "/api/getpofordelivery", { id: 0 }).then((res) => {
+      console.log(res);
+      setLoading(false);
+          setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y'));
+          setPoData(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y'));
+    });
+  }
+  else{
+ axios.post(url + "/api/getsiemens", { id: 0 }).then((res) => {
+      console.log(res);
+      setLoading(false);
+          setCopy(res?.data?.msg);
+          setPoData(res?.data?.msg);
+    });
+  }
+};
+  useEffect(() => {
     axios
       .post(url + "/api/getvendor", { id: 0 })
       .then((res) => {
@@ -159,25 +176,26 @@ function DeliveryViewTemplate({ flag }) {
     localStorage.removeItem("drawing_flag");
     localStorage.removeItem("drawing");
     localStorage.removeItem("dt");
+    setViewKey(viewKey)
+    console.log('viewKey=',viewKey)
     setLoading(true);
-    // axios.post(url + "/api/getpo", { id:0 }).then((res) => {
-    //   console.log(res);
-    //   setLoading(false);
-    //   setCopy(res?.data?.msg.filter(e=>e.po_status=='A'));
-    //   setPoData(res?.data?.msg.filter(e=>e.po_status=='A'));
-    // });
+    // if(viewKey==1){
+      
     axios.post(url + "/api/getpofordelivery", { id: 0 }).then((res) => {
       console.log(res);
       setLoading(false);
-      // if(localStorage.getItem('user_type')=='2'){
-      //   setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.created_by==localStorage.getItem('email') && e.ware_house_flag=='Y'));
-      //   setPoData(res?.data?.msg.filter(e=>e.po_status=='A' &&  e.created_by==localStorage.getItem('email') && e.ware_house_flag=='Y'));
-      //   }
-      //   if(localStorage.getItem('user_type')=='5'){
           setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y'));
           setPoData(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y'));
-          // }
     });
+  // }
+  // else{
+    //  axios.post(url + "/api/getsiemens", { id: 0 }).then((res) => {
+    //   console.log(res);
+    //   setLoading(false);
+    //       setCopy(res?.data?.msg);
+    //       setPoData(res?.data?.msg);
+    // });
+  // }
   }, []);
 
   const search = (value) => {
@@ -306,32 +324,13 @@ function DeliveryViewTemplate({ flag }) {
         </div>
       </motion.section>
       {loading && <SkeletonLoading />}
-      {copy.length == 0 && loading == false && (
-        <div class="flex-col ml-72 mx-auto justify-center items-center">
-          <motion.img
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, type: "spring" }}
-            src={nodata}
-            class="h-96 w-96 2xl:ml-48 2xl:h-full"
-            alt="Flowbite Logo"
-          />
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, type: "spring" }}
-            class="h-12 text-green-900 -mt-16  2xl:ml-48 2xl:h-24 font-bold"
-          >
-            You can either create or search to view any record here!
-          </motion.h2>
-        </div>
-      )}
-      <div class="relative overflow-x-auto">
+      
+      <div class="relative overflow-x-auto flex w-full">
+      <Tabs defaultActiveKey="1" style={{background:'white', width:150, padding:10,borderTopLeftRadius:10,borderBottomLeftRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChange} />
 
         {!loading && copy.length > 0 && (
-          <div className="flex gap-4 w-full">
-      <Tabs defaultActiveKey="1" style={{background:'white', padding:10,borderRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChange} />
-        {viewKey == 1 &&
+          <div className="flex  w-full">
+        {viewKey == 1 &&<>
           <motion.section
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -503,9 +502,202 @@ function DeliveryViewTemplate({ flag }) {
               onPageChange={onPageChange}
               />
           </motion.section>
+          
+        </>
+
 }
+{/* {viewKey} */}
 {
-  viewKey == 2 && <span>Siemens Dashboard Comes here</span>
+  viewKey == 2 &&  <>
+  <motion.section
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
+          >
+            <table class="w-full text-sm text-left rtl:text-right shadow-lg text-green-900dark:text-gray-400">
+              <thead class=" text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" class="p-4 w-1/3">
+                    #
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    PO No.
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    Vendor
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    Intended For
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    Invoice(s)
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    Created By
+                  </th>
+                  <th scope="col" class="p-4 w-1/3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {po_data &&
+                  po_data?.slice(first, rows + first).map((item) => (
+                    <tr onClick = {()=>{
+
+                       navigate(routePaths.SIEMENSMRNFORM+
+                                item.sl_no +
+                                "/" +
+                               encodeURIComponent(item.po_no))
+                    }} 
+                    
+                    // class="bg-white hover:duration-500 text-[10.5px] hover:text-green-900 cursor-pointer hover:bg-gray-200 text-nowrap border-b dark:bg-gray-800 dark:border-gray-700"
+                    
+                    
+                     className={
+                    +Math.floor(
+                          (new Date().getTime() -
+                            new Date(item.created_at).getTime()) /
+                            1000
+                        ) < 1800
+                        ? "bg-[#ffe4c4] px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] cursor-pointer duration-500 hover:bg-gray-200 hover:duration-500 delay-700 border-b dark:bg-gray-800 hover:text-green-900 dark:border-gray-700 text-nowrap"
+                        : "bg-white border-b px-4 py-4 w-1/6 text-green-900 font-bold text-[12.5] hover:text-green-900 cursor-pointer hover:bg-gray-200 dark:bg-gray-800 hover:duration-500 dark:border-gray-700  text-nowrap"
+                     
+                  }
+                    
+                    
+                    
+                    
+                    >
+                     
+                     
+                     
+                     
+                      <th
+                        scope="row"
+                        class="px-4 py-4 w-1/4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                      {/* <Tag color="#4FB477" className="rounded-full"> {item.sl_no}</Tag>  */}
+                      {item.sl_no}
+                      </th>
+                      <td class="px-4 py-4 w-1/3 text-green-900 font-bold text-wrap text-[12.5px]">{item.po_no}
+                      <p class="text-[10.5px] text-gray-500 italic">
+                       <span>
+                          {" "}
+                        PO Created{" "}
+                          {+Math.floor(
+                            (new Date().getTime() -
+                              new Date(item.created_at).getTime()) /
+                              1000
+                          ) < 60
+                            ? +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ).toFixed(0) + " second(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                60 <
+                              60
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 60
+                              ).toFixed(0) + " minute(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                3600 <
+                              24
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) / 3600
+                              ).toFixed(0) + " hour(s) ago"
+                            : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.created_at).getTime()) /
+                                  1000
+                              ) /
+                                (3600 * 24) <
+                              31
+                            ? (
+                                +Math.floor(
+                                  (new Date().getTime() -
+                                    new Date(item.created_at).getTime()) /
+                                    1000
+                                ) /
+                                (3600 * 24)
+                              ).toFixed(0) + " day(s) ago":""}
+                              </span>
+                              </p>
+                      
+                      </td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 text-wrap text-xs">{item.proj_name?item.proj_name+'('+item.proj_id+')':'Warehouse'}</td>
+                      <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><InfoTags color="#014737" bgCol="rounded-full" text={item.invoice_count||0}/></td>
+                      <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap text-xs">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
+                      <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">
+                        <Link
+                          to={
+                           routePaths.SIEMENSMRNFORM+
+                                item.sl_no +
+                                "/" +
+                               encodeURIComponent(item.po_no)
+                             
+                          }
+                        >
+                          <EditOutlined class="text-md text-green-900" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            {/* <Paginator
+              first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+            /> */}
+            <Pagination  first={first}
+              rows={rows}
+              totalRecords={po_data?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
+              onPageChange={onPageChange}
+              />
+          </motion.section>
+            {/* {copy.length == 0 && loading == false && (
+        <div class="flex-col ml-72 mx-auto justify-center items-center">
+          <motion.img
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, type: "spring" }}
+            src={nodata}
+            class="h-96 w-96 2xl:ml-48 2xl:h-full"
+            alt="Flowbite Logo"
+          />
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, type: "spring" }}
+            class="h-12 text-green-900 -mt-16  2xl:ml-48 2xl:h-24 font-bold"
+          >
+            You can either create or search to view any record here!
+          </motion.h2>
+        </div>
+      )} */}
+          </>
 }
           </div>
             

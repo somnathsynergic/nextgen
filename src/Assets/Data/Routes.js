@@ -40,6 +40,7 @@ export const routePaths={
     ADDCATEGORIES:'/home/mastersComp/categories/categoryform/',
     DELIVERYCUSTOMERVIEW:'/home/deliveryComp/deliverycustomerview',
     DELIVERYCUSTOMERFORM:'/home/deliveryComp/deliverycustomerform/',
+    SIEMENSMRNFORM:'/home/siemensComp/SiemensMRNForm/',
     CLIENTDELIVERYVIEW:'/home/clientDelComp/clientDelView',
     VIEWSTOCK:'/home/stockComp/stockview',
     CLIENTDELIVERYFORM:'/home/clientDelComp/clientDelForm/',

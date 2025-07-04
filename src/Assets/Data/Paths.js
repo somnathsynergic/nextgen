@@ -96,6 +96,7 @@ export const pathMap={
     'purView':'Purchase Requisition List',
     'purForm':'Create Requisition',
     'purComp':'Purchase Requisition',
+    'SiemensMRNForm':'Siemens MRN'
     
 
 }
@@ -155,6 +156,7 @@ export const routes={
     'approvereq':'/home/reqComp/approvereq',
     'cancelreq':'/home/reqComp/cancelreq',
     'deliverycustomerform':'/home/deliveryComp/deliverycustomerform/',
+    'SiemensMRNForm':'/home/siemensComp/SiemensMRNForm/',
     'stockinview':'stockComp/stockinview',
     'stockoutview':'stockComp/stockoutview',
     'stockinform':'/home/stockComp/stockinform/',

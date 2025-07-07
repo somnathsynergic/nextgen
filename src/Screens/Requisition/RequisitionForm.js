@@ -590,6 +590,7 @@ function RequisitionForm() {
           console.log(itemDtlsFormCopy);
           setItemDtlsForm(itemDtlsForm);
           setItemDtlsFormCopy(itemDtlsFormCopy);
+          console.log(itemDtlsFormCopy);
 
           // axios
           //   .post(url + "/api/item_dtls_trans", {

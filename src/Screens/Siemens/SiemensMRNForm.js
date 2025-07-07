@@ -151,7 +151,7 @@ function SiemensMRNForm() {
   }, []);
   const getMrnLog = () => {
     axios
-      .post(url + "/api/get_received_items", { invoice: inv_el, id: params.id })
+      .post(url + "/api/get_received_items_siemens", { invoice: inv_el, id: params.id })
       .then((res) => {
         console.log(res);
         setItemInfo(res?.data?.msg);

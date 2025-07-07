@@ -289,6 +289,7 @@ function ApproveMrn() {
         console.log(res);
         setMrnDetails(res.data.msg.filter(e=>e.invoice==item.invoice))
         setInvDt(res.data.msg.filter(e=>e.invoice==item.invoice)[0].invoice_dt)
+        if(viewKey==1){
         axios
         .post(url + "/api/get_received_items", { invoice: item.invoice, id: item.del_sl!=undefined?item.del_sl:item.sl_no})
         .then((res) => {
@@ -317,9 +318,41 @@ function ApproveMrn() {
           setLoading(false)
         });
        })
+      }
+      else{
+         axios
+        .post(url + "/api/get_received_items_siemens", { invoice: item.invoice, id: item.del_sl!=undefined?item.del_sl:item.sl_no})
+        .then((res) => {
+          console.log(res);
+          setItemInfo(res?.data?.msg);
+          itemStock.length=0
+          for(let i of res?.data?.msg){
+            itemStock.push({
+              rc_qty:i.rc_qty,
+              item_id:i.item_id
+            })
+          }
+          axios
+          .post(url + "/api/getdeliverydoc", { po_no: item.invoice })
+          .then((resDoc) => {
+            console.log(resDoc);
+            for (let i of resDoc?.data?.msg) {
+              fileList.push({
+                sl_no: i.sl_no,
+                doc: i.doc,
+              });
+            }
+          setFileList(fileList);
+          setFlag(26)
+          setVisible(true);
+          setLoading(false)
+        });
+       })
+      }
    //    setVisible(true)
 
       })
+    
     }
     return (
       <>
@@ -782,7 +815,7 @@ function ApproveMrn() {
             setVisible(false)
            if(status){
             setLoading(true)
-           
+           if(viewKey==1){
             axios.post(url+'/api/approvemrn',{inv_no:invoice,user:localStorage.getItem('email'),status:status,po_no:po_no,invoice_dt:invoice_dt,rej_note:rej_note,in_out_flag:1,items:itemStock}).then(res=>{console.log(res)
               setLoading(false)
                 if(res.data.suc>0){
@@ -794,6 +827,20 @@ function ApproveMrn() {
 
                 }
             })
+          }
+          else{
+             axios.post(url+'/api/approvemrnsiemens',{inv_no:invoice,user:localStorage.getItem('email'),status:status,po_no:po_no,invoice_dt:invoice_dt,rej_note:rej_note,in_out_flag:1,items:itemStock}).then(res=>{console.log(res)
+              setLoading(false)
+                if(res.data.suc>0){
+                    Message('success',res?.data?.msg)
+                    setCount(prev=>prev+1)
+                }
+                else{
+                    Message('error',res?.data?.msg)
+
+                }
+            })
+          }
           }
         
         }}

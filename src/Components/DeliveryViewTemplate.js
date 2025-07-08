@@ -68,7 +68,7 @@ function DeliveryViewTemplate({ flag }) {
     });
   }
   else{
- axios.post(url + "/api/getsiemens", { id: 0 }).then((res) => {
+ axios.post(url + "/api/getsiemensfordelivery", { id: 0 }).then((res) => {
       console.log(res);
       setLoading(false);
           setCopy(res?.data?.msg);

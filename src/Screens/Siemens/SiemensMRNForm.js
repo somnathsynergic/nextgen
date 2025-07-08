@@ -258,6 +258,7 @@ function SiemensMRNForm() {
     axios
       .post(url + "/api/getsiemens", { id: 0 })
       .then((resPO) => {
+        console.log(resPO)
         setId(
           resPO?.data?.msg?.filter((e) => e.po_no == decodeURIComponent(params.po_no))[0]?.sl_no
         );
@@ -293,15 +294,15 @@ function SiemensMRNForm() {
               });
             }
           })
-          .catch((err) => {
-            console.log(err);
-            navigate("/error" + "/" + err.code + "/" + err.message);
-          });
+          // .catch((err) => {
+          //   console.log(err);
+          //   navigate("/error" + "/" + err.code + "/" + err.message);
+          // });
       })
-      .catch((err) => {
-        console.log(err);
-        navigate("/error" + "/" + err.code + "/" + err.message);
-      });
+      // .catch((err) => {
+      //   console.log(err);
+      //   navigate("/error" + "/" + err.code + "/" + err.message);
+      // });
 
     axios
       .post(url + "/api/getsiemensitemforedit", {

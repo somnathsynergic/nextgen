@@ -24,8 +24,10 @@ import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Empty } from "antd";
 import InfoTags from "../../Components/InfoTags";
+import * as XLSX from "xlsx";
 function SiemensForm() {
   const params = useParams()
+  const [type, setType] = useState('W')
   const navigate = useNavigate()
   const [csvData, setCsvData] = useState([]);
   const [headers, setHeaders] = useState([]);
@@ -35,16 +37,50 @@ function SiemensForm() {
   const [projectList, setProjectList] = useState([])
   const [prodList, setProdList] = useState([])
   const [project, setProject] = useState("")
-  const [projcode, setProjCode] = useState()
-  const [retrievedData,setRetrievedData] = useState([])
-  const [retrieveHeader,setRetrievedHeader] = useState([])
-  const [count,setCount] = useState(0)
-  
+  const [projcode, setProjCode] = useState(0)
+  const [retrievedData, setRetrievedData] = useState([])
+  const [retrieveHeader, setRetrievedHeader] = useState([])
+  const [count, setCount] = useState(0)
+
   // const 
   const op = useRef(null);
+  const csvConvert = (e) => {
+    console.log(e)
+
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.name.split('.')[1] != 'csv') {
+      const reader = new FileReader();
+      console.log(file)
+      reader.onload = (event) => {
+        console.log(event)
+        console.log("FileReader onload triggered");
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        console.log("Workbook:", workbook);
+        const firstSheetName = workbook.SheetNames[0];
+        console.log("First sheet name:", firstSheetName);
+
+        const worksheet = workbook.Sheets[firstSheetName];
+        console.log("Worksheet:", worksheet);
+
+        const csv = XLSX.utils.sheet_to_csv(worksheet);
+        console.log("CSV:", csv); // <- Should not be undefined now
+        handleFileUpload(csv);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+    else if (file.name.split('.')[1].toLowerCase().includes('xls')) {
+      handleFileUpload(e.target.files);
+
+    }
+  }
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+    // const file = event.target.files[0];
+    const file = event;
 
     if (file) {
       Papa.parse(file, {
@@ -84,29 +120,43 @@ function SiemensForm() {
     console.log(uploadData)
     setCsvData(uploadData)
     if (uploadData) {
-    setLoading(true)
-    axios.post(url+'/api/check_duplicate_po',{id:uploadData[0].po_no}).then(res=>{console.log(res);console.log(res?.data?.msg[0].cnt)
-    if(res?.data?.msg[0]?.count==0){
-      axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
-        console.log(res)
-        setLoading(false)
-        if (res?.data?.suc > 0) {
-          Message('success', res?.data?.msg)
+      setLoading(true)
+      axios.post(url + '/api/check_duplicate_po', { id: uploadData[0].po_no }).then(res => {
+        console.log(res); setLoading(false); console.log(res?.data?.msg[0].cnt)
+        if (res?.data?.msg[0]?.count == 0) {
+
+          if (uploadData.filter(item => item.prod_id).length == uploadData.length) {
+            setLoading(true)
+
+            axios.post(url + '/api/post_siemens', { items: uploadData, user: localStorage.getItem('email') }).then(res => {
+              console.log(res)
+              setLoading(false)
+              if (res?.data?.suc > 0) {
+                Message('success', res?.data?.msg)
+                setCsvData([])
+                setHeaders([])
+                navigate(-1)
+              }
+            })
+          }
+          else {
+            Message('error', 'One or more products may not be in your database, please make sure you upload existing products!')
+          }
+        }
+        else {
           setCsvData([])
-          setHeaders([])
-          navigate(-1)
+          setLoading(false)
+          Message('error', "Documents with this PO has already been uploaded")
         }
       })
     }
-    else{
-      setCsvData([])
-      setLoading(false)
-      Message('error',"Documents with this PO has already been uploaded")
-    }
-    })
-    }
 
   }, [uploadData])
+  // useEffect(()=>{
+  //   if(params.id>0){
+  //     setType(project)
+  //   }
+  // },[project])
   const onProcess = () => {
     // console.log(csvData.map(item =>prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join(''))))
     setCsvData(csvData.map(item => { return { ...item, isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length } }))
@@ -138,16 +188,18 @@ function SiemensForm() {
     }))
     console.log(csvData)
   }
-  
+
 
   useEffect(() => {
     if (params.id > 0) {
       setLoading(true)
-      axios.post(url + '/api/getsiemensrow', { id: params.id }).then(res => {console.log(res)
+      axios.post(url + '/api/getsiemensrow', { id: params.id }).then(res => {
+        console.log(res)
         setRetrievedData(res?.data?.msg)
         setRetrievedHeader(Object.keys(res?.data?.msg[0]))
-        setProjCode(res?.data?.msg[0].proj_id)
-        setProject(projectList.filter(e=>res?.data?.msg[0].proj_id==e.sl_no)[0]?.proj_name)
+        setProjCode(+res?.data?.msg[0].proj_id)
+        setProject(projectList.filter(e => res?.data?.msg[0].proj_id == e.sl_no)[0]?.proj_name)
+        setType(+res?.data?.msg[0].proj_id ? 'P' : 'W')
         setLoading(false)
       })
     }
@@ -175,6 +227,36 @@ function SiemensForm() {
             className={
 
               "sm:col-span-6 flex-col justify-end items-end -mt-1"
+            }
+          >
+            <TDInputTemplate
+              placeholder="Type"
+              type="text"
+              label="Type"
+              name="type"
+              disabled={
+                params.id > 0
+              }
+              formControlName={type}
+              handleChange={(txt) => {
+                console.log(txt);
+                setType(txt.target.value);
+              }}
+              data={[
+
+                { code: 'W', name: 'Warehouse' }, { code: 'P', name: 'Project' }
+              ]}
+              mode={2}
+            />
+
+
+            {!type && <VError title={"Required"} />}
+
+          </div>
+          {type == 'P' && <div
+            className={
+
+              "sm:col-span-6 flex-col justify-end items-end mt-3"
             }
           >
             <TDInputTemplate
@@ -270,93 +352,93 @@ function SiemensForm() {
                 {/* <InfoTags color="#eb8d00" text={"Project ID: "+ projID} /> */}
               </a>
             )}
+          </div>}
+
+        </div>
+        {params.id == 0 &&
+          <div className={'w-full col-span-6  bg-white p-6 rounded-2xl'}>
+
+            <TDInputTemplate
+              placeholder="Add File"
+              type="file"
+              label="Add File"
+              name="catnm"
+              // formControlName={formik.values.catnm}
+              handleChange={(e) => csvConvert(e)}
+              // handleBlur={formik.handleBlur}
+              mode={1}
+            />
+            {error && <VError title={error} />}
+            {/* <BtnGroupReuse flag={1} text="Process"/> */}
+            {csvData?.length === 0 && !error && (
+              <p className="text-gray-700 text-xs mt-1">Please upload a CSV file to see the table.</p>
+            )}
           </div>
-
-        </div>
-        {params.id==0 &&
-        <div className={'w-full col-span-6  bg-white p-6 rounded-2xl'}>
-
-          <TDInputTemplate
-            placeholder="Add File"
-            type="file"
-            label="Add File"
-            name="catnm"
-            // formControlName={formik.values.catnm}
-            handleChange={(e) => handleFileUpload(e)}
-            // handleBlur={formik.handleBlur}
-            mode={1}
-          />
-          {error && <VError title={error} />}
-          {/* <BtnGroupReuse flag={1} text="Process"/> */}
-          {csvData?.length === 0 && !error && (
-            <p className="text-gray-700 text-xs mt-1">Please upload a CSV file to see the table.</p>
-          )}
-        </div>
-}
+        }
         {csvData?.length > 0 &&
           <div className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
             {params.id == 0 &&
-            <SpinComp loading={loading}>
-              <div className="flex justify-end mb-5">
-                <BtnGroupReuse loading={loading} onClick={() => onProcess()} flag={1} icon={<ClockCircleOutlined className="mr-2" />} text="Process" />
+              <SpinComp loading={loading}>
+                <div className="flex justify-end mb-5">
+                  <BtnGroupReuse disabled={!csvData} loading={loading} onClick={() => onProcess()} flag={1} icon={<ClockCircleOutlined className="mr-2" />} text="Process" />
 
-              </div>
-              {csvData.length > 0 && (
-                <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
-                  <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
-                    <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
-                      <tr >
-                        {headers.map((header, index) => (
-                          <th className="border p-3 border-r-gray-300" key={index}>{header}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {csvData.map((row, rowIndex) => (
-                        <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
-                          {headers.map((header, colIndex) => (
-                            <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
+                </div>
+                {csvData.length > 0 && (
+                  <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
+                    <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
+                      <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                        <tr >
+                          {headers.map((header, index) => (
+                            <th className="border p-3 border-r-gray-300" key={index}>{header}</th>
                           ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                      </thead>
+                      <tbody>
+                        {csvData.map((row, rowIndex) => (
+                          <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
+                            {headers.map((header, colIndex) => (
+                              <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </SpinComp>
-            
+
             }
 
           </div>
         }
-       
-        {params.id>0 && retrievedData && 
-        <div className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
-           <SpinComp loading={loading}>
-                <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
-                  <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
-                    <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
-                      <tr >
-                        {retrieveHeader.map((header, index) => (
-                          <th className="border p-3 border-r-gray-300 capitalize" key={index}>{header.split('_').join(' ')}</th>
+
+        {params.id > 0 && retrievedData &&
+          <div className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
+            <SpinComp loading={loading}>
+              <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
+                <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
+                  <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                    <tr >
+                      {retrieveHeader.map((header, index) => (
+                        <th className="border p-3 border-r-gray-300 capitalize" key={index}>{header.split('_').join(' ')}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {retrievedData.map((row, rowIndex) => (
+                      <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
+                        {retrieveHeader.map((header, colIndex) => (
+                          <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
                         ))}
                       </tr>
-                    </thead>
-                    <tbody>
-                      {retrievedData.map((row, rowIndex) => (
-                        <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
-                          {retrieveHeader.map((header, colIndex) => (
-                            <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-        </SpinComp>
-
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            
+            </SpinComp>
+
+          </div>
+
 
         }
       </div>

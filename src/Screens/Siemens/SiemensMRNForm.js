@@ -270,6 +270,7 @@ function SiemensMRNForm() {
           .post(url + "/api/getsiemensitemfordel", {
             id: resPO?.data?.msg?.filter((e) => e.po_no == decodeURIComponent(params.po_no))[0]
               ?.sl_no,
+              po_no: decodeURIComponent(params.po_no)
           })
           .then((resItems) => {
             console.log(resItems);
@@ -307,6 +308,7 @@ function SiemensMRNForm() {
     axios
       .post(url + "/api/getsiemensitemforedit", {
         id: params.id,
+        po_no: decodeURIComponent(params.po_no)
       })
       .then((resPoItems) => {
         console.log(resPoItems);

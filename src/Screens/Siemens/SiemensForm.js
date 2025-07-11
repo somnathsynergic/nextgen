@@ -29,6 +29,13 @@ function SiemensForm() {
   const params = useParams()
   const [type, setType] = useState('W')
   const navigate = useNavigate()
+    const contentRef = useRef(null);
+  
+    const [isPrinting, setIsPrinting] = useState(true);
+  
+     const reactToPrintFn = useReactToPrint({
+     contentRef
+    });
   const [csvData, setCsvData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [error, setError] = useState(null);
@@ -183,6 +190,7 @@ function SiemensForm() {
         customer_no: item['Customer No.'],
         net_price: +item['Net Price'].split(' ')[0].split(',').join(''),
         total_price: +item['Total Price'].split(' ')[0].split(',').join(''),
+        description: item['Description'],
         isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length
       }
     }))
@@ -197,9 +205,9 @@ function SiemensForm() {
         console.log(res)
         setRetrievedData(res?.data?.msg)
         setRetrievedHeader(Object.keys(res?.data?.msg[0]))
-        setProjCode(+res?.data?.msg[0].proj_id)
-        setProject(projectList.filter(e => res?.data?.msg[0].proj_id == e.sl_no)[0]?.proj_name)
-        setType(+res?.data?.msg[0].proj_id ? 'P' : 'W')
+        setProjCode(+res?.data?.proj_id)
+        setProject(projectList.filter(e => res?.data?.proj_id == e.sl_no)[0]?.proj_name)
+        setType(+res?.data?.proj_id ? 'P' : 'W')
         setLoading(false)
       })
     }
@@ -213,16 +221,18 @@ function SiemensForm() {
         mode={params.id > 0 ? 1 : 0}
         title={'Category'}
       //   data={params.id && data?data:''}
-      //   onPrinting={()=>{setIsPrinting(false);
-      //   setTimeout(() => {
-      //     reactToPrintFn();
-      //     setIsPrinting(true);
-      //     }, 5);}
-      //   }
+        onPrinting={()=>{setIsPrinting(false);
+        setTimeout(() => {
+          reactToPrintFn();
+          setIsPrinting(true);
+          }, 5);}
+        }
       />
-      <div className="grid grid-cols-6 gap-2">
+      <div ref={contentRef} className="grid grid-cols-6 gap-2">
         <div className="w-full col-span-6 bg-white p-6 rounded-2xl">
-
+{!isPrinting && <div className="sm:col-span-6 p-2 border border-green-600 rounded-md h-full">
+            <PrintHeader />
+          </div>}
           <div
             className={
 
@@ -248,7 +258,7 @@ function SiemensForm() {
               ]}
               mode={2}
             />
-
+          
 
             {!type && <VError title={"Required"} />}
 
@@ -259,7 +269,7 @@ function SiemensForm() {
               "sm:col-span-6 flex-col justify-end items-end mt-3"
             }
           >
-            <TDInputTemplate
+            {isPrinting && <TDInputTemplate
               placeholder="Project"
               type="text"
               label="Project"
@@ -282,7 +292,10 @@ function SiemensForm() {
               }}
               data={projectList}
               mode={1}
-            />
+            />}
+            
+            {!isPrinting && <h2 className="bg-green-500 font-bold text-lg p-3 text-white">Intended For {projcode?project:'Warehouse'}</h2>
+            }
 
             <OverlayPanel
               ref={op}
@@ -386,8 +399,8 @@ function SiemensForm() {
                 {csvData.length > 0 && (
                   <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
                     <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
-                      <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
-                        <tr >
+                      <thead className="text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
                           {headers.map((header, index) => (
                             <th className="border p-3 border-r-gray-300" key={index}>{header}</th>
                           ))}
@@ -414,10 +427,10 @@ function SiemensForm() {
 
         {params.id > 0 && retrievedData &&
           <div className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
-            <SpinComp loading={loading}>
-              <div style={{ maxHeight: '400px', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
+            {isPrinting && <SpinComp loading={loading}>
+              <div style={{ maxHeight: isPrinting?'400px':'', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
                 <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
-                  <thead className=" text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400">
+                  <thead className={isPrinting?"text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":"text-xs text-white capitalize text-nowrap  bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
                     <tr >
                       {retrieveHeader.map((header, index) => (
                         <th className="border p-3 border-r-gray-300 capitalize" key={index}>{header.split('_').join(' ')}</th>
@@ -435,7 +448,28 @@ function SiemensForm() {
                   </tbody>
                 </table>
               </div>
-            </SpinComp>
+            </SpinComp>}
+            {!isPrinting && <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
+                  {/* <thead className={isPrinting?"text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":"text-xs text-white capitalize text-nowrap  bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
+                    <tr >
+                      {retrieveHeader.map((header, index) => (
+                        <th className="border p-3 border-r-gray-300 capitalize" key={index}>{header.split('_').join(' ')}</th>
+                      ))}
+                    </tr>
+                  </thead> */}
+                  <tbody>
+                    {retrievedData.map((row, rowIndex) => (
+                      <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
+
+                        {retrieveHeader.map((header, colIndex) => (<>
+                          <th className="border p-3 border-r-gray-300 bg-green-500 text-white capitalize" key={colIndex}>{header}</th>
+                             
+                          <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
+                       </> ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>}
 
           </div>
 

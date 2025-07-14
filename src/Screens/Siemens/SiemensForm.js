@@ -228,18 +228,18 @@ function SiemensForm() {
           }, 5);}
         }
       />
-      <div ref={contentRef} className="grid grid-cols-6 gap-2">
+      <div  className="grid grid-cols-6 gap-2">
         <div className="w-full col-span-6 bg-white p-6 rounded-2xl">
 {!isPrinting && <div className="sm:col-span-6 p-2 border border-green-600 rounded-md h-full">
             <PrintHeader />
           </div>}
-          <div
+          {isPrinting && <div
             className={
 
               "sm:col-span-6 flex-col justify-end items-end -mt-1"
             }
           >
-            <TDInputTemplate
+            {isPrinting && <TDInputTemplate
               placeholder="Type"
               type="text"
               label="Type"
@@ -257,13 +257,14 @@ function SiemensForm() {
                 { code: 'W', name: 'Warehouse' }, { code: 'P', name: 'Project' }
               ]}
               mode={2}
-            />
+            />}
           
 
             {!type && <VError title={"Required"} />}
 
-          </div>
-          {type == 'P' && <div
+          </div>}
+          {type == 'P' && 
+          <div
             className={
 
               "sm:col-span-6 flex-col justify-end items-end mt-3"
@@ -287,8 +288,6 @@ function SiemensForm() {
                   op.current.hide(txt);
                   setProjCode(0);
                 }
-                // setLoading(true);
-                // getItemDetails(txt.target.value);
               }}
               data={projectList}
               mode={1}
@@ -365,8 +364,8 @@ function SiemensForm() {
                 {/* <InfoTags color="#eb8d00" text={"Project ID: "+ projID} /> */}
               </a>
             )}
-          </div>}
-
+          </div>
+}
         </div>
         {params.id == 0 &&
           <div className={'w-full col-span-6  bg-white p-6 rounded-2xl'}>
@@ -426,7 +425,7 @@ function SiemensForm() {
         }
 
         {params.id > 0 && retrievedData &&
-          <div className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
+          <div  className={'w-full col-span-6 bg-white px-6 py-2 rounded-2xl'}>
             {isPrinting && <SpinComp loading={loading}>
               <div style={{ maxHeight: isPrinting?'400px':'', overflowY: 'auto' }}> {/* Optional: Add scroll for large tables */}
                 <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
@@ -449,27 +448,67 @@ function SiemensForm() {
                 </table>
               </div>
             </SpinComp>}
-            {!isPrinting && <table class={"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
-                  {/* <thead className={isPrinting?"text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":"text-xs text-white capitalize text-nowrap  bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
+            {!isPrinting && retrievedData &&
+            <div className="p-2" ref={contentRef}>
+              <div className="sm:col-span-6 p-2 border border-green-600 rounded-md h-full">
+            <PrintHeader />
+          </div>
+           <div className="sm:col-span-6 p-2 h-full"><h2 className="bg-green-500 font-bold text-lg p-3 text-white">Intended For {projcode?project:'Warehouse'}</h2></div>
+            {/* <table class={" mx-auto w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400"}>
+                  <thead className={isPrinting?"text-md text-gray-700 capitalize text-nowrap  bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":"text-xs text-white capitalize text-nowrap  bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
                     <tr >
                       {retrieveHeader.map((header, index) => (
-                        <th className="border p-3 border-r-gray-300 capitalize" key={index}>{header.split('_').join(' ')}</th>
+                        <th className="border p-3 border-r-gray-300 capitalize text-xs" key={index}>{header.split('_').join(' ')}</th>
                       ))}
                     </tr>
-                  </thead> */}
+                  </thead>
                   <tbody>
                     {retrievedData.map((row, rowIndex) => (
                       <tr className={"border border-b-gray-300 bg-gray-50"} key={rowIndex}>
 
                         {retrieveHeader.map((header, colIndex) => (<>
-                          <th className="border p-3 border-r-gray-300 bg-green-500 text-white capitalize" key={colIndex}>{header}</th>
+                        
                              
-                          <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600  text-xs"} key={colIndex}>{row[header]}</td>
+                          <td class={"text-gray-700 px-4 border border-gray-300 py-4 text-gray-600 text-xs"} key={colIndex}>{row[header]}</td>
                        </> ))}
                       </tr>
                     ))}
                   </tbody>
-                </table>}
+
+                </table> */}
+                <table className="mx-auto w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400">
+  <thead className={isPrinting ? "hidden" : "text-xs text-white capitalize text-nowrap bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
+    <tr>
+      <th className="border p-3 text-left text-xs"></th>
+      <th className="border p-3 text-left text-xs"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {retrievedData.map((row, rowIndex) => (
+      <React.Fragment key={rowIndex}>
+        <tr className="bg-gray-200">
+          <td colSpan={2} className="font-semibold text-sm p-2 text-green-800 border border-gray-300">
+            Product #{rowIndex + 1}
+          </td>
+        </tr>
+        {retrieveHeader.map((header, colIndex) => (
+          <tr key={colIndex} className="border-b border-gray-300 bg-white">
+            <th className="border border-gray-300 p-2 capitalize text-xs text-left text-green-800 bg-gray-100">
+              {header.split('_').join(' ')}
+            </th>
+            <td className="border border-gray-300 p-2 text-xs text-gray-700">
+              {row[header]}
+            </td>
+          </tr>
+        ))}
+      </React.Fragment>
+    ))}
+  </tbody>
+</table>
+
+                </div>
+                
+                }
 
           </div>
 

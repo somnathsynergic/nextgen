@@ -275,7 +275,7 @@ function HomeScreen() {
             classname="text-[#6564DB] ml-7 mt-5 dark:text-gray-400"
             loading={loading}
           >
-            <div class={dashboard_data?.stock_cnt?.toString()?.length <= 5 ? "text-[#6564DB] text-4xl ml-12 mt-9 font-bold" : "text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt ? dashboard_data.stock_cnt : loading ? '' : 0}</div>
+            <div class={dashboard_data?.stock_cnt?.toString()?.length <= 5 || !dashboard_data?.stock_cnt?.toString() ? "text-[#6564DB] text-4xl ml-12 mt-9 font-bold" : "text-[#6564DB] text-xl ml-14 mt-9 font-bold"}>{dashboard_data?.stock_cnt ? dashboard_data.stock_cnt : loading ? '' : 0}</div>
             {/* <div class="text-[#6564DB] text-4xl ml-14 mt-9 font-bold">0</div> */}
           </SpinComp>
         </Link>

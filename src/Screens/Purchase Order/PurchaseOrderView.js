@@ -6,7 +6,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
-import { PrinterOutlined } from "@ant-design/icons";
+import { FileExcelOutlined, PrinterOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../Components/SkeletonLoading";
@@ -14,6 +14,8 @@ import CompositeSearch from "../../Components/CompositeSearch";
 import Radiobtn from "../../Components/Radiobtn";
 import POTableView from "../../Components/POTableView";
 import DialogBox from "../../Components/DialogBox";
+import { FloatButton } from 'antd';
+import * as XLSX from "xlsx";
 function PurchaseOrderView() {
   const [loading, setLoading] = useState(false);
   const rdBtn = [
@@ -73,6 +75,12 @@ function PurchaseOrderView() {
         )
       );
     }
+  };
+  const handleExport = (data,fileName = "data") => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
   var templateData = masterheaders[template];
   useEffect(() => {
@@ -311,13 +319,27 @@ function PurchaseOrderView() {
 
       {loading && <SkeletonLoading />}
 
-      {copy.length > 0 && !loading && (
+      {copy.length > 0 && !loading && (<>
           <POTableView
             po_data={po_data}
             print={printFlag}
             title={"Vendor Orders"}
             setSearch={(values) => setSearch(values)}
           />
+          <Tooltip title="Export Excel">
+          <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={<FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" />}  style={{ marginRight: 24,marginBottom:48,background:'#014737',color:'white' }} onClick={() =>
+            
+            {
+              
+              axios.post(url+'/api/po_dashboard_report',{pur_no:''}).then(res=>{
+handleExport(res.data.msg)
+              })
+              
+              
+              
+              }} />
+          </Tooltip>
+            </>
       )}
       {copy.length == 0 && loading == false && (
         <div className="flex-col ml-72 mx-auto justify-center items-center">

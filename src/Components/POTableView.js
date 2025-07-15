@@ -474,7 +474,9 @@ function POTableView({ po_data, setSearch, title,print }) {
           rows={rows}
           totalRecords={po_data?.length}
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
-          onPageChange={onPageChange}/>
+          onPageChange={onPageChange}
+          />
+          
       </motion.section>
       <DrawerComp
         open={open}

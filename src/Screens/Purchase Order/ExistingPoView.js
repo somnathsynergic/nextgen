@@ -338,6 +338,7 @@ function ExistingPoView() {
 
       {copy.length > 0 && !loading && (
         <POTableView
+          flag = {1}
           po_data={po_data}
           title={"Existing Orders"}
           setSearch={(values) => setSearch(values)}

@@ -395,6 +395,7 @@ function AmendView() {
           copy.length > 0 &&
           !loading && (
             <POTableView
+              flag={2}
               po_data={po_data}
               title={"Amended Orders"}
               setSearch={(values) => setSearch(values)}

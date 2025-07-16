@@ -6,7 +6,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
-import { PrinterOutlined } from "@ant-design/icons";
+import { FileExcelOutlined, LoadingOutlined, PrinterOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../Components/SkeletonLoading";
@@ -14,6 +14,9 @@ import CompositeSearch from "../../Components/CompositeSearch";
 import Radiobtn from "../../Components/Radiobtn";
 import POTableViewSiemens from "../../Components/POTableViewSiemens";
 import DialogBox from "../../Components/DialogBox";
+import * as XLSX from "xlsx";
+import { Message } from "../../Components/Message";
+import { FloatButton } from "antd";
 
 function SiemensView() {
   const [loading, setLoading] = useState(false);
@@ -37,11 +40,22 @@ function SiemensView() {
   const [labels,setLabels] = useState()
   const [visible,setVisible] = useState(false)
   const det = JSON.parse(localStorage.getItem('perm'))
+  const [downloading,setDownloading] = useState(false)
   
   var template =
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
     ];
+      const handleExport = (data, fileName = "Siemens Summary") => {
+           const now = new Date();
+           const pad = (n) => String(n).padStart(2, '0');
+           const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
+                                 `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())})`
+          const ws = XLSX.utils.json_to_sheet(data);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+          XLSX.writeFile(wb, `${fileName}_${timestamp}.xlsx`);
+        };
   console.log(
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
@@ -337,6 +351,24 @@ function SiemensView() {
           </motion.h2>
         </div>
       )}
+       <Tooltip title="Export Excel">
+                  <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+                    if (po_data.length) {
+                      setDownloading(true)
+                      axios.post(url + '/api/siemens_dashboard_report', { flag: 0 }).then(res => {
+                        handleExport(res.data.msg)
+                        setDownloading(false)
+        
+                      })
+                    }
+                    else {
+                      Message('error', 'No data to export')
+                    }
+        
+        
+        
+                  }} />
+                </Tooltip>
         <DialogBox
         visible={visible}
         flag={21}

@@ -6,7 +6,7 @@ import { url } from "../../Address/BaseUrl";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
-import { FileExcelOutlined, PrinterOutlined } from "@ant-design/icons";
+import { PrinterOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import nodata from "../../../src/Assets/Images/nodata.png";
 import SkeletonLoading from "../../Components/SkeletonLoading";
@@ -15,7 +15,7 @@ import Radiobtn from "../../Components/Radiobtn";
 import POTableView from "../../Components/POTableView";
 import DialogBox from "../../Components/DialogBox";
 import { FloatButton } from 'antd';
-import * as XLSX from "xlsx";
+
 function PurchaseOrderView() {
   const [loading, setLoading] = useState(false);
   const rdBtn = [
@@ -32,20 +32,21 @@ function PurchaseOrderView() {
   const [projectList, setProjectList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [copy, setCopy] = useState([]);
-  const [printFlag,setPrintFlag] = useState(0)
+  const [downloading, setDownloading] = useState(false)
+  const [printFlag, setPrintFlag] = useState(0)
   const navigate = useNavigate();
-  const [adv_search_lst,setAdvList] = useState([])
-  const [labels,setLabels] = useState()
-  const [visible,setVisible] = useState(false)
+  const [adv_search_lst, setAdvList] = useState([])
+  const [labels, setLabels] = useState()
+  const [visible, setVisible] = useState(false)
   const det = JSON.parse(localStorage.getItem('perm'))
-  
+
   var template =
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ];
   console.log(
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ]
   );
   const onChange = (e) => {
@@ -59,15 +60,15 @@ function PurchaseOrderView() {
         )
       );
       console.log(po_data);
-    } else if(e==2) {
+    } else if (e == 2) {
       setPoData(
         copy.filter(
-          (e) => e.po_status =='P' && e.fresh_flag == "Y"
+          (e) => e.po_status == 'P' && e.fresh_flag == "Y"
         )
       );
       console.log(po_data);
     }
-    else{
+    else {
       setPoData(
         copy.filter(
           (e) =>
@@ -76,12 +77,7 @@ function PurchaseOrderView() {
       );
     }
   };
-  const handleExport = (data,fileName = "data") => {
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, `${fileName}.xlsx`);
-  };
+  
   var templateData = masterheaders[template];
   useEffect(() => {
     setLoading(true);
@@ -89,7 +85,7 @@ function PurchaseOrderView() {
     setValue(
       [
         locationpath.pathname.split("/")[
-          locationpath.pathname.split("/").length - 1
+        locationpath.pathname.split("/").length - 1
         ],
       ] == "P"
         ? 2
@@ -100,19 +96,19 @@ function PurchaseOrderView() {
       .then((res) => {
         console.log(res);
         setLoading(false);
-     
-        setPoData(res?.data?.msg.filter((e) =>  e.po_status =='P' && e.fresh_flag == "Y"));
-        setCopy(res?.data?.msg.filter((e) =>  e.fresh_flag == "Y"));
-     
+
+        setPoData(res?.data?.msg.filter((e) => e.po_status == 'P' && e.fresh_flag == "Y"));
+        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y"));
+
       })
       .catch((err) => {
         console.log(err);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
-    
+
   }, [
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ],
   ]);
   useEffect(() => {
@@ -155,7 +151,7 @@ function PurchaseOrderView() {
 
   }, [
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ],
   ]);
   useState(() => {
@@ -221,60 +217,60 @@ function PurchaseOrderView() {
       )
     );
   };
-  const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
-    console.log(val1, val2,val7);
-   
+  const onAdvSearch = (val1, val2, val3, val4, val5, val6, val7) => {
+    console.log(val1, val2, val7);
+
     setValue(0);
     // setVisible(true)
-    axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
+    axios.post(url + '/api/advanced_search_po', { vendor_id: val1, project_id: val2, part_no: val3, prod_id: val4, from_dt: val5, to_dt: val6, make: val7 }).then(res => {
       console.log(res)
-      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y" ))
-      if(res?.data?.msg?.length)
-      setVisible(true)
-    
+      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y"))
+      if (res?.data?.msg?.length)
+        setVisible(true)
+
     })
-   
+
   };
   return (
     <>
       <div className="flex items-center  justify-end h-14 -mt-[72px] w-auto dark:bg-[#22543d] md:flex-row space-y-3 md:space-y-0 rounded-lg">
-      {det.po!=1 && <>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, type: "just" }}
-          className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-        >
-          <Tooltip title={"Create Vendor Order"}>
-            <Link
-              to={routePaths.PURCHASEORDERFORM + "F/" + 0}
-              type="submit"
-              className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
-            >
-              <AddIcon className="text-sm" /> {"Create Vendor Orders"}
-            </Link>
-          </Tooltip>
-        </motion.div>
-        <motion.button
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.3, type: "just" }}
-          onClick={()=>{
-            setPrintFlag(1)
-          setTimeout(() => {
-            setPrintFlag(0)
-          }, 1000);
-        }}
-          className={
-            "bg-white border-2 border-l-0 text-green-900 font-semibold text-lg rounded-r-full p-0.5 shadow-lg"
-          }
-        >
-          <Tooltip title="Print this table" arrow>
-            <PrinterOutlined />
-          </Tooltip>
-        </motion.button>
+        {det.po != 1 && <>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3, type: "just" }}
+            className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
+          >
+            <Tooltip title={"Create Vendor Order"}>
+              <Link
+                to={routePaths.PURCHASEORDERFORM + "F/" + 0}
+                type="submit"
+                className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
+              >
+                <AddIcon className="text-sm" /> {"Create Vendor Orders"}
+              </Link>
+            </Tooltip>
+          </motion.div>
+          <motion.button
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.3, type: "just" }}
+            onClick={() => {
+              setPrintFlag(1)
+              setTimeout(() => {
+                setPrintFlag(0)
+              }, 1000);
+            }}
+            className={
+              "bg-white border-2 border-l-0 text-green-900 font-semibold text-lg rounded-r-full p-0.5 shadow-lg"
+            }
+          >
+            <Tooltip title="Print this table" arrow>
+              <PrinterOutlined />
+            </Tooltip>
+          </motion.button>
         </>
-}
+        }
       </div>
       <div className="flex justify-between items-center">
         <Radiobtn
@@ -301,8 +297,8 @@ function PurchaseOrderView() {
             set_six: '',
             set_five_lbl: "From",
             set_six_lbl: "To",
-            set_eight_lbl:'Make',
-            set_eight:''
+            set_eight_lbl: 'Make',
+            set_eight: ''
           }}
           onReset={() => {
             // setPoData(copy);
@@ -312,7 +308,7 @@ function PurchaseOrderView() {
             console.log(values);
             setLabels(values)
             setVisible(true)
-            onAdvSearch(values.code_one, values.code_two,values.val_three,values.code_four,values.val_five,values.val_six,values.val_eight);
+            onAdvSearch(values.code_one, values.code_two, values.val_three, values.code_four, values.val_five, values.val_six, values.val_eight);
           }}
         />
       </div>
@@ -320,26 +316,32 @@ function PurchaseOrderView() {
       {loading && <SkeletonLoading />}
 
       {copy.length > 0 && !loading && (<>
-          <POTableView
-            po_data={po_data}
-            print={printFlag}
-            title={"Vendor Orders"}
-            setSearch={(values) => setSearch(values)}
-          />
-          <Tooltip title="Export Excel">
-          <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={<FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" />}  style={{ marginRight: 24,marginBottom:48,background:'#014737',color:'white' }} onClick={() =>
-            
-            {
-              
-              axios.post(url+'/api/po_dashboard_report',{pur_no:''}).then(res=>{
-handleExport(res.data.msg)
+        <POTableView
+        flag = {0}
+          po_data={po_data}
+          print={printFlag}
+          title={"Vendor Orders"}
+          setSearch={(values) => setSearch(values)}
+        />
+        {/* <Tooltip title="Export Excel">
+          <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+            if (po_data.length) {
+              setDownloading(true)
+              axios.post(url + '/api/po_dashboard_report', { flag: 0 }).then(res => {
+                handleExport(res.data.msg)
+                setDownloading(false)
+
               })
-              
-              
-              
-              }} />
-          </Tooltip>
-            </>
+            }
+            else {
+              Message('error', 'No data to export')
+            }
+
+
+
+          }} />
+        </Tooltip> */}
+      </>
       )}
       {copy.length == 0 && loading == false && (
         <div className="flex-col ml-72 mx-auto justify-center items-center">
@@ -361,10 +363,10 @@ handleExport(res.data.msg)
           </motion.h2>
         </div>
       )}
-        <DialogBox
+      <DialogBox
         visible={visible}
         flag={21}
-        data={{list:adv_search_lst,labels:labels}}
+        data={{ list: adv_search_lst, labels: labels }}
         onPress={() => setVisible(false)}
       />
     </>

@@ -2,11 +2,13 @@ import React, { useState,useRef,useEffect } from "react";
 import { routePaths } from "../Assets/Data/Routes";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Popover } from "antd";
+import { FloatButton, Popover, Tooltip } from "antd";
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   EditOutlined,
+  FileExcelOutlined,
+  LoadingOutlined,
   SyncOutlined,
   TruckOutlined,
   UploadOutlined,
@@ -20,13 +22,16 @@ import axios from "axios";
 import { url } from "../Address/BaseUrl";
 import Pagination from "./Pagination";
 import { formatDate } from "../Functions/formatDate";
-function POTableView({ po_data, setSearch, title,print }) {
+import * as XLSX from "xlsx";
+import { Message } from "../Components/Message";
+function POTableView({ po_data, setSearch, title,print,flag }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(0);
   const [id, setId] = useState(0);
   const [po, setPO] = useState(0);
+  const [downloading,setDownloading] = useState(false)
   const [loading,setLoading] = useState(false)
   const [isPrinting, setIsPrinting] = useState(true);
       const contentRef = useRef(null);
@@ -42,6 +47,16 @@ function POTableView({ po_data, setSearch, title,print }) {
   const onClose = () => {
     setOpen(false);
   };
+  const handleExport = (data, fileName = flag==0?"PO Summary":flag==1?"Existing PO Summary":"Amended PO Summary") => {
+       const now = new Date();
+       const pad = (n) => String(n).padStart(2, '0');
+       const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
+                             `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())})`
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, `${fileName}_${timestamp}.xlsx`);
+    };
   const content = (
     <div className="grid grid-cols-2 gap-3 p-3 bg-green-100 rounded-lg">
   <Tag
@@ -470,6 +485,24 @@ function POTableView({ po_data, setSearch, title,print }) {
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
           onPageChange={onPageChange}
         /> */}
+          {flag!=null && po_data && <Tooltip title="Export Excel">
+                  <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+                    if (po_data.length) {
+                      setDownloading(true)
+                      axios.post(url + '/api/po_dashboard_report', { flag: flag }).then(res => {
+                        handleExport(res.data.msg)
+                        setDownloading(false)
+        
+                      })
+                    }
+                    else {
+                      Message('error', 'No data to export')
+                    }
+        
+        
+        
+                  }} />
+                </Tooltip>}
         <Pagination first={first}
           rows={rows}
           totalRecords={po_data?.length}

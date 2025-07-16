@@ -357,7 +357,7 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
                       )}
                     </p>}
                   </td>
-                  <td class="px-4 py-4 text-gray-600  text-xs">{formatDate(item.po_issue_date)}</td>
+                  <td class="px-4 py-4 text-gray-600  text-xs">{formatDate(item.created_at)}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
                   <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
                     {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}

@@ -59,17 +59,18 @@ function PurMrnReporProj() {
   const [projId, setProjId] = useState("");
   const [freshFlag, setFreshFlag] = useState("")
   const headers = [
-    // { name: "po_no", value: "PO No." },
+    { name: "po_no", value: "PO No." },
     { name: "pur_req", value: "Purchase Requisition" },
     { name: "proj_name", value: "Project" },
     { name: "vendor_name", value: "Vendor" },
     { name: "prod_name", value: "Product" },
     { name: "invoice", value: "Invoice" },
     { name: "invoice_dt", value: "Invoice Date" },
-    { name: "mrn_no", value: "MRN No" },
+    // { name: "mrn_no", value: "MRN No" },
     // { name: "quantity", value: "Ordered Quantity" },
     { name: "approved_ord_qty", value: "Ordered Quantity" },
     { name: "rc_qty", value: "Received Quantity" },
+    { name: "pending_qty", value: "Pending Quantity" },
 
 
     // { name: "created_by", value: "Created by" },

@@ -486,7 +486,7 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
           onPageChange={onPageChange}
         /> */}
           {flag!=null && po_data && <Tooltip title="Export Excel">
-                  <FloatButton className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+                  <FloatButton disabled={downloading} className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
                     if (po_data.length) {
                       setDownloading(true)
                       axios.post(url + '/api/po_dashboard_report', { flag: flag }).then(res => {

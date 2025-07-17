@@ -329,7 +329,7 @@ function DeliveryViewTemplate({ flag }) {
       <Tabs defaultActiveKey="1" style={{background:'white', width:150, padding:10,borderTopLeftRadius:10,borderBottomLeftRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChange} />
 
         {!loading && copy.length > 0 && (
-          <div className="flex  w-full">
+          <div className="flex w-full">
         {viewKey == 1 &&<>
           <motion.section
             initial={{ opacity: 0 }}

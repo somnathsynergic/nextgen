@@ -476,13 +476,15 @@ function ApproveMrn() {
             </motion.h2>
           </div>
         )} */}
+
         <div class="relative overflow-x-auto flex w-full">
-                <Tabs defaultActiveKey="1" style={{background:'white', width:150, padding:10,borderTopLeftRadius:10,borderBottomLeftRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChoiceChange} />
-          
+         <Tabs defaultActiveKey="1" style={{background:'white', width:150, padding:10,borderTopLeftRadius:10,borderBottomLeftRadius:10,height:'10%',boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} items={items} tabPosition="left" onChange={onChoiceChange} />
           {!loading && copy.length > 0 && viewKey == 1 && (
             // viewKey == 1
-        
+             <div className="flex w-full">
+             
             <motion.section
+            className="flex-1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
@@ -640,12 +642,15 @@ function ApproveMrn() {
                 onPageChange={onPageChange}
                 />
             </motion.section>
-            
+            </div>
           )}
+
             {!loading && copy.length > 0 && viewKey == 2 && (
             // viewKey == 1
-        
+             <div className="flex w-full">
             <motion.section
+            className="flex-1"
+
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
@@ -803,6 +808,7 @@ function ApproveMrn() {
                 onPageChange={onPageChange}
                 />
             </motion.section>
+            </div>
             
           )}
         

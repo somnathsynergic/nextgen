@@ -85,7 +85,7 @@ function StockOut() {
     });
 
     setReqPerson(localStorage.getItem("email"));
-    setBlocked(det?.stock==1?true:false)
+    // setBlocked(det?.stock==1?true:false)
 
   }, []);
   useEffect(() => {

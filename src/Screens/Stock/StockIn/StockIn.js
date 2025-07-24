@@ -81,7 +81,7 @@ function StockIn() {
         prodList.push({ code: i.sl_no, name: i.prod_name, part_no: i.part_no, make: i.prod_make, article_no: i.article_no, model_no: i.model_no });
       }
     });
-    setBlocked(det?.stock == 1 ? true : false)
+    setBlocked((det?.stock != 1 && det?.stock!=2) ? true : false)
   }, [])
   const onSubmit = (values) => {
     console.log(prodCode)

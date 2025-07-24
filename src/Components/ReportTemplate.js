@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FilePdfOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import InfoTags from './InfoTags';
+import * as XLSX from "xlsx";
+
 function ReportTemplate({ headers, net_tot,
   data, info, flag, wStock, reportHeader, grand_tot }) {
   const [first, setFirst] = useState(0); // Pagination state
@@ -91,6 +93,17 @@ function ReportTemplate({ headers, net_tot,
     }
 
   }
+
+   const handleExport = (data, fileName = "report") => {
+         const now = new Date();
+         const pad = (n) => String(n).padStart(2, '0');
+         const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
+                               `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())})`
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        XLSX.writeFile(wb, `${fileName}_${timestamp}.xlsx`);
+      };
   return (
     <>
       <div className='float-end bg-transparent flex justify-end gap-2 mb-2'>
@@ -102,6 +115,9 @@ function ReportTemplate({ headers, net_tot,
             setIsPrinting(true);
           }, 5);
         }}><FilePdfOutlined /></button></Tooltip>
+         <Tooltip title="Export Excel"> <button className='h-7 w-7 rounded-full bg-green-800 text-white' onClick={() => {
+        handleExport(dataCopy)
+        }}><FileExcelOutlined /></button></Tooltip>
       </div>
       <div className="bg-transparent mt-4">
 

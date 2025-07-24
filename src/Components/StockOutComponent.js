@@ -219,7 +219,9 @@ function StockOutComponent({
                 Submit
                   </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
-              </button> */}
+              </button> */} 
+   {det?.stock == 2 &&
+
               <BtnGroupReuse text="Submit" onClick={() => onSubmit()}  disabled={
                   // !proj_id ||
                   dataCopy.reduce((accumulator, item) => {
@@ -227,7 +229,7 @@ function StockOutComponent({
                   }, 0) > 0
                   ||
                   dataCopy.filter(e=>e.req_list?.length>0)?.length==0 || det.stock==1
-                } icon={<SaveOutlined className='mr-2' />} flag={1}/>
+                } icon={<SaveOutlined className='mr-2' />} flag={1}/>}
             </div>
           </div>
         </div>

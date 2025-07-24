@@ -167,11 +167,11 @@ function SiemensMRNForm() {
     // });
   }, []);
   const content = (
-    <div className={"grid grid-cols-2 gap-3 p-3 bg-green-100 rounded-lg"}>
+    <div className={project_id!='0'?"grid grid-cols-2 gap-3 p-3 bg-green-100 rounded-lg":"grid grid-cols-1 gap-3 p-3 bg-green-100 rounded-lg"}>
       {!stockLoad ? (
         <>
           {" "}
-          {po_type != "G" && (
+          {project_id != "0" && (
             // <Tag
             //   className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
             //   color="#4FB477"

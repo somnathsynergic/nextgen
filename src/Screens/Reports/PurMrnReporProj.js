@@ -57,6 +57,8 @@ function PurMrnReporProj() {
   const op_vendor = useRef(null);
   const [info, setInfo] = useState([]);
   const [projId, setProjId] = useState("");
+  const [from_dt, setFrom_dt] = useState("");
+  const [to_dt, setTo_dt] = useState("");
   const [freshFlag, setFreshFlag] = useState("")
   const headers = [
     { name: "po_no", value: "PO No." },
@@ -556,6 +558,46 @@ function PurMrnReporProj() {
                       </ul>
                     </OverlayPanel>
                   </div>
+                    <div className="sm:col-span-1">
+                    <TDInputTemplate
+                      placeholder="From "
+                      type="date"
+                      label="From"
+                      name="from_dt"
+                      formControlName={from_dt}
+                      handleChange={(txt) => {
+                        setFrom_dt(txt.target.value);
+                      
+                      }}
+                      mode={1}
+                      data={[
+                        { code: "P", name: "Project" },
+                        { code: "W", name: "Warehouse" },
+                      ]}
+                    />
+
+                    {!from_dt ? <VError title={"Required"} /> : null}
+                  </div>
+                    <div className="sm:col-span-1">
+                    <TDInputTemplate
+                      placeholder="To"
+                      type="date"
+                      label="To"
+                      name="to_dt"
+                      formControlName={to_dt}
+                      handleChange={(txt) => {
+                        setTo_dt(txt.target.value);
+                       
+                      }}
+                      mode={1}
+                      data={[
+                        { code: "P", name: "Project" },
+                        { code: "W", name: "Warehouse" },
+                      ]}
+                    />
+
+                    {!to_dt ? <VError title={"Required"} /> : null}
+                  </div>
                 </div>
 
               </form>
@@ -576,6 +618,8 @@ function PurMrnReporProj() {
                         dt: dt,
                         type: type,
                         po_no: po_no || "0",
+                        from_dt:from_dt,
+                        to_dt:to_dt
                       })
                       .then((res) => {
                         console.log(res);

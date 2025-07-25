@@ -44,15 +44,15 @@ function PurMrnReport() {
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
-      { name: "prod_name", value: "Product" },
-      { name: "invoice", value: "Invoice" },
-      { name: "invoice_dt", value: "Invoice Date" },
+      { name: "Product", value: "Product" },
+      { name: "Invoice", value: "Invoice" },
+      { name: "Invoice Date", value: "Invoice Date" },
 
-      { name: "mrn_no", value: "MRN No." },
-      { name: "quantity", value: "Ordered Quantity" },
+      { name: "MRN No.", value: "MRN No." },
+      { name: "Ordered Quantity", value: "Ordered Quantity" },
 
       // { name: "approved_ord_qty", value: "Approved Quantity" },
-      { name: "rc_qty", value: "Received Quantity" },
+      { name: "Received Quantity", value: "Received Quantity" },
      
   
       // { name: "created_by", value: "Created by" },

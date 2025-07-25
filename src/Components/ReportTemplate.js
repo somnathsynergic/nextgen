@@ -74,19 +74,19 @@ function ReportTemplate({ headers, net_tot,
   const setSearch = (e) => {
     console.log(e.target.value, flag)
     if (flag == 1) {
-      setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.stock?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.Product?.toLowerCase().includes(e.target.value.toLowerCase()) || item.Quantity?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 2) {
-      setDataCopy(data?.filter(item => item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.project_stock?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.prod_name?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.Project?.toLowerCase().includes(e.target.value.toLowerCase()) || item['Project Quantity']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.Product?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 3) {
-      setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.pur_req?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.proj_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.invoice?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.proj_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.vendor_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.mrn_no?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.Product?.toLowerCase().includes(e.target.value.toLowerCase()) || item['Purchase Requisition']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item['Project']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item['Invoice']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||  item['Vendor']?.toString().toLowerCase().includes(e.target.value.toLowerCase())  ||  item['PO No.']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) ))
     }
     if (flag == 4) {
-      setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.mrn_no?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.invoice?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.invoice_dt?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.Product?.toLowerCase().includes(e.target.value.toLowerCase()) || item['MRN No.']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.Invoice?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item['Invoice Date']?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 5) {
-      setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.proj_name?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item.created_by?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.Product?.toLowerCase().includes(e.target.value.toLowerCase()) || item['Stocked Out From']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item['Stocked Out By']?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 6) {
       setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) ||  item.pur_date?.toLowerCase().includes(e.target.value.toLowerCase())||  item.created_by?.toLowerCase().includes(e.target.value.toLowerCase())|| item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.status?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
@@ -94,7 +94,7 @@ function ReportTemplate({ headers, net_tot,
 
   }
 
-   const handleExport = (data, fileName = "report") => {
+   const handleExport = (data, fileName = reportHeader) => {
          const now = new Date();
          const pad = (n) => String(n).padStart(2, '0');
          const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
@@ -141,9 +141,10 @@ function ReportTemplate({ headers, net_tot,
 
           {flag == 2 && <InfoTags color={isPrinting ? "#014737" : '#10b981'} text={'Warehouse quantity of this product: ' + wStock} />}
           <DataTable
-            value={dataCopy.filter(item => item?.stock > 0 || item.quantity > 0 || item.qty > 0 || (item.rc_qty>0 || item.rc_qty!=null) || item?.project_stock > 0
+            value={dataCopy.filter(item => item?.Quantity > 0 || (item['Received Quantity']>0 || item['Received Quantity']!=null) || item['Project Quantity'] > 0 || item['Stocked Out Quantity']>0 || item['PR No.']
 
             )}
+            
             // value = {dataCopy}
             footer={grand_tot > 0 ? footer : ''}
             showGridlines

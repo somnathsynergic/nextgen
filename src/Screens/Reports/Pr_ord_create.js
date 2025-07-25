@@ -44,11 +44,11 @@ function Pr_ord_create() {
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
-      { name: "pur_no", value: "PR No." },
-      { name: "proj_name", value: "Intended For" },
-      { name: "status", value: "Status" },
-      { name: "pur_date", value: "Requisition Date" },
-      { name: "created_by", value: "Requisition By" },
+      { name: "PR No.", value: "PR No." },
+      { name: "Intended For", value: "Intended For" },
+      { name: "Status", value: "Status" },
+      { name: "Requisition Date", value: "Requisition Date" },
+      { name: "Requisition By", value: "Requisition By" },
       // { name: "proj_name", value: "Intended For" },
       // { name: "qty", value: "PR Quantity" },
       // { name: "po_no", value: "PO No.(s)" },

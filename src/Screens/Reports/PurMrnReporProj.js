@@ -61,32 +61,32 @@ function PurMrnReporProj() {
   const [to_dt, setTo_dt] = useState("");
   const [freshFlag, setFreshFlag] = useState("")
   const headers = [
-    { name: "po_no", value: "PO No." },
-    { name: "pur_req", value: "Purchase Requisition" },
-    { name: "proj_name", value: "Project" },
-    { name: "vendor_name", value: "Vendor" },
-    { name: "prod_name", value: "Product" },
-    { name: "invoice", value: "Invoice" },
-    { name: "invoice_dt", value: "Invoice Date" },
+    { name: "PO No.", value: "PO No." },
+    { name: "Purchase Requisition", value: "Purchase Requisition" },
+    { name: "Project", value: "Project" },
+    { name: "Vendor", value: "Vendor" },
+    { name: "Product", value: "Product" },
+    { name: "Invoice", value: "Invoice" },
+    { name: "Invoice Date", value: "Invoice Date" },
     // { name: "mrn_no", value: "MRN No" },
     // { name: "quantity", value: "Ordered Quantity" },
-    { name: "approved_ord_qty", value: "Ordered Quantity" },
-    { name: "rc_qty", value: "Received Quantity" },
-    { name: "pending_qty", value: "Pending Quantity" },
+    { name: "Ordered Quantity", value: "Ordered Quantity" },
+    { name: "Received Quantity", value: "Received Quantity" },
+    { name: "Pending Quantity", value: "Pending Quantity" },
 
 
     // { name: "created_by", value: "Created by" },
   ];
   const headersExisting = [
-    { name: "proj_name", value: "Project" },
-    { name: "vendor_name", value: "Vendor" },
-    { name: "prod_name", value: "Product" },
-    { name: "invoice", value: "Invoice" },
-    { name: "invoice_dt", value: "Invoice Date" },
-    { name: "mrn_no", value: "MRN No" },
+    { name: "Project", value: "Project" },
+    { name: "Vendor", value: "Vendor" },
+    { name: "Product", value: "Product" },
+    { name: "Invoice", value: "Invoice" },
+    { name: "Invoice Date", value: "Invoice Date" },
+    { name: "MRN No.", value: "MRN No." },
     // { name: "quantity", value: "Ordered Quantity" },
-    { name: "quantity", value: "Ordered Quantity" },
-    { name: "rc_qty", value: "Received Quantity" },
+    { name: "Ordered Quantity", value: "Ordered Quantity" },
+    { name: "Received Quantity", value: "Received Quantity" },
   ]
   useEffect(() => {
     axios.post(url + "/api/getvendor", { id: 0 }).then((res) => {
@@ -165,18 +165,18 @@ function PurMrnReporProj() {
         // }
       });
   };
-  useEffect(() => {
-    console.log(type);
-    if (type == "P") {
-      setPOList(po_listCopy.filter((e) => e.type == "P"));
-      console.log(po_listCopy.filter((e) => e.type == "P"))
-    } else {
-      setPOList(po_listCopy.filter((e) => e.type == "G"));
-      console.log(po_listCopy.filter((e) => e.type == "G"))
+  // useEffect(() => {
+  //   console.log(type);
+  //   if (type == "P") {
+  //     setPOList(po_listCopy.filter((e) => e.type == "P"));
+  //     console.log(po_listCopy.filter((e) => e.type == "P"))
+  //   } else {
+  //     setPOList(po_listCopy.filter((e) => e.type == "G"));
+  //     console.log(po_listCopy.filter((e) => e.type == "G"))
 
-    }
+  //   }
 
-  }, [type]);
+  // }, [type]);
   return (
     <section className="bg-transparent dark:bg-[#001529]">
       <HeadingTemplate
@@ -560,9 +560,9 @@ function PurMrnReporProj() {
                   </div>
                     <div className="sm:col-span-1">
                     <TDInputTemplate
-                      placeholder="From "
+                      placeholder="Invoice Date From "
                       type="date"
-                      label="From"
+                      label="Invoice Date From"
                       name="from_dt"
                       formControlName={from_dt}
                       handleChange={(txt) => {
@@ -580,9 +580,9 @@ function PurMrnReporProj() {
                   </div>
                     <div className="sm:col-span-1">
                     <TDInputTemplate
-                      placeholder="To"
+                      placeholder="Invoice Date To"
                       type="date"
-                      label="To"
+                      label="Invoice Date To"
                       name="to_dt"
                       formControlName={to_dt}
                       handleChange={(txt) => {
@@ -606,7 +606,7 @@ function PurMrnReporProj() {
 
                 <BtnGroupReuse flag={1} icon={<SaveOutlined className='mr-2' />} text="Submit"
                   // disabled={!type || (!vendorCode && !projCode && !po_no)}
-                  disabled={!type}
+                  disabled={!type || !from_dt || !to_dt}
                   onClick={() => {
                     //   onSubmit();
                     setLoading(true);
@@ -629,14 +629,20 @@ function PurMrnReporProj() {
                           // setReportData(res?.data?.msg.filter(e => ((e.pur_req && e.fresh_flag=='Y')||(e.fresh_flag=='N'))))
                           // .map(item=>{
                           // return {...item,approved_ord_qty:item.fresh_flag=='Y'?item.approved_ord_qty:item.quantity }}));
-                          setReportData(
-                            res?.data?.msg.filter(e => ((e.pur_req && e.fresh_flag=='Y')||(e.fresh_flag=='N')))
-                              .filter(e => (e.pur_req && e.fresh_flag === 'Y') || e.fresh_flag === 'N')
-                              .map(e => ({
-                                ...e,
-                                approved_ord_qty:
-                                  e.fresh_flag === 'Y' ? e.approved_ord_qty : e.quantity
-                              }))
+                          // setReportData(
+                          //   res?.data?.msg.filter(e => ((e.pur_req && e.fresh_flag=='Y')||(e.fresh_flag=='N')))
+                          //     .filter(e => (e.pur_req && e.fresh_flag === 'Y') || e.fresh_flag === 'N')
+                          //     .map(e => ({
+                          //       ...e,
+                          //       approved_ord_qty:
+                          //         e.fresh_flag === 'Y' ? e.approved_ord_qty : e.quantity
+                          //     }))
+                          //   )
+                          // setFreshFlag(res?.data?.msg[0]?.fresh_flag)
+
+
+                           setReportData(
+                            res?.data?.msg
                             )
                           setFreshFlag(res?.data?.msg[0]?.fresh_flag)
                         }
@@ -665,8 +671,9 @@ function PurMrnReporProj() {
                 <Tag color="white">Warehouse quantity of this product: </Tag>
 
                 <ReportTemplate
-                  data={reportData.filter(e => e.vendor_name != null)}
-                  headers={freshFlag == 'Y' ? headers : headersExisting}
+                  data={reportData}
+                  // headers={freshFlag == 'Y' ? headers : headersExisting}
+                  headers={headers}
                   reportHeader={'MRN Report for ' + vendorCode > 0 ? 'Vendor: ' + venVal : '' + type == 'W' ? ' Intended For: Warehouse' : projCode ? ' Intended For: ' + projVal : '' + po_no ? ' PO: ' + po_no : ''}
                   info={info}
                   flag={3}

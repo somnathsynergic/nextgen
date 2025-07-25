@@ -40,13 +40,13 @@ function MatValStockout() {
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
-     { name: "prod_name", value: "Product" },
-      { name: "net_unit_price", value: "Net Unit Price" },
-      { name: "cgst_id", value: "CGST" },
-      { name: "sgst_id", value: "SGST" },
-      { name: "igst_id", value: "IGST" },
-      { name: "total", value: "Total" },
-      { name: "stock_out_qty", value: "Stocked Out Qty" },
+     { name: "Product", value: "Product" },
+      { name: "Net Unit Price", value: "Net Unit Price" },
+      { name: "CGST", value: "CGST" },
+      { name: "SGST", value: "SGST" },
+      { name: "IGST", value: "IGST" },
+      { name: "Total", value: "Total" },
+      { name: "Stocked Out Quantity", value: "Stocked Out Quantity" },
      
       // { name: "created_by", value: "Created by" },
     ]
@@ -88,11 +88,11 @@ function MatValStockout() {
           // }
           else{
               setGrandTot(res?.data?.msg.reduce(
-  (accumulator, currentValue) => accumulator + currentValue.total,
+  (accumulator, currentValue) => accumulator + currentValue['Total'],
   0,
 ))
  setNetTot(res?.data?.msg.reduce(
-  (accumulator, currentValue) => accumulator + currentValue.net_unit_price,
+  (accumulator, currentValue) => accumulator + currentValue['Net Unit Price'],
   0,
 ))
           }
@@ -297,7 +297,7 @@ function MatValStockout() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} grand_tot={grand_tot} info={info} flag={1}/>
+              <ReportTemplate net_tot={net_tot} data={reportData} reportHeader={'Material Value Against Stockout'} headers={headers} grand_tot={grand_tot} info={info} flag={1}/>
             </div>
           </div>
   

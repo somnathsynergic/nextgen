@@ -36,9 +36,9 @@ function AllStock() {
   const [info,setInfo] = useState([])
   const [projId,setProjId] = useState("")
   const headers= [
-    // { name:'serial_number',value:'#'},
-    { name: "prod_name", value: "Product" },
-    { name: "stock", value: "Quantity" },
+    // { name:'#',value:'#'},
+    { name: "Product", value: "Product" },
+    { name: "Quantity", value: "Quantity" },
 
     // { name: "created_by", value: "Created by" },
   ]
@@ -280,7 +280,7 @@ function AllStock() {
           {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
           <InfoTags color="white" text='Warehouse quantity of this product:' />
           
-            <ReportTemplate data={reportData} reportHeader={'Stock for project '+(projVal||'Warehouse')} headers={headers} info={info} flag={1}/>
+            <ReportTemplate data={reportData} reportHeader={'Stock for '+(projVal||'Warehouse')} headers={headers} info={info} flag={1}/>
           </div>
         </div>
 

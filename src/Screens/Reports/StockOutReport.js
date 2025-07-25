@@ -38,12 +38,12 @@ function StockOutReport() {
     const [info,setInfo] = useState([])
     const [projId,setProjId] = useState("")
     const headers= [
-      { name:'date',value:'Date'},
-      { name: "prod_name", value: "Product" },
+      { name:'Date',value:'Date'},
+      { name: "Product", value: "Product" },
 
-      { name:'proj_name',value:'Stocked Out From'},
-      { name: "qty", value: "Quantity" },
-      { name: "created_by", value: "Stocked Out By" },
+      { name:'Stocked Out From',value:'Stocked Out From'},
+      { name: "Quantity", value: "Quantity" },
+      { name: "Stocked Out By", value: "Stocked Out By" },
   
       // { name: "created_by", value: "Created by" },
     ]
@@ -284,7 +284,7 @@ function StockOutReport() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate data={reportData} headers={headers} info={info} flag={5}/>
+              <ReportTemplate reportHeader={type=='P'?'Stock Out Report from '+ projVal:'Stock Out Report from Warehouse'} data={reportData} headers={headers} info={info} flag={5}/>
             </div>
           </div>
   

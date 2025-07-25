@@ -39,16 +39,17 @@ function MaterialVal() {
     const [net_tot,setNetTot] = useState(0)
     const headers= [
     //   { name:'date',value:'Date'},
-      { name: "prod_name", value: "Product" },
-      { name: "net_unit_price", value: "Net Unit Price" },
-      { name: "cgst_id", value: "CGST" },
-      { name: "sgst_id", value: "SGST" },
-      { name: "igst_id", value: "IGST" },
-      { name: "total", value: "Total" },
-      { name: "total_qty", value: "Stock in Quantity" },
-      { name: "total_rc_qty", value: "Received Quantity " },
-      { name: "invoice", value: "Invoice" },
-      { name: "invoice_dt", value: "Invoice Date" },
+      { name: "Product", value: "Product" },
+       { name: "Invoice", value: "Invoice" },
+      { name: "Invoice Date", value: "Invoice Date" },
+      { name: "Net Unit Price", value: "Net Unit Price" },
+      { name: "CGST", value: "CGST" },
+      { name: "SGST", value: "SGST" },
+      { name: "IGST", value: "IGST" },
+      { name: "Total", value: "Total" },
+      { name: "Stock In Quantity", value: "Stock In Quantity" },
+      { name: "Received Quantity", value: "Received Quantity" },
+     
       // { name: "stock_out_qty", value: "Stocked Out Qty" },
   
       // { name: "created_by", value: "Created by" },
@@ -305,7 +306,7 @@ function MaterialVal() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
             
-              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot} reportHeader={+type=='P'?'Material value against MRN for '+projVal+' (ID: '+projId+')':'Warehouse'}/>
+              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} info={info} flag={1} grand_tot={grand_tot} reportHeader={type=='P'?'Material value against MRN for '+projVal+' (ID: '+projId+')':'Material Value against MRN for Warehouse'}/>
             </div>
           </div>
   

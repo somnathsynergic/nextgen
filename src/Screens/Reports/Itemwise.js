@@ -33,9 +33,9 @@ function Itemwise() {
 
     const headers= [
         // { name:'serial_number',value:'#'},
-        { name: "prod_name", value: "Product" },
-        { name: "proj_name", value: "Project" },
-        { name: "project_stock", value: "Project quantity" },
+        { name: "Product", value: "Product" },
+        { name: "Project", value: "Project" },
+        { name: "Project Quantity", value: "Project Quantity" },
     
         // { name: "created_by", value: "Created by" },
       ]
@@ -226,7 +226,7 @@ function Itemwise() {
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           {/* <Tag color="#014737">Warehouse quantity of this product: {reportData[0].warehouse_stock || 0}</Tag> */}
           
-            <ReportTemplate data={reportData} reportHeader={'Stock of item '+prodVal} headers={headers} info={info} wStock={reportData[0].warehouse_stock || 0} flag={2}/>
+            <ReportTemplate data={reportData} reportHeader={'Stock of item '+prodVal} headers={headers} info={info} wStock={reportData[0]['Warehouse Quantity'] || 0} flag={2}/>
           </div>
         </div>
 

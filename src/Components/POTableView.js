@@ -47,7 +47,7 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
   const onClose = () => {
     setOpen(false);
   };
-  const handleExport = (data, fileName = flag==0?"PO Summary":flag==1?"Existing PO Summary":"Amended PO Summary") => {
+  const handleExport = (data, fileName = flag==0?"PO Summary":flag==1?"Existing PO Summary":flag==3?"Amended PO Summary":"Approved PO Summary") => {
        const now = new Date();
        const pad = (n) => String(n).padStart(2, '0');
        const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +

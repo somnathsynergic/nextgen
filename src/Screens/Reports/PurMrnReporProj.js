@@ -558,7 +558,7 @@ function PurMrnReporProj() {
                       </ul>
                     </OverlayPanel>
                   </div>
-                    <div className="sm:col-span-1">
+                  <div className="sm:col-span-1">
                     <TDInputTemplate
                       placeholder="Invoice Date From "
                       type="date"
@@ -567,7 +567,7 @@ function PurMrnReporProj() {
                       formControlName={from_dt}
                       handleChange={(txt) => {
                         setFrom_dt(txt.target.value);
-                      
+
                       }}
                       mode={1}
                       data={[
@@ -578,16 +578,18 @@ function PurMrnReporProj() {
 
                     {!from_dt ? <VError title={"Required"} /> : null}
                   </div>
-                    <div className="sm:col-span-1">
+                  <div className="sm:col-span-1">
                     <TDInputTemplate
                       placeholder="Invoice Date To"
                       type="date"
                       label="Invoice Date To"
                       name="to_dt"
                       formControlName={to_dt}
+                      min={from_dt}
+                      disabled={!from_dt}
                       handleChange={(txt) => {
                         setTo_dt(txt.target.value);
-                       
+
                       }}
                       mode={1}
                       data={[
@@ -618,8 +620,8 @@ function PurMrnReporProj() {
                         dt: dt,
                         type: type,
                         po_no: po_no || "0",
-                        from_dt:from_dt,
-                        to_dt:to_dt
+                        from_dt: from_dt,
+                        to_dt: to_dt
                       })
                       .then((res) => {
                         console.log(res);
@@ -641,9 +643,9 @@ function PurMrnReporProj() {
                           // setFreshFlag(res?.data?.msg[0]?.fresh_flag)
 
 
-                           setReportData(
+                          setReportData(
                             res?.data?.msg
-                            )
+                          )
                           setFreshFlag(res?.data?.msg[0]?.fresh_flag)
                         }
                         else {

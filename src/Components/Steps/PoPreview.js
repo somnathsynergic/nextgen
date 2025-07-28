@@ -627,7 +627,7 @@ function PoPreview({ data }) {
                             >
                               {index + 1}
                             </td>
-                            <td className="  py-1 px-1 text-xs whitespace-normal break-words text-green-700 font-bold flex flex-col gap-1 text-wrap text-sm text-gray-900 whitespace-nowrap dark:text-white">
+                            <td className="  py-1 px-1 text-xs whitespace-normal break-words text-green-700 font-extrabold flex flex-col gap-1 text-wrap text-sm text-gray-900 whitespace-nowrap dark:text-white">
                               {item.prod_name}
                             </td>
                             <td

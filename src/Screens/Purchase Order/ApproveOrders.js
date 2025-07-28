@@ -269,6 +269,7 @@ function ApproveOrders() {
 
       {copy.length > 0 && !loading && (
         <POTableView
+        flag = {4}
           po_data={po_data}
           title={"Approve Orders"}
           setSearch={(values) => setSearch(values)}

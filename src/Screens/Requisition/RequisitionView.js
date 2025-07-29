@@ -531,13 +531,13 @@ function RequisitionView() {
                         <td class="px-6 py-4 text-xs text-gray-600 text-wrap">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
                        {isPrinting && <td class="px-3 tex-xs py-4 flex gap-3">
                         
-                          <Link
+                          {/* <Link
                             to={
                               routePaths.REQFORM + item.sl_no
                             }
-                          >
+                          > */}
                             <EditOutlined class="text-md text-green-900" />
-                          </Link>
+                          {/* </Link> */}
                         </td>}
                       </tr>
                     ))}

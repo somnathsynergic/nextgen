@@ -61,7 +61,7 @@ function PurMrnReporProj() {
   const [to_dt, setTo_dt] = useState("");
   const [freshFlag, setFreshFlag] = useState("")
   const headers = [
-    { name: "PO No.", value: "PO No." },
+    { name: "PO NO.", value: "PO NO." },
     { name: "Purchase Requisition", value: "Purchase Requisition" },
     { name: "Project", value: "Project" },
     { name: "Vendor", value: "Vendor" },
@@ -580,9 +580,9 @@ function PurMrnReporProj() {
                   </div>
                   <div className="sm:col-span-1">
                     <TDInputTemplate
-                      placeholder="Invoice Date To"
+                      placeholder="To Invoice Date "
                       type="date"
-                      label="Invoice Date To"
+                      label="To Invoice Date "
                       name="to_dt"
                       formControlName={to_dt}
                       min={from_dt}

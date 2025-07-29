@@ -414,14 +414,14 @@ function MinView() {
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-xs">{formatDate(item.req_date,'DD/MM/YYYY')}</td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-xs">{item.created_by} ({item.created_at?.split('T')[1]})</td>
                       <td class="px-3 py-4 w-1/4 flex gap-3 text-gray-600">
-                      
+{/*                       
                         <Link
                           to={
                             routePaths.MINFORM + item.sl_no
                           }
-                        >
+                        > */}
                           <EditOutlined class="text-md text-white bg-green-900 rounded-full" />
-                        </Link>
+                        {/* </Link> */}
                       </td>
                     </tr>
                   ))}

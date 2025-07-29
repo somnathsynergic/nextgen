@@ -350,7 +350,7 @@ function PurchaseReqForm() {
     console.log(params.id);
     setVisible(false);
     axios
-      .post(url + "/api/delete_pur_req", { id: trans_no })
+      .post(url + "/api/delete_pur_req", { id: trans_no,user:localStorage.getItem('email') })
       .then((res) => {
         console.log(res);
         setLoading(false);

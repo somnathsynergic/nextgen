@@ -535,10 +535,22 @@ const DialogBox = ({
         </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button> */}
-             <BtnGroupReuse flag={2} text="No"  onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
-             <BtnGroupReuse flag={1} text="Yes" onClick={() => {
+             <BtnGroupReuse flag={2} text="No" loading={loading} disabled={loading} onClick={onPress} icon={<CloseOutlined className='mr-2'/> }/>
+             <BtnGroupReuse flag={1} text="Yes" loading={loading} disabled={loading} onClick={() => {
+              setLoading(true)
+              axios.post(url+ "/api/logout",{id:localStorage.getItem('email')}).then(res=>{
+                if(res.data.suc>0){
                 localStorage.clear();
                 navigate(routePaths.LANDING);
+                  setLoading(false)
+
+                }
+                else{
+                  Message('error','Error while logging out!')
+                  setLoading(false)
+                }
+              })
+               
               }} icon={ <CheckOutlined className='mr-2' /> }/>
             {/* <button
               type="submit"

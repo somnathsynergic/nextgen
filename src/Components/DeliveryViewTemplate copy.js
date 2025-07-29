@@ -454,7 +454,7 @@ function DeliveryViewTemplate({ flag }) {
                       <td class="px-6 py-4 w-1/3 text-green-900 font-bold"><InfoTags color="#014737" bgCol="rounded-full" text={item.invoice_count}/></td>
                       <td class="px-4 py-4 w-1/4 text-gray-600 text-wrap text-xs">{item.created_by}({item.created_at?.split('T')[0]}-{item.created_at?.split('T')[1]})</td>
                       <td class="px-4 py-4 w-1/3 text-gray-600 flex gap-3">
-                        <Link
+                        {/* <Link
                           to={
                             flag == "C"
                               ? routePaths.DELIVERYCUSTOMERFORM +
@@ -463,9 +463,9 @@ function DeliveryViewTemplate({ flag }) {
                                encodeURIComponent(item.po_no)
                               : routePaths.TESTCERTFORM + item.sl_no
                           }
-                        >
+                        > */}
                           <EditOutlined class="text-md text-green-900" />
-                        </Link>
+                        {/* </Link> */}
                       </td>
                     </tr>
                   ))}

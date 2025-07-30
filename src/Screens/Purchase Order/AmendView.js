@@ -153,7 +153,7 @@ function AmendView() {
     setVisible(false);
     setLoading(true);
     axios
-      .post(url + "/api/addpoamend", { id: +value })
+      .post(url + "/api/addpoamend", { id: +value,user:localStorage.getItem('email') })
       .then((res) => {
         console.log(res);
         setCount((prev) => prev + 1);

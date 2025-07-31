@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { routePaths } from "../Assets/Data/Routes";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -20,21 +20,21 @@ import axios from "axios";
 import { url } from "../Address/BaseUrl";
 import Pagination from "./Pagination";
 import { formatDate } from "../Functions/formatDate";
-function POTableViewSiemens({ po_data, setSearch, title,print }) {
+function POTableViewSiemens({ po_data, setSearch, title, print }) {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(0);
   const [id, setId] = useState(0);
   const [po, setPO] = useState(0);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [isPrinting, setIsPrinting] = useState(true);
-      const contentRef = useRef(null);
-    
-      const reactToPrintFn = useReactToPrint({
-        contentRef,
-      });
-  const navigate=useNavigate()
+  const contentRef = useRef(null);
+
+  const reactToPrintFn = useReactToPrint({
+    contentRef,
+  });
+  const navigate = useNavigate()
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
@@ -44,7 +44,7 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
   };
   const content = (
     <div className="grid grid-cols-2 gap-3 p-3 bg-green-100 rounded-lg">
-  <Tag
+      <Tag
         onClick={() => {
           setMode(7);
           setOpen(true);
@@ -64,21 +64,21 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
       >
         Upload/View MDCC
       </Tag>
-    
+
     </div>
   );
-  
+
   useEffect(() => {
-    if(print){
+    if (print) {
       setIsPrinting(false);
       setTimeout(() => {
         setRows(po_data?.length);
-        
+
         reactToPrintFn();
         setIsPrinting(true);
-        }, 5);
+      }, 5);
     }
-   }, [print]);
+  }, [print]);
   return (
     <>
       <motion.section
@@ -138,75 +138,75 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
       >
-        <div ref={contentRef} className={isPrinting?"w-full":"w-full p-5"}>
-           <div className={isPrinting?"hidden rounded-md w-full":"w-full border  border-green-500 rounded-md"}>
-                        <PrintHeader />
-                        </div>
-        <table class={isPrinting?"w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400":"w-full mt-2 mx-auto text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400 overflow-x-hidden"}>
-          <thead class={isPrinting?" text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400":" text-md  text-white capitalize   bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
-            <tr>
-              <th scope="col" class="p-4">
-                #
-              </th>
-              <th scope="col" class="p-4">
-                PO No.
-              </th>
-              <th scope="col" class="p-4">
-                Date
-              </th>
-              <th scope="col" class="p-4">
-                Vendor
-              </th>
-              <th scope="col" class="p-4">
-                Intended For
-              </th>
-              <th scope="col" class="p-4">
-                Status
-              </th>
+        <div ref={contentRef} className={isPrinting ? "w-full" : "w-full p-5"}>
+          <div className={isPrinting ? "hidden rounded-md w-full" : "w-full border  border-green-500 rounded-md"}>
+            <PrintHeader />
+          </div>
+          <table class={isPrinting ? "w-full text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400" : "w-full mt-2 mx-auto text-sm text-left rtl:text-right shadow-lg text-green-900 dark:text-gray-400 overflow-x-hidden"}>
+            <thead class={isPrinting ? " text-md  text-gray-700 capitalize   bg-[#C4F1BE] dark:bg-gray-700 dark:text-gray-400" : " text-md  text-white capitalize   bg-green-500 dark:bg-gray-700 dark:text-gray-400"}>
+              <tr>
+                <th scope="col" class="p-4">
+                  #
+                </th>
+                <th scope="col" class="p-4">
+                  PO No.
+                </th>
+                <th scope="col" class="p-4">
+                  Date
+                </th>
+                <th scope="col" class="p-4">
+                  Vendor
+                </th>
+                <th scope="col" class="p-4">
+                  Intended For
+                </th>
+                <th scope="col" class="p-4">
+                  Status
+                </th>
 
-              <th scope="col" class="p-4">
-                Created By
-              </th>
-              {isPrinting && <th scope="col" class="p-4">
-                Action
-              </th>}
-            </tr>
-          </thead>
-          <tbody>
-            {po_data &&
-              po_data?.slice(first, rows + first).map((item) => (
-                <tr
-               
-                  className={
-                    item.modified_at == null
-                      ? +Math.floor(
+                <th scope="col" class="p-4">
+                  Created By
+                </th>
+                {isPrinting && <th scope="col" class="p-4">
+                  Action
+                </th>}
+              </tr>
+            </thead>
+            <tbody>
+              {po_data &&
+                po_data?.slice(first, rows + first).map((item) => (
+                  <tr
+
+                    className={
+                      item.modified_at == null
+                        ? +Math.floor(
                           (new Date().getTime() -
                             new Date(item.created_at).getTime()) /
-                            1000
+                          1000
                         ) < 1800
-                        ? "bg-[#ffe4c4] cursor-pointer duration-500 hover:bg-gray-200 hover:duration-500 delay-700 border-b dark:bg-gray-800 hover:text-green-900 dark:border-gray-700 text-nowrap"
-                        : "bg-white border-b hover:text-green-900 cursor-pointer hover:bg-gray-200 dark:bg-gray-800 hover:duration-500 dark:border-gray-700  text-nowrap"
-                      : +Math.floor(
+                          ? "bg-[#ffe4c4] cursor-pointer duration-500 hover:bg-gray-200 hover:duration-500 delay-700 border-b dark:bg-gray-800 hover:text-green-900 dark:border-gray-700 text-nowrap"
+                          : "bg-white border-b hover:text-green-900 cursor-pointer hover:bg-gray-200 dark:bg-gray-800 hover:duration-500 dark:border-gray-700  text-nowrap"
+                        : +Math.floor(
                           (new Date().getTime() -
                             new Date(item.modified_at).getTime()) /
-                            1000
+                          1000
                         ) < 1800
-                      ? "bg-[#ffe4c4] border-b hover:text-green-900 cursor-pointer dark:bg-gray-800 hover:bg-gray-200 duration-500 hover:duration-500 dark:border-gray-700  text-nowrap"
-                      : "bg-white border-b hover:text-green-900 cursor-pointer hover:duration-500 hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-700  text-nowrap"
-                  }
-                >
-                  <th
-                    scope="row"
-                    class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          ? "bg-[#ffe4c4] border-b hover:text-green-900 cursor-pointer dark:bg-gray-800 hover:bg-gray-200 duration-500 hover:duration-500 dark:border-gray-700  text-nowrap"
+                          : "bg-white border-b hover:text-green-900 cursor-pointer hover:duration-500 hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-700  text-nowrap"
+                    }
                   >
-                    {/* <Tag color="#4FB477" className="rounded-full text-xs"> {item.serial_number} </Tag> */}
-                   {item.serial_number}
-                  </th>
-                  <td class="px-4 py-4 text-[13px]">
-                    <span className="flex gap-2 text-green-900 font-bold">
-                      {" "}
-                      {item.po_no || "----------------------"}{" "}
-                      {/* {item.po_status == "A" && (
+                    <th
+                      scope="row"
+                      class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {/* <Tag color="#4FB477" className="rounded-full text-xs"> {item.serial_number} </Tag> */}
+                      {item.serial_number}
+                    </th>
+                    <td class="px-4 py-4 text-[13px]">
+                      <span className="flex gap-2 text-green-900 font-bold">
+                        {" "}
+                        {item.po_no || "----------------------"}{" "}
+                        {/* {item.po_status == "A" && (
                         <Popover
                           content={content}
                           title={"Documents for " + item.po_no}
@@ -220,248 +220,248 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
                             />:null}
                         </Popover>
                       )} */}
-                    </span>
-                   {isPrinting && <p class="text-[10.5px] text-gray-500 italic">
-                      {item.modified_at == null ? (
-                        <span>
-                          {" "}
-                          Created{" "}
-                          {+Math.floor(
-                            (new Date().getTime() -
-                              new Date(item.created_at).getTime()) /
+                      </span>
+                      {isPrinting && <p class="text-[10.5px] text-gray-500 italic">
+                        {item.modified_at == null ? (
+                          <span>
+                            {" "}
+                            Created{" "}
+                            {+Math.floor(
+                              (new Date().getTime() -
+                                new Date(item.created_at).getTime()) /
                               1000
-                          ) < 60
-                            ? +Math.floor(
+                            ) < 60
+                              ? +Math.floor(
                                 (new Date().getTime() -
                                   new Date(item.created_at).getTime()) /
-                                  1000
+                                1000
                               ).toFixed(0) + " second(s) ago"
-                            : +Math.floor(
+                              : +Math.floor(
                                 (new Date().getTime() -
                                   new Date(item.created_at).getTime()) /
-                                  1000
+                                1000
                               ) /
                                 60 <
-                              60
-                            ? (
-                                +Math.floor(
+                                60
+                                ? (
+                                  +Math.floor(
+                                    (new Date().getTime() -
+                                      new Date(item.created_at).getTime()) /
+                                    1000
+                                  ) / 60
+                                ).toFixed(0) + " minute(s) ago"
+                                : +Math.floor(
                                   (new Date().getTime() -
                                     new Date(item.created_at).getTime()) /
-                                    1000
-                                ) / 60
-                              ).toFixed(0) + " minute(s) ago"
-                            : +Math.floor(
-                                (new Date().getTime() -
-                                  new Date(item.created_at).getTime()) /
                                   1000
-                              ) /
-                                3600 <
-                              24
-                            ? (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.created_at).getTime()) /
+                                ) /
+                                  3600 <
+                                  24
+                                  ? (
+                                    +Math.floor(
+                                      (new Date().getTime() -
+                                        new Date(item.created_at).getTime()) /
+                                      1000
+                                    ) / 3600
+                                  ).toFixed(0) + " hour(s) ago"
+                                  : +Math.floor(
+                                    (new Date().getTime() -
+                                      new Date(item.created_at).getTime()) /
                                     1000
-                                ) / 3600
-                              ).toFixed(0) + " hour(s) ago"
-                            : +Math.floor(
+                                  ) /
+                                    (3600 * 24) <
+                                    31
+                                    ? (
+                                      +Math.floor(
+                                        (new Date().getTime() -
+                                          new Date(item.created_at).getTime()) /
+                                        1000
+                                      ) /
+                                      (3600 * 24)
+                                    ).toFixed(0) + " day(s) ago"
+                                    : (
+                                      +Math.floor(
+                                        (new Date().getTime() -
+                                          new Date(item.created_at).getTime()) /
+                                        1000
+                                      ) /
+                                      (3600 * 24 * 31)
+                                    ).toFixed(0) + " month(s) ago"}
+                          </span>
+                        ) : (
+                          <span>
+                            {" "}
+                            Modified{" "}
+                            {+Math.floor(
+                              (new Date().getTime() -
+                                new Date(item.modified_at).getTime()) /
+                              1000
+                            ) < 60
+                              ? +Math.floor(
                                 (new Date().getTime() -
-                                  new Date(item.created_at).getTime()) /
-                                  1000
+                                  new Date(item.modified_at).getTime()) /
+                                1000
+                              ).toFixed(0) + " second(s) ago"
+                              : +Math.floor(
+                                (new Date().getTime() -
+                                  new Date(item.modified_at).getTime()) /
+                                1000
                               ) /
-                                (3600 * 24) <
-                              31
-                            ? (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.created_at).getTime()) /
+                                60 <
+                                60
+                                ? (
+                                  +Math.floor(
+                                    (new Date().getTime() -
+                                      new Date(item.modified_at).getTime()) /
                                     1000
-                                ) /
-                                (3600 * 24)
-                              ).toFixed(0) + " day(s) ago"
-                            : (
-                                +Math.floor(
+                                  ) / 60
+                                ).toFixed(0) + " minute(s) ago"
+                                : +Math.floor(
                                   (new Date().getTime() -
-                                    new Date(item.created_at).getTime()) /
-                                    1000
+                                    new Date(item.modified_at).getTime()) /
+                                  1000
                                 ) /
-                                (3600 * 24 * 31)
-                              ).toFixed(0) + " month(s) ago"}
-                        </span>
+                                  3600 <
+                                  24
+                                  ? (
+                                    +Math.floor(
+                                      (new Date().getTime() -
+                                        new Date(item.modified_at).getTime()) /
+                                      1000
+                                    ) / 3600
+                                  ).toFixed(0) + " hour(s) ago"
+                                  : +Math.floor(
+                                    (new Date().getTime() -
+                                      new Date(item.modified_at).getTime()) /
+                                    1000
+                                  ) /
+                                    (3600 * 24) <
+                                    31
+                                    ? (
+                                      +Math.floor(
+                                        (new Date().getTime() -
+                                          new Date(item.modified_at).getTime()) /
+                                        1000
+                                      ) /
+                                      (3600 * 24)
+                                    ).toFixed(0) + " day(s) ago"
+                                    : (
+                                      +Math.floor(
+                                        (new Date().getTime() -
+                                          new Date(item.modified_at).getTime()) /
+                                        1000
+                                      ) /
+                                      (3600 * 24 * 31)
+                                    ).toFixed(0) + " month(s) ago"}
+                          </span>
+                        )}
+                      </p>}
+                    </td>
+                    <td class="px-4 py-4 text-gray-600  text-xs">{formatDate(item.created_at)}</td>
+                    <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
+                    <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
+                      {item.proj_name ? item.proj_name + '(' + item.proj_id + ')' : 'Warehouse'}
+                    </td>
+                    <td class="px-13 py-4">
+                      {item.po_status == "P" ? (
+                        // <Tag
+                        //   className="text-[12px]  w-24"
+                        //   icon={<SyncOutlined spin />}
+                        //   color="#0092b8"
+                        //   // color="processing"
+                        // >
+                        //   In Progress
+                        //   <Tooltip title="Draft saved">
+                        //     {" "}
+                        //     <FileTextOutlined className="text-red-500 ml-7" />
+                        //   </Tooltip>{" "}
+                        // </Tag>
+                        <InfoTags text="In Progress" color="#0092b8" bgCol={"text-[12px]  w-24"} icon={<SyncOutlined spin />} />
+
+                      ) : item.po_status == "A" ? (
+                        // <Tag
+                        //   className="text-[12px]  w-24  bg-green-900 text-white"
+                        //   icon={<CheckCircleOutlined />}
+                        //   color="#014737"
+                        //   // color="success"
+                        // >
+                        //   Approved
+                        // </Tag>
+                        <InfoTags text="Approved" color="#014737" bgCol={"text-[12px]  w-24 bg-green-900 text-white"} icon={<CheckCircleOutlined />} />
+
+                      ) : item.po_status == "U" ? (
+                        // <Tag
+                        //   className="text-[12px] w-24"
+                        //   icon={<ClockCircleOutlined className="animate-pulse" />}
+                        //   color="#82181a"
+                        //   // color="error"
+                        // >
+                        //   Pending
+                        // </Tag>
+                        <InfoTags text="Pending" color="#82181a" bgCol={"text-[12px]  w-24 "} icon={<ClockCircleOutlined className="animate-pulse" />} />
+
+                      ) : item.po_status == "D" ? (
+                        // <Tag
+                        //   className="text-[12px] p-1 rounded-full w-36"
+                        //   icon={<TruckOutlined />}
+                        //   // color="lime"
+                        // >
+                        //   Delivered
+                        // </Tag>
+                        <InfoTags text="Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />} />
+
                       ) : (
-                        <span>
-                          {" "}
-                          Modified{" "}
-                          {+Math.floor(
-                            (new Date().getTime() -
-                              new Date(item.modified_at).getTime()) /
-                              1000
-                          ) < 60
-                            ? +Math.floor(
-                                (new Date().getTime() -
-                                  new Date(item.modified_at).getTime()) /
-                                  1000
-                              ).toFixed(0) + " second(s) ago"
-                            : +Math.floor(
-                                (new Date().getTime() -
-                                  new Date(item.modified_at).getTime()) /
-                                  1000
-                              ) /
-                                60 <
-                              60
-                            ? (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.modified_at).getTime()) /
-                                    1000
-                                ) / 60
-                              ).toFixed(0) + " minute(s) ago"
-                            : +Math.floor(
-                                (new Date().getTime() -
-                                  new Date(item.modified_at).getTime()) /
-                                  1000
-                              ) /
-                                3600 <
-                              24
-                            ? (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.modified_at).getTime()) /
-                                    1000
-                                ) / 3600
-                              ).toFixed(0) + " hour(s) ago"
-                            : +Math.floor(
-                                (new Date().getTime() -
-                                  new Date(item.modified_at).getTime()) /
-                                  1000
-                              ) /
-                                (3600 * 24) <
-                              31
-                            ? (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.modified_at).getTime()) /
-                                    1000
-                                ) /
-                                (3600 * 24)
-                              ).toFixed(0) + " day(s) ago"
-                            : (
-                                +Math.floor(
-                                  (new Date().getTime() -
-                                    new Date(item.modified_at).getTime()) /
-                                    1000
-                                ) /
-                                (3600 * 24 * 31)
-                              ).toFixed(0) + " month(s) ago"}
-                        </span>
+                        // <Tag
+                        //   className="text-[12px] p-1 rounded-full w-36"
+                        //   icon={<TruckOutlined />}
+                        //   // color="lime"
+                        // >
+                        //   {" "}
+                        //   Partially Delivered{" "}
+                        // </Tag>
+                        <InfoTags text="Partially Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />} />
+
                       )}
-                    </p>}
-                  </td>
-                  <td class="px-4 py-4 text-gray-600  text-xs">{formatDate(item.created_at)}</td>
-                  <td class="px-4 py-4 text-gray-600 text-wrap text-xs">{item.vendor_name}</td>
-                  <td class="px-4 py-4 text-gray-600 text-wrap text-xs">
-                    {item.proj_name? item.proj_name+'('+item.proj_id+')' : 'Warehouse'}
-                  </td>
-                  <td class="px-13 py-4">
-                    {item.po_status == "P" ? (
-                      // <Tag
-                      //   className="text-[12px]  w-24"
-                      //   icon={<SyncOutlined spin />}
-                      //   color="#0092b8"
-                      //   // color="processing"
-                      // >
-                      //   In Progress
-                      //   <Tooltip title="Draft saved">
-                      //     {" "}
-                      //     <FileTextOutlined className="text-red-500 ml-7" />
-                      //   </Tooltip>{" "}
-                      // </Tag>
-                        <InfoTags text="In Progress" color="#0092b8" bgCol={"text-[12px]  w-24"} icon={<SyncOutlined spin /> }/>
-
-                    ) : item.po_status == "A" ? (
-                      // <Tag
-                      //   className="text-[12px]  w-24  bg-green-900 text-white"
-                      //   icon={<CheckCircleOutlined />}
-                      //   color="#014737"
-                      //   // color="success"
-                      // >
-                      //   Approved
-                      // </Tag>
-                        <InfoTags text="Approved" color="#014737" bgCol={"text-[12px]  w-24 bg-green-900 text-white"} icon={<CheckCircleOutlined  /> }/>
-
-                    ) : item.po_status == "U" ? (
-                      // <Tag
-                      //   className="text-[12px] w-24"
-                      //   icon={<ClockCircleOutlined className="animate-pulse" />}
-                      //   color="#82181a"
-                      //   // color="error"
-                      // >
-                      //   Pending
-                      // </Tag>
-                        <InfoTags text="Pending" color="#82181a" bgCol={"text-[12px]  w-24 "} icon={<ClockCircleOutlined className="animate-pulse" /> }/>
-
-                    ) : item.po_status == "D" ? (
-                      // <Tag
-                      //   className="text-[12px] p-1 rounded-full w-36"
-                      //   icon={<TruckOutlined />}
-                      //   // color="lime"
-                      // >
-                      //   Delivered
-                      // </Tag>
-                        <InfoTags text="Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
-
-                    ) : (
-                      // <Tag
-                      //   className="text-[12px] p-1 rounded-full w-36"
-                      //   icon={<TruckOutlined />}
-                      //   // color="lime"
-                      // >
-                      //   {" "}
-                      //   Partially Delivered{" "}
-                      // </Tag>
-                        <InfoTags text="Partially Delivered" color="lime" bgCol={"text-[12px] p-1 rounded-full w-36"} icon={<TruckOutlined />}/>
-
-                    )}
-                  </td>
-                  <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
-                  {isPrinting && <td class="px-1 py-4 text-nowrap">
-                    {/* <Link
+                    </td>
+                    <td class="px-3 py-4 text-xs text-gray-600">{item.created_by}</td>
+                    {isPrinting && <td class="px-1 py-4 text-nowrap">
+                      {/* <Link
                       to={
                         item.fresh_flag == "Y"
                           ? routePaths.PURCHASEORDERFORM + "F/" + item.sl_no
                           : routePaths.PURCHASEORDERFORM + "E/" + item.sl_no
                       }
                     > */}
-                      {!loading?<EditOutlined 
-                      onClick={()=>{
-                        
-                        console.log('amend_flag',item.amend_flag,item.parent_po_no)
-                        if(item.amend_flag=='Y' && item.parent_po_no){
-                            setLoading(false)
-                            axios.post(url+'/api/get_fresh_flag',{po_no:item.parent_po_no}).then(res=>{
-                              setLoading(false)
-                              console.log('res',res)
+                      {!loading ? <EditOutlined
+                        onClick={() => {
 
-                               navigate(
-                          routePaths.SIEMENSFORM  + item.sl_no
-                          )
+                          console.log('amend_flag', item.amend_flag, item.parent_po_no)
+                          if (item.amend_flag == 'Y' && item.parent_po_no) {
+                            setLoading(false)
+                            axios.post(url + '/api/get_fresh_flag', { po_no: item.parent_po_no }).then(res => {
+                              setLoading(false)
+                              console.log('res', res)
+
+                              navigate(
+                                routePaths.SIEMENSFORM + item.sl_no
+                              )
                             })
-                        }
-                        else{
-                        navigate(
-                          routePaths.SIEMENSFORM  + item.sl_no
-                          )
-                        }
+                          }
+                          else {
+                            navigate(
+                              routePaths.SIEMENSFORM + item.sl_no
+                            )
+                          }
                         }}
 
-                          // navigate(routePaths.PURCHASEORDERFORM + "E/" + item.sl_no)}}
-                      class="text-md ml-7 text-green-900" />:<SyncOutlined spin class="text-md ml-7 text-green-900"/>}
-                    {/* </Link> */}
-                  </td>}
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                        // navigate(routePaths.PURCHASEORDERFORM + "E/" + item.sl_no)}}
+                        class="text-md ml-7 text-green-900" /> : <SyncOutlined spin class="text-md ml-7 text-green-900" />}
+                      {/* </Link> */}
+                    </td>}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
         {/* <Paginator
           first={first}
@@ -474,7 +474,7 @@ function POTableViewSiemens({ po_data, setSearch, title,print }) {
           rows={rows}
           totalRecords={po_data?.length}
           rowsPerPageOptions={[3, 5, 10, 15, 20, 30, po_data?.length]}
-          onPageChange={onPageChange}/>
+          onPageChange={onPageChange} />
       </motion.section>
       <DrawerComp
         open={open}

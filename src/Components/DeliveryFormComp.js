@@ -804,7 +804,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                           // <Tag icon={<SyncOutlined spin />} color="processing">
                           //   Checking...
                           // </Tag>
-                          <InfoTags text="Checking..." icon={<SyncOutlined spin />} color="processing" />
+                          <InfoTags bgCol={'bg-transparent italic'} text="Checking..." icon={<SyncOutlined spin />}  />
                         )}
                         {count > 0 && (
                           <VError title={"Invoice No. already exists"} />
@@ -1544,7 +1544,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                   //          </span>
                   //          <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
                   // </button>
-                  <BtnGroupReuse flag={1} onClick={() => onsubmit()} disabled={
+                  <BtnGroupReuse loading={loading} flag={1} onClick={() => onsubmit()} disabled={
                     !con ||
                     errorSum(isError) ||
                     zeroError ||
@@ -1559,7 +1559,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                       <SaveOutlined className='mr-2' />
 
                     }
-                    loading={loading} text="Submit" />
+                  text="Submit" />
                 )}
               </div>
             </div>

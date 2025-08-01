@@ -273,7 +273,7 @@ function ProductMaster({onClose,onLoading}) {
                   // <Tag icon={<SyncOutlined spin />} color="processing">
                   //   Checking...
                   // </Tag>
-                  <InfoTags text="Checking..." icon={<SyncOutlined spin />} color="processing"/>
+                  <InfoTags bgCol={'bg-transparent italic'} icon={<SyncOutlined spin />}/>
                 )}
                 {formik.errors.prodnm && formik.touched.prodnm ? (
                   <VError title={formik.errors.prodnm} />

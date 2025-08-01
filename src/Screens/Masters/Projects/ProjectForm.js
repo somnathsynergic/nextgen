@@ -715,7 +715,7 @@ function ProjectForm() {
                       // <Tag icon={<SyncOutlined spin />} color="processing">
                       //   Checking...
                       // </Tag>
-                      <InfoTags color="processing" icon={<SyncOutlined spin />} text="Checking..."/>
+                      <InfoTags bgCol={'bg-transparent italic'} icon={<SyncOutlined spin />} text="Checking..."/>
                     )}
                     {!proj_id && (
                       <VError title={"A unique project ID is required!"} />

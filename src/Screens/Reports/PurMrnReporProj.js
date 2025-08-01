@@ -61,7 +61,7 @@ function PurMrnReporProj() {
   const [to_dt, setTo_dt] = useState("");
   const [freshFlag, setFreshFlag] = useState("")
   const headers = [
-    { name: "PO NO.", value: "PO NO." },
+    { name: "PO No.", value: "PO No." },
     { name: "Purchase Requisition", value: "Purchase Requisition" },
     { name: "Project", value: "Project" },
     { name: "Vendor", value: "Vendor" },

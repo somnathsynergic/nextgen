@@ -363,7 +363,7 @@ const UserAddForm = () => {
                 <VError title={formik.errors.user_email} />
               ) : null}
 
-{checkload &&  <Tag icon={<SyncOutlined spin />} color="processing">Checking...</Tag>}
+{checkload &&  <Tag icon={<SyncOutlined spin />} bgCol={'bg-transparent italic'}>Checking...</Tag>}
 {emailCount>0 && <VError title={'Email already exists'} />}
             </div>
             <div>

@@ -580,7 +580,7 @@ function BasicDetails({ pressNext, pressBack, data }) {
                     // <Tag icon={<SyncOutlined spin />} color="processing">
                     //   Checking...
                     // </Tag>
-                    <InfoTags icon={<SyncOutlined spin />} color="processing" text={'Checking...'}/>
+                    <InfoTags bgCol={'bg-transparent italic'} icon={<SyncOutlined spin />} text={'Checking...'}/>
                   )}
                   {count > 0 && <VError title={"PO No. already exists!"} />}
                 </div>

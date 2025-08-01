@@ -407,7 +407,7 @@ function PurchaseReqForm() {
             >
               {params.id > 0 && (
                 <div className="sm:col-span-12 flex justify-end">
-                  <InfoTags color="#014737" bgCol={"border-[#014737]"} icon={<MoneyCollectOutlined className="text-xs"/>} text={" Purchase Requisition No.:" +trans_no}/>
+                  <InfoTags color="#014737" copyable={true} bgCol={"border-[#014737]"} icon={<MoneyCollectOutlined className="text-xs"/>} text={" Purchase Requisition No.:" +trans_no}/>
                   {/* <Tag className="border-[#014737]" color="#014737">
                     Purchase Requisition No.: {trans_no}{" "}
                   </Tag> */}

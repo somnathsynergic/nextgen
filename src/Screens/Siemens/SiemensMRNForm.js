@@ -862,7 +862,7 @@ function SiemensMRNForm() {
                           // <Tag icon={<SyncOutlined spin />} color="processing">
                           //   Checking...
                           // </Tag>
-                          <InfoTags text="Checking..." icon={<SyncOutlined spin />} color="processing" />
+                          <InfoTags text="Checking..." icon={<SyncOutlined spin />} bgCol={'bg-transparent italic'} />
                         )}
                         {count > 0 && (
                           <VError title={"Invoice No. already exists"} />

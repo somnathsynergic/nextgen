@@ -367,7 +367,7 @@ function ProductForm() {
                   />
                 </Popover>
                 {checkLoad && (
-                  <Tag icon={<SyncOutlined spin />} color="processing">
+                  <Tag icon={<SyncOutlined spin />} bgCol={'bg-transparent italic'}>
                     Checking...
                   </Tag>
                 )}

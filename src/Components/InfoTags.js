@@ -1,5 +1,6 @@
 import { Tag } from 'antd'
 import React from 'react'
+import { Typography } from 'antd';
 
 function InfoTags({icon,onPress,bgCol,textCol,text,color}) {
   return (

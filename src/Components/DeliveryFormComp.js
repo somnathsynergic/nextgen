@@ -69,6 +69,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
   const op = useRef(null);
   const [txt, setText] = useState("");
   const [rej_note, setRejNote] = useState("");
+  const [projName,setProjName] = useState("")
   // const [invList,setInvList]=useState([{sl:0,invoice:'',inv_dt:'',lr_no:'',waybill:''}])
   const [doc, setDoc] = useState("");
   const [itemInfo, setItemInfo] = useState("");
@@ -148,6 +149,11 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
     setBlocked(det.mrn == 1 ? true : false)
 
   }, []);
+  useEffect(()=>{
+    if(project_id){
+    axios.post(url+'/api/getproject',{id:project_id}).then(res=>{console.log(res);setProjName(res.data.msg.proj_name)})
+    }
+  },[project_id])
   const getMrnLog = () => {
     axios
       .post(url + "/api/get_received_items", { invoice: inv_el, id: params.id })
@@ -170,34 +176,13 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
         <>
           {" "}
           {po_type != "G" && (
-            // <Tag
-            //   className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
-            //   color="#4FB477"
-            // >
-            //   <StockOutlined /> Project Quantity : {proj_stock || 0}
-            // </Tag>
+          
             <InfoTags icon={<StockOutlined />} text={"Project Quantity : " + (proj_stock || 0)} color="#4FB477" bgCol={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"} />
           )}
-          {/* <Tag
-            className={
-              po_type != "G"
-                ? "cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
-                : "cursor-pointer col-span-2 px-2 py-0.5 shadow-lg"
-            }
-            color="#014737"
-          >
-            <StockOutlined /> Warehouse Quantity : {wer_stock || 0}
-          </Tag> */}
+        
           <InfoTags icon={<StockOutlined />} text={"Warehouse Quantity : " + (wer_stock || 0)} color="#014737" bgCol={po_type != "G"
             ? "cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
             : "cursor-pointer col-span-2 px-2 py-0.5 shadow-lg"} />
-
-          {/* {reqQty>0 && <Tag
-            className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
-            color="#eb8d00"
-          >
-            <StockOutlined /> Requisition Quantity : {reqQty || 0}
-          </Tag>} */}
         </>
       ) : (
         <span className="text-green-900 flex gap-2">
@@ -573,7 +558,7 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
     <section className="bg-transparent dark:bg-[#001529]">
       <HeadingTemplate
         text={title}
-        mode={params.id > 0 ? 1 : 0}
+        mode={0}
         title={"Category"}
         data={""}
       />
@@ -601,14 +586,16 @@ function DeliveryFormComp({ flag, title, onSubmit }) {
                     mode={1}
                   />
                   {decodeURIComponent(params.po_no) && (
-                    <div className="flex justify-between gap-2">
+                    <div className="flex justify-between items-center gap-2">
                       <Viewdetails
                         click={() => {
                           setFlag(14);
                           setVisible(true);
                         }}
                       />
-                    </div>
+                       {po_type!='G' && <InfoTags
+                       icon={<ClusterOutlined />} text={"Project: "+ projName} color="#4FB477" />
+                       }</div>
                   )}
                 </div>
                 {mrnList.length > 0 && (

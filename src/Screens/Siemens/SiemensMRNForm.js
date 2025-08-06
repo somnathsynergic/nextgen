@@ -103,13 +103,18 @@ function SiemensMRNForm() {
   const [mrnDetails, setMrnDetails] = useState([]);
   const [approve_flag, setApproveFlag] = useState("");
   const [po_type, setPoType] = useState("");
+  const [projName,setProjName] = useState("")
 
   // const []
   useEffect(() => {
     if (lr_no) setLr(true);
     else setLr(false);
   }, [lr_no]);
-
+  useEffect(()=>{
+    if(project_id){
+    axios.post(url+'/api/getproject',{id:project_id}).then(res=>{console.log(res);setProjName(res.data.msg.proj_name)})
+    }
+  },[project_id])
   useEffect(() => {
     if (waybill) setWb(true);
     else setWb(false);
@@ -631,7 +636,7 @@ function SiemensMRNForm() {
     <section className="bg-transparent dark:bg-[#001529]">
       <HeadingTemplate
         text={'Siemens MRN'}
-        mode={params.id > 0 ? 1 : 0}
+        mode={0}
         title={"Category"}
         data={""}
       />
@@ -658,16 +663,19 @@ function SiemensMRNForm() {
                     disabled={params.id > 0}
                     mode={1}
                   />
-                  {/* {decodeURIComponent(params.po_no) && (
-                    <div className="flex justify-between gap-2">
-                      <Viewdetails
+                  {decodeURIComponent(params.po_no) && (
+                    <div className="flex justify-end items-center gap-2 mt-1">
+                      {/* <Viewdetails
                         click={() => {
                           setFlag(14);
                           setVisible(true);
                         }}
-                      />
+                      /> */}
+                        {project_id!='0' && <InfoTags
+                       icon={<ClusterOutlined />} text={"Project: "+ projName} color="#4FB477" />
+                       }
                     </div>
-                  )} */}
+                  )}
                 </div>
                 {mrnList.length > 0 && (
                   <div className="sm:col-span-12">

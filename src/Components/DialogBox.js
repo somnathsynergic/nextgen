@@ -461,7 +461,7 @@ const DialogBox = ({
   };
   return (
     <Dialog
-      closable={flag != 3 ? true : false}
+      closable={flag != 3 && !loading ? true : false}
       header={
         <div
           className={

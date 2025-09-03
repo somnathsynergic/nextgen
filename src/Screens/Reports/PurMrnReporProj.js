@@ -614,7 +614,8 @@ function PurMrnReporProj() {
                     setLoading(true);
                     console.log(projCode, vendorCode, type);
                     axios
-                      .post(url + "/api/mrnprojreport", {
+                      // .post(url + "/api/mrnprojreport", {
+                      .post(url + "/api/powise_mrn_report", {
                         proj_id: projCode || 0,
                         vendor_id: vendorCode || 0,
                         dt: dt,

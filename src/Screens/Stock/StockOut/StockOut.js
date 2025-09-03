@@ -88,24 +88,24 @@ function StockOut() {
     // setBlocked(det?.stock==1?true:false)
 
   }, []);
-  useEffect(() => {
-    setLoading(true);
-    axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-      console.log(res);
-      setLoading(false);
-      setProducts(res?.data?.msg);
-      for (let i of res?.data?.msg) {
-        prodList.push({
-          code: i.sl_no,
-          name: i.prod_name,
-          part_no: i.part_no,
-          make: i.prod_make,
-          article_no: i.article_no,
-          model_no: i.model_no,
-        });
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
+  //     console.log(res);
+  //     setLoading(false);
+  //     setProducts(res?.data?.msg);
+  //     for (let i of res?.data?.msg) {
+  //       prodList.push({
+  //         code: i.sl_no,
+  //         name: i.prod_name,
+  //         part_no: i.part_no,
+  //         make: i.prod_make,
+  //         article_no: i.article_no,
+  //         model_no: i.model_no,
+  //       });
+  //     }
+  //   });
+  // }, []);
   const onSubmit = (values) => {
     setInfo([
       { key: "1", label: "Date", children: <p>{dt}</p> },
@@ -132,6 +132,8 @@ function StockOut() {
         console.log(res);
         setReportData(res?.data?.msg);
         setReportDataCopy([])
+        setLoading(false);
+
        res?.data?.msg?.filter(item=>item.req_list.length>0)?.forEach(e=>{
             setReportDataCopy(prev=>[...prev,{
               id:e.id,
@@ -145,7 +147,6 @@ function StockOut() {
             }])
         }
       )
-        setLoading(false);
         if (res?.data?.msg?.length == 0) {
           Message("error", "No Data");
         }

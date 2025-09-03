@@ -104,7 +104,20 @@ function RequisitionForm() {
           >
             <StockOutlined /> Warehouse Quantity : {wer_stock || 0}
           </Tag>
-        
+          {/* <Tag
+            className="cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"
+            color="#4FB477"
+          >
+            <StockOutlined />
+            Unapproved Requisition Quantity : {reqQty || 0}
+          </Tag>
+          <Tag
+            className="cursor-pointer col-span-2 px-2 py-0.5 shadow-lg"
+            color="#eb8d00"
+          >
+            <StockOutlined /> Approved Requisition Quantity:{" "}
+            {proj_stock - logical_stock - reqQty || 0}
+          </Tag> */}
         </>
       ) : (
         <span className="text-green-900 flex gap-2">
@@ -115,34 +128,36 @@ function RequisitionForm() {
     </div>
   );
   useEffect(() => {
-    setProjectList([])
-    setProjectCopy([])
     axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
       console.log(res);
       setProjectData(res?.data?.msg);
       for (let i of res?.data?.msg) {
-       
-        setProjectList(prevArray => [...prevArray, {
+        projectList.push({
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
           proj_id: i.proj_id,
-        }]);
-       
-        setProjectCopy(prevArray => [...prevArray, {
+        });
+        projectCopy.push({
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
           proj_id: i.proj_id,
-        }])
+        });
+        // projectList.push({ value: i.sl_no, label: i.proj_name });
       }
-   
+    });
 
-     });
+    axios.post(url + "/api/getclient", { id: 0 }).then((resC) => {
+      console.log(resC);
+      setClientData(resC?.data?.msg);
+      for (let i of resC?.data?.msg) {
+        clientList.push({ code: i.sl_no, name: i.client_name });
+        // projectList.push({ value: i.sl_no, label: i.proj_name });
+      }
+      setClientList(clientList);
+    });
     setBlocked(det?.requisition == 1 ? true : false);
- 
- 
- 
   }, []);
 
   const deleteItem = () => {
@@ -155,6 +170,7 @@ function RequisitionForm() {
         if (res?.data?.suc > 0) {
           Message("success", res?.data?.msg);
           navigate(-1);
+          // fileList.splice(0,1);
         } else {
           Message("error", res?.data?.msg);
         }
@@ -197,8 +213,26 @@ function RequisitionForm() {
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
   };
-  
-
+  // useEffect(() => {
+  //   if(intended=='W')
+  //   setProjectList(projectCopy.filter(e=>e.client==client))
+  // console.log(projectCopy.filter(e=>e.client==client))
+  // }, [client]);
+  const handleDtChange1 = (index, event) => {
+    console.log(index, event.target.value);
+    let data = [...itemDtlsForm];
+    data[index][event.target.name] = event.target.value;
+    if (
+      data[index]["rc_qty"] < data[index]["req_qty"] ||
+      data[index]["req_qty"] < 0
+    ) {
+      error[index]["flag"] = 1;
+    } else {
+      error[index]["flag"] = 0;
+    }
+    setItemDtlsForm(data);
+    console.log(itemDtlsForm);
+  };
   const handleDtChange = (index, event) => {
     console.log(index, event.target.value);
     let data = [...itemDtlsFormCopy];
@@ -229,7 +263,7 @@ function RequisitionForm() {
       axios
         .post(url + "/api/get_requisition", { id: +params.id })
         .then((res) => {
-          // console.log(res);
+          console.log(res);
 
           setReqDate(res?.data?.msg?.req_date);
           setIntended(res?.data?.msg?.intended_for);
@@ -244,10 +278,10 @@ function RequisitionForm() {
               ?.name
           );
 
-          // console.log(
-          //   clientList.filter((e) => e.code == res?.data?.msg?.client_id)[0]
-          //     ?.name
-          // );
+          console.log(
+            clientList.filter((e) => e.code == res?.data?.msg?.client_id)[0]
+              ?.name
+          );
           setClientCode(res?.data?.msg?.client_id);
           setClient(
             clientList.filter((e) => e.code == +res?.data?.msg?.client_id)[0]
@@ -283,10 +317,10 @@ function RequisitionForm() {
                 )[0]?.name
               );
 
-              // console.log(
-              //   clientList.filter((e) => e.code == res?.data?.msg?.client_id)[0]
-              //     ?.name
-              // );
+              console.log(
+                clientList.filter((e) => e.code == res?.data?.msg?.client_id)[0]
+                  ?.name
+              );
               setClientCode(res?.data?.msg?.client_id);
               setClient(
                 clientList.filter(
@@ -297,8 +331,7 @@ function RequisitionForm() {
               for (let i of resItems?.data?.msg) {
                 error.push({ flag: 0 });
                 if(i.req_qty){
-               
-                setItemDtlsForm(prevArray => [...prevArray, {
+                itemDtlsForm.push({
                   sl_no: +params.id > 0 ? +params.id : 0,
                   po_no: i.po_no,
                   item_id: i.item_id,
@@ -317,9 +350,8 @@ function RequisitionForm() {
                   stock: i.project_stock,
                   approved_qty: i.approved_qty,
                   // req_qty: i.project_stock,
-                }]);
-                setItemDtlsFormCopy(prevArray => [...prevArray, {
-                
+                });
+                itemDtlsFormCopy.push({
                   sl_no: +params.id > 0 ? +params.id : 0,
                   po_no: i.po_no,
                   item_id: i.item_id,
@@ -340,10 +372,10 @@ function RequisitionForm() {
                   approved_qty: i.approved_qty,
 
                   // req_qty:i.proj_stock
-                }]);
+                });
               }
-                // setItemDtlsForm(itemDtlsForm);
-                // setItemDtlsFormCopy(itemDtlsFormCopy);
+                setItemDtlsForm(itemDtlsForm);
+                setItemDtlsFormCopy(itemDtlsFormCopy);
                 // axios
                 //   .post(url + "/api/item_dtls_trans", {
                 //     Proj_id: +res?.data?.msg?.project_id,
@@ -416,15 +448,17 @@ function RequisitionForm() {
               for (let i of res?.data?.msg) {
                 error.push({ flag: 0 });
                 if (i.rc_qty)
-                  setBreakUpInfo(prevItems => [...prevItems, { sl_no: +params.id > 0 ? +params.id : 0,
+                  breakupinfo.push({
+                    sl_no: +params.id > 0 ? +params.id : 0,
                     item_id: i.prod_id,
                     po_no: i.po_no,
                     prod_name: i.prod_name,
                     rc_qty: i.rc_qty,
-                    req_qty: i.tot_rc_qty,}])
+                    req_qty: i.tot_rc_qty,
+                  });
               }
               axios
-                .post(url + "/api/item_dtls_previous", {
+                .post(url + "/api/item_dtls", {
                   Proj_id: +params.id,
                 })
                 .then((resDtl) => {
@@ -432,59 +466,38 @@ function RequisitionForm() {
                   console.log(resDtl);
                   for (let i of resDtl?.data?.msg) {
                     error.push({ flag: 0 });
-                    setItemDtlsForm(prev=>[...prev,{
-                       sl_no: +params.id > 0 ? +params.id : 0,
+                    itemDtlsForm.push({
+                      sl_no: +params.id > 0 ? +params.id : 0,
                       item_id: i.prod_id,
                       prod_name: i.prod_name,
                       rc_qty: i.tot_rc_qty,
                       // req_qty: i.tot_rc_qty,
                       req_qty: i.project_stock,
                       stock: i.project_stock,
-                    }])
-                    // itemDtlsForm.push({
-                    //   sl_no: +params.id > 0 ? +params.id : 0,
-                    //   item_id: i.prod_id,
-                    //   prod_name: i.prod_name,
-                    //   rc_qty: i.tot_rc_qty,
-                    //   // req_qty: i.tot_rc_qty,
-                    //   req_qty: i.project_stock,
-                    //   stock: i.project_stock,
-                    // });
-                    setItemDtlsFormCopy(prev=>[...prev,{
+                    });
+                    itemDtlsFormCopy.push({
                       sl_no: +params.id > 0 ? +params.id : 0,
                       item_id: i.prod_id,
                       prod_name: i.prod_name,
                       rc_qty: i.tot_rc_qty,
                       req_qty: i.tot_rc_qty,
                       stock: i.project_stock,
-                    }])
-                    // itemDtlsFormCopy.push({
-                    //   sl_no: +params.id > 0 ? +params.id : 0,
-                    //   item_id: i.prod_id,
-                    //   prod_name: i.prod_name,
-                    //   rc_qty: i.tot_rc_qty,
-                    //   req_qty: i.tot_rc_qty,
-                    //   stock: i.project_stock,
-                    // });
+                    });
                   }
                 });
             });
         });
     } else {
-      console.log(
-        "Else part............................................................"
-      )
       setReqDate(formatDate(new Date(),"yyyy-MM-DD"));
-      setLoading(false)
-      // axios
-      //   .post(url + "/api/req_item_dtls", { last_req_id: +params.id })
-      //   .then((resItems) => {
-      //     console.log(resItems);
-      //     setStockData(resItems?.data?.msg);
-      //     setStockData1(resItems?.data?.msg);
-      //     setItemDtlsForm(itemDtlsForm);
-      //     setLoading(false);
-      //   });
+      axios
+        .post(url + "/api/req_item_dtls", { last_req_id: +params.id })
+        .then((resItems) => {
+          console.log(resItems);
+          setStockData(resItems?.data?.msg);
+          setStockData1(resItems?.data?.msg);
+          setItemDtlsForm(itemDtlsForm);
+          setLoading(false);
+        });
     }
   }, []);
   const getItemDetails = (id) => {
@@ -493,12 +506,11 @@ function RequisitionForm() {
       setLoading(true);
       if (params.id == 0)
         setStockData(stockData1.filter((e) => e.project_id == id));
-      if(id!=0){
       axios.post(url + "/api/get_proj_id", { Proj_id: id }).then((res) => {
         console.log(res);
         setProjID(res?.data?.msg[0]?.proj_id);
       });
-    }
+      // itemDtlsForm.length = 0;
       axios
         .post(url + "/api/get_item_dtls", {
           Proj_id: +id,
@@ -511,15 +523,16 @@ function RequisitionForm() {
           for (let i of res?.data?.msg) {
             error.push({ flag: 0 });
             if (i.rc_qty)
-               setBreakUpInfo(prevArray => [...prevArray, {
+              breakupinfo.push({
                 sl_no: +params.id > 0 ? +params.id : 0,
                 item_id: i.prod_id,
                 po_no: i.po_no,
                 prod_name: i.prod_name,
                 rc_qty: i.rc_qty,
                 req_qty: i.tot_rc_qty,
-              }]);
+              });
           }
+          setBreakUpInfo(breakupinfo);
         });
       axios
         .post(url + "/api/item_dtls", {
@@ -533,8 +546,7 @@ function RequisitionForm() {
           for (let i of res?.data?.msg) {
             error.push({ flag: 0 });
             if (i.tot_rc_qty - i.tot_req > 0) {
-             console.log("here",i)
-              setItemDtlsForm(prevArray => [...prevArray, {
+              itemDtlsForm.push({
                 sl_no: +params.id > 0 ? +params.id : 0,
                 item_id: i.prod_id,
                 prod_name:
@@ -549,10 +561,10 @@ function RequisitionForm() {
                 rc_qty: i.tot_rc_qty,
                 req_qty_copy: i.tot_rc_qty - i.tot_req,
                 req_qty: "",
-                // stock: intended != "W" ? i.project_stock||0 : i.warehouse_stock||0,
-                stock: i.tot_rc_qty,
-              }]);
-              setItemDtlsFormCopy(prevArray => [...prevArray, {
+                // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
+                stock: intended != "W" ? i.project_stock : i.warehouse_stock,
+              });
+              itemDtlsFormCopy.push({
                 sl_no: +params.id > 0 ? +params.id : 0,
                 item_id: i.prod_id,
                 prod_name:
@@ -565,22 +577,20 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
+
                 req_qty_copy: i.tot_rc_qty - i.tot_req,
                 req_qty: "",
-                // stock: intended != "W" ? i.project_stock ||0 : i.warehouse_stock||0,
-                stock: i.tot_rc_qty,
-              }]);
-             
+
+                // req_qty: i.tot_rc_qty,
+                // req_qty: intended!='W' ?(i.tot_rc_qty - i.tot_req)<=i.project_stock?i.tot_rc_qty - i.tot_req:i.project_stock:(i.tot_rc_qty - i.tot_req)<=i.warehouse_stock?i.tot_rc_qty - i.tot_req:i.warehouse_stock ,
+                stock: intended != "W" ? i.project_stock : i.warehouse_stock,
+              });
             }
           }
-          console.log(itemDtlsForm);
           console.log(itemDtlsFormCopy);
-          // setItemDtlsForm(itemDtlsForm);
-          // setItemDtlsFormCopy(itemDtlsForm);
-
-        });
-
-          // console.log(itemDtlsFormCopy);
+          setItemDtlsForm(itemDtlsForm);
+          setItemDtlsFormCopy(itemDtlsFormCopy);
+          console.log(itemDtlsFormCopy);
 
           // axios
           //   .post(url + "/api/item_dtls_trans", {
@@ -644,16 +654,73 @@ function RequisitionForm() {
           // console.log(itemDtlsForm)
 
           //   });
-          // console.log(itemDtlsForm);
-          // setItemDtlsForm(itemDtlsForm);
-          // setItemDtlsFormCopy(itemDtlsForm);
+          console.log(itemDtlsForm);
+          setItemDtlsForm(itemDtlsForm);
+          setItemDtlsFormCopy(itemDtlsFormCopy);
+        });
       // setItemDtlsForm(itemDtlsForm);
 
       // setItemDtlsFormCopy(itemDtlsFormCopy);
     }
   };
 
-  
+  const getWarehouseItemDetails = (id) => {
+    itemDtlsForm.length = 0;
+    axios
+      .post(url + "/api/get_item_dtls", {
+        Proj_id: +id,
+      })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+        for (let i of res?.data?.msg) {
+          error.push({ flag: 0 });
+          if (i.rc_qty)
+            breakupinfo.push({
+              sl_no: +params.id > 0 ? +params.id : 0,
+              item_id: i.prod_id,
+              po_no: i.po_no,
+              prod_name: i.prod_name,
+              rc_qty: i.rc_qty,
+              req_qty: i.tot_rc_qty,
+            });
+        }
+        axios
+          .post(url + "/api/item_dtls", {
+            Proj_id: +id,
+          })
+          .then((res) => {
+            setLoading(false);
+            console.log(res);
+            for (let i of res?.data?.msg) {
+              error.push({ flag: 0 });
+              itemDtlsForm.push({
+                sl_no: +params.id > 0 ? +params.id : 0,
+                item_id: i.prod_id,
+                prod_name: i.prod_name,
+                rc_qty: i.tot_rc_qty,
+                // req_qty: i.tot_rc_qty,
+                req_qty: i.project_stock,
+                stock: i.project_stock,
+              });
+              itemDtlsFormCopy.push({
+                sl_no: +params.id > 0 ? +params.id : 0,
+                item_id: i.prod_id,
+                prod_name: i.prod_name,
+                rc_qty: i.tot_rc_qty,
+                // req_qty: i.tot_rc_qty,
+                req_qty: i.project_stock,
+                stock: i.project_stock,
+              });
+            }
+          });
+      });
+  };
+  useEffect(() => {
+    axios
+      .post(url + "/api/item_dtls", { Proj_id: +params.id })
+      .then((res) => console.log(res));
+  }, []);
   const onSubmit = () => {
     let c = 0;
     for (let i of itemDtlsForm) {
@@ -1001,12 +1068,7 @@ function RequisitionForm() {
                       id="default-search"
                       className="bg-gray-200 border-gray-300 border-2 sticky shadow-lg top-1 z-10 rounded-full  text-gray-800 text-sm  my-1 mb-2 p-2  duration-500 block w-full focus:border-gray-200 focus:ring-gray-200 dark:bg-bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Search by items, part no.,article no.,model_no."
-                      onChange={(e) =>{
-                        console.log(e.target.value,itemDtlsForm.length, itemDtlsForm.filter((lst) =>
-                            lst.prod_name
-                              ?.toLowerCase()
-                              .includes(e.target.value.toLowerCase())
-                          )) ;
+                      onChange={(e) =>
                         setItemDtlsFormCopy(
                           itemDtlsForm.filter((lst) =>
                             lst.prod_name
@@ -1015,7 +1077,6 @@ function RequisitionForm() {
                           )
                         )
                       }
-                    }
                     />
                     <div>
                       {/* // itemDtlsForm.map((item, index) => ( */}

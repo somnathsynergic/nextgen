@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { ExpandOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "../Components/PrintHeader";
 import InfoTags from './InfoTags';
 import * as XLSX from "xlsx";
-
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 function ReportTemplate({ headers, net_tot,
   data, info, flag, wStock, reportHeader, grand_tot }) {
   const [first, setFirst] = useState(0); // Pagination state
@@ -16,6 +16,7 @@ function ReportTemplate({ headers, net_tot,
   console.log(data, info, headers, flag, wStock)
   const dt = useRef(null);
   const contentRef = useRef(null);
+   const handle = useFullScreenHandle();
   // const contentRef = useRef(null)
   const [isPrinting, setIsPrinting] = useState(true);
 
@@ -89,7 +90,7 @@ function ReportTemplate({ headers, net_tot,
       setDataCopy(data?.filter(item => item.Product?.toLowerCase().includes(e.target.value.toLowerCase()) || item['Stocked Out From']?.toString().toLowerCase().includes(e.target.value.toLowerCase()) || item['Stocked Out By']?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
     if (flag == 6) {
-      setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) ||  item.pur_date?.toLowerCase().includes(e.target.value.toLowerCase())||  item.created_by?.toLowerCase().includes(e.target.value.toLowerCase())|| item.proj_name?.toLowerCase().includes(e.target.value.toLowerCase()) || item.status?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+      setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) ||  item["PR No."]?.toLowerCase().includes(e.target.value.toLowerCase())||  item["Intended For"]?.toLowerCase().includes(e.target.value.toLowerCase())|| item["Requisition Date"]?.toLowerCase().includes(e.target.value.toLowerCase()) || item["Requisition By"]?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
     }
 
   }
@@ -107,6 +108,7 @@ function ReportTemplate({ headers, net_tot,
   return (
     <>
       <div className='float-end bg-transparent flex justify-end gap-2 mb-2'>
+       
         <Tooltip title="Print/Export PDF"> <button className='h-7 w-7 rounded-full bg-red-700 text-white' onClick={() => {
           setIsPrinting(false);
 
@@ -118,7 +120,15 @@ function ReportTemplate({ headers, net_tot,
          <Tooltip title="Export Excel"> <button className='h-7 w-7 rounded-full bg-green-800 text-white' onClick={() => {
         handleExport(dataCopy)
         }}><FileExcelOutlined /></button></Tooltip>
+         <Tooltip title="View Full Screen">
+          <button className='h-7 w-7 rounded-full bg-gray-300 text-gray-700' onClick={handle.enter}>
+            <ExpandOutlined />
+            
+            </button>
+        </Tooltip>
+        
       </div>
+      <FullScreen handle={handle}>
       <div className="bg-transparent mt-4">
 
         <div className='mb-2'>
@@ -200,6 +210,7 @@ function ReportTemplate({ headers, net_tot,
 
      
       </div>
+      </FullScreen>
     </>
   )
 }

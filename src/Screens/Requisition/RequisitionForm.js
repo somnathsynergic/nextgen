@@ -243,6 +243,9 @@ function RequisitionForm() {
             projectList.filter((e) => e.code == +res?.data?.msg?.project_id)[0]
               ?.name
           );
+           setProject(
+            res?.data?.msg?.proj_name
+          );
 
           // console.log(
           //   clientList.filter((e) => e.code == res?.data?.msg?.client_id)[0]
@@ -547,7 +550,8 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty_copy: i.tot_rc_qty - i.tot_req,
+                // req_qty_copy: i.tot_rc_qty - i.tot_req,
+                req_qty_copy: i.available,
                 req_qty: "",
                 // stock: intended != "W" ? i.project_stock||0 : i.warehouse_stock||0,
                 stock: i.tot_rc_qty,
@@ -565,7 +569,8 @@ function RequisitionForm() {
                   ", Model No.: " +
                   i.model_no,
                 rc_qty: i.tot_rc_qty,
-                req_qty_copy: i.tot_rc_qty - i.tot_req,
+                // req_qty_copy: i.tot_rc_qty - i.tot_req,
+                req_qty_copy: i.available,
                 req_qty: "",
                 // stock: intended != "W" ? i.project_stock ||0 : i.warehouse_stock||0,
                 stock: i.tot_rc_qty,

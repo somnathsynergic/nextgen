@@ -67,7 +67,7 @@ function PurMrnReporProj() {
     { name: "Vendor", value: "Vendor" },
     { name: "Product", value: "Product" },
     { name: "Invoice", value: "Invoice" },
-    { name: "Invoice Date", value: "Invoice Date" },
+    { name: "Invoice_Date", value: "Invoice Date" },
     // { name: "mrn_no", value: "MRN No" },
     // { name: "quantity", value: "Ordered Quantity" },
     { name: "Ordered Quantity", value: "Ordered Quantity" },
@@ -89,6 +89,26 @@ function PurMrnReporProj() {
     { name: "Received Quantity", value: "Received Quantity" },
   ]
   useEffect(() => {
+    
+    if(poCode)
+    {
+      setLoading(true)
+    axios.post(url + "/api/get_invoice_dt", { id: po_no }).then((res) => {
+  console.log(res)
+  // setFrom_dt(res?.data?.msg[0]?.min_dt?formatDate(new Date(res?.data?.msg[0]?.min_dt),'yyyy-MM-DD'):'')
+  setFrom_dt(res?.data?.msg[0]?.from_dt)
+  // setTo_dt(res?.data?.msg[0]?.max_dt?formatDate(new Date(res?.data?.msg[0]?.max_dt),'yyyy-MM-DD'):'')
+  setTo_dt(res?.data?.msg[0]?.to_dt)
+    setLoading(false)
+
+})
+    }
+    else{
+      setFrom_dt('')
+      setTo_dt('')
+    }
+  },[poCode])
+  useEffect(() => {
     axios.post(url + "/api/getvendor", { id: 0 }).then((res) => {
       console.log(res);
       setLoading(false);
@@ -106,7 +126,8 @@ function PurMrnReporProj() {
       }
     });
     axios.post(url + "/api/getpo", { id: 0 }).then((res) => {
-      var t = type == 'W' ? 'G' : 'P'
+      var t = type == 'W' ? 'G' : type=='P'?'P':''
+      if(t!=''){
       setPOList(
         res?.data?.msg
           ?.filter((item) => item.po_no != null && item.type == t)
@@ -121,6 +142,23 @@ function PurMrnReporProj() {
             return { name: item.po_no, code: item.po_no, type: item.type };
           })
       );
+    }
+    else{
+       setPOList(
+        res?.data?.msg
+          ?.filter((item) => item.po_no != null )
+          .map((item) => {
+            return { name: item.po_no, code: item.po_no, type: item.type };
+          })
+      );
+      setPOListCopy(
+        res?.data?.msg
+          ?.filter((item) => item.po_no != null )
+          .map((item) => {
+            return { name: item.po_no, code: item.po_no, type: item.type };
+          })
+      );
+    }
     });
     if (type == "P") {
       setLoading(true);
@@ -180,7 +218,7 @@ function PurMrnReporProj() {
   return (
     <section className="bg-transparent dark:bg-[#001529]">
       <HeadingTemplate
-        text={"MRN Report"}
+        text={"PO-wise MRN Report"}
         mode={2}
         title={"Report"}
       // data={params.id && data?data:''}
@@ -534,6 +572,7 @@ function PurMrnReporProj() {
                                 op_po.current.hide(e);
                                 setPoNo(lst.name);
                                 setPoCode(lst.code);
+                                setType(lst.name.toLowerCase().includes('gen')?'W':'P')
                                 console.log(lst);
                                 // setLoading(true);
                               }}

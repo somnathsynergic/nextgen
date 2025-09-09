@@ -347,7 +347,7 @@ function StockIn() {
             }
           </div>
         </div>
-        { reportData.length>0 &&
+        { reportData &&
         <div className={clicked ? "grid grid-cols-6 gap-2 my-3" : "grid grid-cols-6 gap-2"}>
           <div className='w-full col-span-6 bg-white p-2 rounded-2xl '>
 
@@ -355,7 +355,7 @@ function StockIn() {
             <div className="w-full col-span-6 bg-white p-6 rounded-2xl ">
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 {/* <Tag color="#014737">Warehouse quantity of this product: {reportData[0].warehouse_stock || 0}</Tag> */}
-                {(prodCode != undefined || !prodCode) && Object.keys(reportData).length>0 && <StockInViewComp data={reportData} headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2} />}
+                {prodCode != undefined && Object.keys(reportData).length>0 && <StockInViewComp data={reportData} headers={headers} info={info} item_id={prodCode} proj_id={projcode} project={project} product={prodVal} flag={2} />}
 
                 {prodCode == undefined && reportData.length>0 && <StockInViewCompAll data={reportData} headers={headers} info={info} proj_id={projcode} project={project} product={prodVal} flag={2} />}
               </div>

@@ -374,11 +374,28 @@ function TermsConditions({ pressNext, pressBack, data }) {
     warranty_guarantee_flag: Yup.string().required(
       "Warranty/Guarantee is required"
     ),
-    duration: Yup.string().required("Duration is required"),
-    duration_val: Yup.string()
-      .required("Duration value is required")
+    // duration: Yup.string().required("Duration is required"),
+    duration: Yup.string().when('warranty_guarantee_flag',{
+      is:  (val) =>
+        val != "NA",
+      then: () => Yup.string().required("Duration is required"),
+      otherwise: () =>Yup.string(),
+    }),
+    // duration_val: Yup.string()
+    //   .required("Duration value is required")
+    //   .min(0, "Invalid value")
+    //   .matches(/^[0-9]+$/, "Only whole numbers allowed"),
+    duration_val: Yup.string().when('warranty_guarantee_flag',{
+       is:  (val) =>
+        val != "NA",
+      then: () => Yup.string().required("Duration value is required")
       .min(0, "Invalid value")
       .matches(/^[0-9]+$/, "Only whole numbers allowed"),
+      otherwise: () =>Yup.string(),
+    }),
+      // .required("Duration value is required")
+      // .min(0, "Invalid value")
+      // .matches(/^[0-9]+$/, "Only whole numbers allowed"),
     duration_val_to: Yup.string().when("warranty_guarantee_flag", {
       is: "N",
       then: () => Yup.string().required("Duration value is required")
@@ -509,7 +526,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
             "IGST should be filled alone or leave CGST and SGST empty";
         }
       }
-      if (values.duration_val <= 0) {
+      if (values.duration_val <= 0 && values.warranty_guarantee_flag!='NA') {
         errors.duration_val = "Duration must be >0";
       }
       if (values.warranty_guarantee_flag=='N' && values.duration_val_to <= 0) {
@@ -2241,6 +2258,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                 { code: "N", name: "None" },
                 { code: "W", name: "Warranty" },
                 { code: "G", name: "Guarantee" },
+                { code: "NA", name: "Not Applicable" },
               ]}
               disabled={
                 // localStorage.getItem("amend_flag") == "Y" ||
@@ -2270,6 +2288,8 @@ function TermsConditions({ pressNext, pressBack, data }) {
                     name="dispatch_dt"
                     disabled={
                       // localStorage.getItem("amend_flag") == "Y" ||
+                      
+                      formik.values.warranty_guarantee_flag=='NA' ||
                       localStorage.getItem("po_status") == "A" ||
                       localStorage.getItem("po_status") == "D" ||
                       localStorage.getItem("po_status") == "L"
@@ -2285,6 +2305,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
                     name="comm_dt"
                     disabled={
                       // localStorage.getItem("amend_flag") == "Y" ||
+                      formik.values.warranty_guarantee_flag=='NA' ||
                       localStorage.getItem("po_status") == "A" ||
                       localStorage.getItem("po_status") == "D" ||
                       localStorage.getItem("po_status") == "L"
@@ -2325,6 +2346,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               mode={2}
               disabled={
                 // localStorage.getItem("amend_flag") == "Y" ||
+                formik.values.warranty_guarantee_flag=='NA' ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2344,6 +2366,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="duration_val"
               disabled={
                 // localStorage.getItem("amend_flag") == "Y" ||
+                formik.values.warranty_guarantee_flag=='NA' ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"
@@ -2368,6 +2391,7 @@ function TermsConditions({ pressNext, pressBack, data }) {
               name="duration_val_to"
               disabled={
                 // localStorage.getItem("amend_flag") == "Y" ||
+                formik.values.warranty_guarantee_flag=='NA' ||
                 localStorage.getItem("po_status") == "A" ||
                 localStorage.getItem("po_status") == "D" ||
                 localStorage.getItem("po_status") == "L"

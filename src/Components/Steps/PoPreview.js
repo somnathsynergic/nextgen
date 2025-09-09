@@ -1231,11 +1231,14 @@ function PoPreview({ data }) {
                             {JSON.parse(localStorage.getItem("terms"))
                               .warranty_guarantee_flag == "W"
                               ? "Warranty"
-                              : "Guarantee"}{" "}
-                            Duration:{" "}
+                              :JSON.parse(localStorage.getItem("terms"))
+                              .warranty_guarantee_flag == "G"? "Guarantee":"N/A"}{" "}
+                           
                             {
                               JSON.parse(localStorage.getItem("terms"))
-                                .duration_val
+                              .warranty_guarantee_flag !="NA"?
+                              "Duration :"+JSON.parse(localStorage.getItem("terms"))
+                                .duration_val:""
                             }{" "}
                             {JSON.parse(localStorage.getItem("terms"))
                               .duration == "M"
@@ -1243,7 +1246,8 @@ function PoPreview({ data }) {
                               : JSON.parse(localStorage.getItem("terms"))
                                   .duration == "D"
                               ? "day(s)"
-                              : "year(s)"}
+                              : JSON.parse(localStorage.getItem("terms"))
+                              .duration !=''? "year(s)":""}
                             {/* ===================================================== */}
                             {JSON.parse(localStorage.getItem("terms"))
                               .comm_dt && " from the date of commission"}

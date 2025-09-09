@@ -535,7 +535,8 @@ function RequisitionForm() {
           itemDtlsFormCopy.length = 0;
           for (let i of res?.data?.msg) {
             error.push({ flag: 0 });
-            if (i.tot_rc_qty - i.tot_req > 0) {
+            // if (i.tot_rc_qty - i.tot_req > 0) {
+            if (i.available > 0 && i.tot_rc_qty>0) {
              console.log("here",i)
               setItemDtlsForm(prevArray => [...prevArray, {
                 sl_no: +params.id > 0 ? +params.id : 0,
@@ -554,7 +555,8 @@ function RequisitionForm() {
                 req_qty_copy: i.available,
                 req_qty: "",
                 // stock: intended != "W" ? i.project_stock||0 : i.warehouse_stock||0,
-                stock: i.tot_rc_qty,
+                // stock: i.tot_rc_qty,
+                stock: i.available,
               }]);
               setItemDtlsFormCopy(prevArray => [...prevArray, {
                 sl_no: +params.id > 0 ? +params.id : 0,
@@ -573,7 +575,8 @@ function RequisitionForm() {
                 req_qty_copy: i.available,
                 req_qty: "",
                 // stock: intended != "W" ? i.project_stock ||0 : i.warehouse_stock||0,
-                stock: i.tot_rc_qty,
+                // stock: i.tot_rc_qty,
+                stock: i.available,
               }]);
              
             }

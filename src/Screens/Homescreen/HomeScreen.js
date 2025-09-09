@@ -120,7 +120,7 @@ function HomeScreen() {
           </SpinComp>
           {/* </Spin> */}
         </Link>
-        <Link to={routePaths.PURCHASEORDER + '/P'} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
+        <Link to={routePaths.APPROVEORDER} class="relative cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 border-dashed bg-white rounded-lg shadow-lg border-gray-800 text-white text-5xl dark:border-gray-600 h-24 md:h-24 flex 2xl:h-32 items-center">
           <div class="h-full rounded-l-lg w-1/3 flex justify-center items-center bg-yellow-500">
             <ExceptionOutlined class="text-white text-5xl" />
           </div>

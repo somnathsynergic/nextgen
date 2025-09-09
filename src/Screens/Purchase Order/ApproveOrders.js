@@ -58,13 +58,7 @@ function ApproveOrders() {
     setLoading(true);
 
     setValue(
-      [
-        locationpath.pathname.split("/")[
-          locationpath.pathname.split("/").length - 1
-        ],
-      ] == "P"
-        ? 2
-        : 1
+     2
     );
     axios
       .post(url + "/api/getpo", { id: 0 })
@@ -80,7 +74,7 @@ function ApproveOrders() {
       // else{
         setLoading(false);
         setCopy(res?.data?.msg.filter((e) => (e.po_status == "A" || e.po_status == "U")));
-        setPoData(res?.data?.msg?.filter((e) => e.po_status == "A"));
+        setPoData(res?.data?.msg?.filter((e) => e.po_status == "U"));
     // }
       })
       .catch((err) => {

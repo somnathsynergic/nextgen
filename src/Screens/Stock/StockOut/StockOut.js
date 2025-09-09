@@ -452,6 +452,7 @@ function StockOut() {
                         setProjCode(0)
                         setProject("")
                         setReportData([])
+                        setProjId("")
 
                       }
                       else{

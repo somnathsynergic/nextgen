@@ -7,7 +7,6 @@ import axios from "axios";
 import { Message } from "../../../Components/Message";
 import { url } from "../../../Address/BaseUrl";
 import { Empty, Tooltip } from "antd";
-
 import {
   ArrowUpOutlined,
   FileDoneOutlined,
@@ -127,7 +126,7 @@ function StockOut() {
     //   });
 
     axios
-      .post(url + "/api/get_stock_out_data", { dt: dt, proj_id: projcode })
+      .post(url + "/api/get_stock_out_data1", { dt: dt, proj_id: projcode })
       .then((res) => {
         console.log(res);
         setReportData(res?.data?.msg);
@@ -136,9 +135,9 @@ function StockOut() {
 
        res?.data?.msg?.filter(item=>item.req_list.length>0)?.forEach(e=>{
             setReportDataCopy(prev=>[...prev,{
-              id:e.id,
-              name:e.name,
-              stock:e.stock,
+              id:e.item_id,
+              name:e.item_name,
+              stock:e.balance,
               req_stock:e.req_stock || 0,
               stock_out:0,
               error:0,

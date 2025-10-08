@@ -352,7 +352,7 @@ function SiemensView() {
         </div>
       )}
        <Tooltip title="Export Excel">
-                  <FloatButton disabled={downloading} className="active:scale-90 duration-300 group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 24, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+                  <FloatButton disabled={downloading} className="active:scale-90 duration-300 transition ease-in-out group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 1, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
                     if (po_data.length) {
                       setDownloading(true)
                       axios.post(url + '/api/siemens_dashboard_report', { flag: 0 }).then(res => {

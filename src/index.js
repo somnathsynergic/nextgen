@@ -13,6 +13,7 @@ import Loader from "./Components/Loader";
 import CircularProgress from "@mui/material/CircularProgress";
 import CatchError from "./Screens/CatchError";
 import CancelView from "./Screens/Stock/ApproveTransfer.js/CancelView";
+const StockVal =lazy(()=>import("./Screens/Reports/StockVal"));
 const SiemensMRNForm = lazy(()=>import("./Screens/Siemens/SiemensMRNForm"));
 const SiemensComp =lazy(()=>import("./Screens/Siemens/SiemensComp"));
 const SiemensView =lazy(()=>import("./Screens/Siemens/SiemensView"));
@@ -738,6 +739,10 @@ const router = createBrowserRouter([
               {
                 path: "stock_out_report",
                 element: <StockOutReport />,
+              },
+              {
+                path: "stock_val_report",
+                element: <StockVal />,
               },
                {
                 path: "mat_val_report",

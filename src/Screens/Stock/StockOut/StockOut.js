@@ -136,12 +136,15 @@ function StockOut() {
        res?.data?.msg?.filter(item=>item.req_list.length>0)?.forEach(e=>{
             setReportDataCopy(prev=>[...prev,{
               id:e.item_id,
+              // id:e.id,
               name:e.item_name,
+              // name:e.name, 
               stock:e.balance,
               req_stock:e.req_stock || 0,
               stock_out:0,
               error:0,
               req_no:e.req_no,
+              // req_list:e.req_list.filter(item=>item.copy_qty-(item.del_qty||0)>0)
               req_list:e.req_list.filter(item=>item.copy_qty-item.del_qty>0)
             }])
         }

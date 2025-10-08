@@ -389,13 +389,7 @@ function DeliveryViewTemplate({ flag }) {
                      
                   }
                     
-                    
-                    
-                    
                     >
-                     
-                     
-                     
                      
                       <th
                         scope="row"

@@ -88,6 +88,7 @@ export const routePaths={
     SIEMENSVIEW:'/home/siemensComp/siemensView',
     SIEMENSFORM:'/home/siemensComp/siemensForm/',
     STOCKOUTREPORT:'/home/reportComp/stock_out_report/',
+    STOCKVALREPORT:'/home/reportComp/stock_val_report/',
     MATVALSTOCKOUT:'/home/reportComp/mat_val_stockout/'
 
 }

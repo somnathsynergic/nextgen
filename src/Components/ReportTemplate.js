@@ -66,11 +66,6 @@ function ReportTemplate({ headers, net_tot,
     }, 10);
 
   }
-
-
-
-
-
   const footer = `Basic Value=${parseFloat(net_tot).toFixed(2)}, Grand Total = ${parseFloat(grand_tot).toFixed(2)}`;
   const setSearch = (e) => {
     console.log(e.target.value, flag)
@@ -91,6 +86,9 @@ function ReportTemplate({ headers, net_tot,
     }
     if (flag == 6) {
       setDataCopy(data?.filter(item => item.pur_no?.toLowerCase().includes(e.target.value.toLowerCase()) ||  item["PR No."]?.toLowerCase().includes(e.target.value.toLowerCase())||  item["Intended For"]?.toLowerCase().includes(e.target.value.toLowerCase())|| item["Requisition Date"]?.toLowerCase().includes(e.target.value.toLowerCase()) || item["Requisition By"]?.toString().toLowerCase().includes(e.target.value.toLowerCase())))
+    }
+     if (flag == 7) {
+      setDataCopy(data?.filter(item => item.prod_name?.toLowerCase().includes(e.target.value.toLowerCase())))
     }
 
   }
@@ -151,7 +149,7 @@ function ReportTemplate({ headers, net_tot,
 
           {flag == 2 && <InfoTags color={isPrinting ? "#014737" : '#10b981'} text={'Warehouse quantity of this product: ' + wStock} />}
           <DataTable
-            value={dataCopy.filter(item => item?.Quantity > 0 || (item['Received Quantity']>0 || item['Received Quantity']!=null) || item['Project Quantity'] > 0 || item['Stocked Out Quantity']>0 || item['PR No.']
+            value={dataCopy.filter(item => item?.Quantity > 0 || item?.stock>0 || (item['Received Quantity']>0 || item['Received Quantity']!=null) || item['Project Quantity'] > 0 || item['Stocked Out Quantity']>0 || item['PR No.']
 
             )}
             

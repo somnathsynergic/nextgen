@@ -578,6 +578,12 @@ function Menus({ theme, data, shrink }) {
 
         },
         {
+          key: "rep:stock_val",
+          icon: <PieChartFilled />,
+          label: <Link to={routePaths.STOCKVALREPORT}>Stock Value</Link>,
+
+        },
+        {
           key: "rep:pr_ord_create",
           icon: <PieChartFilled />,
           label: <Link to={routePaths.PRORDCREATE}>Pending Order Creation Against PR</Link>,

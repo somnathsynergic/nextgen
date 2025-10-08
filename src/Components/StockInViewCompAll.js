@@ -9,6 +9,7 @@ import DialogBox from "./DialogBox";
 import { useReactToPrint } from "react-to-print";
 import PrintHeader from "./PrintHeader";
 import { Fab, Tooltip } from "@mui/material";
+import Pagination from "./Pagination";
 
 function StockInViewCompAll({
     headers,
@@ -17,7 +18,6 @@ function StockInViewCompAll({
     flag,
     wStock,
     title,
-    setSearch,
     proj_id,
     item_id,
     project,
@@ -33,6 +33,7 @@ function StockInViewCompAll({
   const [visible, setVisible] = useState(false);
   const [logData, setLogData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [data1, setData1] = useState(data);
   const contentRef = useRef(null);
   const [isPrinting, setIsPrinting] = useState(true);
   
@@ -47,6 +48,16 @@ function StockInViewCompAll({
   const onClose = () => {
     setOpen(false);
   };
+  
+  const setSearch = (e) => {
+    setData1(
+      data.filter(
+        (item) =>
+          item.prod_name.toLowerCase().includes(e.target.value.toLowerCase()) 
+      )
+    );
+  }
+
   const content = (
     <div className="grid grid-cols-2 gap-3 p-3 bg-green-100 rounded-lg">
       <Tag
@@ -145,7 +156,7 @@ function StockInViewCompAll({
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 30 }}
       >
-         {/* <div className='mb-2'>
+         <div className='mb-2'>
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div class="relative">
             <div class={flag == 2 ? "absolute inset-y-0 start-0 flex items-center ps-3 -mb-5 pointer-events-none" : "absolute inset-y-5 start-0 flex items-center ps-3 pointer-events-none"}>
@@ -156,7 +167,7 @@ function StockInViewCompAll({
             <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-900 focus:border-green-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." onChange={e => setSearch(e)} required />
 
           </div>
-        </div> */}
+        </div>
         <table className="w-full border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
           <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -198,7 +209,7 @@ function StockInViewCompAll({
             </tr>
           </thead>
           <tbody>
-            {data.length>0 && data?.map((item,index)=> item?.stock>0 &&
+            {data1.length>0 && data1?.slice(first, rows + first).map((item,index)=> item?.stock>0 &&
             <tr className="bg-[#DDEAE0] border-b-2 mt-1 text-lg border-white my-3 font-bold  dark:bg-gray-800 dark:border-gray-700">
                  <td
                 scope="row"
@@ -208,7 +219,7 @@ function StockInViewCompAll({
               </td>
                 <td
                 scope="row"
-                className="px-4 w-1/6 py-1.5 text-center flex-wrap text-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                className="px-4 w-3/6 py-1.5 text-center flex-wrap text-wrap justify-between gap-10 items-center text-sm text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {item?.prod_name}
               </td>
@@ -246,7 +257,13 @@ function StockInViewCompAll({
               </td> */}
             </tr>)}
           </tbody>
+        
         </table>
+          <Pagination first={first}
+              rows={rows}
+              totalRecords={data1?.length}
+              rowsPerPageOptions={[3, 5, 10, 15, 20, 30, data1?.length]}
+              onPageChange={onPageChange}/>
         <div className="flex justify-center my-4">
             <Tooltip title="Print this table">
               <Fab

@@ -155,7 +155,7 @@ function Delivery({ pressBack, pressNext, data }) {
             >
               <Radio.Group
                 // style={style}
-                className="shadow-lg rounded-lg p-2 bg-green-50"
+                className="shadow-lg rounded-full p-1 bg-[#DDEAE0]"
                 onChange={onChangeFlg}
                 value={delValue}
                 disabled={

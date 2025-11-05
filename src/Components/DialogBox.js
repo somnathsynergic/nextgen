@@ -461,6 +461,7 @@ const DialogBox = ({
   };
   return (
     <Dialog
+    transitionOptions={'duration-300'}
       closable={flag != 3 && !loading ? true : false}
       header={
         <div

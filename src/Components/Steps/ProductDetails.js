@@ -1,5 +1,5 @@
 import './Steps.css'
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TDInputTemplate from "../TDInputTemplate";
 import {
   PlusOutlined,
@@ -144,30 +144,30 @@ function ProductDetails({ pressBack, pressNext, data }) {
     }
   };
   var tot = 0;
- 
+
   const [itemList, setItemList] = useState(
     data?.itemList?.length
       ? data?.itemList.map(item => ({ ...item, click: 0 }))
       : [
-          {
-            sl_no: 0,
-            item_name: "",
-            qty: "",
-            rate: "",
-            currency: "",
-            disc_prtg: "",
-            disc: "",
-            unit: "",
-            unit_price: "",
-            total: "",
-            CGST: "",
-            SGST: "",
-            IGST: "",
-            delivery_date: "",
-            delivery_to: "",
-            click:1
-          },
-        ]
+        {
+          sl_no: 0,
+          item_name: "",
+          qty: "",
+          rate: "",
+          currency: "",
+          disc_prtg: "",
+          disc: "",
+          unit: "",
+          unit_price: "",
+          total: "",
+          CGST: "",
+          SGST: "",
+          IGST: "",
+          delivery_date: "",
+          delivery_to: "",
+          click: 1
+        },
+      ]
   );
   // const filteredProdList = useMemo(() => {
   //   const selectedCodes = itemList.map((item) => +item?.item_name);
@@ -184,7 +184,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
   useEffect(() => {
     // setBlocked((det.po == 1 || (localStorage.getItem('manager_email')!='FFABC123' && localStorage.getItem('manager_email')!=localStorage.getItem('email'))) ? true : false);
     // 
-    setBlocked(det.po == 1 || (localStorage.getItem('email')!=localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ?true:false)
+    setBlocked(det.po == 1 || (localStorage.getItem('email') != localStorage.getItem("po_created_by") && localStorage.getItem("po_created_by")) ? true : false)
     // setBlocked(false)
     // 
 
@@ -198,7 +198,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
       tot = 0;
     }
   }, []);
-  const handleItemClick = (index)=>{
+  const handleItemClick = (index) => {
     let data = [...itemList];
     data[index]["click"] = 1;
     setItemList(data);
@@ -221,7 +221,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
     if (event.target.name == "disc_prtg") {
       // console.log(+((data[index]["rate"] * +event.target.value) / 100));
       console.log('disc_prtg')
-      console.log( data[index]["disc"] = +(
+      console.log(data[index]["disc"] = +(
         data[index]["rate"] *
         (+event.target.value / 100)
       ))
@@ -229,7 +229,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         data[index]["rate"] *
         (+event.target.value / 100)
       );
-    data[index]["unit_price"] = +(data[index]["rate"] - ( data[index]["rate"] *
+      data[index]["unit_price"] = +(data[index]["rate"] - (data[index]["rate"] *
         (+event.target.value / 100)));
 
     }
@@ -239,7 +239,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         (+event.target.value * 100) /
         data[index]["rate"]
       ))
-    // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
+      // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
 
       data[index]["disc_prtg"] = +(
         (+event.target.value * 100) /
@@ -248,13 +248,13 @@ function ProductDetails({ pressBack, pressNext, data }) {
     }
     data[index][event.target.name] = event.target.value;
     //
-    if (event.target.name== "rate"){
-    // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
-      if(data[index]['disc_prtg']){
-         data[index]["disc"] = +(
-        data[index]["rate"] *
-        (+data[index]["disc_prtg"] / 100)
-      );
+    if (event.target.name == "rate") {
+      // data[index]["unit_price"] = +(data[index]["rate"] - data[index]["disc"]);
+      if (data[index]['disc_prtg']) {
+        data[index]["disc"] = +(
+          data[index]["rate"] *
+          (+data[index]["disc_prtg"] / 100)
+        );
       }
 
     }
@@ -298,22 +298,22 @@ function ProductDetails({ pressBack, pressNext, data }) {
       data[index]["total"] =
         +(
           data[index]["unit_price"] *
-            data[index]["qty"] *
-            (data[index]["CGST"] / 100) +
+          data[index]["qty"] *
+          (data[index]["CGST"] / 100) +
           data[index]["unit_price"] *
-            data[index]["qty"] *
-            (data[index]["SGST"] / 100)
+          data[index]["qty"] *
+          (data[index]["SGST"] / 100)
         ) +
         data[index]["unit_price"] * data[index]["qty"];
       setSgst(
         data[index]["unit_price"] *
-          data[index]["qty"] *
-          (data[index]["SGST"] / 100)
+        data[index]["qty"] *
+        (data[index]["SGST"] / 100)
       );
       setCgst(
         data[index]["unit_price"] *
-          data[index]["qty"] *
-          (data[index]["CGST"] / 100)
+        data[index]["qty"] *
+        (data[index]["CGST"] / 100)
       );
     }
     for (let i = 0; i < itemList.length; i++) {
@@ -360,14 +360,14 @@ function ProductDetails({ pressBack, pressNext, data }) {
         //   name: resProd?.data?.msg[i]?.prod_name,
         //   code: resProd?.data?.msg[i]?.sl_no,
         // });
-        setProdList((prev) => [...prev,{
-            name: resProd?.data?.msg[i]?.prod_name,
-            code: resProd?.data?.msg[i]?.sl_no,
-          }])
-          setProdListCopy((prev) => [...prev,{
-            name: resProd?.data?.msg[i]?.prod_name,
-            code: resProd?.data?.msg[i]?.sl_no,
-          }])
+        setProdList((prev) => [...prev, {
+          name: resProd?.data?.msg[i]?.prod_name,
+          code: resProd?.data?.msg[i]?.sl_no,
+        }])
+        setProdListCopy((prev) => [...prev, {
+          name: resProd?.data?.msg[i]?.prod_name,
+          code: resProd?.data?.msg[i]?.sl_no,
+        }])
       }
       axios.post(url + "/api/getunit", { id: 0 }).then((resUnit) => {
         setUnits(resUnit?.data?.msg);
@@ -467,29 +467,29 @@ function ProductDetails({ pressBack, pressNext, data }) {
                 (item) => item?.code == e.item_id && e.qty > 0
               )
             );
-          if(params.id==0){
-            if(e.qty>0){
-              console.log("if")
-            setProdList((prev) => [
-              ...prev,
-              prodListCopy?.filter(
-                (item) => item?.code == e.item_id && e.qty > 0
-              )[0],
-            ]);
-           
-          }
-        }
-          else{
-            console.log("else")
+            if (params.id == 0) {
+              if (e.qty > 0) {
+                console.log("if")
+                setProdList((prev) => [
+                  ...prev,
+                  prodListCopy?.filter(
+                    (item) => item?.code == e.item_id && e.qty > 0
+                  )[0],
+                ]);
 
-            setProdList((prev) => [
-              ...prev,
-              prodListCopy?.filter(
-                (item) => item?.code == e.item_id 
-              )[0],
-            ]); 
+              }
+            }
+            else {
+              console.log("else")
+
+              setProdList((prev) => [
+                ...prev,
+                prodListCopy?.filter(
+                  (item) => item?.code == e.item_id
+                )[0],
+              ]);
+            }
           }
-        }
         });
     }
   }, [prodListCopy]);
@@ -503,12 +503,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
             Item Details
           </h2>
           <BlockComp blocked={blocked} template={
-                      <div className='relative  w-full h-full 0 z-10'>
-                        <span className='absolute top-1 left-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked</span>
-                                   <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 '/> Accessible to {localStorage.getItem("po_created_by")}</span>
-                        
-                      </div>
-                    } >
+            <div className='relative  w-full h-full 0 z-10'>
+              <span className='absolute top-1 left-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 ' /> Locked</span>
+              <span className='absolute bottom-1 right-1 font-bold italic text-gray-500'><UnlockFilled className='text-green-900 ' /> Accessible to {localStorage.getItem("po_created_by")}</span>
+
+            </div>
+          } >
             {/* <div className="my-3">
       <TDInputTemplate
                     placeholder="Purchase Requisition"
@@ -534,11 +534,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
       </div> */}
 
             {itemList.map((input, index) => (
-           
-              <div key={input.item_name||index}>
+
+              <div key={input.item_name || index}>
                 {/* <div className="sm:col-span-2 px-3 rounded-t-md bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center"> */}
                 <div className="sm:col-span-2 px-3  bg-[#C4F1BE] py-2 flex gap-2 justify-end items-center">
-                {/* <div className="sm:col-span-2 px-3 bg-green-900 py-2 flex gap-2 justify-end items-center"> */}
+                  {/* <div className="sm:col-span-2 px-3 bg-green-900 py-2 flex gap-2 justify-end items-center"> */}
                   {localStorage.getItem("po_status") != "A" &&
                     localStorage.getItem("po_status") != "D" &&
                     localStorage.getItem("po_status") != "L" && (
@@ -571,7 +571,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               IGST: itemList[index].IGST,
                               delivery_date: itemList[index].delivery_date,
                               delivery_to: itemList[index].delivery_to,
-                              click:1
+                              click: 1
                               // poc_address: "",
                             });
                           }}
@@ -601,11 +601,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                 </div>
 
                 <div className="grid shadow-md bg-[#DDEAE0] p-2.5 px-3 rounded-b-md sm:grid-cols-12 sm:gap-6 flex-col">
-                <p className="text-green-900 text-sm font-bold absolute">{input.click==0?'Item Name':''}</p> 
+                  <p className="text-green-900 text-sm font-bold absolute">{input.click == 0 ? 'Item Name' : ''}</p>
 
-                  <div onClick={()=>handleItemClick(index)} className={input.click==1?"sm:col-span-10 flex flex-col " : "sm:col-span-10 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
+                  <div onClick={() => handleItemClick(index)} className={input.click == 1 ? "sm:col-span-10 flex flex-col " : "sm:col-span-10 flex flex-col h-8 border border-gray-500 overflow-hidden mt-7 bg-white p-1 rounded-md text-sm"}>
 
-                    {localStorage.getItem("po_status") != "A" && params.flag!='F' && (
+                    {localStorage.getItem("po_status") != "A" && params.flag != 'F' && (
                       <a
                         className="ml-24 -mt-1 -mb-7"
                         onClick={() => {
@@ -623,56 +623,56 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       </a>
                     )}
                     <span>
-                      
-                    {input.click==0? prodList?.filter(item =>item?.code ==itemList[index]?.item_name)[0]?.name : 
-                    <>
-                    <TDInputTemplate
-                      placeholder="Item name"
-                      type="text"
-                      label="Item name"
-                      // data={prodList}
-                      data={
-                        prodList?.filter(item =>item?.code ==itemList[index]?.item_name 
-                          || !itemList.map(obj => +obj?.item_name).includes(item?.code))
-                     
-                        }
-                      formControlName={input.item_name}
-                      name="item_name"
-                      handleChange={(event) => {
-                        handleDtChange(index, event);
-                        console.log(event.target.value);
-                      }}
-                      disabled={
-                        localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
-                          ? true
-                          : false
-                      }
-                      mode={2}
-                    /> 
-                    {(input.item_name == "Item name" ||
-                      input.item_name == "") && (
-                      <VError title={"Name is required!"} />
-                    )}
-                    {localStorage.getItem("po_status") != "A" &&
-                      localStorage.getItem("po_status") != "D" &&
-                      localStorage.getItem("po_status") != "L" && (
-                        <div className="flex justify-between items-center">
-                          <a
-                            className="my-1"
-                            onClick={() => {
-                              setMode(3);
-                              setOpen(true);
+
+                      {input.click == 0 ? prodList?.filter(item => item?.code == itemList[index]?.item_name)[0]?.name :
+                        <>
+                          <TDInputTemplate
+                            placeholder="Item name"
+                            type="text"
+                            label="Item name"
+                            // data={prodList}
+                            data={
+                              prodList?.filter(item => item?.code == itemList[index]?.item_name
+                                || !itemList.map(obj => +obj?.item_name).includes(item?.code))
+
+                            }
+                            formControlName={input.item_name}
+                            name="item_name"
+                            handleChange={(event) => {
+                              handleDtChange(index, event);
+                              console.log(event.target.value);
                             }}
-                          >
-                            {/* <Tag color="#4FB477">
+                            disabled={
+                              localStorage.getItem("po_status") == "A" ||
+                                localStorage.getItem("po_status") == "D" ||
+                                localStorage.getItem("po_status") == "L"
+                                ? true
+                                : false
+                            }
+                            mode={2}
+                          />
+                          {(input.item_name == "Item name" ||
+                            input.item_name == "") && (
+                              <VError title={"Name is required!"} />
+                            )}
+                          {localStorage.getItem("po_status") != "A" &&
+                            localStorage.getItem("po_status") != "D" &&
+                            localStorage.getItem("po_status") != "L" && (
+                              <div className="flex justify-between items-center">
+                                <a
+                                  className="my-1"
+                                  onClick={() => {
+                                    setMode(3);
+                                    setOpen(true);
+                                  }}
+                                >
+                                  {/* <Tag color="#4FB477">
                               {" "}
                               <PlusCircleOutlined /> Not in list?
                             </Tag> */}
-                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
-                          </a>
-                          {/* <a
+                                  <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={<PlusCircleOutlined />} />
+                                </a>
+                                {/* <a
                        className="my-2"
                        onClick={() => {
                          
@@ -685,12 +685,12 @@ function ProductDetails({ pressBack, pressNext, data }) {
                        <Tag color="#eb8d00" className="ml-1 rounded-full w-6 h-6 flex justify-center items-center" > <SearchOutlined/></Tag>
                        </Tooltip>
                      </a> */}
-                        </div>
-                      )}
-                     </>}
-                     </span>
+                              </div>
+                            )}
+                        </>}
+                    </span>
                   </div>
- 
+
                   <div className="sm:col-span-2 flex flex-col items-start ">
                     <TDInputTemplate
                       placeholder="Quantity"
@@ -702,8 +702,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         // true
                         // params.id>0 ||
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -717,17 +717,17 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     )}
 
                     {params.flag == "F" &&
-                     pur_req_items.filter(
-                      (e) => (e.item_id == +input.item_name)
-                    )[0]?.copy_qty >0 && pur_req_items.filter(
+                      pur_req_items.filter(
+                        (e) => (e.item_id == +input.item_name)
+                      )[0]?.copy_qty > 0 && pur_req_items.filter(
                         (e) => (e.item_id == +input.item_name)
                       )[0]?.copy_qty < +input.qty && (
                         <VError
                           title={
                             "Should be < " +
-                              pur_req_items.filter(
-                                (e) => (e.item_id == +input.item_name)
-                              )[0]?.copy_qty
+                            pur_req_items.filter(
+                              (e) => (e.item_id == +input.item_name)
+                            )[0]?.copy_qty
                           }
                         />
                       )}
@@ -741,8 +741,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       name="rate"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -765,8 +765,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       name="currency"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -791,9 +791,9 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       name="disc_prtg"
                       disabled={
                         !input.rate ||
-                        localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "A" ||
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -812,27 +812,27 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         input.currency == "I"
                           ? "Discount (INR)"
                           : input.currency == "U"
-                          ? "Discount (USD)"
-                          : input.currency == "E"
-                          ? "Discount (Euro)"
-                          : "Discount"
+                            ? "Discount (USD)"
+                            : input.currency == "E"
+                              ? "Discount (Euro)"
+                              : "Discount"
                       }
                       type="number"
                       label={
                         input.currency == "I"
                           ? "Discount (INR)"
                           : input.currency == "U"
-                          ? "Discount (USD)"
-                          : input.currency == "E"
-                          ? "Discount (Euro)"
-                          : "Discount"
+                            ? "Discount (USD)"
+                            : input.currency == "E"
+                              ? "Discount (Euro)"
+                              : "Discount"
                       }
                       formControlName={input.disc}
                       name="disc"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -852,8 +852,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       formControlName={input.unit}
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -880,7 +880,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                             {" "}
                             <PlusCircleOutlined /> Not in list?
                           </Tag> */}
-                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
+                          <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={<PlusCircleOutlined />} />
 
                         </a>
                       )}
@@ -910,10 +910,10 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       name="CGST"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L" ||
-                        itemList[index]["IGST"] > 0 ||
-                        itemList[index]["currency"] != "I"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L" ||
+                          itemList[index]["IGST"] > 0 ||
+                          itemList[index]["currency"] != "I"
                           ? true
                           : false
                       }
@@ -926,27 +926,27 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.CGST / 100) >
                         0 && (
-                        // <Tag
-                        //   className=" flex justify-center  w-1/2 px-2 my-2"
-                        //   color="#eb8d00"
-                        // >
-                        //   &#8377;{" "}
-                        //   {(
-                        //     input.unit_price *
-                        //     input.qty *
-                        //     (input.CGST / 100)
-                        //   ).toFixed(2)}
-                        // </Tag>
-                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
-                        
-                          (
-                            input.unit_price *
-                            input.qty *
-                            (input.CGST / 100)
-                          ).toFixed(2)
-                        }
-                        />
-                      )}
+                          // <Tag
+                          //   className=" flex justify-center  w-1/2 px-2 my-2"
+                          //   color="#eb8d00"
+                          // >
+                          //   &#8377;{" "}
+                          //   {(
+                          //     input.unit_price *
+                          //     input.qty *
+                          //     (input.CGST / 100)
+                          //   ).toFixed(2)}
+                          // </Tag>
+                          <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop: '4px' }} />} color="#eb8d00" text={
+
+                            (
+                              input.unit_price *
+                              input.qty *
+                              (input.CGST / 100)
+                            ).toFixed(2)
+                          }
+                          />
+                        )}
                       {/* {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
@@ -985,10 +985,10 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       label="SGST"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L" ||
-                        itemList[index]["IGST"] > 0 ||
-                        itemList[index]["currency"] != "I"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L" ||
+                          itemList[index]["IGST"] > 0 ||
+                          itemList[index]["currency"] != "I"
                           ? true
                           : false
                       }
@@ -1003,26 +1003,26 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.SGST / 100) >
                         0 && (
-                        // <Tag
-                        //   className=" flex justify-center  w-1/2 px-2 my-2"
-                        //   color="#eb8d00"
-                        // >
-                        //   &#8377;{" "}
-                        //   {(
-                        //     input.unit_price *
-                        //     input.qty *
-                        //     (input.SGST / 100)
-                        //   ).toFixed(2)}
-                        // </Tag>
-                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
-                        (
-                            input.unit_price *
-                            input.qty *
-                            (input.SGST / 100)
-                          ).toFixed(2)
-                        }
-                        />
-                      )}
+                          // <Tag
+                          //   className=" flex justify-center  w-1/2 px-2 my-2"
+                          //   color="#eb8d00"
+                          // >
+                          //   &#8377;{" "}
+                          //   {(
+                          //     input.unit_price *
+                          //     input.qty *
+                          //     (input.SGST / 100)
+                          //   ).toFixed(2)}
+                          // </Tag>
+                          <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop: '4px' }} />} color="#eb8d00" text={
+                            (
+                              input.unit_price *
+                              input.qty *
+                              (input.SGST / 100)
+                            ).toFixed(2)
+                          }
+                          />
+                        )}
                       {/* {formik.errors.price_basis_desc && formik.touched.price_basis_desc && (
                       <VError title={formik.errors.price_basis_desc} />
                     )} */}
@@ -1051,11 +1051,11 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       label="IGST"
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L" ||
-                        itemList[index]["currency"] != "I" ||
-                        (itemList[index]["CGST"] > 0 ||
-                          itemList[index]["SGST"]) > 0
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L" ||
+                          itemList[index]["currency"] != "I" ||
+                          (itemList[index]["CGST"] > 0 ||
+                            itemList[index]["SGST"]) > 0
                           ? true
                           : false
                       }
@@ -1070,27 +1070,27 @@ function ProductDetails({ pressBack, pressNext, data }) {
                     <div className="flex justify-between items-center">
                       {input.unit_price * input.qty * (input.IGST / 100) >
                         0 && (
-                        // <Tag
-                        //   className=" flex justify-center w-1/2 my-1"
-                        //   color="#eb8d00"
-                        // >
-                        //   &#8377;{" "}
-                        //   {(
-                        //     input.unit_price *
-                        //     input.qty *
-                        //     (input.IGST / 100)
-                        //   ).toFixed(2)}
-                        // </Tag>
-                        <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop:'4px' }}/>} color="#eb8d00" text={
-                        
-                        (
-                            input.unit_price *
-                            input.qty *
-                            (input.IGST / 100)
-                          ).toFixed(2)
-                        }
-                        />
-                      )}
+                          // <Tag
+                          //   className=" flex justify-center w-1/2 my-1"
+                          //   color="#eb8d00"
+                          // >
+                          //   &#8377;{" "}
+                          //   {(
+                          //     input.unit_price *
+                          //     input.qty *
+                          //     (input.IGST / 100)
+                          //   ).toFixed(2)}
+                          // </Tag>
+                          <InfoTags bgCol={" flex justify-center  w-1/2 px-2 my-2"} icon={<CurrencyRupee style={{ fontSize: "13.5px", marginTop: '4px' }} />} color="#eb8d00" text={
+
+                            (
+                              input.unit_price *
+                              input.qty *
+                              (input.IGST / 100)
+                            ).toFixed(2)
+                          }
+                          />
+                        )}
                       {localStorage.getItem("po_status") != "A" &&
                         localStorage.getItem("po_status") != "D" &&
                         localStorage.getItem("po_status") != "L" && (
@@ -1105,7 +1105,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                               {" "}
                               <PlusCircleOutlined /> Not in list?
                             </Tag> */}
-                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={ <PlusCircleOutlined />}/>
+                            <InfoTags text={'Not in list?'} bgCol={'hover:scale-105 active:scale-90'} color="#4FB477" icon={<PlusCircleOutlined />} />
 
                           </a>
                         )}
@@ -1137,8 +1137,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
                       formControlName={input.delivery_date}
                       disabled={
                         localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -1147,7 +1147,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() + 3)
                         )
-                     ,"yyyy-MM-DD")} //may need to change
+                        , "yyyy-MM-DD")} //may need to change
                       handleChange={(event) => handleDtChange(index, event)}
                       // handleChange={handleChange}
                       // handleBlur={handleBlur}
@@ -1162,8 +1162,8 @@ function ProductDetails({ pressBack, pressNext, data }) {
 
                     {input.delivery_date <
                       localStorage.getItem("po_issue_date") && (
-                      <VError title={"Delivery date must be>=PO Date"} />
-                    )}
+                        <VError title={"Delivery date must be>=PO Date"} />
+                      )}
                     {/* <RangePicker onChange={(e)=>console.log(e)}/> */}
                   </div>
                   <div className="sm:col-span-2 flex flex-col">
@@ -1176,13 +1176,13 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         new Date(
                           new Date().setFullYear(new Date().getFullYear() + 3)
                         )
-                     ,"yyyy-MM-DD")} //may need to change
+                        , "yyyy-MM-DD")} //may need to change
                       formControlName={input.delivery_to}
                       disabled={
                         !input.delivery_date ||
-                        localStorage.getItem("po_status") == "A" ||
-                        localStorage.getItem("po_status") == "D" ||
-                        localStorage.getItem("po_status") == "L"
+                          localStorage.getItem("po_status") == "A" ||
+                          localStorage.getItem("po_status") == "D" ||
+                          localStorage.getItem("po_status") == "L"
                           ? true
                           : false
                       }
@@ -1222,7 +1222,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
                         //     ? parseFloat(grand_total)?.toFixed(2)
                         //     : 0.0}
                         // </Tag>
-                            <InfoTags text={`GrandTotal: ${grand_total > 0 ? parseFloat(grand_total)?.toFixed(2) : 0.0}`} bgCol={'text-lg'} color="#014737" icon={<CalculatorOutlined/>} />
+                        <InfoTags text={`GrandTotal: ${grand_total > 0 ? parseFloat(grand_total)?.toFixed(2) : 0.0}`} bgCol={'text-lg'} color="#014737" icon={<CalculatorOutlined />} />
                       )}
                     </div>
                   )}
@@ -1242,7 +1242,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
               </span>
               <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button> */}
-            <BtnGroupReuse loading={loading} flag={2} onClick={pressBack} text="Back" icon={<ArrowLeftOutlined className="mr-2" />}/>
+            <BtnGroupReuse loading={loading} flag={2} onClick={pressBack} text="Back" icon={<ArrowLeftOutlined className="mr-2" />} />
             {/* <button
               type="submit"
               className="relative disabled:bg-gray-400 group shadow-xl border border-green-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-900 transition ease-in-out hover:bg-white hover:border hover:border-green-900 hover:shadow-2xl hover:text-green-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
@@ -1290,43 +1290,43 @@ function ProductDetails({ pressBack, pressNext, data }) {
               </span>
               <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
             </button> */}
-            <BtnGroupReuse loading={loading} flag={1} text="Next" icon={<ArrowRightOutlined className='mr-2'/>}   onClick={() => {
-                var flag = 0;
-                console.log(itemList);
-                for (let i of itemList) {
-                  if (
-                    i.item_name != "Item name" &&
-                    i.item_name != "" &&
-                    i.qty > 0 &&
-                    i.rate > 0 &&
-                    i.unit != "Unit" &&
-                    i.delivery_date <= i.delivery_to &&
-                    i.delivery_date >= localStorage.getItem("po_issue_date") &&
-                    i.unit != "" &&
-                    i.delivery_date &&
-                    i.delivery_to &&
-                    i.unit_price > 0 &&
-                    (i.disc >= 0 || i.disc == "") &&
-                    (i.disc_prtg >= 0 || i.disc_prtg == "") &&
-                    ((i.SGST != "SGST" &&
-                      i.SGST != "" &&
-                      i.CGST != "CGST" &&
-                      i.CGST != "") ||
-                      (i.IGST != "IGST" && i.IGST != "" && i.currency == "I") ||
-                      i.currency == "U" ||
-                      i.currency == "E") &&
-                    i.currency != "Currency" &&
-                    i.currency != ""
-                  )
-                    flag = 0;
-                  else {
-                    flag = 1;
-                    break;
-                  }
+            <BtnGroupReuse loading={loading} flag={1} text="Next" icon={<ArrowRightOutlined className='mr-2' />} onClick={() => {
+              var flag = 0;
+              console.log(itemList);
+              for (let i of itemList) {
+                if (
+                  i.item_name != "Item name" &&
+                  i.item_name != "" &&
+                  i.qty > 0 &&
+                  i.rate > 0 &&
+                  i.unit != "Unit" &&
+                  i.delivery_date <= i.delivery_to &&
+                  i.delivery_date >= localStorage.getItem("po_issue_date") &&
+                  i.unit != "" &&
+                  i.delivery_date &&
+                  i.delivery_to &&
+                  i.unit_price > 0 &&
+                  (i.disc >= 0 || i.disc == "") &&
+                  (i.disc_prtg >= 0 || i.disc_prtg == "") &&
+                  ((i.SGST != "SGST" &&
+                    i.SGST != "" &&
+                    i.CGST != "CGST" &&
+                    i.CGST != "") ||
+                    (i.IGST != "IGST" && i.IGST != "" && i.currency == "I") ||
+                    i.currency == "U" ||
+                    i.currency == "E") &&
+                  i.currency != "Currency" &&
+                  i.currency != ""
+                )
+                  flag = 0;
+                else {
+                  flag = 1;
+                  break;
                 }
-                console.log(flag);
-                if (flag == 0) pressNext(itemList);
-              }}/>
+              }
+              console.log(flag);
+              if (flag == 0) pressNext(itemList);
+            }} />
           </div>
         </div>
       </SpinComp>
@@ -1336,7 +1336,7 @@ function ProductDetails({ pressBack, pressNext, data }) {
         data={
           flag == 9
             ? { info: productInfo[0] }
-            : { info: products?.filter(item =>!itemList.map(obj => +obj?.item_name).includes(item?.sl_no)), infoCopy: products?.filter(item =>!itemList.map(obj => +obj?.item_name).includes(item?.sl_no)) }
+            : { info: products?.filter(item => !itemList.map(obj => +obj?.item_name).includes(item?.sl_no)), infoCopy: products?.filter(item => !itemList.map(obj => +obj?.item_name).includes(item?.sl_no)) }
         }
         onPress={() => setVisible(false)}
         onSearch={(val) => {

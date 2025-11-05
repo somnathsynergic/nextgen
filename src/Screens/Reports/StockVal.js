@@ -30,8 +30,14 @@ function StockVal() {
   const [projVal, setProjVal] = useState("");
   const [projCode, setProjCode] = useState();
   const [type, setType] = useState("");
-  const [dt, setDt] = useState("");
-  const [to_dt, setToDt] = useState("");
+  const [dt, setDt] = useState(formatDate(
+                        new Date(                  
+                        )
+                      ,"yyyy-MM-DD"));
+  const [to_dt, setToDt] = useState(formatDate(
+                      new Date(                     
+                      )
+                    ,"yyyy-MM-DD"));
   const [clicked, setClicked] = useState(true);
   const [reportData, setReportData] = useState([])
   const op = useRef(null);

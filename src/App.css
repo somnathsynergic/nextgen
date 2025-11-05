@@ -93,6 +93,7 @@
 
 .p-blockui-container .p-blockui.p-component-overlay.p-component-overlay-enter {
   background-color: rgba(113, 121, 115, 0.3) !important;
+  z-index: 5 !important;
  
 }
 .p-dialog .p-dialog-header {

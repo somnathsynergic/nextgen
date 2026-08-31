@@ -3,9 +3,11 @@
 /core
 /nextgenvenv
 package-lock.json
+temp_auto_push.bat
 *.html
 *.zip
 .env*
 *.sql
 __pycache__
-upload_file/*
+upload_file/*.gitignore
+branch_structure.json

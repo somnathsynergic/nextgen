@@ -1,10 +1,14 @@
+import select
+from unittest import result
+
+from certifi import where
 from fastapi import APIRouter, File, UploadFile, Form
 from typing import Optional, Union
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, schema
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from models.masterApiModel import db_select, db_Insert, db_Delete
+from models.masterApiModel import db_select, db_Insert, db_Delete,populate_stock
 from datetime import datetime
 import datetime as dt
 import random
@@ -948,7 +952,7 @@ td_po_basic b
     result = await db_select(select, schema, where, order, flag)
     return result
 
-@reportRouter.post('/matvalstockin')
+@reportRouter.post('/matvalstockin_30_04_2026_duplicate_rows')
 async def getprojectpoc(id:StockValueReport):
     select = f""" a.proj_id,
 
@@ -1015,6 +1019,140 @@ CROSS JOIN LATERAL (
 """
     order = "GROUP BY a.proj_id, a.ref_no, a.item_id, a.req_qty, a.qty, a.in_out_flag, a.balance, c.cgst_id, c.sgst_id, c.igst_id, act_val"
     flag =1 
+    result = await db_select(select, schema, where, order, flag)
+    return result
+
+@reportRouter.post('/matvalstockin')
+async def getprojectpoc(id:StockValueReport):
+    select = f"""
+    proj_id,
+    ref_no,
+    item_id,
+    req_qty,
+    qty,
+    in_out_flag,
+    prod_name,
+    balance AS stock,
+    ROUND(act_val, 2) AS `Net Unit Price`,
+    ROUND(act_val * (cgst_id / 100), 2) AS `CGST`,
+    ROUND(act_val * (sgst_id / 100), 2) AS `SGST`,
+    ROUND(act_val * (igst_id / 100), 2) AS `IGST`,
+    ROUND(act_val * (1 + (cgst_id + sgst_id + igst_id) / 100), 2) AS `Total`
+"""
+
+    where = f""""""
+
+    schema = f"""
+(
+    WITH latest_stock AS (
+        SELECT
+            s.*,
+            CONCAT(
+                p.prod_name,
+                ' (Part No.: ', p.part_no,
+                ' Model No.: ', p.model_no,
+                ' Article No.: ', p.article_no,
+                ' Desc: ', p.prod_desc,
+                ')'
+            ) AS prod_name
+        FROM td_stock_new s
+        JOIN md_product p
+            ON s.item_id = p.sl_no
+        WHERE s.proj_id = {id.proj_id}
+          AND s.date BETWEEN '{id.from_dt}' AND '{id.to_dt}'
+          AND s.sl_no = (
+              SELECT b.sl_no
+              FROM td_stock_new b
+              WHERE b.proj_id = s.proj_id
+                AND b.item_id = s.item_id
+              ORDER BY b.sl_no DESC
+              LIMIT 1
+          )
+    ),
+    transfer_map AS (
+        SELECT DISTINCT
+            g.to_proj_id,
+            g.from_proj_id,
+            h.item_id
+        FROM td_transfer g
+        JOIN td_transfer_items h
+            ON g.trans_no = h.trans_no
+    ),
+    latest_po AS (
+        SELECT
+            item_id,
+            item_rt,
+            discount,
+            cgst_id,
+            sgst_id,
+            igst_id,
+            project_id
+        FROM (
+            SELECT
+                e.item_id,
+                e.item_rt,
+                e.discount,
+                e.cgst_id,
+                e.sgst_id,
+                e.igst_id,
+                f.project_id,
+                f.sl_no,
+                ROW_NUMBER() OVER (
+                    PARTITION BY e.item_id, f.project_id
+                    ORDER BY f.sl_no DESC
+                ) AS rn
+            FROM td_po_items e
+            JOIN td_po_basic f
+                ON e.po_sl_no = f.sl_no
+        ) x
+        WHERE x.rn = 1
+    ),
+    calc_base AS (
+        SELECT
+            a.proj_id,
+            a.ref_no,
+            a.item_id,
+            a.req_qty,
+            a.qty,
+            a.in_out_flag,
+            a.prod_name,
+            a.balance,
+            a.balance * (c.item_rt - c.discount) AS act_val,
+            c.cgst_id,
+            c.sgst_id,
+            c.igst_id
+        FROM latest_stock a
+        LEFT JOIN transfer_map i
+            ON a.proj_id = i.to_proj_id
+           AND a.item_id = i.item_id
+        LEFT JOIN latest_po c
+            ON a.item_id = c.item_id
+           AND c.project_id = COALESCE(i.from_proj_id, a.proj_id)
+    )
+    SELECT
+        proj_id,
+        ref_no,
+        item_id,
+        req_qty,
+        qty,
+        in_out_flag,
+        prod_name,
+        balance,
+        act_val,
+        cgst_id,
+        sgst_id,
+        igst_id
+    FROM calc_base
+) a
+"""
+
+    order = """
+    GROUP BY
+    proj_id, ref_no, item_id, req_qty, qty, in_out_flag,
+    prod_name, balance, act_val, cgst_id, sgst_id, igst_id
+"""
+
+    flag = 1
     result = await db_select(select, schema, where, order, flag)
     return result
 
@@ -1293,7 +1431,7 @@ async def get_project_po(id: mrnprojreport):
     return result
 
 
-@reportRouter.post('/powise_mrn_report')
+@reportRouter.post('/powise_mrn_report_prev_right')
 async def get_project_po(id: mrnprojreport):
     
     if id.po_no == '0':
@@ -1463,3 +1601,214 @@ async def get_project_po(id: mrnprojreport):
     result = await db_select(select,schema, where="", order="", flag=1)
     return result
 
+
+
+@reportRouter.post('/powise_mrn_report')
+async def get_project_po(id: mrnprojreport):
+    
+    if id.po_no == '0':
+        if id.type == 'P':  # Project PO
+            if id.vendor_id and id.proj_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id = {id.proj_id}"
+            elif id.vendor_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id != 0"
+            elif id.proj_id:
+                criteria = f"project_id = {id.proj_id}"
+            else:
+                criteria = "project_id != 0"
+        else:  # Warehouse PO
+            if id.vendor_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id = 0"
+            else:
+                criteria = "project_id = 0"
+    else:
+        # po_no is specific (not '0')
+        if id.type == 'P':
+            if id.vendor_id and id.proj_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id = {id.proj_id} AND po_no = '{id.po_no}'"
+            elif id.vendor_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id != 0 AND po_no = '{id.po_no}'"
+            elif id.proj_id:
+                criteria = f"project_id = {id.proj_id} AND po_no = '{id.po_no}'"
+            else:
+                criteria = f"po_no = '{id.po_no}'"
+        else:
+            if id.vendor_id:
+                criteria = f"vendor_id = {id.vendor_id} AND project_id = 0 AND po_no = '{id.po_no}'"
+            else:
+                criteria = f"po_no = '{id.po_no}' AND project_id = 0"
+
+    # print(f"Criteria: {criteria}")
+     # Project type
+    select = """
+         main.po_no AS 'PO No.',
+    main.pur_no AS 'Purchase Requisition',
+    main.project_id,
+    main.proj_name AS 'Project',
+    main.vendor_id,
+    main.vendor_name AS 'Vendor',
+    main.item_id,
+    main.Product AS 'Product',
+    main.orderd_qty AS 'Ordered Quantity',
+    main.rcvd_qty AS 'Received Quantity',
+    main.pending_qty AS 'Pending Quantity',
+    inv.Invoice AS 'Invoice',
+    inv.Invoice_Date AS 'Invoice Date',
+    'Purchase' AS Source
+          
+        """
+    schema =f"""
+          (SELECT 
+        a.po_no,
+        a.pur_no,
+        e.project_id,
+        f.proj_name,
+        e.vendor_id,
+        g.vendor_name,
+        a.item_id,
+
+        CONCAT(
+            c.prod_name,' (Make:',c.prod_make,
+            ', Part No.:',c.part_no,
+            ', Article No.:',c.article_no,
+            ', Model No.:',c.model_no,
+            ', Description:',c.prod_desc,')'
+        ) COLLATE utf8mb4_unicode_ci AS Product,
+
+        a.approved_ord_qty AS orderd_qty,
+        IFNULL(SUM(b.rc_qty),0) AS rcvd_qty,
+        a.approved_ord_qty - IFNULL(SUM(b.rc_qty),0) AS pending_qty
+
+    FROM td_purchase_items a
+
+    LEFT JOIN td_item_delivery_details b
+        ON a.po_no=b.po_no AND a.item_id=b.prod_id
+
+    JOIN md_product c
+        ON a.item_id=c.sl_no
+
+    JOIN td_po_basic e
+        ON a.po_no=e.po_no
+
+    LEFT JOIN td_project f
+        ON e.project_id=f.sl_no
+
+    JOIN md_vendor g
+        ON e.vendor_id=g.sl_no
+
+    GROUP BY 
+        a.po_no,a.pur_no,e.project_id,f.proj_name,
+        e.vendor_id,g.vendor_name,a.item_id,
+        c.prod_name,c.prod_make,c.part_no,
+        c.article_no,c.model_no,c.prod_desc,
+        a.approved_ord_qty
+) main
+
+LEFT JOIN (
+    SELECT 
+        poi.po_no,
+        idd.prod_id,
+
+        GROUP_CONCAT(poi.invoice SEPARATOR ',\n') AS Invoice,
+        GROUP_CONCAT(DATE_FORMAT(poi.invoice_dt,'%d/%m/%Y') SEPARATOR ',\n') AS Invoice_Date
+
+    FROM td_item_delivery_invoice poi
+    JOIN td_item_delivery_details idd
+        ON poi.sl_no=idd.del_last_id
+
+    WHERE poi.invoice_dt BETWEEN '{id.from_dt}' AND '{id.to_dt}'
+
+    GROUP BY poi.po_no,idd.prod_id
+) inv
+ON main.po_no=inv.po_no
+AND main.item_id=inv.prod_id
+HAVING {criteria}
+
+UNION ALL
+
+SELECT 
+    sd.po_no 'PO No.',
+    NULL 'Purchase Requisition',
+    sd.proj_id project_id,
+    p.proj_name 'Project',
+    NULL vendor_id,
+    'Siemens' 'Vendor',
+    sl.prod_id,
+
+    CONCAT(
+        COALESCE(mp.prod_name,sl.customer_article_no),
+        ' (Description:',COALESCE(sl.description,'N/A'),
+        ', Delivery No:',sl.delivery_no,')'
+    ) 'Product',
+
+    sl.approved_qty,
+    IFNULL(SUM(idd.rc_qty),0) "Received Quantity",
+    GREATEST(sl.approved_qty-IFNULL(SUM(idd.rc_qty),0),0) 'Pending Quantity',
+
+    inv.Invoice,
+    inv.Invoice_Date,
+    'Siemens' 'Source'
+
+FROM td_siemens_details sd
+
+JOIN td_siemens_log sl
+    ON sd.sl_no=sl.parent_id
+
+LEFT JOIN td_item_delivery_details idd
+    ON sd.po_no=idd.po_no AND sl.prod_id=idd.prod_id
+
+LEFT JOIN md_product mp
+    ON sl.prod_id=mp.sl_no
+
+LEFT JOIN td_project p
+    ON sd.proj_id=p.sl_no
+
+LEFT JOIN (
+    SELECT 
+        poi.po_no,
+        idd.prod_id,
+
+        GROUP_CONCAT(poi.invoice SEPARATOR ',\n') COLLATE utf8mb4_unicode_ci AS Invoice,
+        GROUP_CONCAT(DATE_FORMAT(poi.invoice_dt,'%d/%m/%Y') SEPARATOR ',\n') COLLATE utf8mb4_unicode_ci AS Invoice_Date
+
+    FROM td_item_delivery_invoice poi
+    JOIN td_item_delivery_details idd
+        ON poi.sl_no=idd.del_last_id
+
+    WHERE poi.invoice_dt BETWEEN '{id.from_dt}' AND '{id.to_dt}'
+
+    GROUP BY poi.po_no,idd.prod_id
+) inv
+ON sd.po_no=inv.po_no
+AND sl.prod_id=inv.prod_id
+
+GROUP BY 
+    sd.po_no,sd.proj_id,p.proj_name,
+    sl.prod_id,mp.prod_name,
+    sl.customer_article_no,
+    sl.description,
+    sl.delivery_no,
+    sl.approved_qty
+    
+HAVING {criteria}
+"""
+    result = await db_select(select,schema, where="", order="", flag=1)
+    return result
+
+
+@reportRouter.post('/stock_value_report')
+async def stock_value_report(id: StockValueReport):
+    del_table_name = 'tt_stock_report'
+    del_whr = f""
+    del_qry = await db_Delete(del_table_name, del_whr)
+
+    pop_query = await populate_stock(id.proj_id,id.from_dt, id.to_dt)
+
+    select = "a.item_id 'ProdID',concat(b.prod_name,' (Part No.: ',b.part_no,' Article No.: ',b.article_no,' Model No.: ',b.model_no,' Desc: ',b.prod_desc,') ') as 'Product',a.opn_stk as 'Opening Stock',a.in_stk 'Stock In',a.out_stk 'Stock Out',a.cls_stk as 'Closing Stock',a.cls_stk * a.avg_value as 'Net Unit Price',a.cgst * a.cls_stk * a.avg_value / 100 as 'CGST',a.sgst * a.cls_stk * a.avg_value / 100 as 'SGST',a.igst * a.cls_stk * a.avg_value / 100 as 'IGST',a.cls_stk * a.avg_value + (a.cgst * a.cls_stk * a.avg_value / 100) + (a.sgst * a.cls_stk * a.avg_value / 100) + (a.igst * a.cls_stk * a.avg_value / 100) as 'Total Value'"
+    schema = f"tt_stock_report a left join md_product b on a.item_id=b.sl_no"
+    where = f""
+    order = ""
+    flag =  1
+    result = await db_select(select, schema, where, order, flag)
+    print(result, 'RESULT')
+    return result

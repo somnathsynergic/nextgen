@@ -179,6 +179,30 @@ class PoModel(BaseModel):
 class GetPo(BaseModel):
     id:int
 
+class GetPoPg(BaseModel):
+    id:int
+    limit:int
+    offset:int
+    status:str
+    fresh_flag:str
+
+class GetPoPgSrch(BaseModel):
+    searchVal:str
+    limit:int
+    offset:int
+    status:str
+    fresh_flag:str
+
+
+class GetPoStatus(BaseModel):
+    id:int
+    status:str
+
+class GetPoP(BaseModel):
+    id:int
+    offset:int
+    lim:int
+
 class GetPoForTc(BaseModel):
     id:int
     po_no:str
@@ -687,8 +711,9 @@ async def getprojectpoc(id:GetPo):
 @poRouter.post('/getpo')
 async def getprojectpoc(id:GetPo):
     res_dt = {}
+   
 
-    select = "@a:=@a+1 serial_number,b.parent_po_no,b.po_no,b.vend_ref,b.pur_req,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,p.proj_id,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note"
+    select = "@a:=@a+1 serial_number,b.parent_po_no,b.po_no,b.vend_ref,b.vendor_address,b.pur_req,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,p.proj_id,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note"
     schema = '''td_po_basic b
 left join td_project p ON p.sl_no=b.project_id
 join md_vendor v ON v.sl_no=b.vendor_id 
@@ -705,23 +730,76 @@ left JOIN (
 ) c ON c.po_no=b.po_no 
 '''
     where = f"b.sl_no='{id.id}' and b.po_status IN ('P','U','A','L','D')" if id.id>0 else "b.po_status IN ('P','U','A','L','D') OR (amend_flag = 'Y' AND parent_po_no IS NOT NULL)"
-    order = "ORDER BY b.created_at DESC"
+    order = f"ORDER BY b.created_at DESC "
     flag = 0 if id.id>0 else 1
     result = await db_select(select, schema, where, order, flag)
     return result
 
 
-@poRouter.post('/getpofordelivery')
-async def getprojectpoc(id:GetPo):
-    # print(id.id)
-    res_dt = {}
+@poRouter.post('/getpo_1')
+async def getprojectpoc_1(id:GetPoPg):
+#     select = "count(*) as total_count"
+#     schema = '''td_po_basic b
+# LEFT JOIN td_project p 
+#     ON p.sl_no = b.project_id
+# INNER JOIN md_vendor v 
+#     ON v.sl_no = b.vendor_id 
+# CROSS JOIN (SELECT @a:= 0) AS a '''
+#     # if id.fresh_flag:
+#     #     where = f"b.sl_no='{id.id}'   and b.fresh_flag='{id.fresh_flag}' and and b.po_status in {id.status}" if id.id>0 else f"b.po_status in {id.status}   and b.fresh_flag='{id.fresh_flag}'"
+#     # else:
+#     #     where = f"b.sl_no='{id.id}'  and and b.po_status in {id.status}" if id.id>0 else f"b.po_status in {id.status} "
+    
+#     order = f"" 
+#     flag = 0 if id.id>0 else 1
+#     result1 = await db_select(select, schema, where, order, flag)
+    
 
-    select = " distinct @a:=@a+1 serial_number,b.po_no,b.vend_ref,p.proj_name,p.proj_id,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note,del.ware_house_flag, (select count(*) from td_item_delivery_invoice where po_no = b.po_no) as invoice_count"
+    res_dt = {}
+    print(id.id, id.status)
+    select = '''@a:=@a+1 AS serial_number, b.parent_po_no, b.po_no, b.vend_ref, b.vendor_address, b.pur_req, b.po_id, b.po_date, b.po_type AS type, b.po_issue_date, b.po_status,
+    CASE b.po_status
+        WHEN 'P' THEN 'In progress'
+        WHEN 'A' THEN 'Approved'
+        WHEN 'U' THEN 'Approval Pending'
+        WHEN 'D' THEN 'Delivered'
+        ELSE 'Partial Delivery'
+    END AS po_status_val, 
+    CASE b.po_type
+        WHEN 'P' THEN 'Project-Specific'
+        WHEN 'G' THEN 'General'
+        ELSE ''
+    END AS po_type, b.project_id,p.proj_name,p.proj_id,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note'''
+    schema = '''td_po_basic b
+LEFT JOIN td_project p 
+    ON p.sl_no = b.project_id
+INNER JOIN md_vendor v 
+    ON v.sl_no = b.vendor_id 
+CROSS JOIN (SELECT @a:= 0) AS a 
+'''
+    # if id.fresh_flag:
+    #     where = f"b.sl_no='{id.id}'   and b.fresh_flag='{id.fresh_flag}' and and b.po_status in {id.status}" if id.id>0 else f"b.po_status in {id.status}   and b.fresh_flag='{id.fresh_flag}'"
+    # else:
+    #     where = f"b.sl_no='{id.id}'  and and b.po_status in {id.status}" if id.id>0 else f"b.po_status in {id.status} "
+    where = f"b.sl_no='{id.id}' and b.po_status IN ('P','U','A','L','D')" if id.id>0 else "b.po_status IN ('P','U','A','L','D') OR (amend_flag = 'Y' AND parent_po_no IS NOT NULL)"
+    
+    print(where,'WHERE')
+
+    order = f"ORDER BY b.created_at DESC"
+    flag = 0 if id.id>0 else 1
+    result = await db_select(select, schema, where, order, flag)
+    return result
+    # return {"total_count": result1, "data": result}
+
+
+@poRouter.post('/getpo_1_srch')
+async def getprojectpoc_1(id:GetPoPgSrch):
+    select = "count(*) as total_count"
     schema = '''td_po_basic b
 left join td_project p ON p.sl_no=b.project_id
-join md_vendor v ON v.sl_no=b.vendor_id left join td_po_delivery del on b.sl_no = del.po_sl_no 
+join md_vendor v ON v.sl_no=b.vendor_id 
 join (SELECT @a:= 0) AS a 
-JOIN (
+left JOIN (
    SELECT d.po_no
     FROM td_po_basic d WHERE d.amend_flag = 'N' AND d.po_no is NOT null
     HAVING (SELECT COUNT(*) FROM td_po_basic e WHERE e.po_no LIKE CONCAT(d.po_no, '%')) = 1
@@ -730,15 +808,150 @@ JOIN (
     FROM td_po_basic
     WHERE amend_flag = 'Y' AND po_no is NOT null
     GROUP BY SUBSTRING_INDEX(po_no,'-',1)
-) c ON c.po_no=b.po_no
-
+) c ON c.po_no=b.po_no 
 '''
-    where = f"b.sl_no='{id.id}' and b.po_status IN ('P','U','A','L','D')" if id.id>0 else "b.po_status IN ('P','U','A','L','D') OR (amend_flag = 'Y' AND parent_po_no IS NOT NULL)"
+    if id.fresh_flag:
+        where = f"(b.po_no like '%{id.searchVal}%' or b.po_issue_date like '%{id.searchVal}%' or p.proj_name like '%{id.searchVal}%' or b.created_by like '%{id.searchVal}%' or v.vendor_name like '%{id.searchVal}%')    and b.fresh_flag='{id.fresh_flag}' and b.po_status in {id.status}" 
+    else:
+        where = f"(b.po_no like '%{id.searchVal}%' or b.po_issue_date like '%{id.searchVal}%' or p.proj_name like '%{id.searchVal}%' or b.created_by like '%{id.searchVal}%' or v.vendor_name like '%{id.searchVal}%')  and b.po_status in {id.status}" 
+        
+    order = f"" 
+    flag =  1
+    result1 = await db_select(select, schema, where, order, flag)
+    
+
+    res_dt = {}
+    select = "@a:=@a+1 serial_number,b.parent_po_no,b.po_no,b.vend_ref,b.vendor_address,b.pur_req,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,p.proj_id,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note"
+    schema = '''td_po_basic b
+left join td_project p ON p.sl_no=b.project_id
+join md_vendor v ON v.sl_no=b.vendor_id 
+join (SELECT @a:= 0) AS a 
+left JOIN (
+   SELECT d.po_no
+    FROM td_po_basic d WHERE d.amend_flag = 'N' AND d.po_no is NOT null
+    HAVING (SELECT COUNT(*) FROM td_po_basic e WHERE e.po_no LIKE CONCAT(d.po_no, '%')) = 1
+    UNION
+    SELECT MAX(po_no) po_no
+    FROM td_po_basic
+    WHERE amend_flag = 'Y' AND po_no is NOT null
+    GROUP BY SUBSTRING_INDEX(po_no,'-',1)
+) c ON c.po_no=b.po_no 
+'''
+    if id.fresh_flag:
+        where = f"(b.po_no like '%{id.searchVal}%' or b.po_issue_date like '%{id.searchVal}%' or p.proj_name like '%{id.searchVal}%' or b.created_by like '%{id.searchVal}%' or v.vendor_name like '%{id.searchVal}%')    and b.fresh_flag='{id.fresh_flag}' and b.po_status in {id.status}" 
+    else:
+        where = f"(b.po_no like '%{id.searchVal}%' or b.po_issue_date like '%{id.searchVal}%' or p.proj_name like '%{id.searchVal}%' or b.created_by like '%{id.searchVal}%' or v.vendor_name like '%{id.searchVal}%')  and b.po_status in {id.status}" 
+    print(where,'WHERE')
+    order = f"" 
+    flag =  1
+    result = await db_select(select, schema, where, order, flag)
+    # return result
+    return {"total_count": result1, "data": result}
+
+
+@poRouter.post('/getpofordelivery')
+async def getprojectpoc(id:GetPo):
+    # print(id.id)
+    res_dt = {}
+
+#     select = " distinct @a:=@a+1 serial_number,b.po_no,b.vend_ref,p.proj_name,p.proj_id,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note,del.ware_house_flag, (select count(*) from td_item_delivery_invoice where po_no = b.po_no) as invoice_count"
+#     schema = '''td_po_basic b
+# left join td_project p ON p.sl_no=b.project_id
+# join md_vendor v ON v.sl_no=b.vendor_id left join td_po_delivery del on b.sl_no = del.po_sl_no 
+# join (SELECT @a:= 0) AS a 
+# JOIN (
+#    SELECT d.po_no
+#     FROM td_po_basic d WHERE d.amend_flag = 'N' AND d.po_no is NOT null
+#     HAVING (SELECT COUNT(*) FROM td_po_basic e WHERE e.po_no LIKE CONCAT(d.po_no, '%')) = 1
+#     UNION
+#     SELECT MAX(po_no) po_no
+#     FROM td_po_basic
+#     WHERE amend_flag = 'Y' AND po_no is NOT null
+#     GROUP BY SUBSTRING_INDEX(po_no,'-',1)
+# ) c ON c.po_no=b.po_no
+
+# '''
+#     where = f"b.sl_no='{id.id}' and b.po_status IN ('P','U','A','L','D')" if id.id>0 else "b.po_status IN ('P','U','A','L','D') OR (amend_flag = 'Y' AND parent_po_no IS NOT NULL)"
+#     order = "ORDER BY b.created_at DESC"
+#     flag = 0 if id.id>0 else 1
+#     result = await db_select(select, schema, where, order, flag)
+#     # print(result, 'RESULT')
+#     return result 
+
+
+
+    select = """ @a:=@a+1 serial_number,
+b.po_no,
+b.vend_ref,
+p.proj_name,
+p.proj_id,
+b.po_id,
+b.po_date,
+b.po_type as type,
+b.po_issue_date,
+b.po_status,
+CASE b.po_status
+    WHEN 'P' THEN 'In progress'
+    WHEN 'A' THEN 'Approved'
+    WHEN 'U' THEN 'Approval Pending'
+    WHEN 'D' THEN 'Delivered'
+    ELSE 'Partial Delivery'
+END po_status_val,
+CASE b.po_type
+    WHEN 'P' THEN 'Project-Specific'
+    WHEN 'G' THEN 'General'
+    ELSE ''
+END po_type,
+b.project_id,
+b.created_by,
+b.created_at,
+b.modified_by,
+b.modified_at,
+v.vendor_name,
+b.sl_no,
+b.fresh_flag,
+b.amend_flag,
+b.amend_note,
+del.ware_house_flag,
+COALESCE(inv.invoice_count,0) as invoice_count"""
+
+    schema = """td_po_basic b
+left join td_project p ON p.sl_no = b.project_id
+join md_vendor v ON v.sl_no = b.vendor_id
+left join td_po_delivery del ON del.po_sl_no = b.sl_no
+left join (
+    select po_no, count(*) as invoice_count
+    from td_item_delivery_invoice
+    group by po_no
+) inv ON inv.po_no = b.po_no
+join (select @a:=0) AS a
+join (
+    select d.po_no
+    from td_po_basic d
+    where d.amend_flag = 'N'
+      and d.po_no is not null
+      and not exists (
+          select 1
+          from td_po_basic e
+          where e.po_no like concat(d.po_no, '%')
+            and e.sl_no <> d.sl_no
+      )
+    union
+    select max(po_no) po_no
+    from td_po_basic
+    where amend_flag = 'Y'
+      and po_no is not null
+    group by substring_index(po_no, '-', 1)
+) c ON c.po_no = b.po_no"""
+
+    where = """b.po_status IN ('P','U','A','L','D')
+OR (b.amend_flag = 'Y' AND b.parent_po_no IS NOT NULL)"""
+
     order = "ORDER BY b.created_at DESC"
     flag = 0 if id.id>0 else 1
     result = await db_select(select, schema, where, order, flag)
     # print(result, 'RESULT')
-    return result
+    return result 
 
 
 @poRouter.post('/getsiemensfordelivery')
@@ -1193,13 +1406,20 @@ async def getpocomments(id:GetPo):
 async def addexistingpo(data:PoModel):
     res_dt = {}
     # print(data)
+    select_vid = "vendor_address"
+    schema_vid = "md_vendor"
+    where_vid = f"sl_no ='{data.vendor_id}'"
+    order_vid = ""
+    flag_vid = 1 
+    result_vid = await db_select(select_vid, schema_vid, where_vid, order_vid, flag_vid)
+
     item_save=0
     payment_save=0
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     req_no=f'REQ-{data.po_no}' if data.po_type=='P' else f''
-    fields= f'po_date="{data.po_date}",po_no="{data.po_no}",po_status="{data.po_status}",po_issue_date="{data.po_issue_date}",po_type="{data.po_type}",project_id="{data.project_id}",po_id="{data.po_id}",vendor_id="{data.vendor_id}",vend_ref="{data.vend_ref}",fresh_flag="{data.fresh_flag}",modified_by="{data.user}",modified_at="{formatted_dt}",pur_req="{data.pur_req}"' if data.sl_no > 0 else f'po_date,po_no,po_type,project_id,po_id,vendor_id,vend_ref,po_status,po_issue_date,fresh_flag,pur_req,created_by,created_at'
-    values = f'"{data.po_date}","{data.po_no}","{data.po_type}","{data.project_id}","{data.po_id}","{data.vendor_id}","{data.vend_ref}","{data.po_status}","{data.po_issue_date}","{data.fresh_flag}","{data.pur_req}","{data.user}","{formatted_dt}"'
+    fields= f'po_date="{data.po_date}",po_no="{data.po_no}",po_status="{data.po_status}",po_issue_date="{data.po_issue_date}",po_type="{data.po_type}",project_id="{data.project_id}",po_id="{data.po_id}",vendor_id="{data.vendor_id}",vend_ref="{data.vend_ref}",fresh_flag="{data.fresh_flag}",modified_by="{data.user}",modified_at="{formatted_dt}",pur_req="{data.pur_req}"' if data.sl_no > 0 else f'po_date,po_no,po_type,project_id,po_id,vendor_id,vend_ref,vendor_address,po_status,po_issue_date,fresh_flag,pur_req,created_by,created_at'
+    values = f'"{data.po_date}","{data.po_no}","{data.po_type}","{data.project_id}","{data.po_id}","{data.vendor_id}","{data.vend_ref}","{result_vid['msg'][0]['vendor_address']}","{data.po_status}","{data.po_issue_date}","{data.fresh_flag}","{data.pur_req}","{data.user}","{formatted_dt}"'
     table_name = "td_po_basic"
     whr = f'sl_no="{data.sl_no}"' if data.sl_no > 0 else None
     flag = 1 if data.sl_no>0 else 0
@@ -1322,7 +1542,7 @@ async def addexistingpo(data:PoModel):
         await user_log_update(data.user,'N','td_po_basic',formatted_dt,lastID) if data.sl_no==0 else  await user_log_update(data.user,'E','td_po_basic',formatted_dt,data.sl_no)
 
     else:
-        res_dt = {"suc": 0, "msg": f"Error while saving!" if data.sl_no==0 else f"Error while updating","po_sl_no": lastID}
+        res_dt = {"suc": 0, "msg": f"Error while saving!" if data.sl_no==0 else f"Error while updating","po_sl_no": lastID,"result":result,"resultVend":result_vid}
 
     print('result',result,'result2',result2,'result4',result4)
   
@@ -1334,6 +1554,13 @@ async def addfreshpo(data:PoModel):
     res_dt = {}
     # print('---------------------------------------------------------------------')
     # print(data)
+    select_vid = "vendor_address"
+    schema_vid = "md_vendor"
+    where_vid = f"sl_no ='{data.vendor_id}'"
+    order_vid = ""
+    flag_vid = 1 
+    result_vid = await db_select(select_vid, schema_vid, where_vid, order_vid, flag_vid)
+
     print('pur_req======================================================',data.pur_req)
     pur_req_src = data.pur_req.split(',')
     pur = ','.join(f"'{x}'" for x in pur_req_src)
@@ -1342,8 +1569,8 @@ async def addfreshpo(data:PoModel):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     req_no=f'REQ-{data.po_no}' if data.po_type=='P' else f''
-    fields= f'po_date="{data.po_date if data.po_date is not None else 'NULL'}",po_status="{data.po_status}",po_issue_date="{data.po_issue_date}",po_type="{data.po_type}",project_id="{data.project_id}",po_id="{data.po_id}",vendor_id="{data.vendor_id}",vend_ref="{data.vend_ref}",modified_by="{data.user}",pur_req="{data.pur_req}",modified_at="{formatted_dt}"' if data.sl_no > 0 else f'po_date,po_type,project_id,po_id,vendor_id,vend_ref,po_status,po_issue_date,pur_req,created_by,created_at'
-    values = f'"{data.po_date}","{data.po_type}","{data.project_id}","{data.po_id}","{data.vendor_id}","{data.vend_ref}","{data.po_status}","{data.po_issue_date}","{data.pur_req}","{data.user}","{formatted_dt}"'
+    fields= f'po_date="{data.po_date if data.po_date is not None else 'NULL'}",po_status="{data.po_status}",po_issue_date="{data.po_issue_date}",po_type="{data.po_type}",project_id="{data.project_id}",po_id="{data.po_id}",vendor_id="{data.vendor_id}",vend_ref="{data.vend_ref}",modified_by="{data.user}",pur_req="{data.pur_req}",modified_at="{formatted_dt}"' if data.sl_no > 0 else f'po_date,po_type,project_id,po_id,vendor_id,vend_ref,vendor_address,po_status,po_issue_date,pur_req,created_by,created_at'
+    values = f'"{data.po_date}","{data.po_type}","{data.project_id}","{data.po_id}","{data.vendor_id}","{data.vend_ref}","{result_vid['msg'][0]['vendor_address']}","{data.po_status}","{data.po_issue_date}","{data.pur_req}","{data.user}","{formatted_dt}"'
     table_name = "td_po_basic"
     whr = f'sl_no="{data.sl_no}"' if data.sl_no > 0 else None
     flag = 1 if data.sl_no>0 else 0
@@ -1358,6 +1585,8 @@ async def addfreshpo(data:PoModel):
     order_id = ""
     flag_id = 1 
     result_id = await db_select(select_id, schema_id, where_id, order_id, flag_id)
+
+    
     
     try:
         if type(data.item_dtl) is not None and len(data.item_dtl)>0:
@@ -1559,9 +1788,10 @@ async def addfreshpo(data:PoModel):
             print('proj_id2',proj_id)
             print('proj_id_len',proj_id_len)
 
-            max_form_no = await db_select(f"IF(MAX(cast(SUBSTRING(po_no, -11, 5) as unsigned)) > 0, LPAD(MAX(cast(SUBSTRING(po_no, -11, 5) as unsigned))+1, 5, '0'),'00001') max_form", "td_po_basic","", "", 0)
             nextYear = int(currYear[2:])+1 if int(currMon)>=4 and int(currMon)<=12 else int(currYear[2:])
             currYear = int(currYear[2:]) if int(currMon)>=4 and int(currMon)<=12 else int(currYear[2:])-1
+            max_form_no = await db_select(f"IF(MAX(cast(SUBSTRING(po_no, -11, 5) as unsigned)) > 0, LPAD(MAX(cast(SUBSTRING(po_no, -11, 5) as unsigned))+1, 5, '0'),'00001') max_form", "td_po_basic",f"po_no LIKE '%/{currYear}-{nextYear}%'", "", 0)
+            
             print('nextYear',nextYear)
             print('max_form_no',max_form_no)
             currYear=str(currYear)
@@ -5099,7 +5329,7 @@ async def getprojectpoc(sl_no:CheckPo):
 async def getprojectpoc(id:GetPo):
     res_dt = {}
 
-    select = "@a:=@a+1 serial_number,b.po_no,b.vend_ref,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note"
+    select = "@a:=@a+1 serial_number,b.po_no,b.vend_ref,b.vendor_address,b.po_id,b.po_date,b.po_type as type,b.po_issue_date,b.po_status,IF(b.po_status='P','In progress', IF(b.po_status='A','Approved',IF(b.po_status='U','Approval Pending',IF(b.po_status='D','Delivered','Partial Delivery')))) po_status_val, IF(b.po_type='P','Project-Specific', IF(b.po_type='G', 'General','')) po_type,b.project_id,p.proj_name,b.vendor_id,b.created_by,b.created_at,b.created_by,b.created_at,b.modified_by,b.modified_at,v.vendor_name,b.sl_no,b.fresh_flag,b.amend_flag,b.amend_note"
     schema = '''td_po_basic b
 left join td_project p ON p.sl_no=b.project_id
 join md_vendor v ON v.sl_no=b.vendor_id 

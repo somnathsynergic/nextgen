@@ -13,7 +13,7 @@ import random
 from typing import Optional, Annotated, Union
 import os
 from api.db_log import user_log_update
-
+import time
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -64,6 +64,13 @@ class Project(BaseModel):
 
 class GetProject(BaseModel):
      id:int
+
+class GetProjectPg(BaseModel):
+     id:int
+     offset:int
+     limit:int
+class ProjSrch(BaseModel):
+     searchVal:str
 
 class GetPoc(BaseModel):
      id:str
@@ -302,6 +309,48 @@ async def getproject(id:GetProject):
     result = await db_select(select, schema, where, order, flag)
     # print(result, 'RESULT')
     return result
+
+@projectRouter.post('/getproject_pg')
+async def getproject(id:GetProjectPg):
+    print('I am logging in!')
+    t = time.perf_counter()
+    print(id.id)
+    select = "count(*) as total_count"
+    schema = "td_project "
+    where = f""
+    order = f""
+    flag = 0 if id.id>0 else 1
+    result1 = await db_select(select, schema, where, order, flag)
+    t = time.perf_counter()
+    print("Count:", time.perf_counter() - t)
+
+    select = "sl_no,proj_id,proj_name,client_id"
+    schema = "td_project"
+    where =  f""
+    order = f"ORDER BY created_at DESC LIMIT {id.limit} OFFSET {id.offset}"
+    flag = 0 if id.id>0 else 1
+    result = await db_select(select, schema, where, order, flag)
+    t = time.perf_counter()
+    print("Data:", time.perf_counter() - t)
+    # return { "projects": result}
+    return {"total_count":result1, "projects": result}
+
+
+@projectRouter.post('/searchproject')
+async def getproject(id:ProjSrch):
+    
+    select = "sl_no,proj_id,proj_name,client_id"
+    schema = "td_project"
+    where =  f"proj_name LIKE '%{id.searchVal}%' or proj_id LIKE '%{id.searchVal}%' or client_id LIKE '%{id.searchVal}%'"
+    order = f"ORDER BY created_at DESC"
+    flag = 1
+    result = await db_select(select, schema, where, order, flag)
+    t = time.perf_counter()
+    print("Data:", time.perf_counter() - t)
+    # return { "projects": result}
+    return result
+
+
 
 
 @projectRouter.post('/getprojectpoc')

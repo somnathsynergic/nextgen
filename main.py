@@ -15,8 +15,10 @@ app.mount("/uploads", StaticFiles(directory="upload_file"), name="uploads")
 origins = [ "*" ]
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=3011, ssl_keyfile='./ssl_apinextgen_100724/private-key.pem',
-        ssl_certfile='./ssl_apinextgen_100724/apinextgen.pem', reload=True)
+#     # uvicorn.run("main:app", host="0.0.0.0", port=3011, ssl_keyfile='./ssl_apinextgen_100724/private-key.pem',
+#     #     ssl_certfile='./ssl_apinextgen_100724/apinextgen.pem', reload=True)
+
+    uvicorn.run("main:app", host="0.0.0.0", port=3011, reload=True)
 
 app.add_middleware(
     CORSMiddleware,

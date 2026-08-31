@@ -696,7 +696,6 @@ async def save_trans(data:GetApproveItems):
                 result2 = await db_Insert(table_name, fields, values, whr, flag1)
                 if result2['suc']>0:
                   res_dt = {"suc": 1, "msg": f"Successfully saved!"}
-                
                 else:
                   res_dt = {"suc": 0, "msg": f"Error while saving!"}
 

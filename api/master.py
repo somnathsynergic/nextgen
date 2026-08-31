@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from api.db_log import user_log_update
 import uvicorn
-from models.masterApiModel import db_select, db_Insert, db_Delete
+from models.masterApiModel import db_select, db_Insert, db_Delete,db_Reset
 from datetime import datetime
 import datetime as dt
 import random
@@ -31,6 +31,17 @@ class getMaster(BaseModel):
 class getData(BaseModel):
     id:int
 
+class getDataPg(BaseModel):
+    id:int
+    offset:int
+    limit:int
+
+class ProductSrch(BaseModel):
+    searchVal:str
+
+class VendorSrch(BaseModel):
+    searchVal:str
+
 class getMenu(BaseModel):
     email:str
 
@@ -39,6 +50,7 @@ class deleteData(BaseModel):
     user:str
 class getPocId(BaseModel):
     client_id:int
+
 class getGst(BaseModel):
     gst_id:int
     gst_type:str
@@ -298,6 +310,19 @@ async def addcategory(dt:getGst):
             res_dt = {"suc": 0, "msg": "Error while updating!"}
         await user_log_update(dt.user,'E','md_gst',formatted_dt,dt.gst_id)
         
+    return res_dt
+
+
+
+@masterRouter.post('/reset_db')
+async def addcategory(dt:getData):
+   
+    result = await db_Reset()
+    if(result['suc']>0):
+        res_dt = {"suc": 1, "msg": "Reset successfully!"}
+    else:
+        res_dt = {"suc": 0, "msg": "Error while resetting!"}
+
     return res_dt
 
 @masterRouter.post('/getgst')
@@ -609,6 +634,29 @@ async def getvendor(id:getData):
     # print(result, 'RESULT')
     return result
 
+
+@masterRouter.post('/getvendor_pg')
+async def getvendor(id:getDataPg):
+    print(id.id)
+    res_dt = {}
+    select = "count(*) as total_count"
+    schema = "md_vendor "
+    where = f""
+    order = f""
+    flag = 0 if id.id>0 else 1
+    result1 = await db_select(select, schema, where, order, flag)
+
+
+    select = "@a:=@a+1 serial_number,sl_no,vendor_name,vendor_type,vendor_email,vendor_phone,vendor_gst,vendor_pan,vendor_address,msme_flag,msme_no,org_type,tan_no,tcs_flag,tds_flag,tds_prtg,tcs_prtg,state,supply_flag,e_r_supply,bank_details,created_by,created_at,modified_by,modified_at"
+    schema = "md_vendor,(SELECT @a:= 0) AS a"
+    where = f"sl_no='{id.id}'" if id.id>0 else f"delete_flag='N'"
+    order = f"ORDER BY created_at DESC LIMIT {id.limit} OFFSET {id.offset}"
+    flag = 0 if id.id>0 else 1
+    result = await db_select(select, schema, where, order, flag)
+    # print(result, 'RESULT')
+    # return result
+    return {"total_count": result1, "vendors": result}
+
 @masterRouter.post('/getvendorbank')
 async def getvendorbank(id:getData):
     print(id.id)
@@ -721,8 +769,58 @@ async def getproduct(id:getData):
     order = "ORDER BY p.created_at DESC"
     flag = 0 if id.id>0 else 1
     result = await db_select(select, schema, where, order, flag)
-    print(result, 'RESULT')
+    # print(result, 'RESULT')
     return result
+
+@masterRouter.post('/getproduct_pg')
+async def getproduct(id:getDataPg):
+    print(id.id)
+    select = "count(*) as total_count"
+    schema = "md_product "
+    where = f""
+    order = f""
+    flag = 0 if id.id>0 else 1
+    result1 = await db_select(select, schema, where, order, flag)
+
+
+    select = "@a:=@a+1 serial_number, p.prod_name,p.prod_cat,p.prod_make,p.part_no,p.model_no,p.article_no,p.hsn_code,p.prod_desc,p.created_by,p.created_at,p.modified_by,p.modified_at,p.sl_no,c.catg_name"
+
+    schema = "md_product p,md_category c,(SELECT @a:= 0) AS a"
+    where = f"p.sl_no='{id.id}' and p.prod_cat=c.sl_no" if id.id>0 else f"p.delete_flag='N' and p.prod_cat=c.sl_no"
+    order = f"ORDER BY p.created_at DESC LIMIT {id.limit} OFFSET {id.offset}"
+    flag = 0 if id.id>0 else 1
+    result = await db_select(select, schema, where, order, flag)
+    # print(result, 'RESULT')
+    # return result
+    return {"total_count": result1, "products": result}
+
+
+
+@masterRouter.post('/searchproduct')
+async def getproduct(id:ProductSrch):
+    
+    select = "sl_no,prod_name,model_no,article_no,part_no,prod_make,prod_desc"
+    schema = "md_product"
+    where =  f"prod_name LIKE '%{id.searchVal}%' or part_no LIKE '%{id.searchVal}%' or article_no LIKE '%{id.searchVal}%' or model_no LIKE '%{id.searchVal}%' or prod_make LIKE '%{id.searchVal}%' or prod_desc LIKE '%{id.searchVal}%'"
+    order = f"ORDER BY created_at DESC"
+    flag = 1
+    result = await db_select(select, schema, where, order, flag)
+    # return { "projects": result}
+    return result
+
+@masterRouter.post('/searchproduct')
+async def getproduct(id:VendorSrch):
+    
+    select = "sl_no,vendor_name,vendor_email,vendor_phone,vendor_gst,vendor_pan,vendor_address"
+    schema = "md_vendor"
+    where =  f"vendor_name LIKE '%{id.searchVal}%' "
+    order = f"ORDER BY created_at DESC"
+    flag = 1
+    result = await db_select(select, schema, where, order, flag)
+    # return { "projects": result}
+    return result
+
+
 
 @masterRouter.post('/deleteproduct')
 async def deleteproduct(id:deleteData):

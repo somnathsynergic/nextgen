@@ -20,6 +20,7 @@ import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import { DownOutlined } from "@ant-design/icons";
 import { url } from "../Address/BaseUrl";
 import axios from "axios";
+import InfoTags from "./InfoTags";
 function Header() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
@@ -291,6 +292,13 @@ function Header() {
                 "aria-labelledby": "basic-button",
               }}
             >
+               {/* <MenuItem
+                className="text-green-900 hover:text-green-900 p-2"
+                onClick={() => handleCloseProfile("", 2)}
+              >
+                <InfoTags bgCol={'bg-green-900'}  text='Reset Database' textCol={'text-white'} onClick={()=>navigate(routePaths.RESETPASSWORD)}/>
+              </MenuItem>
+              <Divider /> */}
               <MenuItem
                 className="text-green-900 hover:text-green-900 p-2"
                 onClick={() => handleCloseProfile("", 2)}

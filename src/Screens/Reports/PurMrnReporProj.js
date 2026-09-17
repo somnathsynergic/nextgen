@@ -159,6 +159,16 @@ function PurMrnReporProj() {
           })
       );
     }
+     axios.post(url + "/api/getsiemens", { id: 0 }).then((resSiemens) => {
+       setPOList(prev=>[...prev,...resSiemens?.data?.msg.map(item=>{
+            return { name: item.po_no, code: item.po_no, type: item.type };
+
+       })])
+       setPOListCopy(prev=>[...prev,...resSiemens?.data?.msg.map(item=>{
+            return { name: item.po_no, code: item.po_no, type: item.type };
+
+       })])
+     })
     });
     if (type == "P") {
       setLoading(true);

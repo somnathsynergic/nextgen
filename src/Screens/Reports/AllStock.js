@@ -175,7 +175,6 @@ function AllStock() {
                         type="text"
                         label="Project"
                         name="proj"
-                        // disabled={params.id > 0 || (intended=='W' && !clientcode)}
                         formControlName={projVal}
                         handleFocus={(e) => op.current.show(e)}
                         handleChange={(txt) => {
@@ -187,8 +186,6 @@ function AllStock() {
                             setProjCode();
                             setProjId("")
                           }
-                          // setLoading(true);
-                          // getItemDetails(txt.target.value);
                         }}
                         data={projectList}
                         mode={1}

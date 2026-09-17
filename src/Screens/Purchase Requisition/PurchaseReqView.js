@@ -53,8 +53,9 @@ function PurchaseReqView() {
     const [copy, setCopy] = useState([]);
     const params=useParams()
     const navigate = useNavigate();
-    useState(() => {
-      axios
+    
+    const getData = () =>{
+       axios
         .post(url + "/api/getvendor", { id: 0 })
         .then((res) => {
           console.log(res);
@@ -99,7 +100,7 @@ function PurchaseReqView() {
         }
         setProductList(productList);
       });
-    }, []);
+    }
     const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
       console.log(val1, val2);
       // let labels = {
@@ -160,6 +161,7 @@ function PurchaseReqView() {
       
             setCopy(res?.data?.msg.sort((a, b) => b.sl_no - a.sl_no));
             setPoData(res?.data?.msg.sort((a, b) => b.sl_no - a.sl_no));
+            getData()
             
       });
   

@@ -131,7 +131,24 @@ function PermissionsForm() {
         });
     });
   }, []);
-  
+  const onReset=()=>{
+    if(params.id!=1){
+      Message('error','You are not authorized to perform this action!')
+      return;
+    }
+    setLoading(true);
+    axios.post(url+"/api/reset_db",{id:+params.id}).then((res)=>{
+      setLoading(false);
+      if(res?.data?.suc>0){
+        Message('success',res?.data?.msg)
+      }else{
+        Message('error',res?.data?.msg)
+      }
+    }).catch((err)=>{
+      console.log(err);
+      navigate("/error" + "/" + err.code + "/" + err.message);
+    })
+  }
   const onUpdate = () => {
     setLoading(true);
     axios
@@ -231,7 +248,7 @@ function PermissionsForm() {
       >
         <div className="w-full bg-white p-6 rounded-2xl">
           <InfoTags text={user_type} color="#014737" bgCol="my-2 text-base"/>
-          
+          {/* {params.id==1 && <InfoTags text={`Reset DB`} onPress={()=>onReset()} color="#c40909" bgCol="bg-red-900 my-2 text-sm float-right cursor-pointer"/>} */}
           
           <div class="overflow-x-auto">
   <table class="min-w-full border border-gray-300">

@@ -33,20 +33,23 @@ import BtnGroupReuse from "../../Components/BtnGroupReuse";
 import { formatDate } from "../../Functions/formatDate";
 import SpinComp from "../../Components/SpinComp";
 import BlockComp from "../../Components/BlockComp";
+import SearchResult from "../../Components/SearchResult";
+import { getProjects } from "../../Functions/getProjects";
+import { searchProjects } from "../../Functions/searchProjects";
 
 function PurchaseReqForm() {
   const params = useParams();
   const contentRef = useRef(null);
-           const [isPrinting, setIsPrinting] = useState(true);
-         
-            const reactToPrintFn = useReactToPrint({
-            contentRef
-           });
+  const [isPrinting, setIsPrinting] = useState(true);
+  const [event, setEvent] = useState(null)
+  const reactToPrintFn = useReactToPrint({
+    contentRef
+  });
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [trans_no, setTransNo] = useState("");
   const [item_info, setItemInfo] = useState([]);
-  const [proj_id,setProjId] = useState("")
+  const [proj_id, setProjId] = useState("")
   // const [errors,setErrors] = useState([])
   const [blocked, setBlocked] = useState(false);
   const [data, setData] = useState();
@@ -55,9 +58,9 @@ function PurchaseReqForm() {
   const [count, setCount] = useState(0);
   const [intended_for, setIntended] = useState("W");
   const [trans_dt, setTransDt] = useState(
-    formatDate(new Date(),"yyyy-MM-DD")
+    formatDate(new Date(), "yyyy-MM-DD")
   );
-  const [logData,setLogData] = useState([])
+  const [logData, setLogData] = useState([])
   const [purpose, setPurpose] = useState(localStorage.getItem("email"));
   const [projects, setProjects] = useState([]);
   const [cients, setClients] = useState([]);
@@ -87,42 +90,11 @@ function PurchaseReqForm() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(0);
   const [po_no, setPoNo] = useState(0);
+  const [show, setShow] = useState(false)
+  const [totCount, setTotCount] = useState(0)
   const [itemDtls, setItemDtls] = useState(
-    params.id > 0 ? [{ sl_no: 0, item_id: "", qty: 0, error: 1,click:1 }] : []
+    params.id > 0 ? [{ sl_no: 0, item_id: "", qty: 0, error: 1, click: 1 }] : []
   );
-  // const content = (
-  //   <div className={"grid grid-cols-3 gap-1 p-3 bg-green-100 rounded-lg"}>
-  //     {!stockLoad ? (
-  //       <>
-  //         {" "}
-  //         <Tag
-  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-  //           color="#eb8d00"
-  //         >
-  //           <StockOutlined /> Physical Quantity : {physical_stock || 0}
-  //         </Tag>
-  //         <Tag
-  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-  //           color="#014737"
-  //         >
-  //           <StockOutlined /> Logical Quantity : {logical_stock || 0}
-  //         </Tag>
-  //         <Tag
-  //           className={"cursor-pointer col-span-1 px-2 py-0.5 shadow-lg"}
-  //           color="#4FB477"
-  //         >
-  //           <StockOutlined /> Requisition Quantity :{" "}
-  //           {physical_stock - logical_stock || 0}
-  //         </Tag>
-  //       </>
-  //     ) : (
-  //       <span className="text-green-900 flex gap-2">
-  //         Fetching
-  //         <LoadingOutlined className="text-green-900" />
-  //       </span>
-  //     )}
-  //   </div>
-  // );
 
   const check_item = (val) => {
     axios
@@ -150,8 +122,8 @@ function PurchaseReqForm() {
         if (
           e.target.value > 0 &&
           e.target.value <=
-            (res?.data?.result?.msg[0]?.warehouse_stock -
-              res?.data?.req_stock || 0)
+          (res?.data?.result?.msg[0]?.warehouse_stock -
+            res?.data?.req_stock || 0)
         ) {
           itemDtls[index]["error"] = 0;
         } else {
@@ -159,39 +131,59 @@ function PurchaseReqForm() {
         }
       });
   };
+  const getProjectList = () => {
+
+  }
   useEffect(() => {
     if (params.id > 0) {
       setItemDtls([]);
     } else {
-      setItemDtls([{ sl_no: 0, item_id: "", qty: 0, error: 1,click:1 }]);
+      setItemDtls([{ sl_no: 0, item_id: "", qty: 0, error: 1, click: 1 }]);
     }
     axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
       console.log(res);
       setProjects(res?.data?.msg);
       for (let i of res?.data?.msg) {
-        setProjectList(prev=>[...prev,{
+        setProjectList(prev => [...prev, {
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
-          proj_id:i.proj_id
+          proj_id: i.proj_id
         }]);
-        setProjectCopy(prev=>[...prev,{
+        setProjectCopy(prev => [...prev, {
           code: i.sl_no,
           name: i.proj_name,
           client: i.client_id,
-          proj_id:i.proj_id
+          proj_id: i.proj_id
         }]);
       }
     });
 
-    axios.post(url + "/api/getclient", { id: 0 }).then((resC) => {
-      console.log(resC);
-      setClients(resC?.data?.msg);
-      for (let i of resC?.data?.msg) {
-        clientList.push({ code: i.sl_no, name: i.client_name });
-      }
-      setClientList(clientList);
-    });
+    // loadProjects(0, 10)
+    // console.log(lst, "lst");
+    //  for (let i of lst) {
+    //   setProjectList(prev => [...prev, {
+    //     code: i.sl_no,
+    //     name: i.proj_name,
+    //     client: i.client_id,
+    //     proj_id: i.proj_id
+    //   }]);
+    //   setProjectCopy(prev => [...prev, {
+    //     code: i.sl_no,
+    //     name: i.proj_name,
+    //     client: i.client_id,
+    //     proj_id: i.proj_id
+    //   }]);
+    // }
+
+    // axios.post(url + "/api/getclient", { id: 0 }).then((resC) => {
+    //   console.log(resC);
+    //   setClients(resC?.data?.msg);
+    //   for (let i of resC?.data?.msg) {
+    //     clientList.push({ code: i.sl_no, name: i.client_name });
+    //   }
+    //   setClientList(clientList);
+    // });
     axios.post(url + "/api/getproduct", { id: 0 }).then((resC) => {
       console.log(resC);
       setProducts(resC?.data?.msg);
@@ -222,12 +214,12 @@ function PurchaseReqForm() {
           // setProjId(projectList.filter(e=>e?.code==+res?.data?.msg?.p_id)[0]?.proj_id)
           setProject(res?.data?.msg?.proj_name || "Warehouse");
           setIntended(res?.data?.msg?.intended);
-          setCreatedBy(res?.data?.msg?.created_by);          
+          setCreatedBy(res?.data?.msg?.created_by);
           setPurpose(res?.data?.msg?.created_by);
 
-          setModifiedBy(res?.data?.msg?.modified_by||'');
+          setModifiedBy(res?.data?.msg?.modified_by || '');
           setCreatedAt(res?.data?.msg?.created_at);
-          setModifiedAt(res?.data?.msg?.modified_at||'');
+          setModifiedAt(res?.data?.msg?.modified_at || '');
           axios
             .post(url + "/api/get_purchase_req_items_for_edit", {
               pur_no: res?.data?.msg?.pur_no,
@@ -245,8 +237,8 @@ function PurchaseReqForm() {
                     saved_qty: item.ordered_qty,
                     ordered_qty: item.approved_ord_qty,
                     error: 0,
-                    tot_rc:item.tot_rc,
-                    click:0
+                    tot_rc: item.tot_rc,
+                    click: 0
                   },
                 ])
               );
@@ -279,10 +271,10 @@ function PurchaseReqForm() {
       setProductList(productList);
     });
   };
-  useEffect(()=>{
-    console.log(projcode,projectList.filter(e=>e?.code==+projcode)[0]?.proj_id,projectList)
-    setProjId(projectList.filter(e=>e?.code==+projcode)[0]?.proj_id)
-  },[projcode,projectCopy])
+  useEffect(() => {
+    // console.log(projcode, projectList.filter(e => e?.code == +projcode)[0]?.proj_id, projectList)
+    setProjId(projectList.filter(e => e?.code == +projcode)[0]?.proj_id)
+  }, [projcode, projectCopy])
   const onSubmit = () => {
     setLoading(true);
     console.log(itemDtls);
@@ -320,12 +312,35 @@ function PurchaseReqForm() {
     data.splice(index, 1);
     setItemDtls(data);
   };
-  const handleItemClick = (index)=>{
+  const handleItemClick = (index) => {
     let data = [...itemDtls];
     data[index]["click"] = 1;
     setItemDtls(data);
 
   }
+  const loadProjects = async (offset, lim) => {
+    // const list = await getProjects(0, 10);
+    getProjects(0, offset, lim).then((res) => {
+      console.log(res)
+      setTotCount(res?.total_count?.msg[0]?.total_count || 0)
+
+      setProjectList([]);
+      for (let i of res?.projects?.msg) {
+        setProjectList(prev => [...prev, {
+          code: i.sl_no,
+          name: i.proj_name,
+          client: i.client_id,
+          proj_id: i.proj_id
+        }]);
+        setProjectCopy(prev => [...prev, {
+          code: i.sl_no,
+          name: i.proj_name,
+          client: i.client_id,
+          proj_id: i.proj_id
+        }]);
+      }
+    })
+  };
   const handleDtChange = (index, event) => {
     let data = [...itemDtls];
     console.log(productList.filter((e) => e.code == event.target.value));
@@ -350,7 +365,7 @@ function PurchaseReqForm() {
     console.log(params.id);
     setVisible(false);
     axios
-      .post(url + "/api/delete_pur_req", { id: trans_no,user:localStorage.getItem('email') })
+      .post(url + "/api/delete_pur_req", { id: trans_no, user: localStorage.getItem('email') })
       .then((res) => {
         console.log(res);
         setLoading(false);
@@ -387,19 +402,21 @@ function PurchaseReqForm() {
         mode={params.id > 0 ? 1 : 0}
         title={"Category"}
         data={params.id && data ? data : ""}
-        onPrinting={()=>{setIsPrinting(false);
+        onPrinting={() => {
+          setIsPrinting(false);
           setTimeout(() => {
             reactToPrintFn();
             setIsPrinting(true);
-            }, 5);}
-          }
+          }, 5);
+        }
+        }
       />
       <BlockComp template={
-                                                                                 <div className='relative  w-full h-full 0 z-10'>
-                                                                                   <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 '/> Locked (Readonly)</span>
-                                                                              
-                                                                                 </div>
-                                                                               }  blocked={blocked} >
+        <div className='relative  w-full h-full 0 z-10'>
+          <span className='absolute top-1 right-1 font-bold italic text-gray-500'><LockFilled className='text-green-900 ' /> Locked (Readonly)</span>
+
+        </div>
+      } blocked={blocked} >
         <div className="grid grid-cols-6 gap-2">
           <div className={"w-full col-span-6 bg-white p-6 rounded-2xl"}>
             <SpinComp
@@ -407,7 +424,7 @@ function PurchaseReqForm() {
             >
               {params.id > 0 && (
                 <div className="sm:col-span-12 flex justify-end">
-                  <InfoTags color="#014737" copyable={true} bgCol={"border-[#014737]"} icon={<MoneyCollectOutlined className="text-xs"/>} text={" Purchase Requisition No.:" +trans_no}/>
+                  <InfoTags color="#014737" copyable={true} bgCol={"border-[#014737]"} icon={<MoneyCollectOutlined className="text-xs" />} text={" Purchase Requisition No.:" + trans_no} />
                   {/* <Tag className="border-[#014737]" color="#014737">
                     Purchase Requisition No.: {trans_no}{" "}
                   </Tag> */}
@@ -425,8 +442,8 @@ function PurchaseReqForm() {
                       disabled
                       formControlName={
                         !trans_dt
-                          ? formatDate(new Date(),"yyyy-MM-DD")
-                          : formatDate(trans_dt,"yyyy-MM-DD")
+                          ? formatDate(new Date(), "yyyy-MM-DD")
+                          : formatDate(trans_dt, "yyyy-MM-DD")
                       }
                       //   handleChange={formik.handleChange}
                       //   handleBlur={formik.handleBlur}
@@ -454,7 +471,7 @@ function PurchaseReqForm() {
                       ]}
                       handleChange={(txt) => {
                         setIntended(txt.target.value);
-                        if(txt.target.value=='W'){
+                        if (txt.target.value == 'W') {
                           setProject("");
                           setProjCode(0);
                           setProjId("")
@@ -462,9 +479,7 @@ function PurchaseReqForm() {
                       }}
                     />
 
-                    {/* {formik.errors.catnm && formik.touched.catnm ? (
-                    <VError title={formik.errors.catnm} />
-                  ) : null} */}
+
                   </div>
                   {/* <div className="sm:col-span-3">
                     <TDInputTemplate
@@ -571,23 +586,73 @@ function PurchaseReqForm() {
                         name="proj"
                         disabled={params.id > 0}
                         formControlName={project}
-                        handleFocus={(e) => op.current.show(e)}
+                        loading={loading}
+                        handleFocus={(e) => {
+                          setShow(true);
+                          op.current.show(e);
+                          setEvent(e);
+                          // loadProjects(0, 10)
+                        }}
+                        handleBlur={(e) => {
+                          op.current.hide(e);
+                          setShow(false);
+                          setEvent(e);
+                        }}
                         handleChange={(txt) => {
                           console.log(txt);
+                          op.current.show(txt);
                           setProject(txt.target.value);
-                          if (txt.target.value.length) op.current.show(txt);
+                          if (txt.target.value.length) {
+
+
+                            setShow(true); setEvent(txt)
+                            // searchProjects(txt.target.value).then((res) => {
+                            //   console.log(res);
+                            //   // setProjects(res?.data?.msg);
+                            //   setProjectList([]);
+                            //   for (let i of res?.msg) {
+                            //     setProjectList(prev => [...prev, {
+                            //       code: i.sl_no,
+                            //       name: i.proj_name,
+                            //       client: i.client_id,
+                            //       proj_id: i.proj_id
+                            //     }]);
+                            //     setProjectCopy(prev => [...prev, {
+                            //       code: i.sl_no,
+                            //       name: i.proj_name,
+                            //       client: i.client_id,
+                            //       proj_id: i.proj_id
+                            //     }]);
+                            //   }
+
+
+                            // })
+                          }
                           else {
                             op.current.hide(txt);
+                            setEvent(txt)
+                            setShow(false)
                             setProjCode(0);
                             setProjId("")
                           }
-                          // setLoading(true);
-                          // getItemDetails(txt.target.value);
+
                         }}
                         data={projectList}
                         mode={1}
                       />
-
+                      {/* <SearchResult
+                        totCount={totCount}
+                        className={'w-[310px] min-w-[310px] flex justify-center'} show={show} event={event}
+                        onHandleScroll={() => {
+                          console.log(projectList.length, "length")
+                          // loadProjects(projectList.length+10,10)
+                          loadProjects(0, projectList.length + 10)
+                        }}
+                        onPress={(e) => { setProject(e.name); setProjCode(e.code); setProjId(e.proj_id) }}
+                        data={
+                          projectList?.filter((e) => e.name?.toLowerCase().includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase()))
+                        }
+                      /> */}
                       <OverlayPanel
                         ref={op}
                         className="w-[35.5%]  border-2 bg-gray-50 border-[#C4F1BE]"
@@ -599,13 +664,13 @@ function PurchaseReqForm() {
                           {projectList?.filter((e) =>
                             e.name
                               ?.toLowerCase()
-                              .includes(project?.toLowerCase()) ||  e.proj_id?.toLowerCase().includes(project?.toLowerCase())
+                              .includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
                           ).length > 0 &&
                             projectList
                               ?.filter((e) =>
                                 e.name
                                   ?.toLowerCase()
-                                  .includes(project?.toLowerCase())||  e.proj_id?.toLowerCase().includes(project?.toLowerCase())
+                                  .includes(project?.toLowerCase()) || e.proj_id?.toLowerCase().includes(project?.toLowerCase())
                               )
                               ?.map((lst) => (
                                 <li
@@ -624,7 +689,6 @@ function PurchaseReqForm() {
                                       </p>
                                     </div>
                                   </div>
-                                  {/* <hr className=" border-gray-100"/> */}
                                 </li>
                               ))}
                           {projectList.filter((e) =>
@@ -636,14 +700,14 @@ function PurchaseReqForm() {
                       </OverlayPanel>
                       <span className="flex justify-end items-center">
 
-                     {!projcode && <VError title={"Required"} />}
-                     {/* {proj_id && <Tag className="bg-amber-600 mt-1 text-white"><InfoCircleOutlined/> ID: {proj_id}</Tag> */}
-                     {proj_id && <InfoTags bgCol={'bg-amber-600'} textCol={'text-white mt-1'} icon={<InfoCircleOutlined/>} text={'ID:'+ proj_id}/>
-}
+                        {!projcode && <VError title={"Required"} />}
+                        {/* {proj_id && <Tag className="bg-amber-600 mt-1 text-white"><InfoCircleOutlined/> ID: {proj_id}</Tag> */}
+                        {proj_id && <InfoTags bgCol={'bg-amber-600'} textCol={'text-white mt-1'} icon={<InfoCircleOutlined />} text={'ID:' + proj_id} />
+                        }
                       </span>
                     </div>
                   )}
-                  <div className={intended_for == "P"?"sm:col-span-3 ":"sm:col-span-6 -mt-2"}>
+                  <div className={intended_for == "P" ? "sm:col-span-3 " : "sm:col-span-6 -mt-2"}>
                     <TDInputTemplate
                       placeholder="Requisition Given By"
                       type="text"
@@ -687,7 +751,7 @@ function PurchaseReqForm() {
                         {" "}
                         <PlusCircleOutlined /> Not in list?
                       </Tag> */}
-                      <InfoTags bgCol={'bg-[#4FB477]'} icon={<PlusCircleOutlined />} text={'Not in list?'}/>
+                      <InfoTags bgCol={'bg-[#4FB477]'} icon={<PlusCircleOutlined />} text={'Not in list?'} />
                     </a>
                     {/* <Tag color="#014737">PO No.: {po_no} </Tag> */}
                   </div>
@@ -704,7 +768,7 @@ function PurchaseReqForm() {
                         {" "}
                         <PlusCircleOutlined /> Not in list?
                       </Tag> */}
-                      <InfoTags bgCol={'bg-[#4FB477] hover:scale-110 active:scale-90'} textCol={'text-white'} icon={<PlusCircleOutlined />} text={'Not in list?'}/>
+                      <InfoTags bgCol={'bg-[#4FB477] hover:scale-110 active:scale-90'} textCol={'text-white'} icon={<PlusCircleOutlined />} text={'Not in list?'} />
 
                     </a>
                   </div>
@@ -712,7 +776,7 @@ function PurchaseReqForm() {
                 <table className="w-full my-2 border-separate border border-[#C4F1BE] overflow-x-scroll text-sm text-left rtl:text-right shadow-lg text-gray-500 dark:text-gray-400">
                   <thead className="text-xs bg-[#C4F1BE] font-bold uppercase text-green-900 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                    <th
+                      <th
                         scope="col"
                         className="px-6 py-1.5 1/11 text-center font-bold"
                       >
@@ -730,7 +794,7 @@ function PurchaseReqForm() {
                       >
                         Quantity
                       </th>
-                     {params.id>0 && <th
+                      {params.id > 0 && <th
                         scope="col"
                         className="px-6 py-1.5 w-2/11 text-center font-bold"
                       >
@@ -739,15 +803,15 @@ function PurchaseReqForm() {
                       {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
                                   }, 0)  &&     */}
-                                  
-                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length  &&
-                                  
-                                  <th
-                        scope="col"
-                        className="px-6 py-1.5 w-1/11 text-center font-bold"
-                      >
-                        Action
-                      </th>}
+
+                      {itemDtls.filter(item => item.ordered_qty > 0).length != itemDtls.length &&
+
+                        <th
+                          scope="col"
+                          className="px-6 py-1.5 w-1/11 text-center font-bold"
+                        >
+                          Action
+                        </th>}
                     </tr>
                   </thead>
 
@@ -755,182 +819,182 @@ function PurchaseReqForm() {
                     <>
                       <tbody>
                         <tr className="bg-[#DDEAE0] border-b-2 text-center border-white my-3 font-bold dark:bg-gray-800 dark:border-gray-700">
-                            <th
+                          <th
                             scope="row"
                             className="px-4 w-1/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
-                          >{index+1}</th>
+                          >{index + 1}</th>
                           <th
                             scope="row"
                             className="px-4 w-4/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
-                             <a
-                                className="ml-10 float-end mt-3 -mr-2  z-10 "
-                                onClick={() => {
-                                  setFlag(25);
-                                  setIndex(index);
-                                  setVisible(true);
-                                  handleItemClick(index)
-                                }}
-                              >
-                                <Tooltip title="Search item">
-                                
-                                  <InfoTags text={<SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />} bgCol={'ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center'}/>
-                                </Tooltip>
-                              </a>
-                            <div onClick={()=>handleItemClick(index)}>
-                              {item.click==0? 
-                              <>
-                               <TDInputTemplate
-                               placeholder="Item"
-                               type="text"
-                               label=""
-                               name="item_id"
-                               formControlName={productList?.filter(item =>item?.code ==itemDtls[index]?.item_id)[0]?.name}
-                               onFocus={()=>handleItemClick(index)}
-                               mode={1}
-                             />
-                             <p className="w-full">
-                             <div>
-                             {item.item_id && (
-                               <p
-                                 class="mt-1 text-xs text-gray-500 dark:text-gray-300"
-                                 id="file_input_help"
-                               >
-                                 <Tag className="text-xs my-2 p-2 w-full sm:text-wrap" color="#86CB92">
-                                   {"   "}
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.part_no? <> <span className="font-bold"> Part No.: </span>
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.part_no
-                                   }{"   "}</>:null}
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.model_no? <><span className="font-bold"> Model No.:</span>
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.model_no
-                                   }{"   "}</>:null}
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.article_no? <><span className="font-bold"> Article No.: </span>
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.article_no
-                                   }{"   "}</>:null}
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.make? <><span className="font-bold"> Make: </span>
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.make
-                                   }{" "}</>:null}
-                                  {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.prod_desc? <><span className="font-bold">   Description: </span>
-                                   {
-                                     productList.filter(
-                                       (e) => e.code == item.item_id
-                                     )[0]?.prod_desc
-                                   }{" "}</>:null}
-                                 </Tag>
-                               </p>
-                             )}
-                             </div>
-                            
-                            
-                            </p>
-                            </>
-                              : <>
-                              <TDInputTemplate
-                                placeholder="Item"
-                                type="text"
-                                label=""
-                                name="item_id"
-                                formControlName={item.item_id}
-                                handleChange={(txt) =>
-                                  handleDtChange(index, txt)
-                                }
-                                mode={2}
-                                data={productList?.filter(item =>item?.code ==itemDtls[index]?.item_id || !itemDtls.map(obj => +obj?.item_id).includes(item?.code))}
-                                disabled = {
-                                  itemDtls.reduce((accumulator, item) => {
-                                    return accumulator + item.ordered_qty;
-                                  }, 0) > 0
-                                }
-                              />
-                              <p className="w-full">
-                              <div>
-                              {item.item_id && (
-                                <p
-                                  class="mt-1 text-xs text-gray-500 dark:text-gray-300"
-                                  id="file_input_help"
-                                >
-                                  <Tag className="text-xs w-full my-2 p-2 sm:text-wrap"color="#86CB92">
-                                    {"   "}
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.part_no? <> <span className="font-bold"> Part No.: </span>
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.part_no
-                                    }{"   "}</>:null}
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.model_no? <><span className="font-bold"> Model No.:</span>
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.model_no
-                                    }{"   "}</>:null}
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.article_no? <><span className="font-bold"> Article No.: </span>
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.article_no
-                                    }{"   "}</>:null}
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.make? <><span className="font-bold"> Make: </span>
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.make
-                                    }{" "}</>:null}
-                                   {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.prod_desc? <><span className="font-bold">   Description: </span>
-                                    {
-                                      productList.filter(
-                                        (e) => e.code == item.item_id
-                                      )[0]?.prod_desc
-                                    }{" "}</>:null}
-                                  </Tag>
-                                </p>
-                              )}
-                              </div>
-                             
-                             
-                             </p>
-                             </>}
+                            <a
+                              className="ml-10 float-end mt-3 -mr-2  z-10 "
+                              onClick={() => {
+                                setFlag(25);
+                                setIndex(index);
+                                setVisible(true);
+                                handleItemClick(index)
+                              }}
+                            >
+                              <Tooltip title="Search item">
+
+                                <InfoTags text={<SearchOutlined className="text-green-900  font-bold text-sm hover:scale-95" />} bgCol={'ml-1 hover:scale-110 hover:text-white border-transparent rounded-full  bg-transparent w-5 h-5 flex justify-center items-center'} />
+                              </Tooltip>
+                            </a>
+                            <div onClick={() => handleItemClick(index)}>
+                              {item.click == 0 ?
+                                <>
+                                  <TDInputTemplate
+                                    placeholder="Item"
+                                    type="text"
+                                    label=""
+                                    name="item_id"
+                                    formControlName={productList?.filter(item => item?.code == itemDtls[index]?.item_id)[0]?.name}
+                                    onFocus={() => handleItemClick(index)}
+                                    mode={1}
+                                  />
+                                  <p className="w-full">
+                                    <div>
+                                      {item.item_id && (
+                                        <p
+                                          class="mt-1 text-xs text-gray-500 dark:text-gray-300"
+                                          id="file_input_help"
+                                        >
+                                          <Tag className="text-xs my-2 p-2 w-full sm:text-wrap" color="#86CB92">
+                                            {"   "}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.part_no ? <> <span className="font-bold"> Part No.: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.part_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.model_no ? <><span className="font-bold"> Model No.:</span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.model_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.article_no ? <><span className="font-bold"> Article No.: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.article_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.make ? <><span className="font-bold"> Make: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.make
+                                                }{" "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.prod_desc ? <><span className="font-bold">   Description: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.prod_desc
+                                                }{" "}</> : null}
+                                          </Tag>
+                                        </p>
+                                      )}
+                                    </div>
+
+
+                                  </p>
+                                </>
+                                : <>
+                                  <TDInputTemplate
+                                    placeholder="Item"
+                                    type="text"
+                                    label=""
+                                    name="item_id"
+                                    formControlName={item.item_id}
+                                    handleChange={(txt) =>
+                                      handleDtChange(index, txt)
+                                    }
+                                    mode={2}
+                                    data={productList?.filter(item => item?.code == itemDtls[index]?.item_id || !itemDtls.map(obj => +obj?.item_id).includes(item?.code))}
+                                    disabled={
+                                      itemDtls.reduce((accumulator, item) => {
+                                        return accumulator + item.ordered_qty;
+                                      }, 0) > 0
+                                    }
+                                  />
+                                  <p className="w-full">
+                                    <div>
+                                      {item.item_id && (
+                                        <p
+                                          class="mt-1 text-xs text-gray-500 dark:text-gray-300"
+                                          id="file_input_help"
+                                        >
+                                          <Tag className="text-xs w-full my-2 p-2 sm:text-wrap" color="#86CB92">
+                                            {"   "}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.part_no ? <> <span className="font-bold"> Part No.: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.part_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.model_no ? <><span className="font-bold"> Model No.:</span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.model_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.article_no ? <><span className="font-bold"> Article No.: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.article_no
+                                                }{"   "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.make ? <><span className="font-bold"> Make: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.make
+                                                }{" "}</> : null}
+                                            {
+                                              productList.filter(
+                                                (e) => e.code == item.item_id
+                                              )[0]?.prod_desc ? <><span className="font-bold">   Description: </span>
+                                                {
+                                                  productList.filter(
+                                                    (e) => e.code == item.item_id
+                                                  )[0]?.prod_desc
+                                                }{" "}</> : null}
+                                          </Tag>
+                                        </p>
+                                      )}
+                                    </div>
+
+
+                                  </p>
+                                </>}
                               {/* {!purpose && <VError title={"Required"} />} */}
                             </div>
                           </th>
@@ -950,16 +1014,16 @@ function PurchaseReqForm() {
                                 }
                                 //   handleBlur={(txt) => handleDtBlur(index, txt)}
                                 mode={1}
-                                // disabled = {
-                                //   itemDtls.reduce((accumulator, item) => {
-                                //     return accumulator + item.ordered_qty;
-                                //   }, 0) > 0
-                                // }
+                              // disabled = {
+                              //   itemDtls.reduce((accumulator, item) => {
+                              //     return accumulator + item.ordered_qty;
+                              //   }, 0) > 0
+                              // }
                               />
                               {/* {itemDtls[index]['error']==1 && <VError title={"Quantity should >0 and <=warehouse stock"} />} */}
                             </div>
                           </th>
-                          {params.id>0 && <th
+                          {params.id > 0 && <th
                             scope="row"
                             className="px-4 w-2/11  py-1.5 flex-wrap justify-between gap-10 items-center  text-gray-900  dark:text-white"
                           >
@@ -968,21 +1032,21 @@ function PurchaseReqForm() {
                                 "sm:col-span-5 border-2 flex-col gap-10"
                               }
                             >
-                              {((item.qty == item.ordered_qty) && (item.qty>0)) && 
-                              // <Tag onClick={
-                              //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
-                              // } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>
-                              <InfoTags bgCol={"bg-green-900 hover:scale-105 active:scale-95 cursor-pointer text-white"} icon={<CheckCircleFilled className="text-[13.5px]"/>} onPress={()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Fully Ordered'}/>
+                              {((item.qty == item.ordered_qty) && (item.qty > 0)) &&
+                                // <Tag onClick={
+                                //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
+                                // } className="bg-green-900 cursor-pointer text-white">Fully Ordered</Tag>
+                                <InfoTags bgCol={"bg-green-900 hover:scale-105 active:scale-95 cursor-pointer text-white"} icon={<CheckCircleFilled className="text-[13.5px]" />} onPress={() => { axios.post(url + '/api/get_order_log', { item_id: item.item_id, pur_no: trans_no }).then(res => { console.log(res); setFlag(39); setVisible(true); setLogData(res?.data?.msg) }) }} text={'Fully Ordered'} />
                               }
-                              {((item.qty > item.ordered_qty) && item.ordered_qty>0) &&
-                              //  <Tag onClick={
-                              //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
-                              // } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
-                              <InfoTags icon={<CheckCircleOutline/>} bgCol={"bg-yellow-500 hover:scale-105 active:scale-95 cursor-pointer text-white"} onPress={
-                                ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}} text={'Partly Ordered'}/>
+                              {((item.qty > item.ordered_qty) && item.ordered_qty > 0) &&
+                                //  <Tag onClick={
+                                //   ()=>{axios.post(url+'/api/get_order_log',{item_id:item.item_id,pur_no:trans_no}).then(res=>{console.log(res);setFlag(39);setVisible(true); setLogData(res?.data?.msg)})}
+                                // } className="bg-yellow-500 cursor-pointer text-white">Partly Ordered</Tag>}
+                                <InfoTags icon={<CheckCircleOutline />} bgCol={"bg-yellow-500 hover:scale-105 active:scale-95 cursor-pointer text-white"} onPress={
+                                  () => { axios.post(url + '/api/get_order_log', { item_id: item.item_id, pur_no: trans_no }).then(res => { console.log(res); setFlag(39); setVisible(true); setLogData(res?.data?.msg) }) }} text={'Partly Ordered'} />
                               }
-                              {((item.ordered_qty==0) && (item.qty>0)) && <InfoTags icon={<CloseCircleOutlined/>} bgCol={"bg-red-800 text-white"} text={"Not Ordered"}/>
-                            }
+                              {((item.ordered_qty == 0) && (item.qty > 0)) && <InfoTags icon={<CloseCircleOutlined />} bgCol={"bg-red-800 text-white"} text={"Not Ordered"} />
+                              }
 
                               {
                                 // <Tag
@@ -1000,7 +1064,7 @@ function PurchaseReqForm() {
                                 //           setVisible(true);
                                 //         });
                                 //       }
-                                    
+
                                 //   }}
                                 //   className={
                                 //     !item.tot_rc
@@ -1017,12 +1081,12 @@ function PurchaseReqForm() {
                                 //     : "Fully Received"}
                                 // </Tag>
                                 <InfoTags
-                                onPress={() => {
-                                    if(item.tot_rc)
-                                     { axios
+                                  onPress={() => {
+                                    if (item.tot_rc) {
+                                      axios
                                         .post(url + "/api/get_receive_log", {
                                           pur_no: trans_no,
-                                          item_id:item.item_id
+                                          item_id: item.item_id
                                         })
                                         .then((res) => {
                                           console.log(res);
@@ -1030,45 +1094,45 @@ function PurchaseReqForm() {
                                           setFlag(40);
                                           setVisible(true);
                                         });
-                                      }
-                                    
+                                    }
+
                                   }}
                                   icon={
-                                     !item.tot_rc
-                                      ? <CloseCircleOutlined/>
+                                    !item.tot_rc
+                                      ? <CloseCircleOutlined />
                                       : +item.tot_rc < +item.ordered_qty
-                                      ? <CheckCircleFilled/>
-                                      : <CheckCircleFilled/>
+                                        ? <CheckCircleFilled />
+                                        : <CheckCircleFilled />
                                   }
-                                bgCol={  !item.tot_rc
-                                      ? "bg-red-800 mt-2 text-white"
-                                      : +item.tot_rc < +item.ordered_qty
+                                  bgCol={!item.tot_rc
+                                    ? "bg-red-800 mt-2 text-white"
+                                    : +item.tot_rc < +item.ordered_qty
                                       ? "bg-yellow-500 hover:scale-105 active:scale-95 cursor-pointer mt-2 text-white"
                                       : "bg-green-900 hover:scale-105 active:scale-95 cursor-pointer mt-2  text-white"}
-                                      
-                                      text={
-                                        !item.tot_rc 
-                                    ? "Not Received"
-                                    : +item.tot_rc < +item.ordered_qty
-                                    ? "Partly Received"
-                                    : "Fully Received"
-                                      }
-                                      />
-                              } 
+
+                                  text={
+                                    !item.tot_rc
+                                      ? "Not Received"
+                                      : +item.tot_rc < +item.ordered_qty
+                                        ? "Partly Received"
+                                        : "Fully Received"
+                                  }
+                                />
+                              }
                             </div>
                           </th>}
                           {/* {!itemDtls.reduce((accumulator, item) => {
                                     return accumulator + item.ordered_qty;
                                   }, 0)  &&    */}
-                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length  &&
-                                  
-                                  
-                                  <th  scope="row"
-                            className="px-4 w-1/11  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
-                          {!po_no ? <div  className={
+                          {itemDtls.filter(item => item.ordered_qty > 0).length != itemDtls.length &&
+
+
+                            <th scope="row"
+                              className="px-4 w-1/11  py-1.5 grid-cols-10 justify-between gap-10 items-center  text-gray-900  dark:text-white">
+                              {!po_no ? <div className={
                                 "sm:col-span-5 border-2"
                               }>
-                               
+
                                 <Button
                                   className="rounded-full bg-green-900 text-white"
                                   onClick={() => {
@@ -1077,15 +1141,15 @@ function PurchaseReqForm() {
                                       item_id: "",
                                       qty: 0,
                                       error: 1,
-                                      click:1
+                                      click: 1
                                     });
                                   }}
                                   icon={<PlusOutlined />}
                                 ></Button>
-                              
-                            </div>: null}
-                           
-                              {itemDtls.length > 1 && !po_no && (  <div  className={
+
+                              </div> : null}
+
+                              {itemDtls.length > 1 && !po_no && (<div className={
                                 "sm:col-span-5 border-2"
                               }>
                                 <Button
@@ -1093,10 +1157,10 @@ function PurchaseReqForm() {
                                   onClick={() => removeDt(index)}
                                   icon={<MinusOutlined />}
                                 ></Button>
-                            </div>  )}
+                              </div>)}
                               {/* {!purpose && <VError title={"Required"} />} */}
-                            
-                          </th>}
+
+                            </th>}
                         </tr>
                       </tbody>
                     </>
@@ -1109,57 +1173,57 @@ function PurchaseReqForm() {
                     {/* {!itemDtls.reduce((accumulator, item) => {
                             return accumulator + item.ordered_qty;
                           }, 0)  && ( */}
-                           {itemDtls.filter(item =>item.ordered_qty>0).length!=itemDtls.length 
-                            && (
-                      <BtnGroupReuse
-                      loading={loading}
-                        onClick={() => onSubmit()}
-                        flag={1}
-                        disabled={
-                          !intended_for ||
-                          (intended_for == "P" && !projcode) ||
-                          itemDtls.filter(e=>e.item_id==''|| e.item_id=='item_id' || e.item_id=='Item').length>0 ||
-                          itemDtls.reduce((accumulator, item) => {
-                            return accumulator + item.error;
-                          }, 0) > 0
-                        }
-                       
-                        icon={
-                           <SaveOutlined className="mr-2" />
-                        }
-                        text={'Submit'}
-                      />
-                       
-                   )} 
+                    {itemDtls.filter(item => item.ordered_qty > 0).length != itemDtls.length
+                      && (
+                        <BtnGroupReuse
+                          loading={loading}
+                          onClick={() => onSubmit()}
+                          flag={1}
+                          disabled={
+                            !intended_for ||
+                            (intended_for == "P" && !projcode) ||
+                            itemDtls.filter(e => e.item_id == '' || e.item_id == 'item_id' || e.item_id == 'Item').length > 0 ||
+                            itemDtls.reduce((accumulator, item) => {
+                              return accumulator + item.error;
+                            }, 0) > 0
+                          }
 
-                    { (!itemDtls.reduce((accumulator, item) => {
-                            return accumulator + item.saved_qty;
-                          }, 0)  && params.id > 0) && (
-                      // <button
-                      //   onClick={() => {
-                      //     setFlag(4);
-                      //     setVisible(true);
-                      //   }}
-                      //    className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
-                      // >
-                      //   <span class="relative z-10">
-                      //   <DeleteOutline className="mr-1" />
-                      //   Delete
-                      //   </span>
-                      //   <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
-                      // </button>
-                      <BtnGroupReuse flag={2}  onClick={() => {
+                          icon={
+                            <SaveOutlined className="mr-2" />
+                          }
+                          text={'Submit'}
+                        />
+
+                      )}
+
+                    {(!itemDtls.reduce((accumulator, item) => {
+                      return accumulator + item.saved_qty;
+                    }, 0) && params.id > 0) && (
+                        // <button
+                        //   onClick={() => {
+                        //     setFlag(4);
+                        //     setVisible(true);
+                        //   }}
+                        //    className="relative disabled:bg-gray-400 group shadow-xl border border-red-900 disabled:dark:bg-gray-400 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-900 transition ease-in-out hover:bg-white hover:border hover:border-red-900 hover:shadow-2xl hover:text-red-900  duration-300  rounded-full focus:ring-gray-600  dark:focus:ring-primary-900 hover:font-bold dark:bg-[#22543d] dark:hover:bg-gray-600"
+                        // >
+                        //   <span class="relative z-10">
+                        //   <DeleteOutline className="mr-1" />
+                        //   Delete
+                        //   </span>
+                        //   <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-red-900 transition-all duration-300 group-hover:w-full z-0"></span>
+                        // </button>
+                        <BtnGroupReuse flag={2} onClick={() => {
                           setFlag(4);
                           setVisible(true);
                         }}
-                        icon={
-                        <DeleteOutlined className="mr-2" />
+                          icon={
+                            <DeleteOutlined className="mr-2" />
 
-                        }
-                        text={'Delete'}
-                        loading={loading}
+                          }
+                          text={'Delete'}
+                          loading={loading}
                         />
-                      )} 
+                      )}
 
                     {/* {approve_flag != "A" && params.id > 0 && (
                     <button
@@ -1181,119 +1245,121 @@ function PurchaseReqForm() {
           </div>
         </div>
       </BlockComp>
-         <div ref={contentRef}  style={{
-                            display: !isPrinting ? "block" : "none",
-                          }} >
-                              <div className="grid  gap-4 p-4 sm:grid-cols-2 sm:gap-6">
-                              <div className="sm:col-span-2 p-2 border border-green-600 rounded-md h-full">
-                                <PrintHeader/>
-                              </div>
-                              <div className="sm:col-span-2 p-2 border border-green-600 rounded-md h-full">
-                                <h2 className="bg-green-500 font-bold text-lg p-3 text-white">Purchase Requisition ({trans_no})</h2>
-                                <table className="border-collapse text-xs border border-gray-300 w-full">
-                          <tbody>
-                           
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Date
-                                </td>
-                                <td className="border text-gray-600 border-gray-300 p-2">{trans_dt||new Date()}</td>
-                              </tr>
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Intended For
-                                </td>
-                                <td className="border text-gray-600 border-gray-300 p-2">{intended_for=='W'?'Warehouse':project}</td>
-                              </tr>
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Requisition Given By
-                                </td>
-                                <td className="border text-gray-600 border-gray-300 p-2">{created_by || localStorage.getItem("email")}</td>
-                              </tr>
-                              
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Created By
-                                </td>
-                                <td className="border border-gray-300 p-2 text-gray-600 ">{created_by}</td>
-                              </tr>
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Created At
-                                </td>
-                                <td className="border border-gray-300 text-gray-600 p-2">{created_at}</td>
-                              </tr>
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Modified By
-                                </td>
-                                <td className="border border-gray-300 text-gray-600 p-2">{modified_by}</td>
-                              </tr>
-                              <tr  className="border border-gray-300">
-                                <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
-                                  Modified At
-                                </td>
-                                <td className="border border-gray-300 text-gray-600 p-2">{modified_at}</td>
-                              </tr>
-                          </tbody>
-                        </table>
-                        <h2 className="bg-green-500 font-bold text-lg p-3 mt-2 text-white">Item Details</h2>
-            
-                        <table className="border-collapse border border-gray-500 w-full text-center">
-                    <thead>
-                      <tr className="text-green-500 font-bold text-center">
-                        <th className="border border-gray-300 p-2 capitalize">
-                            #
-                          </th>
-                          <th className="border border-gray-300 p-2 capitalize">
-                            Item
-                          </th>
-                          <th className="border border-gray-300 p-2 capitalize">
-                            Quantity
-                          </th>
-                          <th className="border border-gray-300 p-2 capitalize">
-                            Status
-                          </th>
-                         
-                      </tr>
-                    </thead>
-                    <tbody className="text-gray-600 text-xs">
-                      {itemDtls.map((item,index)=><tr>
-                         <td className="border border-gray-300 p-2 text-wrap">
-                            {index+1}
-                          </td>
-                          <td className="border border-gray-300 p-2 text-wrap">
-                            {productList.filter(e=>e.code==+item.item_id)[0]?.name}
-                          </td>
-                          <td className="border border-gray-300 p-2">
-                            {item.qty}
-                          </td>
-                          <td className="border border-gray-300 p-2">
-                            {item.qty==item.ordered_qty?'Fully Ordered':item.qty>item.ordered_qty  && item.ordered_qty>0?'Partly Ordered':'Not Ordered'} - 
-                            {item.tot_rc==0?'Not Received':item.tot_rc<item.ordered_qty?'Partly Received':'Fully Received'}
-                          </td>
-                         
-                      </tr>)}
-                    </tbody>
-                  </table>
-                 
-                       
-                            </div>
-                              </div>
-                              </div>
+      <div ref={contentRef} style={{
+        display: !isPrinting ? "block" : "none",
+      }} >
+        <div className="grid  gap-4 p-4 sm:grid-cols-2 sm:gap-6">
+          <div className="sm:col-span-2 p-2 border border-green-600 rounded-md h-full">
+            <PrintHeader />
+          </div>
+          <div className="sm:col-span-2 p-2 border border-green-600 rounded-md h-full">
+            <h2 className="bg-green-500 font-bold text-lg p-3 text-white">Purchase Requisition ({trans_no})</h2>
+            <table className="border-collapse text-xs border border-gray-300 w-full">
+              <tbody>
+
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Date
+                  </td>
+                  <td className="border text-gray-600 border-gray-300 p-2">{trans_dt || new Date()}</td>
+                </tr>
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Intended For
+                  </td>
+                  <td className="border text-gray-600 border-gray-300 p-2">{intended_for == 'W' ? 'Warehouse' : project}</td>
+                </tr>
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Requisition Given By
+                  </td>
+                  <td className="border text-gray-600 border-gray-300 p-2">{created_by || localStorage.getItem("email")}</td>
+                </tr>
+
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Created By
+                  </td>
+                  <td className="border border-gray-300 p-2 text-gray-600 ">{created_by}</td>
+                </tr>
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Created At
+                  </td>
+                  <td className="border border-gray-300 text-gray-600 p-2">{created_at}</td>
+                </tr>
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Modified By
+                  </td>
+                  <td className="border border-gray-300 text-gray-600 p-2">{modified_by}</td>
+                </tr>
+                <tr className="border border-gray-300">
+                  <td className="border border-gray-300 p-2 font-semibold capitalize text-green-500">
+                    Modified At
+                  </td>
+                  <td className="border border-gray-300 text-gray-600 p-2">{modified_at}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h2 className="bg-green-500 font-bold text-lg p-3 mt-2 text-white">Item Details</h2>
+
+            <table className="border-collapse border border-gray-500 w-full text-center">
+              <thead>
+                <tr className="text-green-500 font-bold text-center">
+                  <th className="border border-gray-300 p-2 capitalize">
+                    #
+                  </th>
+                  <th className="border border-gray-300 p-2 capitalize">
+                    Item
+                  </th>
+                  <th className="border border-gray-300 p-2 capitalize">
+                    Quantity
+                  </th>
+                  <th className="border border-gray-300 p-2 capitalize">
+                    Status
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody className="text-gray-600 text-xs">
+                {itemDtls.map((item, index) => <tr>
+                  <td className="border border-gray-300 p-2 text-wrap">
+                    {index + 1}
+                  </td>
+                  <td className="border border-gray-300 p-2 text-wrap">
+                    {productList.filter(e => e.code == +item.item_id)[0]?.name}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {item.qty}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {item.qty == item.ordered_qty ? 'Fully Ordered' : item.qty > item.ordered_qty && item.ordered_qty > 0 ? 'Partly Ordered' : 'Not Ordered'} -
+                    {item.tot_rc == 0 ? 'Not Received' : item.tot_rc < item.ordered_qty ? 'Partly Received' : 'Fully Received'}
+                  </td>
+
+                </tr>)}
+              </tbody>
+            </table>
+
+
+          </div>
+        </div>
+      </div>
       <DialogBox
         visible={visible}
         flag={flag}
         data={
           flag != 39
             ? flag != 40
-              ? { info:products?.filter(item =>!itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no))
-                , infoCopy: products?.filter(item =>!itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no)) }
+              ? {
+                info: products?.filter(item => !itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no))
+                , infoCopy: products?.filter(item => !itemDtls.map(obj => +obj?.item_id).includes(item?.sl_no))
+              }
               // ? { info: products, infoCopy: products }
               : flag != 4
-              ? item_info
-              : prev_req
+                ? item_info
+                : prev_req
             : logData
         }
         onPress={() => setVisible(false)}

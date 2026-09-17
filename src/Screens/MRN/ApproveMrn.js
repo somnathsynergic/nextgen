@@ -51,8 +51,8 @@ function ApproveMrn() {
         console.log(res);
         setLoading(false);
       
-            setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 ));
-            setPoData(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 && e.approve_flag=='P'
+            setCopy(res?.data?.msg.filter(e=>e.po_status=='A' &&  e.invoice_count>0 ));
+            setPoData(res?.data?.msg.filter(e=>e.po_status=='A' &&  e.invoice_count>0 && e.approve_flag=='P'
               ));
             
       });
@@ -120,7 +120,7 @@ function ApproveMrn() {
           );
         }
       };
-    useState(() => {
+   const getData =() => {
       axios
         .post(url + "/api/getvendor", { id: 0 })
         .then((res) => {
@@ -166,7 +166,7 @@ function ApproveMrn() {
         }
         setProductList(productList);
       });
-    }, []);
+    }
     const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7,val8) => {
       console.log(val1, val2);
       // let labels = {
@@ -238,9 +238,10 @@ function ApproveMrn() {
         //   ));
         //   }
         //   if(localStorage.getItem('user_type')=='5'){
-            setCopy(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 ));
-            setPoData(res?.data?.msg.filter(e=>e.po_status=='A' && e.ware_house_flag=='Y' &&  e.invoice_count>0 && e.approve_flag=='P'
+            setCopy(res?.data?.msg.filter(e=>e.po_status=='A' &&  e.invoice_count>0 ));
+            setPoData(res?.data?.msg.filter(e=>e.po_status=='A' &&  e.invoice_count>0 && e.approve_flag=='P'
               ));
+              getData()
             // }
       });
     }, [count]);

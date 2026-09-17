@@ -84,6 +84,7 @@ function ApproveView() {
         });
         setItemListAppr(item_lst_appr);
         setVisible(true);
+        console.log(item_lst_appr);
       });
   };
   const rdBtn = [
@@ -510,6 +511,7 @@ function ApproveView() {
       <DialogBox
         visible={visible}
         flag={flag}
+        disbl={loading}
         data={
           flag == 33
             ? { list: adv_search_lst, labels: labels }

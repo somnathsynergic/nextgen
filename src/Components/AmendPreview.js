@@ -186,6 +186,8 @@ function AmendPreview({ id }) {
             setVendRef(res?.data?.msg?.vend_ref);
             setPoIssueDate(res?.data?.msg?.po_issue_date);
             setPoNo(res?.data?.msg?.po_no);
+            setVAddress(res?.data?.msg?.vendor_address);
+
             console.log(resvendor?.data?.msg);
 
             setVName(
@@ -193,11 +195,11 @@ function AmendPreview({ id }) {
                 (e) => e.sl_no == res?.data?.msg?.vendor_id
               )[0]?.vendor_name
             );
-            setVAddress(
-              resvendor?.data?.msg?.filter(
-                (e) => e.sl_no == res?.data?.msg?.vendor_id
-              )[0]?.vendor_address
-            );
+            // setVAddress(
+            //   resvendor?.data?.msg?.filter(
+            //     (e) => e.sl_no == res?.data?.msg?.vendor_id
+            //   )[0]?.vendor_address
+            // );
             setVEmail(
               resvendor?.data?.msg?.filter(
                 (e) => e.sl_no == res?.data?.msg?.vendor_id

@@ -67,6 +67,7 @@ const DialogBox = ({
   flag,
   onPress,
   onDelete,
+  disbl,
   data,
   amendPo,
   id,
@@ -75,6 +76,7 @@ const DialogBox = ({
   onSearch,
   onVisit,
   onApprove,
+
   waiting,
   mode,
   onCloseApprove,
@@ -132,6 +134,7 @@ const DialogBox = ({
     console.log(e);
     // message.error('Click on No');
   };
+  console.log(disbl);
   useEffect(() => {
     setPoNo("");
     setCode();
@@ -3129,7 +3132,7 @@ const DialogBox = ({
             <span>
               {" "}
               <Tag className="text-sm bg-green-500 text-white">
-                {data?.from_proj_name || "Warehouse"}{" "}
+                {data?.from_proj_name || "Warehouse"}{" "} 
                 {data?.from_proj_name ? "(ID: " + data?.from_projid + ")" : ""}
               </Tag>
               {/* <InfoTags text={data?.from_proj_name || "Warehouse"+' '+} */}
@@ -3311,8 +3314,8 @@ const DialogBox = ({
               <BtnGroupReuse onClick={() => onApprove("R", infoCopy)} disabled={
                    itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.approved_qty;
-                  }, 0) > 0
-                } icon={<CloseOutlined className='mr-2'/> } flag={2} text="Reject"/>
+                  }, 0) > 0  || disbl
+                } icon={<CloseOutlined className='mr-2'/> } flag={2} text={disbl?'Processing':"Reject"}/>
 }
 
              {/* <button
@@ -3334,14 +3337,14 @@ const DialogBox = ({
                  </span>
         <span class="absolute left-0 rounded-full top-0 h-full w-0 bg-white text-green-900 transition-all duration-300 group-hover:w-full z-0"></span>
               </button> */}
-              <BtnGroupReuse flag={1}  onClick={() => onApprove("A", infoCopy)}
+              <BtnGroupReuse flag={1}  onClick={() => {onApprove("A", infoCopy)}}
                 disabled={
                   itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.error;
                   }, 0) == 1 ||  itemInfo?.reduce((accumulator, currentValue) => {
                     return accumulator + currentValue.approved_qty;
-                  }, 0) > 0
-                } icon={<CheckOutlined className='mr-2' />} text="Approve" />
+                  }, 0) > 0  || disbl
+                } icon={<CheckOutlined className='mr-2' />} text={disbl?'Processing':"Approve"} />
             </div>
           )}
         </p>

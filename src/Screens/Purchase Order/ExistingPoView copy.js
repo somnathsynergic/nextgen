@@ -14,9 +14,7 @@ import Radiobtn from "../../Components/Radiobtn";
 import CompositeSearch from "../../Components/CompositeSearch";
 import POTableView from "../../Components/POTableView";
 import DialogBox from "../../Components/DialogBox";
-import { getVendors } from "../../Functions/getVendors";
-import { getProjects } from "../../Functions/getProjects";
-import { getProducts } from "../../Functions/getProducts";
+
 function ExistingPoView() {
   const [loading, setLoading] = useState(false);
   const [vendors, setVendors] = useState([]);
@@ -30,9 +28,6 @@ function ExistingPoView() {
   const [printFlag,setPrintFlag] = useState(0)
   const [offset, setOffset] = useState(0)
     const [lim, setLim] = useState(10)
-       const [totProjCount,setTotProjCount] = useState(0)
-        const [totVendCount,setTotVendCount] = useState(0)
-        const [totProdCount,setTotProdCount] = useState(0)
   const rdBtn = [
     { label: "Approved", value: 1 },
     { label: "In Progress", value: 2 },
@@ -42,18 +37,13 @@ function ExistingPoView() {
 
   const locationpath = useLocation();
   const [value, setValue] = useState(2);
-  const [tot,setTotCount] = useState(0)
   const [po_data, setPoData] = useState([]);
   const [copy, setCopy] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
-
   const navigate = useNavigate();
  
   const onChange = (e) => {
     console.log("radio checked", e);
     setValue(e);
-    setIsSearching(false);
-
     if (e == 1)
       setPoData(
         copy.filter(
@@ -75,215 +65,106 @@ function ExistingPoView() {
       );
     }
   };
-  // const getData = ()=>{
-  //   axios
-  //     .post(url + "/api/getvendor", { id: 0 })
-  //     .then((res) => {
-  //       console.log(res);
-  //       setVendors(res?.data.msg);
-  //       vendorList.length = 0;
-  //       setVendorList([]);
-  //       for (let i of res?.data?.msg) {
-  //         vendorList.push({
-  //           name: i.vendor_name,
-  //           code: i.sl_no,
-  //         });
-  //       }
-  //       setVendorList(vendorList);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       navigate("/error" + "/" + err.code + "/" + err.message);
-  //     });
-  //   axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
-  //     console.log(res);
-  //     setProjects(res?.data.msg);
-  //     setProjectList([]);
-  //     projectList.length = 0;
-  //     for (let i of res?.data?.msg) {
-  //       projectList.push({
-  //         name: i.proj_name,
-  //         code: i.sl_no,
-  //       });
-  //     }
-  //     setProjectList(projectList);
-  //   });
-  //   axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-  //     console.log(res);
-  //     setProductList(res?.data.msg);
-  //     setProductList([]);
-  //     productList.length = 0;
-  //     for (let i of res?.data?.msg) {
-  //       productList.push({
-  //         name: i.prod_name,
-  //         code: i.sl_no,
-  //       });
-  //     }
-  //     setProductList(productList);
-  //   });
-  // }
-  const loadVendors = async(offset, limit) => {
-      getVendors(0, offset, limit).then((res) => {
-        console.log(res);
-        setVendors(res?.data?.msg);
-        vendorList.length = 0;
-        setVendorList([]);
-        setTotVendCount(res?.total_count?.msg[0]?.total_count || 0)
-  
-        for (let i of res?.vendors?.msg) {
-            vendorList.push({
-              name: i.vendor_name,
-              code: i.sl_no,
-            });
-          }
-          setVendorList(vendorList);
-    })
-  }
-  const loadProjects = async(offset, limit) => {
-      getProjects(0, offset, limit).then((res) => {
-        console.log(res);
-        setProjects(res?.data?.msg);
-        setProjectList([]);
-        projectList.length = 0;
-        setTotProjCount(res?.total_count?.msg[0]?.total_count || 0)
-        
-        for(let i of res?.projects?.msg) {
-          projectList.push({
-            name: i.proj_name,
-            code: i.sl_no,
-          });
-        }
-        setProjectList(projectList);
-      })
-  }
-  const loadProducts = async(offset, limit) => {
-      getProducts(0, offset, limit).then((res) => {
-        console.log(res);
-        setProductList(res?.data?.msg);
-        setProductList([]);
-        setTotProdCount(res?.total_count?.msg[0]?.total_count || 0)
-  
-        productList.length = 0;
-        for (let i of res?.products?.msg) {
-          productList.push({
-            name: i.prod_name,
-            code: i.sl_no,
-          });
-        }
-        setProductList(productList);
-      })
-  }
-    const getData =()=>{
-       axios
-        .post(url + "/api/getvendor", { id: 0 })
-        .then((res) => {
-          console.log(res);
-          setVendors(res?.data.msg);
-          vendorList.length = 0;
-          setVendorList([]);
-          for (let i of res?.data?.msg) {
-            vendorList.push({
-              name: i.vendor_name,
-              code: i.sl_no,
-            });
-          }
-          setVendorList(vendorList);
-        })
-        .catch((err) => {
-          console.log(err);
-          navigate("/error" + "/" + err.code + "/" + err.message);
-        });
-  
-      axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
-        console.log(res);
-        setProjects(res?.data.msg);
-        setProjectList([]);
-        projectList.length = 0;
-        for (let i of res?.data?.msg) {
-          projectList.push({
-            name: i.proj_name,
-            code: i.sl_no,
-          });
-        }
-        setProjectList(projectList);
-      });
-      axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-        console.log(res);
-        setProductList(res?.data.msg);
-        setProductList([]);
-        productList.length = 0;
-        for (let i of res?.data?.msg) {
-          productList.push({
-            name: i.prod_name,
-            code: i.sl_no,
-          });
-        }
-        setProductList(productList);
-      });
-      // loadProducts(0,10)
-      // loadProjects(0,10)
-      // loadVendors(0,10)
-    }
-  useEffect(() => {
-    
-    setLoading(true);
-
-
+  const getData = ()=>{
     axios
-      .post(url + "/api/getpo_1", { id: 0, limit: lim, offset: offset , status : value ==1 ? "('A','U')":"('P')",fresh_flag:'N'})
+      .post(url + "/api/getvendor", { id: 0 })
       .then((res) => {
         console.log(res);
-        const list = res?.data?.msg ?? [];
-        // setTotCount(res?.data?.total_count.msg[0].total_count)
-
-        // keep base copy for search + radio filtering
-        setCopy(list.filter((e) => e.fresh_flag == "N"));
-
-        // align po_data with current radio filter state, similar to PurchaseOrderView refactor
-        if (value == 1) {
-          setPoData(
-            list.filter(
-              (e) =>
-                (e.po_status == "A" || e.po_status == "U") &&
-                e.fresh_flag == "N" &&
-                e.created_by == localStorage.getItem("email")
-            )
-          );
-        } else if (value == 2) {
-          setPoData(
-            list.filter(
-              (e) =>
-                e.po_status == "P" && e.fresh_flag == "N" &&
-                e.created_by == localStorage.getItem("email")
-            )
-          );
-        } else {
-          setPoData(
-            list.filter(
-              (e) =>
-                (e.po_status == "D" || e.po_status == "L") &&
-                e.fresh_flag == "N" &&
-                e.created_by == localStorage.getItem("email")
-            )
-          );
+        setVendors(res?.data.msg);
+        vendorList.length = 0;
+        setVendorList([]);
+        for (let i of res?.data?.msg) {
+          vendorList.push({
+            name: i.vendor_name,
+            code: i.sl_no,
+          });
         }
-
-        setLoading(false);
-        getData();
+        setVendorList(vendorList);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
+    axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
+      console.log(res);
+      setProjects(res?.data.msg);
+      setProjectList([]);
+      projectList.length = 0;
+      for (let i of res?.data?.msg) {
+        projectList.push({
+          name: i.proj_name,
+          code: i.sl_no,
+        });
+      }
+      setProjectList(projectList);
+    });
+    axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
+      console.log(res);
+      setProductList(res?.data.msg);
+      setProductList([]);
+      productList.length = 0;
+      for (let i of res?.data?.msg) {
+        productList.push({
+          name: i.prod_name,
+          code: i.sl_no,
+        });
+      }
+      setProductList(productList);
+    });
+  }
+ 
+  useEffect(() => {
+    setLoading(true);
+    // if(localStorage.getItem('user_type')=='2' || localStorage.getItem('user_type')=='5'){
+    axios
+      .post(url + "/api/getpo", { id: 0, limit: lim, offset: offset })
+      .then((res) => {
+        console.log(res);
+      //   if(localStorage.getItem('user_type')=='2'){
+      //   setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
+      //   setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N" && e.created_by==localStorage.getItem('email')));
+      //   setPoData(
+      //     res?.data?.msg.filter(
+      //       (e) => e.fresh_flag == "N" && e.po_status == "P"  && e.created_by==localStorage.getItem('email')
+      //     )
+        
+      //   );
+      // }
+      // else{
+        setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
+        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N"));
+        setPoData(
+          res?.data?.msg.filter(
+            (e) => e.fresh_flag == "N" && e.po_status == "P"  
+          )
+         
+        );
+      // }
+        setLoading(false);
+        getData()
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/error" + "/" + err.code + "/" + err.message);
+      });
+    // }
+    // else if(localStorage.getItem('user_type')=='1'){
+    //   setLoading(true)
+    // axios.post(url + "/api/getpopm", { id: 0 }).then(res=>{
+    //   console.log(res)
+    //   setLoading(false)
+    //  setPoData(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
+    //  setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email')|| e.type=='G')));
 
+    //  console.log(res?.data?.msg.filter((e) => e.fresh_flag == "N" && (e.user_email==localStorage.getItem('email') || e.type=='G')))
+    // })
+
+    // }
   }, [
     locationpath.pathname.split("/")[
       locationpath.pathname.split("/").length - 1
-    ],
-   
+    ]
   ]);
-
   useEffect(
     () => {
       localStorage.removeItem("id");
@@ -330,61 +211,7 @@ function ExistingPoView() {
   );
 
   const setSearch = (word) => {
-    // setIsSearching(true);
-    // setLoading(true)
-    setValue(0);
-
-    
-    // axios
-    //   .post(url + "/api/getpo_1_srch", { searchVal:word, limit: lim, offset: offset , status : value ==1 ? "('A','U')":"('P')",fresh_flag:'N'})
-    //   .then((res) => {
-    //     console.log(res);
-    //     const list = res?.data?.data?.msg ?? [];
-    //     setTotCount(res?.data?.total_count.msg[0].total_count)
-
-    //     // keep base copy for search + radio filtering
-    //     setCopy(list.filter((e) => e.fresh_flag == "N"));
-
-    //     // align po_data with current radio filter state, similar to PurchaseOrderView refactor
-    //     if (value == 1) {
-    //       setPoData(
-    //         list.filter(
-    //           (e) =>
-    //             (e.po_status == "A" || e.po_status == "U") &&
-    //             e.fresh_flag == "N" &&
-    //             e.created_by == localStorage.getItem("email")
-    //         )
-    //       );
-    //     } else if (value == 2) {
-    //       setPoData(
-    //         list.filter(
-    //           (e) =>
-    //             e.po_status == "P" && e.fresh_flag == "N" &&
-    //             e.created_by == localStorage.getItem("email")
-    //         )
-    //       );
-    //     } else {
-    //       setPoData(
-    //         list.filter(
-    //           (e) =>
-    //             (e.po_status == "D" || e.po_status == "L") &&
-    //             e.fresh_flag == "N" &&
-    //             e.created_by == localStorage.getItem("email")
-    //         )
-    //       );
-    //     }
-
-    //     setLoading(false);
-    //     getData();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setLoading(false);
-    //     navigate("/error" + "/" + err.code + "/" + err.message);
-    //   });
     setPoData(
-
-
       copy?.filter(
         (e) =>
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
@@ -499,12 +326,6 @@ function ExistingPoView() {
              set_eight_lbl:'Make',
             set_eight:''
           }}
-          //  loadProjects={(offset, limit) => { loadProjects(offset, limit) }}
-          // loadVendors={(offset, limit) => { loadVendors(offset, limit) }}
-          // loadProducts={(offset, limit) => { loadProducts(offset, limit) }}
-          // totProdCount={totProdCount}
-          // totProjCount={totProjCount}
-          // totVendCount={totVendCount}
           onReset={() => {
            // setPoData(copy);
            setValue(2);
@@ -523,7 +344,6 @@ function ExistingPoView() {
         <POTableView
           flag = {1}
           po_data={po_data}
-          total_count={tot}
           title={"Existing Orders"}
           setSearch={(values) => setSearch(values)}
           pageChange={(offset,lim)=>{setOffset(offset);setLim(lim)}}

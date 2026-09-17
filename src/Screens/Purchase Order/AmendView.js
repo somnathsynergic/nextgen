@@ -34,6 +34,8 @@ function AmendView() {
   const [copy, setCopy] = useState([]);
   const [count, setCount] = useState(0);
   const [flag,setFlag] = useState(0)
+  const [offset, setOffset] = useState(0)
+  const [lim, setLim] = useState(10)
   const rdBtn = [
     { label: "Approved/Pending", value: 1 },
     { label: "In Progress", value: 2 },
@@ -399,6 +401,8 @@ function AmendView() {
               po_data={po_data}
               title={"Amended Orders"}
               setSearch={(values) => setSearch(values)}
+          pageChange={(offset,lim)=>{setOffset(offset);setLim(lim)}}
+              
               print={printFlag}
             />
           )

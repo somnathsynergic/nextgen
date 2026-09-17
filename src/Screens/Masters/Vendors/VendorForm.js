@@ -1421,7 +1421,7 @@ function VendorForm() {
               <tbody className="text-gray-600 text-xs">
                 {vendordeals.map(item => <tr>
                   <td className="border border-gray-300 p-2">
-                    {cat.filter(e => e.code == +item.category_id)[0].name}
+                    {cat.filter(e => e.code == +item.category_id)[0]?.name}
                   </td>
 
                 </tr>)}

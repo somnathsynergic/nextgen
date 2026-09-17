@@ -98,12 +98,13 @@ function RequisitionView() {
         // if(localStorage.getItem('user_type')=='5'||localStorage.getItem('user_type')=='4'){
           setCopy(res?.data?.msg);
           setPoData(res?.data?.msg);
+          getData()
           // }
       });
   // console.log
     }, []);
     
-    useState(() => {
+   const getData=() => {
       axios
         .post(url + "/api/getvendor", { id: 0 })
         .then((res) => {
@@ -149,7 +150,7 @@ function RequisitionView() {
         }
         setProductList(productList);
       });
-    }, []);
+    }
     const onChange = (e) => {
       console.log("radio checked", e);
       // setValue(e);

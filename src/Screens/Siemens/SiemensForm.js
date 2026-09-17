@@ -102,7 +102,7 @@ function SiemensForm() {
           }
           if (results.data.length > 0) {
             setHeaders(Object.keys(results.data[0])); // Get headers from the first data row
-            setCsvData(results.data.map(item => { return { ...item, isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length } }));
+            setCsvData(results.data.filter(dt=>+dt['Confirmed']>0).map(item => { return { ...item, isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length } }));
             setError(null);
             console.log(results.data.map(item => { return { ...item, isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length } }))
           } else {
@@ -190,7 +190,7 @@ function SiemensForm() {
         customer_no: item['Customer No.'],
         net_price: +item['Net Price'].split(' ')[0].split(',').join(''),
         total_price: +item['Total Price'].split(' ')[0].split(',').join(''),
-        description: item['Description'],
+        description: item['Description'].split('"').join(''),  //previously item['Description']
         isSaved: prodList.filter(e => e.prod_name == item['Product ID'].split('-').join('') || e.part_no == item['Product ID'].split('-').join('')).length || projectList.filter(e => e.proj_id == item['Customer Order'].split('/')[1]).length
       }
     }))

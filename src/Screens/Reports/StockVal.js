@@ -52,13 +52,16 @@ function StockVal() {
   const [prodCode, setProdCode] = useState();
   const headers = [
     //   { name:'date',value:'Date'},
-    { name: "prod_name", value: "Product" },
-    { name: "stock", value: "Stock" },
+    { name: "Product", value: "Product" },
+    { name: "Opening Stock", value: "Opening Stock" },
+    { name: "Stock In", value: "Stocked In" },
+    { name: "Stock Out", value: "Stocked Out" },
+    { name: "Closing Stock", value: "Closing Stock" },
     { name: "Net Unit Price", value: "Net Unit Price" },
     { name: "CGST", value: "CGST" },
     { name: "SGST", value: "SGST" },
     { name: "IGST", value: "IGST" },
-    { name: "Total", value: "Total" },
+    { name: "Total Value", value: "Total" },
     //   { name: "Stock In Quantity", value: "Stock In Quantity" },
     //   { name: "Received Quantity", value: "Received Quantity" },
 
@@ -104,10 +107,11 @@ function StockVal() {
     setInfo([{ key: '1', label: 'Date', children: <p>{dt}</p> }, { key: '2', label: type == 'P' ? 'Project Stock for ' : 'Warehouse Stock', children: <p>{type == 'P' ? projVal : 'N/A'}</p> }])
     setLoading(true);
     axios
-      .post(url + "/api/matvalstockin", { proj_id: projCode || 0,from_dt:dt || "",to_dt:to_dt || "" })
+      // .post(url + "/api/matvalstockin", { proj_id: projCode || 0,from_dt:dt || "",to_dt:to_dt || "" })
+      .post(url + "/api/stock_value_report", { proj_id: projCode || 0,from_dt:dt || "",to_dt:to_dt || "" })
       .then((res) => {
         console.log(res);
-        setReportData(prodCode ? res?.data?.msg.filter(i => i.item_id == prodCode) : res?.data?.msg)
+        setReportData(prodCode ? res?.data?.msg.filter(i => i['ProdID'] == prodCode) : res?.data?.msg)
 
         setLoading(false);
         if (res?.data?.msg?.length == 0) {
@@ -115,11 +119,11 @@ function StockVal() {
         }
         else {
           setGrandTot(res?.data?.msg.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.total,
+            (accumulator, currentValue) => accumulator + currentValue['Total Value'],
             0,
           ))
           setNetTot(res?.data?.msg.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.net_unit_price,
+            (accumulator, currentValue) => accumulator + currentValue['Net Unit Price'],
             0,
           ))
         }
@@ -398,7 +402,7 @@ function StockVal() {
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
               {/* <Tag color="white" >Warehouse quantity of this product: </Tag> */}
 
-              <ReportTemplate net_tot={net_tot} data={reportData} headers={headers} info={info} flag={7} grand_tot={grand_tot} reportHeader={type == 'P' ? 'Material value against MRN for ' + projVal + ' (ID: ' + projId + ')' : 'Material Value against MRN for Warehouse'} />
+              <ReportTemplate  data={reportData} headers={headers} info={info} flag={7} stock_tot={grand_tot} reportHeader={type == 'P' ? 'Material value against MRN for ' + projVal + ' (ID: ' + projId + ')' : 'Material Value against MRN for Warehouse'} />
             </div>
           </div>
 

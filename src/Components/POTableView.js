@@ -24,7 +24,10 @@ import Pagination from "./Pagination";
 import { formatDate } from "../Functions/formatDate";
 import * as XLSX from "xlsx";
 import { Message } from "../Components/Message";
-function POTableView({ po_data, setSearch, title,print,flag }) {
+import { FindInPageOutlined, Search } from "@mui/icons-material";
+import SearchIcon from '@mui/icons-material/Search';
+function POTableView({ po_data, setSearch, title,print,flag,pageChange,total_count }) {
+  console.log('po_dataaaaaaaaa',po_data)
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [open, setOpen] = useState(false);
@@ -34,6 +37,7 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
   const [downloading,setDownloading] = useState(false)
   const [loading,setLoading] = useState(false)
   const [isPrinting, setIsPrinting] = useState(true);
+  const [searchVal,setSearchVal] = useState("")
       const contentRef = useRef(null);
     
       const reactToPrintFn = useReactToPrint({
@@ -43,6 +47,8 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
+    console.log("event", event);
+    pageChange(event.first, event.rows);
   };
   const onClose = () => {
     setOpen(false);
@@ -141,8 +147,12 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
                   class="bg-white border rounded-full border-emerald-500 text-gray-800 text-sm  block w-full  pl-10 dark:bg-gray-800 md:ml-4  duration-300 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search"
                   required=""
+                  // value={searchVal}
                   onChange={(text) => setSearch(text.target.value)}
-                />
+                /> 
+                {/* <button disabled={!searchVal} onClick={()=>setSearch(searchVal)} className={'absolute right-7 top-0.5 bg-green-900 text-white font-xs rounded-full p-1' }>
+                  <Search className="text-white" />
+                </button> */}
               </div>
             </div>
           </div>
@@ -190,6 +200,7 @@ function POTableView({ po_data, setSearch, title,print,flag }) {
           <tbody>
             {po_data &&
               po_data?.slice(first, rows + first).map((item) => (
+              // po_data?.map((item) => (
                 <tr
                
                   className={

@@ -10,7 +10,7 @@ import InfoTags from './InfoTags';
 import * as XLSX from "xlsx";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 function ReportTemplate({ headers, net_tot,
-  data, info, flag, wStock, reportHeader, grand_tot }) {
+  data, info, flag, wStock, reportHeader, grand_tot,stock_tot }) {
   const [first, setFirst] = useState(0); // Pagination state
   const rowsPerPage = 10;
   console.log(data, info, headers, flag, wStock)
@@ -67,6 +67,7 @@ function ReportTemplate({ headers, net_tot,
 
   }
   const footer = `Basic Value=${parseFloat(net_tot).toFixed(2)}, Grand Total = ${parseFloat(grand_tot).toFixed(2)}`;
+  const footer1 = `Total Stock Value=${parseFloat(stock_tot).toFixed(2)}`;
   const setSearch = (e) => {
     console.log(e.target.value, flag)
     if (flag == 1) {
@@ -149,12 +150,12 @@ function ReportTemplate({ headers, net_tot,
 
           {flag == 2 && <InfoTags color={isPrinting ? "#014737" : '#10b981'} text={'Warehouse quantity of this product: ' + wStock} />}
           <DataTable
-            value={dataCopy.filter(item => item?.Quantity > 0 || item?.stock>0 || (item['Received Quantity']>0 || item['Received Quantity']!=null) || item['Project Quantity'] > 0 || item['Stocked Out Quantity']>0 || item['PR No.']
+            value={dataCopy.filter(item => item?.Quantity > 0 || item?.stock>0 || (item['Received Quantity']>0 || item['Received Quantity']!=null) || item['Project Quantity'] > 0 || item['Stocked Out Quantity']>0 || item['PR No.'] || item['Product'] || item['MRN No.'] || item['Invoice']
 
             )}
             
             // value = {dataCopy}
-            footer={grand_tot > 0 ? footer : ''}
+            footer={grand_tot > 0 ? footer : stock_tot > 0 ? footer1 : ''}
             showGridlines
            scrollable scrollHeight="600px"
             stripedRows

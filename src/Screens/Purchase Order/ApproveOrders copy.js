@@ -22,35 +22,31 @@ function ApproveOrders() {
     { label: "Pending", value: 2 },
   ];
   const locationpath = useLocation();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(0);
   const [po_data, setPoData] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
-
   const [vendors, setVendors] = useState([]);
   const [vendorList, setVendorList] = useState([]);
   const [projects, setProjects] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const [productList, setProductList] = useState([]);
-  const [adv_search_lst, setAdvList] = useState([])
-  const [labels, setLabels] = useState()
-  const [totProjCount, setTotProjCount] = useState(0)
-  const [totVendCount, setTotVendCount] = useState(0)
-  const [totProdCount, setTotProdCount] = useState(0)
+  const [adv_search_lst,setAdvList] = useState([])
+  const [labels,setLabels] = useState()
+  const [totProjCount,setTotProjCount] = useState(0)
+  const [totVendCount,setTotVendCount] = useState(0)
+  const [totProdCount,setTotProdCount] = useState(0)
   const [copy, setCopy] = useState([]);
-  const [visible, setVisible] = useState(false)
-  const [offset, setOffset] = useState(0)
+  const [visible,setVisible] = useState(false)
+const [offset, setOffset] = useState(0)
   const [lim, setLim] = useState(10)
   const navigate = useNavigate();
   var template =
     locationpath.pathname.split("/")[
-    locationpath.pathname.split("/").length - 1
+      locationpath.pathname.split("/").length - 1
     ];
-
+  
   const onChange = (e) => {
     // console.log("radio checked", e);
-    setValue(e);
-    setIsSearching(false);
-
+    // setValue(e);
     if (e == 1) {
       // setPoData(copy.filter(e=>(e.po_status=='A'||e.po_status=='U') && e.fresh_flag=='Y'))
       setPoData(copy.filter((e) => e.po_status == "A"));
@@ -62,41 +58,32 @@ function ApproveOrders() {
   };
   var templateData = masterheaders[template];
   useEffect(() => {
-    
     setLoading(true);
 
-
-    // default radio selection
-    // setValue(2);
-
+    setValue(
+     2
+    );
     axios
-      .post(url + "/api/getpo_1", { id: 0, limit: lim, offset: offset, status: value == 1 ? "('A')" : "('U')", fresh_flag: '' })
+      .post(url + "/api/getpo", { id: 0,status:"U" })
       .then((res) => {
         console.log(res);
         setLoading(false);
-
-        const list = res?.data?.msg ?? [];
-
-        // base dataset for search/filtering in this screen
-        setCopy(list.filter((e) => e.po_status == "A" || e.po_status == "U"));
-
-        // compute po_data according to current radio filter
-        if (value == 1) {
-          setPoData(list.filter((e) => e.po_status == "A"));
-        } else {
-          setPoData(list.filter((e) => e.po_status == "U"));
-        }
-
-        getData();
+     
+        setLoading(false);
+        setCopy(res?.data?.msg.filter((e) => (e.po_status == "A" || e.po_status == "U")));
+        setPoData(res?.data?.msg?.filter((e) => e.po_status == "U"));
+        getData()
+    // }
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
-  }, []);
-
-
+  }, [
+    // locationpath.pathname.split("/")[
+    //   locationpath.pathname.split("/").length - 1
+    // ]
+  ]);
   useEffect(() => {
     localStorage.removeItem("id");
     localStorage.removeItem("po_issue_date");
@@ -128,7 +115,7 @@ function ApproveOrders() {
     localStorage.removeItem('pur_req')
     localStorage.removeItem("po_created_by");
     localStorage.getItem("pur_req_by")
-    localStorage.removeItem("drawing_doc");
+       localStorage.removeItem("drawing_doc");
     localStorage.removeItem("mdcc_doc");
     localStorage.removeItem("insp_doc");
     localStorage.getItem("pur_proj_by")
@@ -136,7 +123,7 @@ function ApproveOrders() {
 
 
   }, []);
-  const loadVendors = async (offset, limit) => {
+  const loadVendors = async(offset, limit) => {
     getVendors(0, offset, limit).then((res) => {
       console.log(res);
       setVendors(res?.data?.msg);
@@ -145,23 +132,23 @@ function ApproveOrders() {
       setTotVendCount(res?.total_count?.msg[0]?.total_count || 0)
 
       for (let i of res?.vendors?.msg) {
-        vendorList.push({
-          name: i.vendor_name,
-          code: i.sl_no,
-        });
-      }
-      setVendorList(vendorList);
-    })
-  }
-  const loadProjects = async (offset, limit) => {
+          vendorList.push({
+            name: i.vendor_name,
+            code: i.sl_no,
+          });
+        }
+        setVendorList(vendorList);
+  })
+}
+const loadProjects = async(offset, limit) => {
     getProjects(0, offset, limit).then((res) => {
       console.log(res);
       setProjects(res?.data?.msg);
       setProjectList([]);
       projectList.length = 0;
       setTotProjCount(res?.total_count?.msg[0]?.total_count || 0)
-
-      for (let i of res?.projects?.msg) {
+      
+      for(let i of res?.projects?.msg) {
         projectList.push({
           name: i.proj_name,
           code: i.sl_no,
@@ -169,8 +156,8 @@ function ApproveOrders() {
       }
       setProjectList(projectList);
     })
-  }
-  const loadProducts = async (offset, limit) => {
+}
+const loadProducts = async(offset, limit) => {
     getProducts(0, offset, limit).then((res) => {
       console.log(res);
       setProductList(res?.data?.msg);
@@ -186,90 +173,62 @@ function ApproveOrders() {
       }
       setProductList(productList);
     })
-  }
-  const getData = () => {
-     axios
-      .post(url + "/api/getvendor", { id: 0 })
-      .then((res) => {
-        console.log(res);
-        setVendors(res?.data.msg);
-        vendorList.length = 0;
-        setVendorList([]);
-        for (let i of res?.data?.msg) {
-          vendorList.push({
-            name: i.vendor_name,
-            code: i.sl_no,
-          });
-        }
-        setVendorList(vendorList);
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/error" + "/" + err.code + "/" + err.message);
-      });
+}
+  const getData =()=>{
+    //  axios
+    //   .post(url + "/api/getvendor", { id: 0 })
+    //   .then((res) => {
+    //     console.log(res);
+    //     setVendors(res?.data.msg);
+    //     vendorList.length = 0;
+    //     setVendorList([]);
+    //     for (let i of res?.data?.msg) {
+    //       vendorList.push({
+    //         name: i.vendor_name,
+    //         code: i.sl_no,
+    //       });
+    //     }
+    //     setVendorList(vendorList);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     navigate("/error" + "/" + err.code + "/" + err.message);
+    //   });
 
-    axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
-      console.log(res);
-      setProjects(res?.data.msg);
-      setProjectList([]);
-      projectList.length = 0;
-      for (let i of res?.data?.msg) {
-        projectList.push({
-          name: i.proj_name,
-          code: i.sl_no,
-        });
-      }
-      setProjectList(projectList);
-    });
-    axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-      console.log(res);
-      setProductList(res?.data.msg);
-      setProductList([]);
-      productList.length = 0;
-      for (let i of res?.data?.msg) {
-        productList.push({
-          name: i.prod_name,
-          code: i.sl_no,
-        });
-      }
-      setProductList(productList);
-    });
-    // loadProducts(0, 10)
-    // loadProjects(0, 10)
-    // loadVendors(0, 10)
+    // axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
+    //   console.log(res);
+    //   setProjects(res?.data.msg);
+    //   setProjectList([]);
+    //   projectList.length = 0;
+    //   for (let i of res?.data?.msg) {
+    //     projectList.push({
+    //       name: i.proj_name,
+    //       code: i.sl_no,
+    //     });
+    //   }
+    //   setProjectList(projectList);
+    // });
+    // axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
+    //   console.log(res);
+    //   setProductList(res?.data.msg);
+    //   setProductList([]);
+    //   productList.length = 0;
+    //   for (let i of res?.data?.msg) {
+    //     productList.push({
+    //       name: i.prod_name,
+    //       code: i.sl_no,
+    //     });
+    //   }
+    //   setProductList(productList);
+    // });
+    loadProducts(0,10)
+    loadProjects(0,10)
+    loadVendors(0,10)
   }
 
   const setSearch = (word) => {
     setValue(0);
-    // setIsSearching(true);
-    // axios
-    //   .post(url + "/api/getpo_1_srch", { searchVal: word, limit: lim, offset: offset, status: value == 1 ? "('A')" : "('U')", fresh_flag: '' })
-    //   .then((res) => {
-    //     console.log(res);
-    //     setLoading(false);
-
-    //     const list = res?.data?.data?.msg ?? [];
-
-    //     // base dataset for search/filtering in this screen
-    //     setCopy(list.filter((e) => e.po_status == "A" || e.po_status == "U"));
-
-    //     // compute po_data according to current radio filter
-    //     if (value == 1) {
-    //       setPoData(list.filter((e) => e.po_status == "A"));
-    //     } else {
-    //       setPoData(list.filter((e) => e.po_status == "U"));
-    //     }
-
-    //     getData();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setLoading(false);
-    //     navigate("/error" + "/" + err.code + "/" + err.message);
-    //   });
-
     setPoData(
-
       copy?.filter(
         (e) =>
           e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
@@ -282,18 +241,18 @@ function ApproveOrders() {
       )
     );
   };
-  const onAdvSearch = (val1, val2, val3, val4, val5, val6, val7) => {
+  const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
     console.log(val1, val2);
-
+  
     setValue(0);
-    axios.post(url + '/api/advanced_search_po', { vendor_id: val1, project_id: val2, part_no: val3, prod_id: val4, from_dt: val5, to_dt: val6, make: val7 }).then(res => {
+    axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
       console.log(res)
       setAdvList(res?.data?.msg)
-      if (res?.data?.msg?.length)
-        setVisible(true)
-
+      if(res?.data?.msg?.length)
+      setVisible(true)
+    
     })
-
+  
   };
   return (
     <>
@@ -323,15 +282,15 @@ function ApproveOrders() {
             set_six: '',
             set_five_lbl: "From",
             set_six_lbl: "To",
-            set_eight_lbl: 'Make',
-            set_eight: ''
+            set_eight_lbl:'Make',
+            set_eight:''
           }}
-          // loadProjects={(offset, limit) => { loadProjects(offset, limit) }}
-          // loadVendors={(offset, limit) => { loadVendors(offset, limit) }}
-          // loadProducts={(offset, limit) => { loadProducts(offset, limit) }}
-          // totProdCount={totProdCount}
-          // totProjCount={totProjCount}
-          // totVendCount={totVendCount}
+          loadProjects = {(offset, limit) => {loadProjects(offset, limit)}}
+          loadVendors = {(offset, limit) => {loadVendors(offset, limit)}}
+          loadProducts = {(offset, limit) => {loadProducts(offset, limit)}}
+          totProdCount={totProdCount}
+          totProjCount={totProjCount}
+          totVendCount={totVendCount}
 
           onReset={() => {
             setValue(2);
@@ -340,7 +299,7 @@ function ApproveOrders() {
             console.log(values);
             setLabels(values)
             setVisible(true)
-            onAdvSearch(values.code_one, values.code_two, values.val_three, values.code_four, values.val_five, values.val_six, values.val_eight);
+            onAdvSearch(values.code_one, values.code_two,values.val_three,values.code_four,values.val_five,values.val_six,values.val_eight);
           }}
         />
       </div>
@@ -349,11 +308,11 @@ function ApproveOrders() {
 
       {copy.length > 0 && !loading && (
         <POTableView
-          flag={4}
+        flag = {4}
           po_data={po_data}
           title={"Approve Orders"}
           setSearch={(values) => setSearch(values)}
-          pageChange={(offset, lim) => { setOffset(offset); setLim(lim) }}
+          pageChange={(offset,lim)=>{setOffset(offset);setLim(lim)}}
 
         />
       )}
@@ -377,10 +336,10 @@ function ApproveOrders() {
           </motion.h2>
         </div>
       )}
-      <DialogBox
+       <DialogBox
         visible={visible}
         flag={21}
-        data={{ list: adv_search_lst, labels: labels }}
+        data={{list:adv_search_lst,labels:labels}}
         onPress={() => setVisible(false)}
       />
     </>

@@ -34,31 +34,31 @@ function SiemensView() {
   const [projectList, setProjectList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [copy, setCopy] = useState([]);
-  const [printFlag,setPrintFlag] = useState(0)
+  const [printFlag, setPrintFlag] = useState(0)
   const navigate = useNavigate();
-  const [adv_search_lst,setAdvList] = useState([])
-  const [labels,setLabels] = useState()
-  const [visible,setVisible] = useState(false)
+  const [adv_search_lst, setAdvList] = useState([])
+  const [labels, setLabels] = useState()
+  const [visible, setVisible] = useState(false)
   const det = JSON.parse(localStorage.getItem('perm'))
-  const [downloading,setDownloading] = useState(false)
-  
+  const [downloading, setDownloading] = useState(false)
+
   var template =
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ];
-      const handleExport = (data, fileName = "Siemens Summary") => {
-           const now = new Date();
-           const pad = (n) => String(n).padStart(2, '0');
-           const timestamp =`(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
-                                 `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())})`
-          const ws = XLSX.utils.json_to_sheet(data);
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-          XLSX.writeFile(wb, `${fileName}_${timestamp}.xlsx`);
-        };
+  const handleExport = (data, fileName = "Siemens Summary") => {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const timestamp = `(${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}-` +
+      `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())})`
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `${fileName}_${timestamp}.xlsx`);
+  };
   console.log(
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ]
   );
   const onChange = (e) => {
@@ -72,15 +72,15 @@ function SiemensView() {
         )
       );
       console.log(po_data);
-    } else if(e==2) {
+    } else if (e == 2) {
       setPoData(
         copy.filter(
-          (e) => e.po_status =='P' && e.fresh_flag == "Y"
+          (e) => e.po_status == 'P' && e.fresh_flag == "Y"
         )
       );
       console.log(po_data);
     }
-    else{
+    else {
       setPoData(
         copy.filter(
           (e) =>
@@ -96,7 +96,7 @@ function SiemensView() {
     setValue(
       [
         locationpath.pathname.split("/")[
-          locationpath.pathname.split("/").length - 1
+        locationpath.pathname.split("/").length - 1
         ],
       ] == "P"
         ? 2
@@ -107,19 +107,19 @@ function SiemensView() {
       .then((res) => {
         console.log(res);
         setLoading(false);
-     
+
         setPoData(res?.data?.msg);
         setCopy(res?.data?.msg);
-     
+        getData()
       })
       .catch((err) => {
         console.log(err);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
-    
+
   }, [
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ],
   ]);
   useEffect(() => {
@@ -159,10 +159,10 @@ function SiemensView() {
     localStorage.removeItem("insp_doc");
   }, [
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/").length - 1
+    locationpath.pathname.split("/").length - 1
     ],
   ]);
-  useState(() => {
+  const getData =() => {
     axios
       .post(url + "/api/getvendor", { id: 0 })
       .then((res) => {
@@ -208,77 +208,91 @@ function SiemensView() {
       }
       setProductList(productList);
     });
-  }, []);
+  }
   const setSearch = (word) => {
+    console.log(word)
     setValue(0);
     setPoData(
       copy?.filter(
         (e) =>
-          (e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
-            e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
-            e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
-            e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
-            e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
-            (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
-            e?.created_by?.toLowerCase().includes(word?.toLowerCase())) &&
-          e.fresh_flag == "Y"
+        (e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
+          (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
+          e?.created_by?.toLowerCase().includes(word?.toLowerCase()))
       )
     );
+    console.log(
+
+      copy?.filter(
+        (e) =>
+        (e?.po_no?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.vendor_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_name?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.proj_id?.toLowerCase().includes(word?.toLowerCase()) ||
+          e?.po_issue_date?.toLowerCase().includes(word?.toLowerCase()) ||
+          (!e?.proj_name && 'Warehouse'.toLowerCase().includes(word?.toLowerCase())) ||
+          e?.created_by?.toLowerCase().includes(word?.toLowerCase()))
+      )
+
+    )
   };
-  const onAdvSearch = (val1, val2,val3,val4,val5,val6,val7) => {
-    console.log(val1, val2,val7);
-   
+  const onAdvSearch = (val1, val2, val3, val4, val5, val6, val7) => {
+    console.log(val1, val2, val7);
+
     setValue(0);
     // setVisible(true)
-    axios.post(url+'/api/advanced_search_po',{vendor_id:val1,project_id:val2,part_no:val3,prod_id:val4,from_dt:val5,to_dt:val6,make:val7}).then(res=>{
+    axios.post(url + '/api/advanced_search_po', { vendor_id: val1, project_id: val2, part_no: val3, prod_id: val4, from_dt: val5, to_dt: val6, make: val7 }).then(res => {
       console.log(res)
-      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y" ))
-      if(res?.data?.msg?.length)
-      setVisible(true)
-    
+      setAdvList(res?.data?.msg.filter((e) => e.fresh_flag == "Y"))
+      if (res?.data?.msg?.length)
+        setVisible(true)
+
     })
-   
+
   };
   return (
     <>
       <div className="flex items-center  justify-end h-14 -mt-[72px] w-auto dark:bg-[#22543d] md:flex-row space-y-3 md:space-y-0 rounded-lg">
-      {det.po!=1 && <>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, type: "just" }}
-          className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-        >
-          <Tooltip title={"Create Siemens Order"}>
-            <Link
-              to={routePaths.SIEMENSFORM + 0}
-              type="submit"
-              className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
-            >
-              <AddIcon className="text-sm" /> {"Create Siemens Orders"}
-            </Link>
-          </Tooltip>
-        </motion.div>
-        <motion.button
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.3, type: "just" }}
-          onClick={()=>{
-            setPrintFlag(1)
-          setTimeout(() => {
-            setPrintFlag(0)
-          }, 1000);
-        }}
-          className={
-            "bg-white border-2 border-l-0 text-green-900 font-semibold text-lg rounded-r-full p-0.5 shadow-lg"
-          }
-        >
-          <Tooltip title="Print this table" arrow>
-            <PrinterOutlined />
-          </Tooltip>
-        </motion.button>
+        {det.po != 1 && <>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3, type: "just" }}
+            className="w-full hidden md:block  md:w-auto sm:flex sm:flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
+          >
+            <Tooltip title={"Create Siemens Order"}>
+              <Link
+                to={routePaths.SIEMENSFORM + 0}
+                type="submit"
+                className="flex items-center justify-center border-2 border-white border-r-0 text-white bg-green-900 hover:bg-primary-800 text-nowrap rounded-l-md transition ease-in-out  active:scale-90 text-sm p-1 px-2 dark:bg-gray-800 dark:text-white dark:hover:bg-primary-700 focus:outline-none shadow-lg  hover:duration-500 hover:shadow-lg dark:focus:ring-primary-800 ml-2 capitalize"
+              >
+                <AddIcon className="text-sm" /> {"Create Siemens Orders"}
+              </Link>
+            </Tooltip>
+          </motion.div>
+          <motion.button
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.3, type: "just" }}
+            onClick={() => {
+              setPrintFlag(1)
+              setTimeout(() => {
+                setPrintFlag(0)
+              }, 1000);
+            }}
+            className={
+              "bg-white border-2 border-l-0 text-green-900 font-semibold text-lg rounded-r-full p-0.5 shadow-lg"
+            }
+          >
+            <Tooltip title="Print this table" arrow>
+              <PrinterOutlined />
+            </Tooltip>
+          </motion.button>
         </>
-}
+        }
       </div>
       {/* <div className="flex justify-between items-center">
         <Radiobtn
@@ -324,12 +338,12 @@ function SiemensView() {
       {loading && <SkeletonLoading />}
 
       {copy.length > 0 && !loading && (
-          <POTableViewSiemens
-            po_data={po_data}
-            print={printFlag}
-            title={"Siemens Orders"}
-            setSearch={(values) => setSearch(values)}
-          />
+        <POTableViewSiemens
+          po_data={po_data}
+          print={printFlag}
+          title={"Siemens Orders"}
+          setSearch={(values) => setSearch(values)}
+        />
       )}
       {copy.length == 0 && loading == false && (
         <div className="flex-col ml-72 mx-auto justify-center items-center">
@@ -351,28 +365,28 @@ function SiemensView() {
           </motion.h2>
         </div>
       )}
-       <Tooltip title="Export Excel">
-                  <FloatButton disabled={downloading} className="active:scale-90 duration-300 transition ease-in-out group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 1, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
-                    if (po_data.length) {
-                      setDownloading(true)
-                      axios.post(url + '/api/siemens_dashboard_report', { flag: 0 }).then(res => {
-                        handleExport(res.data.msg)
-                        setDownloading(false)
-        
-                      })
-                    }
-                    else {
-                      Message('error', 'No data to export')
-                    }
-        
-        
-        
-                  }} />
-                </Tooltip>
-        <DialogBox
+      <Tooltip title="Export Excel">
+        <FloatButton disabled={downloading} className="active:scale-90 duration-300 transition ease-in-out group border border-green-900" shape="square" icon={!downloading ? <FileExcelOutlined className="text-green-900 font-bold group-hover:text-white" /> : <LoadingOutlined spin className="text-green-900 font-bold group-hover:text-white" />} style={{ marginRight: 1, marginBottom: 48, background: '#014737', color: 'white' }} onClick={() => {
+          if (po_data.length) {
+            setDownloading(true)
+            axios.post(url + '/api/siemens_dashboard_report', { flag: 0 }).then(res => {
+              handleExport(res.data.msg)
+              setDownloading(false)
+
+            })
+          }
+          else {
+            Message('error', 'No data to export')
+          }
+
+
+
+        }} />
+      </Tooltip>
+      <DialogBox
         visible={visible}
         flag={21}
-        data={{list:adv_search_lst,labels:labels}}
+        data={{ list: adv_search_lst, labels: labels }}
         onPress={() => setVisible(false)}
       />
     </>

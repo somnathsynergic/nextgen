@@ -15,9 +15,7 @@ import Radiobtn from "../../Components/Radiobtn";
 import POTableView from "../../Components/POTableView";
 import DialogBox from "../../Components/DialogBox";
 import { FloatButton } from 'antd';
-import { getVendors } from "../../Functions/getVendors";
-import { getProjects } from "../../Functions/getProjects";
-import { getProducts } from "../../Functions/getProducts";
+
 function PurchaseOrderView() {
   const [loading, setLoading] = useState(false);
   const rdBtn = [
@@ -26,7 +24,7 @@ function PurchaseOrderView() {
     // { label: "Others", value: 3 },
   ];
   const locationpath = useLocation();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(0);
   const [po_data, setPoData] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [vendorList, setVendorList] = useState([]);
@@ -43,13 +41,8 @@ function PurchaseOrderView() {
   const [labels, setLabels] = useState()
   const [visible, setVisible] = useState(false)
   const det = JSON.parse(localStorage.getItem('perm'))
-  const [tot,setTotCount] = useState(0)
-   const [totProjCount,setTotProjCount] = useState(0)
-    const [totVendCount,setTotVendCount] = useState(0)
-    const [totProdCount,setTotProdCount] = useState(0)
-  const [isSearching, setIsSearching] = useState(false);
-  var template =
 
+  var template =
     locationpath.pathname.split("/")[
     locationpath.pathname.split("/").length - 1
     ];
@@ -61,10 +54,7 @@ function PurchaseOrderView() {
   const onChange = (e) => {
     console.log("radio checked", e);
     setValue(e);
-    setIsSearching(false);
-
     if (e == 1) {
-
       setPoData(
         copy.filter(
           (e) =>
@@ -92,58 +82,31 @@ function PurchaseOrderView() {
   
   var templateData = masterheaders[template];
   useEffect(() => {
-    // NOTE: keep this effect responsible for fetching PO list.
-    // If a search is applied, do not overwrite search results.
-    
-
+    alert('hello')
     setLoading(true);
-
-    
+   
     axios
-      .post(url + "/api/getpo_1", { id: 0, limit: lim, offset: offset , status : value ==1 ? "('A','U')":"('P')",fresh_flag:'Y'})
+      // .post(url + "/api/getpo_1", { id: 0,status:value==1?'A':'P'})
+      .post(url + "/api/getpo", { id: 0, limit:lim, offset:offset})
       .then((res) => {
         console.log(res);
         setLoading(false);
 
-
-        const list = res?.data?.msg ?? [];
-        // setTotCount(res?.data?.total_count.msg[0].total_count)
-        // Base list for searching/filtering.
-        setCopy(list.filter((e) => e.fresh_flag == "Y"));
-
-        // Keep po_data aligned with current radio selection (so table doesn't go empty).
-        if (value == 1) {
-          setPoData(
-            list.filter(
-              (e) => (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "Y"
-            )
-          );
-        } else if (value == 2) {
-          setPoData(list.filter((e) => e.po_status == "P" && e.fresh_flag == "Y"));
-        } else {
-          setPoData(
-            list.filter(
-              (e) => (e.po_status == "D" || e.po_status == "L") && e.fresh_flag == "Y"
-            )
-          );
-        }
+        setPoData(res?.data?.msg.filter((e) => e.po_status == 'P' && e.fresh_flag == "Y"));
+        setCopy(res?.data?.msg.filter((e) => e.fresh_flag == "Y"));
         getData()
 
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
         navigate("/error" + "/" + err.code + "/" + err.message);
       });
   }, [
     locationpath.pathname.split("/")[
-      locationpath.pathname.split("/ ").length - 1
+      locationpath.pathname.split("/").length - 1
     ],
-
-   
-  ]);
-
-
+    offset]
+  );
   useEffect(() => {
     localStorage.removeItem("id");
     localStorage.removeItem("po_issue_date");
@@ -188,199 +151,67 @@ function PurchaseOrderView() {
     ],
   ]);
 
-  // NOTE:
-
-  // POTableView relies on `po_data` updates. Here we must update `po_data` on every fetch,
-  // including when offset changes. Removing/ignoring this would cause blank table renders.
-
+  const renderData = ()=>{
+    return  <POTableView
+        flag = {0}
+          po_data={po_data}
+          print={printFlag}
+          title={"Vendor Orders"}
+          pageChange={(offset,lim)=>{setOffset(offset);setLim(lim)}}
+          setSearch={(values) => setSearch(values)}
+        />
+  }
   
-//   const getData = ()=>{
-//  axios
-//       .post(url + "/api/getvendor", { id: 0 })
-//       .then((res) => {
-//         console.log(res);
-//         setVendors(res?.data.msg);
-//         vendorList.length = 0;
-//         setVendorList([]);
-//         for (let i of res?.data?.msg) {
-//           vendorList.push({
-//             name: i.vendor_name,
-//             code: i.sl_no,
-//           });
-//         }
-//         setVendorList(vendorList);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         navigate("/error" + "/" + err.code + "/" + err.message);
-//       });
-//     axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
-//       console.log(res);
-//       setProjects(res?.data.msg);
-//       setProjectList([]);
-//       projectList.length = 0;
-//       for (let i of res?.data?.msg) {
-//         projectList.push({
-//           name: i.proj_name,
-//           code: i.sl_no,
-//         });
-//       }
-//       setProjectList(projectList);
-//     });
-//     axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-//       console.log(res);
-//       setProductList(res?.data.msg);
-//       setProductList([]);
-//       productList.length = 0;
-//       for (let i of res?.data?.msg) {
-//         productList.push({
-//           name: i.prod_name,
-//           code: i.sl_no,
-//         });
-//       }
-//       setProductList(productList);
-//     });
-//   }
-  const loadVendors = async(offset, limit) => {
-     getVendors(0, offset, limit).then((res) => {
-       console.log(res);
-       setVendors(res?.data?.msg);
-       vendorList.length = 0;
-       setVendorList([]);
-       setTotVendCount(res?.total_count?.msg[0]?.total_count || 0)
+  const getData = ()=>{
+ axios
+      .post(url + "/api/getvendor", { id: 0 })
+      .then((res) => {
+        console.log(res);
+        setVendors(res?.data.msg);
+        vendorList.length = 0;
+        setVendorList([]);
+        for (let i of res?.data?.msg) {
+          vendorList.push({
+            name: i.vendor_name,
+            code: i.sl_no,
+          });
+        }
+        setVendorList(vendorList);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/error" + "/" + err.code + "/" + err.message);
+      });
+    axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
+      console.log(res);
+      setProjects(res?.data.msg);
+      setProjectList([]);
+      projectList.length = 0;
+      for (let i of res?.data?.msg) {
+        projectList.push({
+          name: i.proj_name,
+          code: i.sl_no,
+        });
+      }
+      setProjectList(projectList);
+    });
+    axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
+      console.log(res);
+      setProductList(res?.data.msg);
+      setProductList([]);
+      productList.length = 0;
+      for (let i of res?.data?.msg) {
+        productList.push({
+          name: i.prod_name,
+          code: i.sl_no,
+        });
+      }
+      setProductList(productList);
+    });
+  }
  
-       for (let i of res?.vendors?.msg) {
-           vendorList.push({
-             name: i.vendor_name,
-             code: i.sl_no,
-           });
-         }
-         setVendorList(vendorList);
-   })
- }
- const loadProjects = async(offset, limit) => {
-     getProjects(0, offset, limit).then((res) => {
-       console.log(res);
-       setProjects(res?.data?.msg);
-       setProjectList([]);
-       projectList.length = 0;
-       setTotProjCount(res?.total_count?.msg[0]?.total_count || 0)
-       
-       for(let i of res?.projects?.msg) {
-         projectList.push({
-           name: i.proj_name,
-           code: i.sl_no,
-         });
-       }
-       setProjectList(projectList);
-     })
- }
- const loadProducts = async(offset, limit) => {
-     getProducts(0, offset, limit).then((res) => {
-       console.log(res);
-       setProductList(res?.data?.msg);
-       setProductList([]);
-       setTotProdCount(res?.total_count?.msg[0]?.total_count || 0)
- 
-       productList.length = 0;
-       for (let i of res?.products?.msg) {
-         productList.push({
-           name: i.prod_name,
-           code: i.sl_no,
-         });
-       }
-       setProductList(productList);
-     })
- }
-   const getData =()=>{
-      axios
-       .post(url + "/api/getvendor", { id: 0 })
-       .then((res) => {
-         console.log(res);
-         setVendors(res?.data.msg);
-         vendorList.length = 0;
-         setVendorList([]);
-         for (let i of res?.data?.msg) {
-           vendorList.push({
-             name: i.vendor_name,
-             code: i.sl_no,
-           });
-         }
-         setVendorList(vendorList);
-       })
-       .catch((err) => {
-         console.log(err);
-         navigate("/error" + "/" + err.code + "/" + err.message);
-       });
- 
-     axios.post(url + "/api/getproject", { id: 0 }).then((res) => {
-       console.log(res);
-       setProjects(res?.data.msg);
-       setProjectList([]);
-       projectList.length = 0;
-       for (let i of res?.data?.msg) {
-         projectList.push({
-           name: i.proj_name,
-           code: i.sl_no,
-         });
-       }
-       setProjectList(projectList);
-     });
-     axios.post(url + "/api/getproduct", { id: 0 }).then((res) => {
-       console.log(res);
-       setProductList(res?.data.msg);
-       setProductList([]);
-       productList.length = 0;
-       for (let i of res?.data?.msg) {
-         productList.push({
-           name: i.prod_name,
-           code: i.sl_no,
-         });
-       }
-       setProductList(productList);
-     });
-    //  loadProducts(0,10)
-    //  loadProjects(0,10)
-    //  loadVendors(0,10)
-   }
   const setSearch = (word) => {
     setValue(0);
-    // setIsSearching(true);
-    // setLoading(true)
-    //  axios
-
-    //   .post(url + "/api/getpo_1_srch", { searchVal:word, limit: lim, offset: offset , status : value ==1 ? "('A','U')":"('P')",fresh_flag:'Y'})
-    //   .then((res) => {
-    //     console.log(res);
-    //     setLoading(false);
-         
-    //     const list = res?.data?.data?.msg ?? [];
-    //     setTotCount(res?.data?.total_count.msg[0].total_count)
-    //     // Base list for searching/filtering.
-    //     setCopy(list.filter((e) => e.fresh_flag == "Y"));
-        
-    //     // Keep po_data aligned with current radio selection (so table doesn't go empty).
-    //     if (value == 1) {
-    //       setPoData(
-    //         list.filter(
-    //           (e) => (e.po_status == "A" || e.po_status == "U") && e.fresh_flag == "Y"
-    //         )
-    //       );
-    //     } else if (value == 2) {
-    //       setPoData(list.filter((e) => e.po_status == "P" && e.fresh_flag == "Y"));
-    //     } else {
-    //       setPoData(
-    //         list.filter(
-    //           (e) => (e.po_status == "D" || e.po_status == "L") && e.fresh_flag == "Y"
-    //         )
-    //       );
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setLoading(false);
-    //     navigate("/error" + "/" + err.code + "/" + err.message);
-    //   });
     setPoData(
       copy?.filter(
         (e) =>
@@ -482,13 +313,6 @@ function PurchaseOrderView() {
             // setPoData(copy);
             setValue(2);
           }}
-          //  loadProjects={(offset, limit) => { loadProjects(offset, limit) }}
-          // loadVendors={(offset, limit) => { loadVendors(offset, limit) }}
-          // loadProducts={(offset, limit) => { loadProducts(offset, limit) }}
-          // totProdCount={totProdCount}
-          // totProjCount={totProjCount}
-          // totVendCount={totVendCount} 
-
           onSubmit={(values) => {
             console.log(values);
             setLabels(values)
@@ -504,7 +328,6 @@ function PurchaseOrderView() {
         <POTableView
         flag = {0}
           po_data={po_data}
-          total_count={tot}
           print={printFlag}
           title={"Vendor Orders"}
           pageChange={(offset,lim)=>{setOffset(offset);setLim(lim)}}

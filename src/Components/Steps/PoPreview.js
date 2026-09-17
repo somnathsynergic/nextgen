@@ -41,7 +41,7 @@ function PoPreview({ data }) {
         setLoading(true);
         console.log(res);
         setVName(res?.data?.msg?.vendor_name);
-        setVAddress(res?.data?.msg?.vendor_address);
+        // setVAddress(res?.data?.msg?.vendor_address);
         setVEmail(res?.data?.msg?.vendor_email);
         setVPhone(res?.data?.msg?.vendor_phone);
         setVGST(res?.data?.msg?.vendor_gst);
@@ -119,6 +119,7 @@ function PoPreview({ data }) {
                   .then((res) => {
                     console.log(res);
                     setPoNo(res?.data?.msg?.po_no);
+                    setVAddress(res?.data?.msg?.vendor_address);
                     axios
                       .post(url + "/api/get_parent_po_date", {
                         po_no: res?.data?.msg?.po_no || "",
@@ -646,7 +647,7 @@ function PoPreview({ data }) {
                               className=" py-1 px-1 text-[8px] text-right border border-gray-300"
                               rowSpan={2}
                             >
-                              {item.discount} <br />{" "}
+                              {parseFloat(item.discount)?.toFixed(2)} <br />{" "}
                               {item.discount
                                 ? "(" +
                                   parseFloat(item.discount_percent)?.toFixed(
